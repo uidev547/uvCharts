@@ -1,0 +1,43 @@
+.chart rect {
+	stroke: white;
+	fill: #0099FF;
+}
+
+.chartrframe svg {
+	background-color: black;
+}
+
+.chartrpanel svg {
+	background-color: gray;
+}
+
+path.line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+path.area {
+  fill: #e7e7e7;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis line {
+  stroke: #222;
+}
+
+.x.axis .minor {
+  stroke-opacity: .2;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
+}
