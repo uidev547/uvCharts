@@ -18,5 +18,5 @@ init = function() {
 
 init = function() {
 	test = new cv.graph();
-	test.init();
+	test.init(cv.constants.defaultGraphdef);
 }
