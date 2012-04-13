@@ -32,22 +32,23 @@ cv.graph.properties = ["width", "height", "caption", "xAxisName", "yAxisName"];
 
 cv.graph.prototype.init = function(graphDef) {
 
-	this.setDimensionHeight(graphDef.dimension.height + graphDef.margin.top + graphDef.margin.bottom);
-	this.setDimensionWidth(graphDef.dimension.width + graphDef.margin.left + graphDef.margin.right);
-	this.setMarginLeft(graphDef.margin.left);
-	this.setMarginRight(graphDef.margin.right);
-	this.setMarginTop(graphDef.margin.top);
-	this.setMarginBottom(graphDef.margin.bottom);
+	this.dimension.height = graphDef.dimension.height || 400;
+	this.dimension.width = graphDef.dimension.width || 400;
+	this.margin.left = graphDef.margin.left || 60;
+	this.margin.right = graphDef.margin.right || 20;
+	this.margin.top = graphDef.margin.top || 60;
+	this.margin.bottom = graphDef.margin.bottom || 60;
+
 	this.setChart3rPos(graphDef.pos);
 	this.setChart3rFrame();
 	this.setChart3rPanel();
 
-	var height 	= this.dimension.height - this.margin.top - this.margin.bottom,
-		width	= this.dimension.width - this.margin.left - this.margin.right;
+	var height 	= this.dimension.height;
+		width	= this.dimension.width;
 
 	this.xScale 	= d3.scale.linear().domain([0,100]).range([0, width]);
-	this.xAxis 		= d3.svg.axis().scale(this.xScale).ticks(4).tickSize(height, -5).tickSubdivide(5).orient("bottom");
-	this.horAxis 	= this.panel.append("g").attr("class", "x axis")		      
+	this.xAxis 		= d3.svg.axis().scale(this.xScale).ticks(2).tickSize(height, -5).tickSubdivide(5).orient("bottom");
+	this.horAxis 	= this.panel.append("g").attr("class", "x axis")	      
 					      .call(this.xAxis);
 
 	this.yScale		= d3.scale.linear().domain([0,100]).range([height, 0]);
@@ -77,8 +78,8 @@ cv.graph.prototype.setChart3rFrame = function (className, width, height){
 	}
 
 	this.frame.attr("class", className || "chart3rframe")
-			.attr("width", width || this.dimension.width)
-			.attr("height", height || this.dimension.height);
+			.attr("width", width || (this.dimension.width+this.margin.left+this.margin.right))
+			.attr("height", height || (this.dimension.height+this.margin.top+this.margin.bottom));
 }
 
 cv.graph.prototype.setChart3rPanel = function (className) {
@@ -88,30 +89,6 @@ cv.graph.prototype.setChart3rPanel = function (className) {
 
 	this.panel.attr("class", className || "chart3rpanel")
 		.attr("transform", "translate(40,40)");
-}
-
-cv.graph.prototype.setDimensionWidth = function (len) {
-	this.dimension.width = len;
-}
-
-cv.graph.prototype.setDimensionHeight = function (len) {
-	this.dimension.height = len;
-}
-
-cv.graph.prototype.setMarginTop = function (len) {
-	this.margin.top = len;
-}
-
-cv.graph.prototype.setMarginLeft = function (len) {
-	this.margin.left = len;
-}
-
-cv.graph.prototype.setMarginRight = function (len) {
-	this.margin.right = len;
-}
-
-cv.graph.prototype.setMarginBottom = function (len) {
-	this.margin.bottom = len;
 }
 
 cv.graph.prototype.setChart3rPos = function (pos) {
