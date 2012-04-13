@@ -19,4 +19,8 @@ init = function() {
 init = function() {
 	test = new cv.graph();
 	test.init(cv.constants.defaultGraphdef);
+	test.xAxis.tickSubdivide(5); test.horGrid.call(test.xAxis);
+	//test.remove();
+	//test.removeHorAxis();
+	//test.removeVerAxis();
 }

@@ -30,7 +30,7 @@ path.area {
 }
 
 .x.axis .minor {
-  stroke-opacity: .2;
+  stroke-opacity: .1;
 }
 
 .x.axis path {
