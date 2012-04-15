@@ -1,10 +1,17 @@
 
 cv.bargraph.prototype = cv.extend(cv.graph);
 
+cv.bar = function (graphdef, data, topparent, parent, color, seriesname, seriesnumber) {
+	this.bar = parent.append('g').data(cv.utility.getDataArray(data));
+	this.topparent = topparent; 
+	this.parent = parent;
+	this.length = data.length;
+}
+
 cv.bargraph = function (graphdef) {
 	var bars, i, panel;
 
-	self.init(graphdef);
+	this.init(graphdef);
 	var maxvalue = ac.utility.findmaxvalue(graphdef);
 	var dataset = graphdef.dataset;
 

@@ -24,7 +24,7 @@ init = function() {
 	//test.removeHorAxis();
 	//test.removeVerAxis();
 	//test.removeHorGrid();
-	testData = [ 40, 20, 80, 30, 100, 30, 10, 50, 20, 40, 60, 90 ];
+	testData = [ 60, 70, 80, 90 ];
 	/*xdscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.width - test.margin.left - test.margin.right], .2);
 	test.bar = test.panel.selectAll("g.bar").data(testData).enter().append("rect")
 				.attr("height", function (d) { return test.dimension.height - test.margin.top - test.margin.bottom - test.yScale(d);})

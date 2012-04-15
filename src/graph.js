@@ -47,7 +47,7 @@ cv.graph.prototype.init = function(graphDef) {
 		width	= this.dimension.width;
 
 	this.xScale 	= d3.scale.linear().domain([0,100]).range([0, width]);
-	this.xAxis 		= d3.svg.axis().scale(this.xScale).ticks(2).tickSize(height, -5).tickSubdivide(5).orient("bottom");
+	this.xAxis 		= d3.svg.axis().scale(this.xScale).ticks(2).tickSize(height, -5).tickSubdivide(4).orient("bottom");
 	this.horAxis 	= this.panel.append("g").attr("class", "x axis")	      
 					      .call(this.xAxis);
 
