@@ -33,7 +33,7 @@ init = function() {
 				.attr("x", function (d) { return xdscale(d);})
 				.style("fill", "#eee").style("stroke","#111");*/
 
-	ydscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.height], .2);
+	ydscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.height], .4);
 	test.bar = test.panel.selectAll("g.bar").data(testData).enter().append("rect")
 				.attr("height", ydscale.rangeBand())
 				.attr("width", function (d) { return test.xScale(d);})
