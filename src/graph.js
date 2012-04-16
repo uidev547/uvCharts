@@ -2,17 +2,8 @@ var cv = {};
 
 cv.graph = function () {
 
-	this.dimension = {
-		height: 400,
-		width: 400
-	};
-
-	this.margin = {
-		left: 60,		//x
-		right: 20,		//dx
-		top: 20,		//y
-		bottom: 60		//dy
-	};
+	this.dimension = { height: 400,width: 400 };
+	this.margin = { left: 60, right: 20, top: 20, bottom: 60};
 
 	this.graphDef = undefined;
 	this.position = undefined;
@@ -30,6 +21,7 @@ cv.graph = function () {
 
 cv.graph.prototype.init = function(graphDef) {
 
+	this.graphdef = graphDef;
 	this.dimension.height = graphDef.dimension.height || 400;
 	this.dimension.width = graphDef.dimension.width || 400;
 	this.margin.left = graphDef.margin.left || 60;
@@ -44,14 +36,14 @@ cv.graph.prototype.init = function(graphDef) {
 	this.setChart3rBackground('lavender');
 };
 
-cv.graph.prototype.setChart3rFrame = function (className, width, height){
+cv.graph.prototype.setChart3rFrame = function (className){
 	if(this.frame === undefined) {
 		this.frame = d3.select(this.pos || "body").append("svg");
 	}
 
 	this.frame.attr("class", className || "chart3rframe")
-			.attr("width", width || (this.dimension.width+this.margin.left+this.margin.right))
-			.attr("height", height || (this.dimension.height+this.margin.top+this.margin.bottom));
+			.attr("width", this.dimension.width+this.margin.left+this.margin.right)
+			.attr("height", this.dimension.height+this.margin.top+this.margin.bottom);
 }
 
 cv.graph.prototype.setChart3rPanel = function (className) {
@@ -60,7 +52,7 @@ cv.graph.prototype.setChart3rPanel = function (className) {
 	}
 
 	this.panel.attr("class", className || "chart3rpanel")
-		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.right + ')');
+		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 }
 
 cv.graph.prototype.setChart3rBackground = function (color) {
@@ -76,8 +68,8 @@ cv.graph.prototype.setHorAxis = function () {
 	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
 
 	if(graphdef.orientation === 'horizontal'){
-		this.axes.hor.scale	= d3.scale.linear().domain([0,cv.utility.max(graphdef)+10]).range([0, this.dimension.width]);
-		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(2).tickSize(this.dimension.height, -10).tickPadding(10).tickSubdivide(4).orient("bottom");
+		this.axes.hor.scale	= d3.scale.linear().domain([0,cv.utility.max(graphdef)+2]).range([0, this.dimension.width]);
+		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(4).tickSize(this.dimension.height, -10).tickPadding(10).tickSubdivide(1).orient("bottom");
 		this.axes.hor.axis = this.axes.hor.group.append('g').call(this.axes.hor.func);
 
 	} else {
