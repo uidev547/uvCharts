@@ -13,5 +13,6 @@ cv.constants.defaultGraphdef = {
 		right : 40
 	},
 
-	pos : "#chart3rdiv"	
+	pos : "#chart3rdiv";
+	orientation : 'horizontal';	
 };

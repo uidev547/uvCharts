@@ -22,13 +22,23 @@ cv.graph = function () {
 	this.panel = undefined;
 	this.bg = undefined;
 
+	this.axes = {
+		hor : {
+			axis : undefined;
+			line : undefined;	
+		},
+
+		ver : {
+			axis : undefined;
+			line : undefined;
+		}
+	}
+
 	this.horAxis = undefined;
 	this.verAxis = undefined;
 	this.horAxisLabel = undefined;
 	this.verAxisLabel = undefined;
 };
-
-cv.graph.properties = ["width", "height", "caption", "xAxisName", "yAxisName"];
 
 cv.graph.prototype.init = function(graphDef) {
 
@@ -38,7 +48,7 @@ cv.graph.prototype.init = function(graphDef) {
 	this.margin.right = graphDef.margin.right || 20;
 	this.margin.top = graphDef.margin.top || 60;
 	this.margin.bottom = graphDef.margin.bottom || 60;
-	this.position = graphDef.pos || 'chart3rdiv';
+	this.position = graphDef.pos || '#chart3rdiv';
 	
 	this.setChart3rFrame();
 	this.setChart3rPanel();
@@ -47,30 +57,16 @@ cv.graph.prototype.init = function(graphDef) {
 	var height 	= this.dimension.height;
 		width	= this.dimension.width;
 
-	this.xScale 	= d3.scale.linear().domain([0,100]).range([0, width]);
-	this.xAxis 		= d3.svg.axis().scale(this.xScale).ticks(2).tickSize(height, -5).tickSubdivide(4).orient("bottom");
-	this.horAxis 	= this.panel.append("g").attr("class", "x axis")	      
-					      .call(this.xAxis);
-
-	this.yScale		= d3.scale.linear().domain([0,100]).range([height, 0]);
-	this.yAxis 		= d3.svg.axis().scale(this.yScale).ticks(4).orient("left").tickSize(6, -width);
+//	this.xScale 	= d3.scale.linear().domain([0,100]).range([0, width]);
+//	this.xAxis 		= d3.svg.axis().scale(this.xScale).ticks(2).tickSize(height, -5).tickSubdivide(4).orient("bottom");
+//	this.horAxis 	= this.panel.append("g").attr("class", "x axis")	      
+//					      .call(this.xAxis);
+//
+//	this.yScale		= d3.scale.linear().domain([0,100]).range([height, 0]);
+//	this.yAxis 		= d3.svg.axis().scale(this.yScale).ticks(4).orient("left").tickSize(6, -width);
 /*	this.verAxis 	= this.panel.append("g").attr("class", "y axis")	
 					      .call(this.yAxis); */
-	this.verAxis = this.panel.append('g').attr("class", "y axis").append('line').attr('y1', this.dimension.height).attr('y2', this.dimension.height).attr('x1','100%');
-
-/*	for(var property in cv.graph.properties){
-		if( graphDef[property] ) {
-			this["set" + cv.utility.getPascalCasedName(property)](graphDef[property]);
-		}	
-	}
-
-	for (style in graphDef.style) {
-		if (styles.hasOwnProperty(style)) {
-			this["set" + cv.utility.getPascalCasedName(style)](graphDef.style[style]);
-		}
-	}
-*/
-
+//	this.verAxis = this.panel.append('g').attr("class", "y axis").append('line').attr('y1', this.dimension.height).attr('y2', this.dimension.height).attr('x1','100%');
 
 };
 

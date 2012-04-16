@@ -33,6 +33,7 @@ init = function() {
 				.attr("x", function (d) { return xdscale(d);})
 				.style("fill", "#eee").style("stroke","#111");*/
 
+	test.xScale 	= d3.scale.linear().domain([0,100]).range([0, test.dimension.width]);
 	ydscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.height], .4);
 	test.bar = test.panel.selectAll("g.bar").data(testData).enter().append("rect")
 				.attr("height", ydscale.rangeBand())
@@ -41,4 +42,16 @@ init = function() {
 				.attr("y", function (d) {return ydscale(d);})
 				.style("fill", "#eee").style("stroke","#111")
 		//		.on("mouseover", function() { style('fill', '#ddd');});
+
+	
+	test.xAxis 		= d3.svg.axis().scale(test.xScale).ticks(2).tickSize(test.dimension.height, 10).tickSubdivide(4).orient("bottom");
+	test.horAxis 	= test.panel.append("g").attr("class", "x axis")	      
+					      .call(test.xAxis);
+
+	test.yScale		= d3.scale.linear().domain([0,100]).range([test.dimension.height, 0]);
+	test.yAxis 		= d3.svg.axis().scale(test.yScale).ticks(4).orient("left").tickSize(6, -width);
+/*	test.verAxis 	= test.panel.append("g").attr("class", "y axis")	
+					      .call(test.yAxis); */
+	test.verAxis = test.panel.append('g').attr("class", "y axis").append('line').attr('y1', test.dimension.height).attr('y2', test.dimension.height).attr('x1','100%');
+
 }
