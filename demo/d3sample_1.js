@@ -39,5 +39,6 @@ init = function() {
 				.attr("width", function (d) { return test.xScale(d);})
 				.attr("x", function (d) {return 0;})
 				.attr("y", function (d) {return ydscale(d);})
-				.style("fill", "#eee").style("stroke","#111");
+				.style("fill", "#eee").style("stroke","#111")
+		//		.on("mouseover", function() { style('fill', '#ddd');});
 }

@@ -15,17 +15,17 @@ cv.graph = function () {
 	};
 
 	this.graphDef = undefined;
-	this.pos = undefined;
+	this.position = undefined;
 	this.caption = undefined;
-	this.horAxisLabel = undefined;
-	this.verAxisLabel = undefined;
 
 	this.frame = undefined;
 	this.panel = undefined;
+	this.bg = undefined;
+
 	this.horAxis = undefined;
-	this.verAxis = undefined;	
-	this.horGrid = undefined;
-	this.verGrid = undefined;
+	this.verAxis = undefined;
+	this.horAxisLabel = undefined;
+	this.verAxisLabel = undefined;
 };
 
 cv.graph.properties = ["width", "height", "caption", "xAxisName", "yAxisName"];
@@ -38,10 +38,11 @@ cv.graph.prototype.init = function(graphDef) {
 	this.margin.right = graphDef.margin.right || 20;
 	this.margin.top = graphDef.margin.top || 60;
 	this.margin.bottom = graphDef.margin.bottom || 60;
-
-	this.setChart3rPos(graphDef.pos);
+	this.position = graphDef.pos || 'chart3rdiv';
+	
 	this.setChart3rFrame();
 	this.setChart3rPanel();
+	this.setChart3rBackground();
 
 	var height 	= this.dimension.height;
 		width	= this.dimension.width;
@@ -53,8 +54,9 @@ cv.graph.prototype.init = function(graphDef) {
 
 	this.yScale		= d3.scale.linear().domain([0,100]).range([height, 0]);
 	this.yAxis 		= d3.svg.axis().scale(this.yScale).ticks(4).orient("left").tickSize(6, -width);
-	this.verAxis 	= this.panel.append("g").attr("class", "y axis")	
-					      .call(this.yAxis);
+/*	this.verAxis 	= this.panel.append("g").attr("class", "y axis")	
+					      .call(this.yAxis); */
+	this.verAxis = this.panel.append('g').attr("class", "y axis").append('line').attr('y1', this.dimension.height).attr('y2', this.dimension.height).attr('x1','100%');
 
 /*	for(var property in cv.graph.properties){
 		if( graphDef[property] ) {
@@ -88,11 +90,14 @@ cv.graph.prototype.setChart3rPanel = function (className) {
 	}
 
 	this.panel.attr("class", className || "chart3rpanel")
-		.attr("transform", "translate(40,40)");
+		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.right + ')');
 }
 
-cv.graph.prototype.setChart3rPos = function (pos) {
-	this.pos = pos;
+cv.graph.prototype.setChart3rBackground = function () {
+	this.bg = this.panel.append("rect")
+				.attr("class", 'chart3rbg')
+				.attr("height", this.dimension.height)
+				.attr("width", this.dimension.width).style('fill','lavender');
 }
 
 cv.graph.prototype.removeHorGrid = function () {
