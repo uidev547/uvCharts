@@ -32,14 +32,25 @@ init = function() {
 
 	test.setHorAxis();
 	test.setVerAxis();
-	test.axes.ver.scale.domain(graphdef.data);
+	test.axes.ver.scale.domain(graphdef.data.map( function(d) { return d.name;}));
 
-	test.bar = test.panel.selectAll("g.bar").data(graphdef.data).enter().append("rect")
+	test.bargroup = test.panel.append('g');
+	test.bar = test.bargroup.selectAll('rect').data(graphdef.data).enter().append("rect")
 				.attr("height", test.axes.ver.scale.rangeBand())
-				.attr("width", function (d) { return test.axes.hor.scale(d);})
+				.attr("width", function (d) { return test.axes.hor.scale(d.value);})
 				.attr("x", function (d) {return 0;})
-				.attr("y", function (d) {return test.axes.ver.scale(d);})
-				.style("fill", "steelblue").style("stroke","lightsteelblue");
+				.attr("y", function (d) {return test.axes.ver.scale(d.name);})
+				.style("fill", "#e23").style("stroke","#eff");
+
+	test.bargroup.selectAll('text').data(graphdef.data).enter().append("text")
+      .attr("class", "value")
+      .attr("x", function(d) { return test.axes.hor.scale(d.value - 2); })
+      .attr("y", function(d) { return test.axes.ver.scale(d.name) + test.axes.ver.scale.rangeBand()/2; })
+      .attr("dx", -6)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      .text(function(d) { return String(d.value); })
+      .style('fill','white');
 
 	console.log(test);
 }

@@ -72,7 +72,7 @@ cv.graph.prototype.setHorAxis = function () {
 
 	if(graphdef.orientation === 'horizontal'){
 		this.axes.hor.scale	= d3.scale.linear()
-			.domain([0,cv.utility.max(graphdef)+2])
+			.domain([0,d3.max(cv.utility.getDataArray(graphdef.data))+2])
 			.range([0, this.dimension.width]);
 
 		this.axes.hor.func = d3.svg.axis()
@@ -100,7 +100,7 @@ cv.graph.prototype.setVerAxis = function () {
 
 	if(graphdef.orientation === 'vertical'){
 		this.axes.ver.scale	= d3.scale.linear()
-			.domain([0,cv.utility.max(graphdef)])
+			.domain([0,cv.utility.max(cv.utility.getDataArray(graphdef.data))])
 			.range([0, this.dimension.height]);
 		
 		this.axes.ver.func = d3.svg.axis()

@@ -10,12 +10,14 @@ cv.utility.getPascalCasedName = function (name) {
 	return name.substring(0,1).toUpperCase() + name.substring(1);
 };
 
-cv.utility.max = function (graphdef) {
-	if (graphdef.data) {
-		return d3.max(graphdef.data);
-	} else {
-		//TODO
-		var maxVals = [];
-		return 0;
+cv.utility.getDataArray = function (data, index) {
+	var dataArray = [];
+
+	if(index === undefined) {
+		for (var i=0; i<data.length; i++) {
+			dataArray.push(data[i].value);
+		}
 	}
+
+	return dataArray;
 }
