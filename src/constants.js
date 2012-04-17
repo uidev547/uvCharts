@@ -15,5 +15,14 @@ cv.constants.defaultGraphdef = {
 
 	pos : "#chart3rdiv",
 	orientation : 'horizontal',
-	data : [ 60, 70, 80, 90, 20 ]
+	multiseries : false,
+
+	name : 'Facebook',
+	data : [ 60, 70, 80, 90, 20],
+
+	dataset : [
+		{ name : 'Google', data : [10, 20, 30, 40, 50] },
+		{ name : 'Microsoft', data : [20, 10, 60, 30, 40] },
+		{ name : 'Amazon', data : [80, 60, 10, 30, 20] }
+	]
 };

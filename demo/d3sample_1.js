@@ -39,7 +39,7 @@ init = function() {
 				.attr("width", function (d) { return test.axes.hor.scale(d);})
 				.attr("x", function (d) {return 0;})
 				.attr("y", function (d) {return test.axes.ver.scale(d);})
-				.style("fill", "#eee").style("stroke","#111");
+				.style("fill", "steelblue").style("stroke","lightsteelblue");
 
 	console.log(test);
 }
