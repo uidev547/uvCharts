@@ -53,4 +53,6 @@ init = function() {
       .style('fill','white');
 
 	console.log(test);
+	console.log();
+	console.log(d3.max(graphdef.dataset.map( function (d) {return d3.max(d.data.map( function (d) { return d.value;}));})));
 }

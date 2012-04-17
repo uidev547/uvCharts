@@ -32,8 +32,30 @@ cv.constants.defaultGraphdef = {
 			{ name: '2012', value: 90 }],
 
 	dataset : [
-		{ name : 'Google', data : [10, 20, 30, 40, 50] },
-		{ name : 'Microsoft', data : [20, 10, 60, 30, 40] },
-		{ name : 'Amazon', data : [80, 60, 10, 30, 20] }
+		{ 	name : 'Google', 
+			data : [
+				{name: '2001', value: 10}, 
+				{name: '2002', value: 30}, 
+				{name: '2003', value: 50},
+				{name: '2004', value: 90},
+				{name: '2005', value: 70},
+				] 
+		}, {name : 'Amazon', 
+			data : [
+				{name: '2001', value: 50}, 
+				{name: '2002', value: 10}, 
+				{name: '2003', value: 20},
+				{name: '2004', value: 80},
+				{name: '2005', value: 40},
+			] 
+		}, {name : 'Microsoft', 
+			data : [
+				{name: '2001', value: 90}, 
+				{name: '2002', value: 60}, 
+				{name: '2003', value: 30},
+				{name: '2004', value: 10},
+				{name: '2005', value: 70},
+			] 
+		}
 	]
 };

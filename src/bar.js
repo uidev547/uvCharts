@@ -9,10 +9,13 @@ cv.bar = function (graphdef, data, topparent, parent, color, seriesname, seriesn
 }
 
 cv.bargraph = function (graphdef) {
+	var bargroups = [], 
+		bargroup;
+
 	var bars, i, panel;
 
 	this.init(graphdef);
-	var maxvalue = ac.utility.findmaxvalue(graphdef);
+	var maxvalue = ac.utility.getMaxValue(graphdef);
 	var dataset = graphdef.dataset;
 
 	var GraphTypeMap = { 
