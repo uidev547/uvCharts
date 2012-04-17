@@ -18,13 +18,10 @@ init = function() {
 
 init = function() {
 	test = new cv.graph();
-	test.init(cv.constants.defaultGraphdef);
-	//test.xAxis.tickSubdivide(5); test.horGrid.call(test.xAxis);
-	//test.remove();
-	//test.removeHorAxis();
-	//test.removeVerAxis();
-	//test.removeHorGrid();
-	testData = [ 40, 20, 80, 30, 100, 30, 10, 50, 20, 40, 60, 90 ];
+	graphdef = cv.constants.defaultGraphdef;
+
+	test.init(graphdef);
+
 	/*xdscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.width - test.margin.left - test.margin.right], .2);
 	test.bar = test.panel.selectAll("g.bar").data(testData).enter().append("rect")
 				.attr("height", function (d) { return test.dimension.height - test.margin.top - test.margin.bottom - test.yScale(d);})
@@ -33,11 +30,16 @@ init = function() {
 				.attr("x", function (d) { return xdscale(d);})
 				.style("fill", "#eee").style("stroke","#111");*/
 
-	ydscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.height], .2);
-	test.bar = test.panel.selectAll("g.bar").data(testData).enter().append("rect")
-				.attr("height", ydscale.rangeBand())
-				.attr("width", function (d) { return test.xScale(d);})
+	test.setHorAxis();
+	test.setVerAxis();
+	test.axes.ver.scale.domain(graphdef.data);
+
+	test.bar = test.panel.selectAll("g.bar").data(graphdef.data).enter().append("rect")
+				.attr("height", test.axes.ver.scale.rangeBand())
+				.attr("width", function (d) { return test.axes.hor.scale(d);})
 				.attr("x", function (d) {return 0;})
-				.attr("y", function (d) {return ydscale(d);})
-				.style("fill", "#eee").style("stroke","#111");
+				.attr("y", function (d) {return test.axes.ver.scale(d);})
+				.style("fill", "steelblue").style("stroke","lightsteelblue");
+
+	console.log(test);
 }
