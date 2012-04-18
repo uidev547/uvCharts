@@ -12,7 +12,8 @@ cv.bargraph = function (graphdef) {
 
 	for(var i=0, len=this.dataset.length; i<len; i++){
 		bargroup = this.panel.append('g');
-		bars = bargroup.selectAll('g').data(this.dataset[i]).enter().append('g');		
+		bars = bargroup.selectAll('g').data(this.dataset[i]).enter().append('g');
+		var width = this.dimension.width, height = this.dimension.height;
 
 		var axes = this.axes;
 		if(this.graphdef.orientation === 'hor') {
@@ -25,7 +26,7 @@ cv.bargraph = function (graphdef) {
 
 			bars.append("text")
 				    .attr("class", "value")
-				    .attr("x", function(d) { return axes.hor.scale(d.value - 2); })
+				    .attr("x", function(d) { return axes.hor.scale(d.value - 1); })
 				    .attr("y", function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
 				    .attr("dx", -6)
 				    .attr("dy", ".35em")
@@ -36,21 +37,23 @@ cv.bargraph = function (graphdef) {
 			bargroup.attr("transform","translate(0," + i*axes.ver.scale.rangeBand()/len + ")");
 		} else {
 			bars.append("rect")
-					.attr("height", function (d) { return axes.ver.scale(d.value);})
+					.attr("height", function (d) { return height - axes.ver.scale(d.value);})
 					.attr("width", axes.hor.scale.rangeBand()/len)
 					.attr("x", function (d) {return axes.hor.scale(d.name);})
-					.attr("y", this.dimension.height)
+					.attr("y", function (d) {return axes.ver.scale(d.value);})
 					.style("fill", "#e23").style("stroke","#eff");
 
 			bars.append("text")
 					.attr("class", "value")
-					.attr("x", function(d) { return axes.hor.scale(d.value - 2); })
-					.attr("y", function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
+					.attr("x", function(d) { return axes.hor.scale(d.value - 1); })
+					.attr("y", function(d) { return axes.ver.scale(d.name) + axes.hor.scale.rangeBand()/2; })
 					.attr("dx", -6)
 					.attr("dy", ".35em")
 					.attr("text-anchor", "end")
 					.text(function(d) { return String(d.value); })
-					.style('fill','white');
+					.style('fill','white');			
+
+			bargroup.attr("transform","translate(" + i*axes.hor.scale.rangeBand()/len + ",0)");
 		}
 
 		this.bargroups.push(bargroup);
