@@ -26,6 +26,24 @@ cv.utility.getMaxValue = function (graphdef) {
 	}
 };
 
+cv.utility.getStepMaxValue = function (graphdef) {
+	if (graphdef.data) {
+		return d3.max(graphdef.data.map( function (d) { 
+			return d.value;
+		}));
+	} else if (graphdef.dataset) {
+		var sumMap = graphdef.dataset[0].data.map( function(d) {return 0;});
+		graphdef.dataset.map( function (d) {
+			d.data.map( function (d, i) { 
+				sumMap[i] += d.value;
+			}); 
+		});
+		return d3.max(sumMap);
+	} else {
+		return 0;
+	}
+};
+
 cv.utility.getDataArray = function (data, dataset) {
 	var dataArray = [];
 

@@ -12,6 +12,8 @@ cv.graph = function () {
 	this.panel = undefined;
 	this.bg = undefined;
 
+	this.max = undefined;
+
 	this.axes = {
 		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined },
 		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined }
@@ -21,6 +23,8 @@ cv.graph = function () {
 cv.graph.prototype.init = function(graphDef) {
 	this.graphdef = graphDef;
 	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
+
+	this.max = graphDef.stepup ? cv.utility.getStepMaxValue(this.graphdef) : cv.utility.getMaxValue(this.graphdef);
 
 	this.setDimensions();	
 	this.setChart3rFrame();
@@ -79,7 +83,7 @@ cv.graph.prototype.setHorAxis = function () {
 
 	if(graphdef.orientation === 'hor'){
 		this.axes.hor.scale	= d3.scale.linear()
-			.domain([0,cv.utility.getMaxValue(this.graphdef)+2])
+			.domain([0,this.max+2])
 			.range([0, this.dimension.width]);
 
 		this.axes.hor.func = d3.svg.axis()
@@ -101,7 +105,7 @@ cv.graph.prototype.setVerAxis = function () {
 
 	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
-			.domain([cv.utility.getMaxValue(this.graphdef)+2, 0])
+			.domain([this.max+2, 0])
 			.range([0, this.dimension.height]);
 		
 		this.axes.ver.func = d3.svg.axis()
