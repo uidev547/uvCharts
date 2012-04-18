@@ -101,7 +101,7 @@ cv.graph.prototype.setVerAxis = function () {
 
 	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
-			.domain([cv.utility.getMaxValue(this.graphdef), 0])
+			.domain([cv.utility.getMaxValue(this.graphdef)+2, 0])
 			.range([0, this.dimension.height]);
 		
 		this.axes.ver.func = d3.svg.axis()
