@@ -20,7 +20,7 @@ cv.constants.defaultGraphdef = {
 	charttype : undefined,
 
 	dataset : [ 
-		{	name : 'Facebook',
+		{	name : 'IE',
 			data : [
 				{ name: '2001', value: 60 },
 				{ name: '2002', value: 70 },
@@ -28,7 +28,7 @@ cv.constants.defaultGraphdef = {
 				{ name: '2004', value: 90 },  
 				{ name: '2005', value: 20 }
 			]
-		},{	name : 'Google', 
+		},{	name : 'Chrome', 
 			data : [
 				{name: '2001', value: 10}, 
 				{name: '2002', value: 30}, 
@@ -36,7 +36,7 @@ cv.constants.defaultGraphdef = {
 				{name: '2004', value: 90},
 				{name: '2005', value: 70},
 			] 
-		}, {name : 'Amazon', 
+		}, {name : 'Firefox', 
 			data : [
 				{name: '2001', value: 50}, 
 				{name: '2002', value: 150}, 
@@ -44,13 +44,21 @@ cv.constants.defaultGraphdef = {
 				{name: '2004', value: 80},
 				{name: '2005', value: 40},
 			] 
-		}, {name : 'Microsoft', 
+		}, {name : 'Opera', 
 			data : [
 				{name: '2001', value: 90}, 
 				{name: '2002', value: 60}, 
 				{name: '2003', value: 30},
 				{name: '2004', value: 10},
 				{name: '2005', value: 70},
+			] 
+		}, {name : 'Rockmelt', 
+			data : [
+				{name: '2001', value: 30}, 
+				{name: '2002', value: 10}, 
+				{name: '2003', value: 60},
+				{name: '2004', value: 90},
+				{name: '2005', value: 40},
 			] 
 		}
 	]
