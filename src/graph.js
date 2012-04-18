@@ -95,6 +95,28 @@ cv.graph.prototype.setHorAxis = function () {
 	}
 };
 
+cv.graph.prototype.setVerAxis = function () {
+	var graphdef = this.graphdef;
+	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
+
+	if(graphdef.orientation === 'ver'){
+		this.axes.ver.scale	= d3.scale.linear()
+			.domain([cv.utility.getMaxValue(this.graphdef), 0])
+			.range([0, this.dimension.height]);
+		
+		this.axes.ver.func = d3.svg.axis()
+			.scale(this.axes.ver.scale)
+			.ticks(8)
+			.tickSize(-this.dimension.height, -10, 0)
+			.tickPadding(10)
+			.tickSubdivide(1)
+			.orient("left");
+	} else {
+		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.height], 0.2);
+		this.axes.ver.func = undefined;
+	}
+};
+
 cv.graph.prototype.drawHorAxis = function () {
 	if(this.graphdef.orientation === 'hor') {
 		this.axes.hor.axis = this.axes.hor.group.append('g')
@@ -104,28 +126,6 @@ cv.graph.prototype.drawHorAxis = function () {
 	this.axes.hor.line = this.axes.hor.group.append('line').attr('y1', this.dimension.height).attr('y2', this.dimension.height).attr('x1','100%');
 };
 
-cv.graph.prototype.setVerAxis = function () {
-	var graphdef = this.graphdef;
-	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
-
-	if(graphdef.orientation === 'ver'){
-		this.axes.ver.scale	= d3.scale.linear()
-			.domain([0,cv.utility.getMaxValue(this.graphdef)])
-			.range([0, this.dimension.height]);
-		
-		this.axes.ver.func = d3.svg.axis()
-			.scale(this.axes.ver.scale)
-			.ticks(2)
-			.tickSize(this.dimension.height, -10)
-			.tickPadding(10)
-			.tickSubdivide(4)
-			.orient("bottom");
-	} else {
-		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.height], 0.2);
-		this.axes.ver.func = undefined;
-	}
-}
-
 cv.graph.prototype.drawVerAxis = function () {
 	if(this.graphdef.orientation === 'ver') {
 		this.axes.ver.axis = this.axes.ver.group.append('g').
@@ -133,4 +133,4 @@ cv.graph.prototype.drawVerAxis = function () {
 	}
 
 	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.dimension.height);
-}
+};
