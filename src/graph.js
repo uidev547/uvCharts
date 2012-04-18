@@ -127,7 +127,7 @@ cv.graph.prototype.setVerAxis = function () {
 }
 
 cv.graph.prototype.drawVerAxis = function () {
-	if(graphdef.orientation === 'ver') {
+	if(this.graphdef.orientation === 'ver') {
 		this.axes.ver.axis = this.axes.ver.group.append('g').
 			call(this.axes.ver.func);
 	}

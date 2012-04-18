@@ -32,7 +32,7 @@ cv.utility.getDataArray = function (data, dataset) {
 	if (data) {
 		dataArray.push(data);
 	} else {
-		dataArray.push(dataset.map( function (d) { return d.data;}));
+		dataArray = dataset.map( function (d) { return d.data;});
 	}
 
 	return dataArray;
