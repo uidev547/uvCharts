@@ -16,33 +16,26 @@ cv.constants.defaultGraphdef = {
 	pos : "#chart3rdiv",
 	orientation : 'hor',
 	multiseries : false,
-	stepup : true,
+	stepup : false,
 	charttype : undefined,
 
-	name : 'Facebook',
-	data : undefined,
-	datum : [{ name: '2001', value: 60 },
-			{ name: '2002', value: 70 },
-			{ name: '2003', value: 80 },
-			{ name: '2004', value: 90 },  
-			{ name: '2005', value: 20 },
-			{ name: '2006', value: 70 },
-			{ name: '2007', value: 80 },
-			{ name: '2008', value: 90 },
-			{ name: '2009', value: 20 },
-			{ name: '2010', value: 70 },
-			{ name: '2011', value: 80 },
-			{ name: '2012', value: 90 }],
-
-	dataset : [
-		{ 	name : 'Google', 
+	dataset : [ 
+		{	name : 'Facebook',
+			data : [
+				{ name: '2001', value: 60 },
+				{ name: '2002', value: 70 },
+				{ name: '2003', value: 80 },
+				{ name: '2004', value: 90 },  
+				{ name: '2005', value: 20 }
+			]
+		},{	name : 'Google', 
 			data : [
 				{name: '2001', value: 10}, 
 				{name: '2002', value: 30}, 
 				{name: '2003', value: 50},
 				{name: '2004', value: 90},
 				{name: '2005', value: 70},
-				] 
+			] 
 		}, {name : 'Amazon', 
 			data : [
 				{name: '2001', value: 50}, 

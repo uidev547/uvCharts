@@ -44,14 +44,6 @@ cv.utility.getStepMaxValue = function (graphdef) {
 	}
 };
 
-cv.utility.getDataArray = function (data, dataset) {
-	var dataArray = [];
-
-	if (data) {
-		dataArray.push(data);
-	} else {
-		dataArray = dataset.map( function (d) { return d.data;});
-	}
-
-	return dataArray;
+cv.utility.getDataArray = function (dataset) {
+	return dataArray = dataset.map( function (d) { return d.data;});
 };

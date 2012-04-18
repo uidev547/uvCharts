@@ -3,32 +3,21 @@ cv.bargraph = function (graphdef) {
 	this.init(graphdef);
 	
 	this.bargroups = [];
-	this.dataset = cv.utility.getDataArray(this.graphdef.data, this.graphdef.dataset);
+	this.dataset = cv.utility.getDataArray(this.graphdef.dataset);
 
 	var bargroup, bars,
-		domainData = this.graphdef.data || this.graphdef.dataset[0].data;
+		domainData = this.graphdef.dataset[0].data;
 
 	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
-
-	if(this.graphdef.stepup) {
-		var csum = graphdef.dataset[0].data.map( function(d) {return 0;});
-		var tsum = graphdef.dataset[0].data.map( function(d) {return 0;});
-	}
 
 	for(var idx=0, len=this.dataset.length; idx<len; idx++){
 		bargroup = this.panel.append('g').attr('class','chart3rbar');
 		bars = bargroup.selectAll('g').data(this.dataset[idx]).enter().append('g').attr('class','bar_' + idx);
 
+		this['draw' + cv.utility.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len);
 		if(this.graphdef.orientation === 'hor') {
-			if(this.graphdef.stepup) {
-				this.drawStepHorBars(bars, len, csum, tsum);
-			} else {				
-				this.drawHorBars(bars, len); 
-			}
-
 			bargroup.attr("transform","translate(0," + idx*this.axes.ver.scale.rangeBand()/len + ")");
 		} else {
-			this.drawVerBars(bars, len); 
 			bargroup.attr("transform","translate(" + idx*this.axes.hor.scale.rangeBand()/len + ",0)");
 		}
 

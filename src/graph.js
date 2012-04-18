@@ -88,7 +88,7 @@ cv.graph.prototype.setHorAxis = function () {
 		this.axes.hor.func = d3.svg.axis()
 			.scale(this.axes.hor.scale)
 			.ticks(8)
-			.tickSize(this.dimension.height, -10)
+			.tickSize(this.dimension.height, 10, 0)
 			.tickPadding(10)
 			.tickSubdivide(1)
 			.orient("bottom");
