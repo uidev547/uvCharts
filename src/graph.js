@@ -20,11 +20,11 @@ cv.graph = function () {
 	};
 };
 
-cv.graph.prototype.init = function(graphDef) {
-	this.graphdef = graphDef;
+cv.graph.prototype.init = function(graphdef) {
+	this.graphdef = graphdef;
 	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
 
-	this.max = graphDef.stepup ? cv.utility.getStepMaxValue(this.graphdef) : cv.utility.getMaxValue(this.graphdef);
+	this.max = this.graphdef.stepup ? cv.utility.getStepMaxValue(this.graphdef) : cv.utility.getMaxValue(this.graphdef);
 
 	this.setDimensions();	
 	this.setChart3rFrame();
@@ -41,13 +41,12 @@ cv.graph.prototype.finalize = function () {
 };
 
 cv.graph.prototype.setDimensions = function () {
-	this.dimension.height = this.graphdef.dimension.height || 400;
-	this.dimension.width = this.graphdef.dimension.width || 400;
-
-	this.margin.left = this.graphdef.margin.left || 60;
-	this.margin.right = this.graphdef.margin.right || 20;
-	this.margin.top = this.graphdef.margin.top || 20;
-	this.margin.bottom = this.graphdef.margin.bottom || 60;
+	this.dimension.height = this.graphdef.dimension.height || cv.constants.defaultGraphdef.dimension.height;
+	this.dimension.width = this.graphdef.dimension.width || cv.constants.defaultGraphdef.dimension.width;
+	this.margin.left = this.graphdef.margin.left || cv.constants.defaultGraphdef.margin.left;
+	this.margin.right = this.graphdef.margin.right || cv.constants.defaultGraphdef.margin.right;
+	this.margin.top = this.graphdef.margin.top || cv.constants.defaultGraphdef.margin.top;
+	this.margin.bottom = this.graphdef.margin.bottom || cv.constants.defaultGraphdef.margin.bottom;
 }
 
 cv.graph.prototype.setChart3rFrame = function (className){
@@ -127,7 +126,11 @@ cv.graph.prototype.drawHorAxis = function () {
 			.call(this.axes.hor.func);
 	}
 
-	this.axes.hor.line = this.axes.hor.group.append('line').attr('y1', this.dimension.height).attr('y2', this.dimension.height).attr('x1','100%');
+	this.axes.hor.line = this.axes.hor.group.append('line')
+							.attr('y1', this.dimension.height)
+							.attr('y2', this.dimension.height)
+							.attr('x1','0')
+							.attr('x2', this.dimension.width);
 };
 
 cv.graph.prototype.drawVerAxis = function () {

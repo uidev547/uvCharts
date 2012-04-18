@@ -17,6 +17,7 @@ cv.constants.defaultGraphdef = {
 	orientation : 'hor',
 	multiseries : false,
 	stepup : true,
+	charttype : undefined,
 
 	name : 'Facebook',
 	data : undefined,
