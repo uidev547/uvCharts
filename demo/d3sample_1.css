@@ -41,3 +41,18 @@ path.area {
   fill: none;
   stroke: #000;
 }
+
+.bar_0 {
+  fill: red;
+  stroke: white;
+}
+
+.bar_1 {
+  fill: blue;
+  stroke: white;
+}
+
+.bar_2 {
+  fill: green;
+  stroke: white;
+}

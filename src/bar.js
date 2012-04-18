@@ -46,8 +46,7 @@ cv.bargraph.prototype.drawHorBars = function (bars, len) {
 		.attr("height", axes.ver.scale.rangeBand()/len)
 		.attr("width", function (d) { return axes.hor.scale(d.value);})
 		.attr("x", function (d) {return 0;})
-		.attr("y", function (d) {return axes.ver.scale(d.name);})
-		.style("fill", "#e23").style("stroke","#eff");
+		.attr("y", function (d) {return axes.ver.scale(d.name);});
 
 	bars.append("text")
 		.attr("class", "value")
@@ -66,8 +65,7 @@ cv.bargraph.prototype.drawVerBars = function (bars, len) {
 			.attr("height", function (d) { return height - axes.ver.scale(d.value);})
 			.attr("width", axes.hor.scale.rangeBand()/len)
 			.attr("x", function (d) {return axes.hor.scale(d.name);})
-			.attr("y", function (d) {return axes.ver.scale(d.value);})
-			.style("fill", "#e23").style("stroke","#eff");
+			.attr("y", function (d) {return axes.ver.scale(d.value);});
 
 	bars.append("text")
 			.attr("class", "value")
@@ -86,8 +84,7 @@ cv.bargraph.prototype.drawStepHorBars = function (bars, len, csum, tsum) {
 		.attr("height", axes.ver.scale.rangeBand()/len)
 		.attr("width", function (d) { return axes.hor.scale(d.value);})
 		.attr("x", function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value;})
-		.attr("y", function (d) {return axes.ver.scale(d.name);})
-		.style("fill", "#e23").style("stroke","#eff");
+		.attr("y", function (d) {return axes.ver.scale(d.name);});
 
 	bars.append("text")
 		.attr("class", "value")
