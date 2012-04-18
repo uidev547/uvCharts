@@ -14,7 +14,7 @@ cv.constants.defaultGraphdef = {
 	},
 
 	pos : "#chart3rdiv",
-	orientation : 'ver',
+	orientation : 'hor',
 	multiseries : false,
 
 	name : 'Facebook',
