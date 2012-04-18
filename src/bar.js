@@ -15,9 +15,9 @@ cv.bargraph = function (graphdef) {
 		var tsum = graphdef.dataset[0].data.map( function(d) {return 0;});
 	}
 
-	for(var i=0, len=this.dataset.length; i<len; i++){
-		bargroup = this.panel.append('g');
-		bars = bargroup.selectAll('g').data(this.dataset[i]).enter().append('g');
+	for(var idx=0, len=this.dataset.length; idx<len; idx++){
+		bargroup = this.panel.append('g').attr('class','chart3rbar');
+		bars = bargroup.selectAll('g').data(this.dataset[idx]).enter().append('g').attr('class','bar_' + idx);
 
 		if(this.graphdef.orientation === 'hor') {
 			if(this.graphdef.stepup) {
@@ -26,10 +26,10 @@ cv.bargraph = function (graphdef) {
 				this.drawHorBars(bars, len); 
 			}
 
-			bargroup.attr("transform","translate(0," + i*this.axes.ver.scale.rangeBand()/len + ")");
+			bargroup.attr("transform","translate(0," + idx*this.axes.ver.scale.rangeBand()/len + ")");
 		} else {
 			this.drawVerBars(bars, len); 
-			bargroup.attr("transform","translate(" + i*this.axes.hor.scale.rangeBand()/len + ",0)");
+			bargroup.attr("transform","translate(" + idx*this.axes.hor.scale.rangeBand()/len + ",0)");
 		}
 
 		this.bargroups.push(bargroup);
