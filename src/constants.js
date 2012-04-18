@@ -14,7 +14,7 @@ cv.constants.defaultGraphdef = {
 	},
 
 	pos : "#chart3rdiv",
-	orientation : 'hor',
+	orientation : 'ver',
 	multiseries : false,
 
 	name : 'Facebook',
@@ -43,7 +43,7 @@ cv.constants.defaultGraphdef = {
 		}, {name : 'Amazon', 
 			data : [
 				{name: '2001', value: 50}, 
-				{name: '2002', value: 10}, 
+				{name: '2002', value: 150}, 
 				{name: '2003', value: 20},
 				{name: '2004', value: 80},
 				{name: '2005', value: 40},
