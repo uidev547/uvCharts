@@ -14,14 +14,14 @@ cv.constants.defaultGraphdef = {
 	},
 
 	pos : "#chart3rdiv",
-	orientation : 'horizontal',
+	orientation : 'hor',
 	multiseries : false,
 
 	name : 'Facebook',
 	data : [{ name: '2001', value: 60 },
 			{ name: '2002', value: 70 },
 			{ name: '2003', value: 80 },
-			{ name: '2004', value: 90 },
+			{ name: '2004', value: 90 },  
 			{ name: '2005', value: 20 },
 			{ name: '2006', value: 70 },
 			{ name: '2007', value: 80 },

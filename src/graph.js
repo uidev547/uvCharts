@@ -1,7 +1,6 @@
 var cv = {};
 
 cv.graph = function () {
-
 	this.dimension = { height: 400, width: 400};
 	this.margin = { left: 60, right: 20, top: 20, bottom: 60};
 
@@ -27,6 +26,14 @@ cv.graph.prototype.init = function(graphDef) {
 	this.setChart3rFrame();
 	this.setChart3rPanel();
 	this.setChart3rBackground('lavender');
+	this.setHorAxis();
+	this.setVerAxis();
+};
+
+cv.graph.prototype.finalize = function () { 
+	this.drawHorAxis();
+	this.drawVerAxis();
+	console.log(this);
 };
 
 cv.graph.prototype.setDimensions = function () {
@@ -70,7 +77,7 @@ cv.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
 	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
 
-	if(graphdef.orientation === 'horizontal'){
+	if(graphdef.orientation === 'hor'){
 		this.axes.hor.scale	= d3.scale.linear()
 			.domain([0,cv.utility.getMaxValue(this.graphdef)+2])
 			.range([0, this.dimension.width]);
@@ -82,23 +89,26 @@ cv.graph.prototype.setHorAxis = function () {
 			.tickPadding(10)
 			.tickSubdivide(1)
 			.orient("bottom");
-
-		this.axes.hor.axis = this.axes.hor.group.append('g')
-			.call(this.axes.hor.func);
-
 	} else {
 		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.width], 0.2);
 		this.axes.hor.func = undefined;
 	}
+};
+
+cv.graph.prototype.drawHorAxis = function () {
+	if(this.graphdef.orientation === 'hor') {
+		this.axes.hor.axis = this.axes.hor.group.append('g')
+			.call(this.axes.hor.func);
+	}
 
 	this.axes.hor.line = this.axes.hor.group.append('line').attr('y1', this.dimension.height).attr('y2', this.dimension.height).attr('x1','100%');
-}
+};
 
 cv.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
 	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
 
-	if(graphdef.orientation === 'vertical'){
+	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
 			.domain([0,cv.utility.getMaxValue(this.graphdef)])
 			.range([0, this.dimension.height]);
@@ -110,13 +120,16 @@ cv.graph.prototype.setVerAxis = function () {
 			.tickPadding(10)
 			.tickSubdivide(4)
 			.orient("bottom");
-		
-		this.axes.ver.axis = this.axes.ver.group.append('g').
-			call(this.axes.ver.func);
-
 	} else {
 		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.height], 0.2);
 		this.axes.ver.func = undefined;
+	}
+}
+
+cv.graph.prototype.drawVerAxis = function () {
+	if(graphdef.orientation === 'ver') {
+		this.axes.ver.axis = this.axes.ver.group.append('g').
+			call(this.axes.ver.func);
 	}
 
 	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.dimension.height);

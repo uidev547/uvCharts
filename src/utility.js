@@ -19,9 +19,21 @@ cv.utility.getMaxValue = function (graphdef) {
 		return d3.max(graphdef.dataset.map( function (d) {
 			return d3.max(d.data.map( function (d) { 
 				return d.value;
-			}));
+			})); 
 		}));
 	} else {
 		return 0;
 	}
-}
+};
+
+cv.utility.getDataArray = function (data, dataset) {
+	var dataArray = [];
+
+	if (data) {
+		dataArray.push(data);
+	} else {
+		dataArray.push(dataset.map( function (d) { return d.data;}));
+	}
+
+	return dataArray;
+};

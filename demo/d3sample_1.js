@@ -17,10 +17,8 @@ init = function() {
 */
 
 init = function() {
-	test = new cv.graph();
 	graphdef = cv.constants.defaultGraphdef;
-
-	test.init(graphdef);
+	test = new cv.bargraph(graphdef);
 
 	/*xdscale = d3.scale.ordinal().domain(testData).rangeRoundBands([0, test.dimension.width - test.margin.left - test.margin.right], .2);
 	test.bar = test.panel.selectAll("g.bar").data(testData).enter().append("rect")
@@ -29,20 +27,21 @@ init = function() {
 				.attr("y", function (d) { return test.yScale(d);})
 				.attr("x", function (d) { return xdscale(d);})
 				.style("fill", "#eee").style("stroke","#111");*/
+//	test.axes.ver.scale.domain(graphdef.data.map( function(d) { return d.name;}));
 
-	test.setHorAxis();
-	test.setVerAxis();
-	test.axes.ver.scale.domain(graphdef.data.map( function(d) { return d.name;}));
-
+/*
 	test.bargroup = test.panel.append('g');
-	test.bar = test.bargroup.selectAll('rect').data(graphdef.data).enter().append("rect")
-				.attr("height", test.axes.ver.scale.rangeBand())
-				.attr("width", function (d) { return test.axes.hor.scale(d.value);})
-				.attr("x", function (d) {return 0;})
-				.attr("y", function (d) {return test.axes.ver.scale(d.name);})
-				.style("fill", "#e23").style("stroke","#eff");
+	console.log(test.bargroup.selectAll('g').data(graphdef.data).enter());
+	test.bar = test.bargroup.selectAll('g').data(graphdef.data).enter().append('g');
 
-	test.bargroup.selectAll('text').data(graphdef.data).enter().append("text")
+	test.bar.append("rect")
+		.attr("height", test.axes.ver.scale.rangeBand())
+		.attr("width", function (d) { return test.axes.hor.scale(d.value);})
+		.attr("x", function (d) {return 0;})
+		.attr("y", function (d) {return test.axes.ver.scale(d.name);})
+		.style("fill", "#e23").style("stroke","#eff");
+
+	test.bar.append("text")
       .attr("class", "value")
       .attr("x", function(d) { return test.axes.hor.scale(d.value - 2); })
       .attr("y", function(d) { return test.axes.ver.scale(d.name) + test.axes.ver.scale.rangeBand()/2; })
@@ -51,8 +50,8 @@ init = function() {
       .attr("text-anchor", "end")
       .text(function(d) { return String(d.value); })
       .style('fill','white');
+   */
 
+    test.finalize();
 	console.log(test);
-	console.log();
-	console.log(d3.max(graphdef.dataset.map( function (d) {return d3.max(d.data.map( function (d) { return d.value;}));})));
 }

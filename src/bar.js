@@ -1,27 +1,59 @@
-
-cv.bargraph.prototype = cv.extend(cv.graph);
-
-cv.bar = function (graphdef, data, topparent, parent, color, seriesname, seriesnumber) {
-	this.bar = parent.append('g').data(cv.utility.getDataArray(data));
-	this.topparent = topparent; 
-	this.parent = parent;
-	this.length = data.length;
-}
-
 cv.bargraph = function (graphdef) {
-	var bargroups = [], 
-		bargroup, 
-		dataset = [];
-
-	var bars, i, panel;
-
+	cv.graph.apply(this, [graphdef]);
 	this.init(graphdef);
-	var maxvalue = ac.utility.getMaxValue(graphdef);
-	var dataset = graphdef.data.map( function (d) { return d.value; } 
+	
+	this.bargroups = [];
+	this.dataset = cv.utility.getDataArray(this.graphdef.data);
 
-	if (this.graphdef.data) {
-		dataset.push(this.graphdef.data.map( function (d) { return d.value; }));
-	} else {
-		dataset.push(this.graphdef.dataset.map( function (d) { return d.map( function (d) { return d.value});}));
+	var bargroup, bars,
+		maxvalue = cv.utility.getMaxValue(this.graphdef);
+		domainData = this.graphdef.data || this.graphdef.dataset[0];
+
+	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
+
+	for(var i=0, len=this.dataset.length; i<len; i++){
+		bargroup = this.panel.append('g');
+		bars = bargroup.selectAll('g').data(this.dataset[i]).enter().append('g');
+		var axes = this.axes;
+
+		if(this.graphdef.orientation === 'hor') {
+			bars.append("rect")
+					.attr("height", axes.ver.scale.rangeBand()/len)
+					.attr("width", function (d) { return axes.hor.scale(d.value);})
+					.attr("x", function (d) {return 0;})
+					.attr("y", function (d) {return axes.ver.scale(d.name);})
+					.style("fill", "#e23").style("stroke","#eff");
+
+			bars.append("text")
+				    .attr("class", "value")
+				    .attr("x", function(d) { return axes.hor.scale(d.value - 2); })
+				    .attr("y", function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
+				    .attr("dx", -6)
+				    .attr("dy", ".35em")
+				    .attr("text-anchor", "end")
+				    .text(function(d) { return String(d.value); })
+				    .style('fill','white');
+		} else {
+			bars.append("rect")
+					.attr("height", function (d) { return axes.ver.scale(d.value);})
+					.attr("width", axes.hor.scale.rangeBand()/len)
+					.attr("x", function (d) {return axes.hor.scale(d.name);})
+					.attr("y", this.dimension.height)
+					.style("fill", "#e23").style("stroke","#eff");
+
+			bars.append("text")
+					.attr("class", "value")
+					.attr("x", function(d) { return axes.hor.scale(d.value - 2); })
+					.attr("y", function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
+					.attr("dx", -6)
+					.attr("dy", ".35em")
+					.attr("text-anchor", "end")
+					.text(function(d) { return String(d.value); })
+					.style('fill','white');
+		}
+
+		this.bargroups.push(bargroup);
 	}
 };
+
+cv.bargraph.prototype = cv.extend(cv.graph);
