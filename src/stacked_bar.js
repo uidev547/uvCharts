@@ -5,7 +5,7 @@ cv.stacked_bargraph = function (graphdef) {
 	this.init(graphdef);
 	
 	this.bargroups = [];
-	this.dataset = cv.utility.getDataArray(this.graphdef.dataset);
+	this.dataset = r3.util.getDataArray(this.graphdef.dataset);
 
 	var bargroup, bars,
 		domainData = this.graphdef.dataset[0].data;
@@ -21,7 +21,7 @@ cv.stacked_bargraph = function (graphdef) {
 		bargroup = this.panel.append('g').attr('class','chart3rbar');
 		bars = bargroup.selectAll('g').data(this.dataset[idx]).enter().append('g').attr('class','bar_' + idx);
 
-		this['drawStepUp' + cv.utility.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, csum, tsum);
+		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, csum, tsum);
 		this.bargroups.push(bargroup);
 	}
 

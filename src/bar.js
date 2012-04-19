@@ -3,7 +3,7 @@ cv.bargraph = function (graphdef) {
 	this.init(graphdef);
 	
 	this.bargroups = [];
-	this.dataset = cv.utility.getDataArray(this.graphdef.dataset);
+	this.dataset = r3.util.getDataArray(this.graphdef.dataset);
 
 	var bargroup, bars,
 		domainData = this.graphdef.dataset[0].data;
@@ -14,7 +14,7 @@ cv.bargraph = function (graphdef) {
 		bargroup = this.panel.append('g').attr('class','chart3rbar');
 		bars = bargroup.selectAll('g').data(this.dataset[idx]).enter().append('g').attr('class','bar_' + idx);
 
-		this['draw' + cv.utility.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len);
+		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len);
 		if(this.graphdef.orientation === 'hor') {
 			bargroup.attr("transform","translate(0," + idx*this.axes.ver.scale.rangeBand()/len + ")");
 		} else {

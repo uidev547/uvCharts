@@ -1,8 +1,9 @@
+var r3 = {};
 var cv = {};
 
 cv.graph = function () {
-	this.dimension = { height: 400, width: 400};
-	this.margin = { left: 60, right: 20, top: 20, bottom: 60};
+	this.dimension = {};
+	this.margin = {};
 
 	this.graphdef = undefined;
 	this.position = undefined;
@@ -24,7 +25,7 @@ cv.graph.prototype.init = function(graphdef) {
 	this.graphdef = graphdef;
 	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
 
-	this.max = this.graphdef.stepup ? cv.utility.getStepMaxValue(this.graphdef) : cv.utility.getMaxValue(this.graphdef);
+	this.max = this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef);
 
 	this.setDimensions();	
 	this.setChart3rFrame();
@@ -78,7 +79,6 @@ cv.graph.prototype.setChart3rBackground = function (color) {
 
 cv.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
 
 	if(graphdef.orientation === 'hor'){
 		this.axes.hor.scale	= d3.scale.linear()
@@ -100,7 +100,6 @@ cv.graph.prototype.setHorAxis = function () {
 
 cv.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
 
 	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
@@ -121,6 +120,7 @@ cv.graph.prototype.setVerAxis = function () {
 };
 
 cv.graph.prototype.drawHorAxis = function () {
+	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
 	if(this.graphdef.orientation === 'hor') {
 		this.axes.hor.axis = this.axes.hor.group.append('g')
 			.call(this.axes.hor.func);
@@ -133,7 +133,8 @@ cv.graph.prototype.drawHorAxis = function () {
 							.attr('x2', this.dimension.width);
 };
 
-cv.graph.prototype.drawVerAxis = function () {
+cv.graph.prototype.drawVerAxis = function () {	
+	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
 	if(this.graphdef.orientation === 'ver') {
 		this.axes.ver.axis = this.axes.ver.group.append('g').
 			call(this.axes.ver.func);
