@@ -35,11 +35,6 @@ cv.graph.prototype.init = function(graphdef) {
 	this.setVerAxis();
 };
 
-cv.graph.prototype.finalize = function () { 
-	this.drawHorAxis();
-	this.drawVerAxis();
-};
-
 cv.graph.prototype.setDimensions = function () {
 	this.dimension.height = this.graphdef.dimension.height || cv.constants.defaultGraphdef.dimension.height;
 	this.dimension.width = this.graphdef.dimension.width || cv.constants.defaultGraphdef.dimension.width;
@@ -142,4 +137,10 @@ cv.graph.prototype.drawVerAxis = function () {
 	}
 
 	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.dimension.height);
+};
+
+cv.graph.prototype.finalize = function () { 
+	this.drawHorAxis();
+	this.drawVerAxis();
+	console.log(this);
 };
