@@ -63,5 +63,31 @@ path.area {
 }
 
 .bar_4 {
-  stroke: -webkit-linear-gradient(#aad, #556);
+  stroke: white;
+  fill: steelblue;
+}
+
+.line_0 {
+  stroke: red;
+  fill: none;
+}
+
+.line_1 {
+  stroke: blue;
+  fill: none;
+}
+
+.line_2 {
+  stroke: green;
+  fill: none;
+}
+
+.line_3 {
+  stroke: olive;
+  fill: none;
+}
+
+.line_4 {
+  fill: none;
+  stroke: steelblue;
 }
