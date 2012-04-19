@@ -91,3 +91,28 @@ path.area {
   fill: none;
   stroke: steelblue;
 }
+
+.area_0 {
+  stroke: red;
+  fill: none;
+}
+
+.area_1 {
+  stroke: blue;
+  fill: none;
+}
+
+.area_2 {
+  stroke: green;
+  fill: none;
+}
+
+.area_3 {
+  stroke: olive;
+  fill: none;
+}
+
+.area_4 {
+  fill: none;
+  stroke: steelblue;
+}
