@@ -61,3 +61,7 @@ path.area {
   fill: olive;
   stroke: white;
 }
+
+.bar_4 {
+  stroke: -webkit-linear-gradient(#aad, #556);
+}
