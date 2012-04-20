@@ -4,10 +4,10 @@ cv.areagraph = function (graphdef) {
 	this.init(graphdef);
 
 	this.areagroups = [];
-	this.dataset = r3.util.getDataArray(this.graphdef.dataset);
+	this.dataset = r3.util.getDataArray(this.graphdef);
 
 	var areagroup, areapath, areafunc,
-		domainData = this.graphdef.dataset[0].data;
+		domainData = this.graphdef.dataset[this.graphdef.categories[0]];
 
 	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
 

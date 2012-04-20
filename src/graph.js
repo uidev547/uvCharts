@@ -46,7 +46,7 @@ cv.graph.prototype.setDimensions = function () {
 
 cv.graph.prototype.setChart3rFrame = function (className){
 	if(this.frame === undefined) {
-		this.frame = d3.select(this.pos || "body").append("svg");
+		this.frame = d3.select(this.position || "body").append("svg");
 	}
 
 	this.frame.attr("class", className || "chart3rframe")
@@ -73,9 +73,10 @@ cv.graph.prototype.setChart3rBackground = function (color) {
 
 cv.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
+	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
 
 	if(graphdef.orientation === 'hor'){
+		this.axes.hor.group.attr('transform','translate(0,' + this.dimension.height + ')');
 		this.axes.hor.scale	= d3.scale.linear()
 			.domain([0,this.max+2])
 			.range([0, this.dimension.width])
@@ -84,7 +85,7 @@ cv.graph.prototype.setHorAxis = function () {
 		this.axes.hor.func = d3.svg.axis()
 			.scale(this.axes.hor.scale)
 			.ticks(8)
-			.tickSize(this.dimension.height, 10, 0)
+			.tickSize(-this.dimension.height, -10, 0)
 			.tickPadding(10)
 			.tickSubdivide(1)
 			.orient("bottom");
@@ -96,7 +97,7 @@ cv.graph.prototype.setHorAxis = function () {
 
 cv.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
+	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
 
 	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
@@ -124,8 +125,8 @@ cv.graph.prototype.drawHorAxis = function () {
 	}
 
 	this.axes.hor.line = this.axes.hor.group.append('line')
-							.attr('y1', this.dimension.height)
-							.attr('y2', this.dimension.height)
+							.attr('y1', this.graphdef.orientation === 'hor'? 0 : this.dimension.height)
+							.attr('y2', this.graphdef.orientation === 'hor'? 0 : this.dimension.height)
 							.attr('x1','0')
 							.attr('x2', this.dimension.width);
 };

@@ -3,10 +3,10 @@ cv.bargraph = function (graphdef) {
 	this.init(graphdef);
 	
 	this.bargroups = [];
-	this.dataset = r3.util.getDataArray(this.graphdef.dataset);
+	this.dataset = r3.util.getDataArray(this.graphdef);
 
 	var bargroup, bars,
-		domainData = this.graphdef.dataset[0].data;
+		domainData = this.graphdef.dataset[this.graphdef.categories[0]];
 
 	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
 

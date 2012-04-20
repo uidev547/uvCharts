@@ -4,16 +4,16 @@ cv.stepup_bargraph = function (graphdef) {
 	this.init(graphdef);
 	
 	this.bargroups = [];
-	this.dataset = r3.util.getDataArray(this.graphdef.dataset);
+	this.dataset = r3.util.getDataArray(this.graphdef);
 
 	var bargroup, bars,
-		domainData = this.graphdef.dataset[0].data;
+		domainData = this.graphdef.dataset[this.graphdef.categories[0]];
 
 	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
 
 	if(this.graphdef.stepup) {
-		var csum = graphdef.dataset[0].data.map( function(d) {return 0;});
-		var tsum = graphdef.dataset[0].data.map( function(d) {return 0;});
+		var csum = graphdef.dataset[this.graphdef.categories[0]].map( function(d) {return 0;});
+		var tsum = graphdef.dataset[this.graphdef.categories[0]].map( function(d) {return 0;});
 	}
 
 	for(var idx=0, len=this.dataset.length; idx<len; idx++){
