@@ -38,7 +38,7 @@ cv.stacked_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsu
 		.attr("x", function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value;})
 		.attr("y", function (d) {return axes.ver.scale(d.name);});
 
-	bars.append("text")
+/*	bars.append("text")
 		.attr("class", "value")
 		.attr("x", function(d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]); })
 		.attr("y", function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand())/2; })
@@ -46,5 +46,15 @@ cv.stacked_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsu
 		.attr("dy", ".35em")
 		.attr("text-anchor", "end")
 		.text(function(d) { return String(d.value); })
-		.style('fill','white');
+		.style('fill','white');*/
+};
+
+cv.stacked_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum) {
+	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
+	bars.append("rect")
+			.attr("height", function (d) { return height - axes.ver.scale(d.value);})
+			.attr("width", axes.hor.scale.rangeBand())
+			.attr("x", function (d) { return axes.hor.scale(d.name);})
+			.attr("y", function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);});
+
 };
