@@ -31,6 +31,8 @@ cv.donutgraph = function (graphdef) {
 	    .attr("text-anchor", "middle")
 	    .attr("display", function(d) { return d.value > .15 ? null : "none"; })
 	    .text(function(d, i) { return d.value; });
+
+	console.log(this);
 };
 
 cv.donutgraph.prototype = cv.extend(cv.graph);

@@ -29,7 +29,9 @@ cv.piegraph = function (graphdef) {
 	    .attr("dy", ".35em")
 	    .attr("text-anchor", "middle")
 	    .attr("display", function(d) { return d.value > .15 ? null : "none"; })
-	    .text(function(d, i) { return d.value; });
+	    .text(function(d, i) { return d.name; });
+
+	console.log(this);
 };
 
 cv.piegraph.prototype = cv.extend(cv.graph);

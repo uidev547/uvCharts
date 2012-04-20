@@ -30,7 +30,7 @@ cv.graph.prototype.init = function(graphdef) {
 	this.setDimensions();	
 	this.setChart3rFrame();
 	this.setChart3rPanel();
-	this.setChart3rBackground('lavender');
+	this.setChart3rBackground('grey');
 	this.setHorAxis();
 	this.setVerAxis();
 };
