@@ -9,6 +9,8 @@ init = function() {
 	lineVerTest = new cv.linegraph(cv.constants.defaultVerGraphdef);
 	areaHorTest = new cv.areagraph(cv.constants.defaultHorGraphdef);
 	areaVerTest = new cv.areagraph(cv.constants.defaultVerGraphdef);
+	donutTest = new cv.donutgraph(cv.constants.defaultVerGraphdef);
+	pieTest = new cv.piegraph(cv.constants.defaultVerGraphdef);
 	tableHorTest = new cv.tablegraph(cv.constants.defaultHorGraphdef);
 	tableVerTest = new cv.tablegraph(cv.constants.defaultVerGraphdef);
 };
