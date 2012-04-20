@@ -1,7 +1,6 @@
 cv.linegraph = function (graphdef) {
 	cv.graph.apply(this, [graphdef]);
 	graphdef.stepup = false;
-	graphdef.orientation = 'hor';
 	this.init(graphdef);
 
 	this.linegroups = [];

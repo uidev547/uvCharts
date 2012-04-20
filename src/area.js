@@ -1,7 +1,6 @@
 cv.areagraph = function (graphdef) {
 	cv.graph.apply(this, [graphdef]);
 	graphdef.stepup = false;
-	graphdef.orientation = 'ver';
 	this.init(graphdef);
 
 	this.areagroups = [];
