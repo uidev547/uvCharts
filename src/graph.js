@@ -42,7 +42,7 @@ cv.graph.prototype.setDimensions = function () {
 	this.margin.right = this.graphdef.margin.right || cv.constants.defaultGraphdef.margin.right;
 	this.margin.top = this.graphdef.margin.top || cv.constants.defaultGraphdef.margin.top;
 	this.margin.bottom = this.graphdef.margin.bottom || cv.constants.defaultGraphdef.margin.bottom;
-}
+};
 
 cv.graph.prototype.setChart3rFrame = function (className){
 	if(this.frame === undefined) {
@@ -52,7 +52,7 @@ cv.graph.prototype.setChart3rFrame = function (className){
 	this.frame.attr("class", className || "chart3rframe")
 			.attr("width", this.dimension.width+this.margin.left+this.margin.right)
 			.attr("height", this.dimension.height+this.margin.top+this.margin.bottom);
-}
+};
 
 cv.graph.prototype.setChart3rPanel = function (className) {
 	if (this.panel === undefined) {
@@ -61,7 +61,7 @@ cv.graph.prototype.setChart3rPanel = function (className) {
 
 	this.panel.attr("class", className || "chart3rpanel")
 		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-}
+};
 
 cv.graph.prototype.setChart3rBackground = function (color) {
 	if (this.bg === undefined) {
@@ -69,7 +69,7 @@ cv.graph.prototype.setChart3rBackground = function (color) {
 	}
 	
 	this.bg.style('fill',color);
-}
+};
 
 cv.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
