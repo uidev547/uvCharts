@@ -94,25 +94,40 @@ path.area {
 
 .area_0 {
   stroke: red;
-  fill: none;
+  fill: red;
+  opacity: 0.2;
+  -moz-opacity: 0.2;
+  filter:alpha(opacity=2);
 }
 
 .area_1 {
   stroke: blue;
-  fill: none;
+  fill: blue;
+  opacity: 0.2;
+  -moz-opacity: 0.2;
+  filter:alpha(opacity=2);
 }
 
 .area_2 {
   stroke: green;
-  fill: none;
+  fill: green;
+  opacity: 0.2;
+  -moz-opacity: 0.2;
+  filter:alpha(opacity=2);
 }
 
 .area_3 {
   stroke: olive;
-  fill: none;
+  fill: olive;
+  opacity: 0.2;
+  -moz-opacity: 0.2;
+  filter:alpha(opacity=2);
 }
 
 .area_4 {
-  fill: none;
+  fill: steelblue;
   stroke: steelblue;
+  opacity: 0.2;
+  -moz-opacity: 0.2;
+  filter:alpha(opacity=2);
 }
