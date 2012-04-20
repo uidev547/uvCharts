@@ -47,4 +47,12 @@ r3.util.getTabularArray = function (graphdef) {
 
 r3.util.getLabelArray = function (graphdef) {
 	return graphdef.dataset[graphdef.categories[0]].map( function (d) { return d.name;})
-}
+};
+
+r3.util.getCategoryData = function (graphdef, categories) {
+	return categories.map( function (d) {
+		return graphdef.dataset[d].map( function (d) {
+			return d.value;
+		});
+	});
+};

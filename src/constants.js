@@ -15,7 +15,6 @@ cv.constants.defaultHorGraphdef = {
 
 	pos : "#chart3rdiv",
 	orientation : 'hor',
-	multiseries : false,
 	stepup : false,
 	charttype : undefined,
 
@@ -74,7 +73,6 @@ cv.constants.defaultVerGraphdef = {
 
 	pos : "#chart3rdiv",
 	orientation : 'ver',
-	multiseries : false,
 	stepup : false,
 	charttype : undefined,
 
