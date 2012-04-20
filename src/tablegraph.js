@@ -7,6 +7,8 @@ cv.tablegraph = function (graphdef) {
 	} else {
 		this.setVerTable();
 	}
+
+	this.finalize();
 };
 
 cv.tablegraph.prototype = cv.extend(cv.table);
@@ -20,11 +22,13 @@ cv.tablegraph.prototype.setHorTable = function () {
 	categories.shift();
 	var tableData = r3.util.getTabularArray(this.graphdef);
 
-	this.rows = this.body.selectAll('tr').data(tableData)
+	this.bodyrows = this.body.selectAll('tr').data(tableData)
 					.enter().append('tr');
 
-	this.rows.selectAll('td').data( function(d,i) { return tableData[i];})
-					.enter().append('td').text( function(d) {return d;});
+	this.bodyrows.selectAll('td').data( function(d,i) { return tableData[i];})
+					.enter().append('td')
+					.attr( 'class', function(d,i) { return (i==0)?'chart3rtablelabel':'chart3rtabledata';})
+					.text( function(d) {return d;});
 };
 
 cv.tablegraph.prototype.setVerTable = function () {
@@ -35,14 +39,17 @@ cv.tablegraph.prototype.setVerTable = function () {
 
 	labels.shift();
 
-	this.rows = this.body.selectAll('tr').data(this.graphdef.categories)
+	this.bodyrows = this.body.selectAll('tr').data(this.graphdef.categories)
 					.enter().append('tr');
 
 	var dataset = this.graphdef.dataset;
-	this.rows.selectAll('td').data( function (d) { 
+	this.bodyrows.selectAll('td')
+		.data( function (d) { 
 		var arr = []; arr.push(d);
 		for( var i=0, len=dataset[d].length; i<len; i++)
 			arr.push(dataset[d][i].value);
 		return arr;
-	}).enter().append('td').text( function(d) {return d;});
+		}).enter().append('td')
+			.attr( 'class', function(d,i) { return (i==0)?'chart3rtablelabel':'chart3rtabledata';})
+			.text( function(d) {return d;});
 }

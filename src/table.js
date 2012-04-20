@@ -6,7 +6,7 @@ cv.table = function () {
 	this.table = undefined;
 	this.header = undefined;
 	this.body = undefined;
-	this.rows = {};
+	this.bodyrows = {};
 };
 
 cv.table.prototype.init = function(graphdef) {
@@ -18,3 +18,6 @@ cv.table.prototype.init = function(graphdef) {
 	this.body = this.table.append('tbody').attr('class','chart3rtablebody');
 };
 
+cv.table.prototype.finalize = function () {
+	console.log(this);
+};

@@ -131,3 +131,23 @@ path.area {
   -moz-opacity: 0.2;
   filter:alpha(opacity=2);
 }
+
+.chart3rtable {
+  display: inline-block;
+  border: 1px solid #999;
+}
+
+.chart3rtableheader {
+  background-color: steelblue;
+  color: white;
+}
+
+.chart3rtablelabel {
+  background-color: olive;
+  color: white;
+}
+
+.chart3rtabledata {
+  background-color: lavender;
+}
+
