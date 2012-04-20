@@ -55,7 +55,7 @@ cv.constants.defaultHorGraphdef = {
 			{name: '2003', value: 60},
 			{name: '2004', value: 90},
 			{name: '2005', value: 40}
-		] 
+		]
 	}
 };
 
@@ -114,6 +114,6 @@ cv.constants.defaultVerGraphdef = {
 			{name: '2003', value: 60},
 			{name: '2004', value: 90},
 			{name: '2005', value: 40}
-		] 
+		]
 	}
 };

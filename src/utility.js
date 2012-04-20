@@ -19,12 +19,13 @@ r3.util.getMaxValue = function (graphdef) {
 };
 
 r3.util.getStepMaxValue = function (graphdef) {
-	var sumMap = graphdef.categories.map( function(d) {return 0;});
+	var sumMap = graphdef.dataset[graphdef.categories[0]].map( function(d) {return 0;});
 	graphdef.categories.map( function (d) {
 		graphdef.dataset[d].map( function (d, i) { 
 			sumMap[i] += d.value;
 		}); 
 	});
+
 	return d3.max(sumMap);
 };
 
