@@ -56,3 +56,25 @@ r3.util.getCategoryData = function (graphdef, categories) {
 		});
 	});
 };
+
+r3.util.transposeData = function (graphdef) {
+	var categories = graphdef.dataset[graphdef.categories[0]].map( function (d) { return d.name;}),
+		dataset = {}, name, label, value;
+
+	for(var i=0, length=categories.length; i<length; i++)
+		dataset[categories[i]] = [];
+
+	for(var i=0, length=graphdef.categories.length; i<length; i++) {
+		name = graphdef.categories[i];
+		for(var j=0, jlength=graphdef.dataset[name].length; j<jlength; j++) {
+			label = graphdef.dataset[name][j].name;
+			value = graphdef.dataset[name][j].value;
+
+			var obj = {};
+			obj['name'] = name; obj['value'] = value;
+			dataset[label].push(obj);
+		}
+	}
+
+	graphdef.categories = categories; graphdef.dataset = dataset;
+};
