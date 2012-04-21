@@ -1,4 +1,4 @@
-##Chart3r
+##R3vis
 - - -
 Chart3r is AuroraViz written using D3.
 

@@ -4,6 +4,7 @@ r3.piegraph = function (graphdef) {
 
 	this.outerRadius = Math.min(this.dimension.height, this.dimension.width)/2;
 	this.innerRadius = 0;
+	
 	this.category = graphdef.categories[0];
 	this.data = r3.util.getCategoryData(this.graphdef, [this.category]);
 
@@ -29,7 +30,7 @@ r3.piegraph = function (graphdef) {
 	    .attr("dy", ".35em")
 	    .attr("text-anchor", "middle")
 	    .attr("display", function(d) { return d.value > .15 ? null : "none"; })
-	    .text(function(d, i) { return d.name; });
+	    .text(function(d, i) { return d.value; });
 
 	console.log(this);
 };

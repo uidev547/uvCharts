@@ -13,7 +13,7 @@ r3.constants.defaultHorGraphdef = {
 		right : 40
 	},
 
-	pos : "#chart3rdiv",
+	pos : "#r3_div",
 	orientation : 'hor',
 	stepup : false,
 	charttype : undefined,
@@ -71,7 +71,7 @@ r3.constants.defaultVerGraphdef = {
 		right : 40
 	},
 
-	pos : "#chart3rdiv",
+	pos : "#r3_div",
 	orientation : 'ver',
 	stepup : false,
 	charttype : undefined,
@@ -114,4 +114,13 @@ r3.constants.defaultVerGraphdef = {
 			{name: '2005', value: 40}
 		]
 	}
+};
+
+r3.constants.class = {
+	pos : 'r3_div',
+	frame : 'r3_frame',
+	panel : 'r3_panel',
+	background : 'r3_bg',
+	horaxis : 'r3_horaxis',
+	veraxis : 'r3_veraxis'
 };

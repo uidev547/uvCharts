@@ -1,5 +1,4 @@
 var r3 = {};
-var cv = {};
 
 r3.graph = function () {
 	this.dimension = {};
@@ -23,7 +22,7 @@ r3.graph = function () {
 
 r3.graph.prototype.init = function(graphdef) {
 	this.graphdef = graphdef;
-	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
+	this.position = this.graphdef.pos || ('#' + r3.constants.class.pos) || 'body';
 
 	this.max = this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef);
 
@@ -49,7 +48,7 @@ r3.graph.prototype.setFrame = function (className){
 		this.frame = d3.select(this.position || "body").append("svg");
 	}
 
-	this.frame.attr("class", className || "chart3rframe")
+	this.frame.attr("class", className || r3.constants.class.frame)
 			.attr("width", this.dimension.width+this.margin.left+this.margin.right)
 			.attr("height", this.dimension.height+this.margin.top+this.margin.bottom);
 };
@@ -59,13 +58,13 @@ r3.graph.prototype.setPanel = function (className) {
 		this.panel = this.frame.append("g");
 	}
 
-	this.panel.attr("class", className || "chart3rpanel")
+	this.panel.attr("class", className || r3.constants.class.panel)
 		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 };
 
 r3.graph.prototype.setBackground = function (color) {
 	if (this.bg === undefined) {
-		this.bg = this.panel.append("rect").attr("class", 'chart3rbg').attr("height", this.dimension.height).attr("width", this.dimension.width);
+		this.bg = this.panel.append("rect").attr("class", r3.constants.class.background).attr("height", this.dimension.height).attr("width", this.dimension.width);
 	}
 	
 	this.bg.style('fill',color);
@@ -73,7 +72,7 @@ r3.graph.prototype.setBackground = function (color) {
 
 r3.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
+	this.axes.hor.group = this.panel.append('g').attr('class',r3.constants.class.horaxis);
 
 	if(graphdef.orientation === 'hor'){
 		this.axes.hor.group.attr('transform','translate(0,' + this.dimension.height + ')');
@@ -97,7 +96,7 @@ r3.graph.prototype.setHorAxis = function () {
 
 r3.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
+	this.axes.ver.group = this.panel.append('g').attr('class',r3.constants.class.veraxis);
 
 	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
