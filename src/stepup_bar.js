@@ -1,5 +1,5 @@
-cv.stepup_bargraph = function (graphdef) {
-	cv.graph.apply(this, [graphdef]);
+r3.stepup_bargraph = function (graphdef) {
+	r3.graph.apply(this, [graphdef]);
 	graphdef.stepup = true;
 	this.init(graphdef);
 	
@@ -33,9 +33,9 @@ cv.stepup_bargraph = function (graphdef) {
 	this.finalize();
 };
 
-cv.stepup_bargraph.prototype = cv.extend(cv.graph);
+r3.stepup_bargraph.prototype = r3.extend(r3.graph);
 
-cv.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum) {
+r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
 	bars.append("rect")
 		.attr("height", axes.ver.scale.rangeBand()/len)
@@ -54,7 +54,7 @@ cv.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 		.style('fill','white');*/
 };
 
-cv.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum) {
+r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
 	bars.append("rect")
 			.attr("height", function (d) { return height - axes.ver.scale(d.value);})

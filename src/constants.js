@@ -1,6 +1,6 @@
-cv.constants = {};
+r3.constants = {};
 
-cv.constants.defaultHorGraphdef = {
+r3.constants.defaultHorGraphdef = {
 	dimension : {
 		width : 400,
 		height : 400
@@ -58,7 +58,7 @@ cv.constants.defaultHorGraphdef = {
 	}
 };
 
-cv.constants.defaultVerGraphdef = {
+r3.constants.defaultVerGraphdef = {
 	dimension : {
 		width : 400,
 		height : 400

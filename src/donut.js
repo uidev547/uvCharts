@@ -1,5 +1,5 @@
-cv.donutgraph = function (graphdef) {
-	cv.graph.apply(this, [graphdef]);
+r3.donutgraph = function (graphdef) {
+	r3.graph.apply(this, [graphdef]);
 	this.init(graphdef);
 
 	this.outerRadius = Math.min(this.dimension.height, this.dimension.width)/2;
@@ -35,4 +35,4 @@ cv.donutgraph = function (graphdef) {
 	console.log(this);
 };
 
-cv.donutgraph.prototype = cv.extend(cv.graph);
+r3.donutgraph.prototype = r3.extend(r3.graph);

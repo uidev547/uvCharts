@@ -1,5 +1,5 @@
-cv.bargraph = function (graphdef) {
-	cv.graph.apply(this, [graphdef]);
+r3.bargraph = function (graphdef) {
+	r3.graph.apply(this, [graphdef]);
 	this.init(graphdef);
 	
 	this.bargroups = [];
@@ -27,9 +27,9 @@ cv.bargraph = function (graphdef) {
 	this.finalize();
 };
 
-cv.bargraph.prototype = cv.extend(cv.graph);
+r3.bargraph.prototype = r3.extend(r3.graph);
 
-cv.bargraph.prototype.drawHorBars = function (bars, len) {
+r3.bargraph.prototype.drawHorBars = function (bars, len) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
 	bars.append("rect")
 		.attr("height", axes.ver.scale.rangeBand()/len)
@@ -48,7 +48,7 @@ cv.bargraph.prototype.drawHorBars = function (bars, len) {
 		.style('fill','white');*/
 };
 
-cv.bargraph.prototype.drawVerBars = function (bars, len) {
+r3.bargraph.prototype.drawVerBars = function (bars, len) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
 	bars.append("rect")
 			.attr("height", function (d) { return height - axes.ver.scale(d.value);})

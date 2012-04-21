@@ -1,5 +1,5 @@
-cv.areagraph = function (graphdef) {
-	cv.graph.apply(this, [graphdef]);
+r3.areagraph = function (graphdef) {
+	r3.graph.apply(this, [graphdef]);
 	graphdef.stepup = false;
 	this.init(graphdef);
 
@@ -21,9 +21,9 @@ cv.areagraph = function (graphdef) {
 	this.finalize();
 };
 
-cv.areagraph.prototype = cv.extend(cv.graph);
+r3.areagraph.prototype = r3.extend(r3.graph);
 
-cv.areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
+r3.areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
 	var axes = this.axes;
 
 	areagroup.linefunc = d3.svg.line()
@@ -54,7 +54,7 @@ cv.areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
 				.attr("r", 3.5).style("fill","white");
 };
 
-cv.areagraph.prototype.drawVerArea = function (areapath, idx, areagroup) {
+r3.areagraph.prototype.drawVerArea = function (areapath, idx, areagroup) {
 	var axes = this.axes, height = this.dimension.height;
 
 	areagroup.linefunc = d3.svg.line()

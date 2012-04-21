@@ -1,4 +1,4 @@
-cv.extend = function (f) {
+r3.extend = function (f) {
 	function g() {}
 	g.prototype = f.prototype || f;
 	return new g();

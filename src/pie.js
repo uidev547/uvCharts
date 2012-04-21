@@ -1,5 +1,5 @@
-cv.piegraph = function (graphdef) {
-	cv.graph.apply(this, [graphdef]);
+r3.piegraph = function (graphdef) {
+	r3.graph.apply(this, [graphdef]);
 	this.init(graphdef);
 
 	this.outerRadius = Math.min(this.dimension.height, this.dimension.width)/2;
@@ -34,4 +34,4 @@ cv.piegraph = function (graphdef) {
 	console.log(this);
 };
 
-cv.piegraph.prototype = cv.extend(cv.graph);
+r3.piegraph.prototype = r3.extend(r3.graph);

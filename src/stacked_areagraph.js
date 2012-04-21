@@ -1,5 +1,5 @@
-cv.stacked_areagraph = function () {
-	cv.graph.apply(this, [graphdef]);
+r3.stacked_areagraph = function () {
+	r3.graph.apply(this, [graphdef]);
 	graphdef.stepup = false;
 	this.init(graphdef);
 
@@ -21,9 +21,9 @@ cv.stacked_areagraph = function () {
 	this.finalize();
 };
 
-cv.stacked_areagraph.prototype = cv.extend(cv.graph);
+r3.stacked_areagraph.prototype = r3.extend(r3.graph);
 
-cv.stacked_areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
+r3.stacked_areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
 	var axes = this.axes;
 
 	areagroup.linefunc = d3.svg.line()
@@ -54,7 +54,7 @@ cv.stacked_areagraph.prototype.drawHorArea = function (areapath, idx, areagroup)
 				.attr("r", 3.5).style("fill","white");
 };
 
-cv.stacked_areagraph.prototype.drawVerArea = function (areapath, idx, areagroup) {
+r3.stacked_areagraph.prototype.drawVerArea = function (areapath, idx, areagroup) {
 	var axes = this.axes, height = this.dimension.height;
 
 	areagroup.linefunc = d3.svg.line()

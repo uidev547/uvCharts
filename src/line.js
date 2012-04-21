@@ -1,5 +1,5 @@
-cv.linegraph = function (graphdef) {
-	cv.graph.apply(this, [graphdef]);
+r3.linegraph = function (graphdef) {
+	r3.graph.apply(this, [graphdef]);
 	graphdef.stepup = false;
 	this.init(graphdef);
 
@@ -21,9 +21,9 @@ cv.linegraph = function (graphdef) {
 	this.finalize();
 };
 
-cv.linegraph.prototype = cv.extend(cv.graph);
+r3.linegraph.prototype = r3.extend(r3.graph);
 
-cv.linegraph.prototype.drawHorLines = function (linepath, idx, linegroup) {
+r3.linegraph.prototype.drawHorLines = function (linepath, idx, linegroup) {
 	var axes = this.axes;
 
 	linegroup.func = d3.svg.line()
@@ -45,7 +45,7 @@ cv.linegraph.prototype.drawHorLines = function (linepath, idx, linegroup) {
 				.attr("r", 3.5).style("fill","white");
 };
 
-cv.linegraph.prototype.drawVerLines = function (linepath, idx, linegroup) {
+r3.linegraph.prototype.drawVerLines = function (linepath, idx, linegroup) {
 	var axes = this.axes, height = this.dimension.height;
 
 	linegroup.func = d3.svg.line()

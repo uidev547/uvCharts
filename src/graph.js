@@ -1,7 +1,7 @@
 var r3 = {};
 var cv = {};
 
-cv.graph = function () {
+r3.graph = function () {
 	this.dimension = {};
 	this.margin = {};
 
@@ -21,30 +21,30 @@ cv.graph = function () {
 	};
 };
 
-cv.graph.prototype.init = function(graphdef) {
+r3.graph.prototype.init = function(graphdef) {
 	this.graphdef = graphdef;
 	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
 
 	this.max = this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef);
 
 	this.setDimensions();	
-	this.setChart3rFrame();
-	this.setChart3rPanel();
-	this.setChart3rBackground('grey');
+	this.setFrame();
+	this.setPanel();
+	this.setBackground('grey');
 	this.setHorAxis();
 	this.setVerAxis();
 };
 
-cv.graph.prototype.setDimensions = function () {
-	this.dimension.height = this.graphdef.dimension.height || cv.constants.defaultGraphdef.dimension.height;
-	this.dimension.width = this.graphdef.dimension.width || cv.constants.defaultGraphdef.dimension.width;
-	this.margin.left = this.graphdef.margin.left || cv.constants.defaultGraphdef.margin.left;
-	this.margin.right = this.graphdef.margin.right || cv.constants.defaultGraphdef.margin.right;
-	this.margin.top = this.graphdef.margin.top || cv.constants.defaultGraphdef.margin.top;
-	this.margin.bottom = this.graphdef.margin.bottom || cv.constants.defaultGraphdef.margin.bottom;
+r3.graph.prototype.setDimensions = function () {
+	this.dimension.height = this.graphdef.dimension.height || r3.constants.defaultGraphdef.dimension.height;
+	this.dimension.width = this.graphdef.dimension.width || r3.constants.defaultGraphdef.dimension.width;
+	this.margin.left = this.graphdef.margin.left || r3.constants.defaultGraphdef.margin.left;
+	this.margin.right = this.graphdef.margin.right || r3.constants.defaultGraphdef.margin.right;
+	this.margin.top = this.graphdef.margin.top || r3.constants.defaultGraphdef.margin.top;
+	this.margin.bottom = this.graphdef.margin.bottom || r3.constants.defaultGraphdef.margin.bottom;
 };
 
-cv.graph.prototype.setChart3rFrame = function (className){
+r3.graph.prototype.setFrame = function (className){
 	if(this.frame === undefined) {
 		this.frame = d3.select(this.position || "body").append("svg");
 	}
@@ -54,7 +54,7 @@ cv.graph.prototype.setChart3rFrame = function (className){
 			.attr("height", this.dimension.height+this.margin.top+this.margin.bottom);
 };
 
-cv.graph.prototype.setChart3rPanel = function (className) {
+r3.graph.prototype.setPanel = function (className) {
 	if (this.panel === undefined) {
 		this.panel = this.frame.append("g");
 	}
@@ -63,7 +63,7 @@ cv.graph.prototype.setChart3rPanel = function (className) {
 		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 };
 
-cv.graph.prototype.setChart3rBackground = function (color) {
+r3.graph.prototype.setBackground = function (color) {
 	if (this.bg === undefined) {
 		this.bg = this.panel.append("rect").attr("class", 'chart3rbg').attr("height", this.dimension.height).attr("width", this.dimension.width);
 	}
@@ -71,7 +71,7 @@ cv.graph.prototype.setChart3rBackground = function (color) {
 	this.bg.style('fill',color);
 };
 
-cv.graph.prototype.setHorAxis = function () {
+r3.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
 	this.axes.hor.group = this.panel.append('g').attr('class','x axis');
 
@@ -95,7 +95,7 @@ cv.graph.prototype.setHorAxis = function () {
 	}
 };
 
-cv.graph.prototype.setVerAxis = function () {
+r3.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
 	this.axes.ver.group = this.panel.append('g').attr('class','y axis');
 
@@ -118,7 +118,7 @@ cv.graph.prototype.setVerAxis = function () {
 	}
 };
 
-cv.graph.prototype.drawHorAxis = function () {	
+r3.graph.prototype.drawHorAxis = function () {	
 	if(this.graphdef.orientation === 'hor') {
 		this.axes.hor.axis = this.axes.hor.group.append('g')
 			.call(this.axes.hor.func);
@@ -131,7 +131,7 @@ cv.graph.prototype.drawHorAxis = function () {
 							.attr('x2', this.dimension.width);
 };
 
-cv.graph.prototype.drawVerAxis = function () {
+r3.graph.prototype.drawVerAxis = function () {
 	if(this.graphdef.orientation === 'ver') {
 		this.axes.ver.axis = this.axes.ver.group.append('g').
 			call(this.axes.ver.func);
@@ -140,7 +140,7 @@ cv.graph.prototype.drawVerAxis = function () {
 	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.dimension.height);
 };
 
-cv.graph.prototype.finalize = function () { 
+r3.graph.prototype.finalize = function () { 
 	this.drawHorAxis();
 	this.drawVerAxis();
 	console.log(this);

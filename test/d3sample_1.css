@@ -26,11 +26,11 @@ path.area {
 }
 
 .x.axis line {
-  stroke: #222;
+  stroke: #000;
 }
 
 .x.axis .minor {
-  stroke-opacity: .1;
+  stroke-opacity: 1;
 }
 
 .x.axis path {
