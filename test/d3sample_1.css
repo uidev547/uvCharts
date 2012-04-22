@@ -21,23 +21,23 @@ path.area {
   fill: #e7e7e7;
 }
 
-.axis {
+.horaxis, .veraxis {
   shape-rendering: crispEdges;
 }
 
-.x.axis line {
+.horaxis > line {
   stroke: #000;
 }
 
-.x.axis .minor {
+.horaxis .minor {
   stroke-opacity: 1;
 }
 
-.x.axis path {
+.horaxis path {
   display: none;
 }
 
-.y.axis line, .y.axis path {
+.veraxis line, .veraxis path {
   fill: none;
   stroke: #000;
 }

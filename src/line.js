@@ -21,7 +21,7 @@ r3.linegraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.linegraph.prototype = r3.extend(r3.graph);
+r3.linegraph.prototype = r3.util.extend(r3.graph);
 
 r3.linegraph.prototype.drawHorLines = function (linepath, idx, linegroup) {
 	var axes = this.axes;

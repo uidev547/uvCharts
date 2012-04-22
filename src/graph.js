@@ -49,8 +49,8 @@ r3.graph.prototype.setFrame = function (className){
 	}
 
 	this.frame.attr("class", className || r3.constants.class.frame)
-			.attr("width", this.dimension.width+this.margin.left+this.margin.right)
-			.attr("height", this.dimension.height+this.margin.top+this.margin.bottom);
+			.attr("width", this.dimension.width + this.margin.left + this.margin.right)
+			.attr("height", this.dimension.height + this.margin.top + this.margin.bottom);
 };
 
 r3.graph.prototype.setPanel = function (className) {
@@ -77,19 +77,17 @@ r3.graph.prototype.setHorAxis = function () {
 	if(graphdef.orientation === 'hor'){
 		this.axes.hor.group.attr('transform','translate(0,' + this.dimension.height + ')');
 		this.axes.hor.scale	= d3.scale.linear()
-			.domain([0,this.max+2])
-			.range([0, this.dimension.width])
-			.nice();
+			.domain([0,this.max+1]).range([0, this.dimension.width]).nice();
 
 		this.axes.hor.func = d3.svg.axis()
 			.scale(this.axes.hor.scale)
-			.ticks(8)
-			.tickSize(-this.dimension.height, -10, 0)
-			.tickPadding(10)
-			.tickSubdivide(1)
+			.ticks(r3.config.axis.ticks)
+			.tickSize(-this.dimension.width, r3.config.axis.minor, 0)
+			.tickPadding(r3.config.axis.padding)
+			.tickSubdivide(r3.config.axis.subticks)
 			.orient("bottom");
 	} else {
-		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.width], 0.2);
+		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.width], r3.config.scale.ordinality);
 		this.axes.hor.func = undefined;
 	}
 };
@@ -100,19 +98,19 @@ r3.graph.prototype.setVerAxis = function () {
 
 	if(graphdef.orientation === 'ver'){
 		this.axes.ver.scale	= d3.scale.linear()
-			.domain([this.max+2, 0])
+			.domain([this.max+1, 0])
 			.range([0, this.dimension.height])
 			.nice();
 		
 		this.axes.ver.func = d3.svg.axis()
 			.scale(this.axes.ver.scale)
-			.ticks(8)
-			.tickSize(-this.dimension.height, -10, 0)
-			.tickPadding(10)
-			.tickSubdivide(1)
+			.ticks(r3.config.axis.ticks)
+			.tickSize(-this.dimension.height, r3.config.axis.minor, 0)
+			.tickPadding(r3.config.axis.padding)
+			.tickSubdivide(r3.config.axis.subticks)
 			.orient("left");
 	} else {
-		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.height], 0.2);
+		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.height], r3.config.scale.ordinality);
 		this.axes.ver.func = undefined;
 	}
 };
@@ -124,8 +122,8 @@ r3.graph.prototype.drawHorAxis = function () {
 	}
 
 	this.axes.hor.line = this.axes.hor.group.append('line')
-							.attr('y1', this.graphdef.orientation === 'hor'? 0 : this.dimension.height)
-							.attr('y2', this.graphdef.orientation === 'hor'? 0 : this.dimension.height)
+							//.attr('y1', this.graphdef.orientation === 'hor'? 0 : this.dimension.height)
+							//.attr('y2', this.graphdef.orientation === 'hor'? 0 : this.dimension.height)
 							.attr('x1','0')
 							.attr('x2', this.dimension.width);
 };

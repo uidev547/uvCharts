@@ -21,7 +21,7 @@ r3.areagraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.areagraph.prototype = r3.extend(r3.graph);
+r3.areagraph.prototype = r3.util.extend(r3.graph);
 
 r3.areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
 	var axes = this.axes;

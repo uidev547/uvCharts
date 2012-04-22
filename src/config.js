@@ -5,5 +5,16 @@ r3.config = {
 		padding : 10,
 		minor : -10
 	},
+	
+	scale : {
+		ordinality : 0.2
+	},
+	
+	table : {
+		tableclass : 'r3_table',
+		headerclass : 'r3_header',
+		bodyclass : 'r3_body',
+		footerclass : 'r3_footer'
+	}
 };
 

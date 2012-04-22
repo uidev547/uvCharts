@@ -16,9 +16,9 @@ r3.bargraph = function (graphdef) {
 
 		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len);
 		if(this.graphdef.orientation === 'hor') {
-			bargroup.attr("transform","translate(0," + idx*this.axes.ver.scale.rangeBand()/len + ")");
+			bargroup.attr('transform','translate(0,' + idx*this.axes.ver.scale.rangeBand()/len + ')');
 		} else {
-			bargroup.attr("transform","translate(" + idx*this.axes.hor.scale.rangeBand()/len + ",0)");
+			bargroup.attr('transform','translate(' + idx*this.axes.hor.scale.rangeBand()/len + ',0)');
 		}
 
 		this.bargroups.push(bargroup);
@@ -27,42 +27,44 @@ r3.bargraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.bargraph.prototype = r3.extend(r3.graph);
+r3.bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.bargraph.prototype.drawHorBars = function (bars, len) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
-	bars.append("rect")
-		.attr("height", axes.ver.scale.rangeBand()/len)
-		.attr("width", function (d) { return axes.hor.scale(d.value);})
-		.attr("x", function (d) {return 0;})
-		.attr("y", function (d) {return axes.ver.scale(d.name);});
+	bars.append('rect')
+		.attr('height', axes.ver.scale.rangeBand()/len)
+		.attr('width', function (d) { return axes.hor.scale(d.value);})
+		.attr('x', function (d) {return 0;})
+		.attr('y', function (d) {return axes.ver.scale(d.name);})
+		.on('mouseover', function(){d3.select(this).attr('fill','black');})
+		.on('mouseout', function(){d3.select(this).attr('fill', null);});
 
-/*	bars.append("text")
-		.attr("class", "value")
-		.attr("x", function(d) { return axes.hor.scale(d.value); })
-		.attr("y", function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
-		.attr("dx", -4)
-		.attr("dy", ".35em")
-		.attr("text-anchor", "end")
+/*	bars.append('text')
+		.attr('class', 'value')
+		.attr('x', function(d) { return axes.hor.scale(d.value); })
+		.attr('y', function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
+		.attr('dx', -4)
+		.attr('dy', '.35em')
+		.attr('text-anchor', 'end')
 		.text(function(d) { return String(d.value); })
 		.style('fill','white');*/
 };
 
 r3.bargraph.prototype.drawVerBars = function (bars, len) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
-	bars.append("rect")
-			.attr("height", function (d) { return height - axes.ver.scale(d.value);})
-			.attr("width", axes.hor.scale.rangeBand()/len)
-			.attr("x", function (d) {return axes.hor.scale(d.name);})
-			.attr("y", function (d) {return axes.ver.scale(d.value);});
+	bars.append('rect')
+			.attr('height', function (d) { return height - axes.ver.scale(d.value);})
+			.attr('width', axes.hor.scale.rangeBand()/len)
+			.attr('x', function (d) {return axes.hor.scale(d.name);})
+			.attr('y', function (d) {return axes.ver.scale(d.value);});
 
-/*	bars.append("text")
-			.attr("class", "value")
-			.attr("x", function(d) { return axes.hor.scale(d.value); })
-			.attr("y", function(d) { return axes.ver.scale(d.name) + axes.hor.scale.rangeBand()/2; })
-			.attr("dx", -4)
-			.attr("dy", ".35em")
-			.attr("text-anchor", "end")
+/*	bars.append('text')
+			.attr('class', 'value')
+			.attr('x', function(d) { return axes.hor.scale(d.value); })
+			.attr('y', function(d) { return axes.ver.scale(d.name) + axes.hor.scale.rangeBand()/2; })
+			.attr('dx', -4)
+			.attr('dy', '.35em')
+			.attr('text-anchor', 'end')
 			.text(function(d) { return String(d.value); })
 			.style('fill','white');*/
 };

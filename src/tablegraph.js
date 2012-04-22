@@ -11,7 +11,7 @@ r3.tablegraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.tablegraph.prototype = r3.extend(r3.table);
+r3.tablegraph.prototype = r3.util.extend(r3.table);
 
 r3.tablegraph.prototype.setHorTable = function () {
 	var categories = this.graphdef.categories; categories.unshift('');

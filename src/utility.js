@@ -1,13 +1,9 @@
-r3.extend = function (f) {
+r3.util = {};
+
+r3.util.extend = function (f) {
 	function g() {}
 	g.prototype = f.prototype || f;
 	return new g();
-};
-
-r3.util = {};
-
-r3.util.getPascalCasedName = function (name) {
-	return name.substring(0,1).toUpperCase() + name.substring(1);
 };
 
 r3.util.getMaxValue = function (graphdef) {
@@ -77,4 +73,8 @@ r3.util.transposeData = function (graphdef) {
 	}
 
 	graphdef.categories = categories; graphdef.dataset = dataset;
+};
+
+r3.util.getPascalCasedName = function (name) {
+	return name.substring(0,1).toUpperCase() + name.substring(1);
 };

@@ -21,7 +21,7 @@ r3.stacked_areagraph = function () {
 	this.finalize();
 };
 
-r3.stacked_areagraph.prototype = r3.extend(r3.graph);
+r3.stacked_areagraph.prototype = r3.util.extend(r3.graph);
 
 r3.stacked_areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
 	var axes = this.axes;

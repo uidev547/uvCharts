@@ -33,7 +33,7 @@ r3.stepup_bargraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.stepup_bargraph.prototype = r3.extend(r3.graph);
+r3.stepup_bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum) {
 	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
