@@ -45,6 +45,10 @@ r3.util.getLabelArray = function (graphdef) {
 	return graphdef.dataset[graphdef.categories[0]].map( function (d) { return d.name;})
 };
 
+r3.util.getCategoryArray = function (graphdef) {
+	return graphdef.categories.map(function (d) { return d;});
+};
+
 r3.util.getCategoryData = function (graphdef, categories) {
 	return categories.map( function (d) {
 		return graphdef.dataset[d].map( function (d) {
@@ -77,4 +81,9 @@ r3.util.transposeData = function (graphdef) {
 
 r3.util.getPascalCasedName = function (name) {
 	return name.substring(0,1).toUpperCase() + name.substring(1);
+};
+
+r3.util.getColorBand = function (config, index) {
+	var len = r3.constants.palettes[config.palette].length;
+	return r3.constants.palettes[config.palette][index%len];
 };
