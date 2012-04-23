@@ -19,5 +19,5 @@ r3.table.prototype.init = function(graphdef) {
 };
 
 r3.table.prototype.finalize = function () {
-	console.log(this);
+	//console.log(this);
 };

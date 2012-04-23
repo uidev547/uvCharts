@@ -118,7 +118,7 @@ r3.graph.prototype.drawVerAxis = function () {
 r3.graph.prototype.finalize = function () { 
 	this.drawHorAxis();
 	this.drawVerAxis();
-	console.log(this);
+	//console.log(this);
 };
 
 r3.graph.prototype.setMetadata = function () {

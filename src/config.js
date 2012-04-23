@@ -1,5 +1,7 @@
 r3.config = {
-	palette : 'Earth',
+	graph : {
+		palette : 'RGB'
+	},
 	
 	axis : {
 		ticks : 8,

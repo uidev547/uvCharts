@@ -38,7 +38,7 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 		.attr('y', function (d) {return axes.ver.scale(d.name);})
 		.style('stroke','white')
 		.style('fill', color)
-		.on('mouseover', function(){d3.select(this).style('fill','black');})
+		.on('mouseover', function(){d3.select(this).style('fill','red');})
 		.on('mouseout', function(){d3.select(this).style('fill', color);});
 
 /*	bars.append('text')
@@ -61,7 +61,7 @@ r3.bargraph.prototype.drawVerBars = function (bars, len, color) {
 			.attr('y', function (d) {return axes.ver.scale(d.value);})
 			.style('stroke','white')
 			.style('fill', color)
-			.on('mouseover', function(){d3.select(this).style('fill','black');})
+			.on('mouseover', function(){d3.select(this).style('fill','red');})
 			.on('mouseout', function(){d3.select(this).style('fill', color);});
 
 /*	bars.append('text')

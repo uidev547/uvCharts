@@ -49,9 +49,9 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.attr('class', 'dot_' + this._categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
-				.attr('r', 3.5).style('fill','white').style('stroke', color)
-				.on('mouseover', function(){ d3.selectAll('.' + d3.select(this).attr('class')).style('stroke','red');})
-				.on('mouseout', function() { d3.selectAll('.' + d3.select(this).attr('class')).style('stroke', color);});
+				.attr('r', 3.5).style('fill','none').style('stroke', color)
+				.on('mouseover', function(){ d3.selectAll('.' + d3.select(this).attr('class')).style('fill','red');})
+				.on('mouseout', function() { d3.selectAll('.' + d3.select(this).attr('class')).style('fill','none');});
 };
 
 r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
@@ -74,7 +74,7 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.attr('class', 'dot_' + this._categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
-				.attr('r', 3.5).style('fill','white').style('stroke', color)
-				.on('mouseover', function(){ d3.selectAll('.' + d3.select(this).attr('class')).style('stroke','red');})
-				.on('mouseout', function() { d3.selectAll('.' + d3.select(this).attr('class')).style('stroke', color);});
+				.attr('r', 3.5).style('fill','none').style('stroke', color)
+				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('.' + d3.select(this).attr('class')).style('fill','red');})
+				.on('mouseout', function() { d3.select(this.parentNode).selectAll('.' + d3.select(this).attr('class')).style('fill','none');});
 };

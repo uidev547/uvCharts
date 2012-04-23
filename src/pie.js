@@ -4,7 +4,10 @@ r3.piegraph = function (graphdef) {
 
 	this.outerRadius = Math.min(this.dimension.height, this.dimension.width)*2/5;
 	this.innerRadius = 0;
-	this.transition = Math.min(this.dimension.height, this.dimension.width)/2;
+	this.center = {
+		x : this.dimension.width/2,
+		y : this.dimension.height/2
+	}
 	
 	this.category = graphdef.categories[0];
 	this.data = r3.util.getCategoryData(this.graphdef, [this.category]);
@@ -19,11 +22,11 @@ r3.piegraph = function (graphdef) {
 	this.arcs = this.panel.selectAll('g.arc')
 					.data(this.layout).enter()
 					.append('g').attr('class','arc')
-					.attr('transform', 'translate(' + this.transition + ',' + this.transition + ')');
+					.attr('transform', 'translate(' + this.center.x + ',' + this.center.y + ')');
 
 	this.arcpath = this.arcs.append('path')
 	    .attr('fill', function(d, i) { return color(i); }).attr('d',this.arcfunc)
-		.on('mouseover', function(){d3.select(this).style('stroke','white'); })
+		.on('mouseover', function(){d3.select(this).style('stroke','white').style('stroke-width',2.5); })
 		.on('mouseout', function(){d3.select(this).style('stroke', null);});
 
 	var arc = this.arcfunc;
@@ -31,7 +34,8 @@ r3.piegraph = function (graphdef) {
 	    .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
 	    .attr('dy', '.35em')
 	    .attr('text-anchor', 'middle')
-	    .attr('display', function(d) { return d.value > .15 ? null : 'none'; })
+	    .attr('display', function(d) { return d.value > 15 ? null : 'none'; })
+	    .attr('color','white')
 	    .text(function(d, i) { return d.value; });
 
 	console.log(this);

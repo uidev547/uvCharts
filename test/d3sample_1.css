@@ -42,102 +42,12 @@ path.area {
   stroke: #000;
 }
 
-.bar_0 {
-  fill: red;
-  stroke: white;
-}
-
-.bar_1 {
-  fill: blue;
-  stroke: white;
-}
-
-.bar_2 {
-  fill: green;
-  stroke: white;
-}
-
-.bar_3 {
-  fill: olive;
-  stroke: white;
-}
-
-.bar_4 {
-  stroke: white;
-  fill: steelblue;
-}
-
-.line_0 {
-  stroke: red;
-  fill: none;
-}
-
-.line_1 {
-  stroke: blue;
-  fill: none;
-}
-
-.line_2 {
-  stroke: green;
-  fill: none;
-}
-
-.line_3 {
-  stroke: olive;
-  fill: none;
-}
-
-.line_4 {
-  fill: none;
-  stroke: steelblue;
-}
-
-.area_0 {
-  stroke: red;
-  fill: red;
-  opacity: 0.2;
-  -moz-opacity: 0.2;
-  filter:alpha(opacity=2);
-}
-
-.area_1 {
-  stroke: blue;
-  fill: blue;
-  opacity: 0.2;
-  -moz-opacity: 0.2;
-  filter:alpha(opacity=2);
-}
-
-.area_2 {
-  stroke: green;
-  fill: green;
-  opacity: 0.2;
-  -moz-opacity: 0.2;
-  filter:alpha(opacity=2);
-}
-
-.area_3 {
-  stroke: olive;
-  fill: olive;
-  opacity: 0.2;
-  -moz-opacity: 0.2;
-  filter:alpha(opacity=2);
-}
-
-.area_4 {
-  fill: steelblue;
-  stroke: steelblue;
-  opacity: 0.2;
-  -moz-opacity: 0.2;
-  filter:alpha(opacity=2);
-}
-
-.chart3rtable {
+.r3_table {
   display: inline-block;
   border: 1px solid #999;
 }
 
-.chart3rtableheader {
+.r3_header {
   background-color: steelblue;
   color: white;
 }
