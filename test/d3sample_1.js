@@ -1,8 +1,14 @@
 init = function() {
-	//r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	//r3.util.transposeData(r3.constants.defaultVerGraphdef);
 	barHorTest = new r3.bargraph(r3.constants.defaultHorGraphdef);
+	r3.util.transposeData(r3.constants.defaultHorGraphdef);
+	tbarHorTest = new r3.bargraph(r3.constants.defaultHorGraphdef);
 	barVerTest = new r3.bargraph(r3.constants.defaultVerGraphdef);
+	r3.util.transposeData(r3.constants.defaultVerGraphdef);
+	tbarVerTest = new r3.bargraph(r3.constants.defaultVerGraphdef);
+	
+	r3.util.transposeData(r3.constants.defaultVerGraphdef);	
+	r3.util.transposeData(r3.constants.defaultHorGraphdef);
+	
 	stepUpBarHorTest = new r3.stepup_bargraph(r3.constants.defaultHorGraphdef);
 	stepUpBarVerTest = new r3.stepup_bargraph(r3.constants.defaultVerGraphdef);
 	stackedBarHorTest = new r3.stacked_bargraph(r3.constants.defaultHorGraphdef);
