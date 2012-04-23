@@ -75,19 +75,12 @@ r3.graph.prototype.setHorAxis = function () {
 	this.axes.hor.group = this.panel.append('g').attr('class',r3.constants.class.horaxis).attr('transform','translate(0,' + this.dimension.height + ')');
 
 	if(graphdef.orientation === 'hor'){
-		this.axes.hor.scale	= d3.scale.linear()
-			.domain([0,this.max+1]).range([0, this.dimension.width]).nice();
-
-		this.axes.hor.func = d3.svg.axis()
-			.scale(this.axes.hor.scale)
-			.ticks(r3.config.axis.ticks)
-			.tickSize(-this.dimension.width, r3.config.axis.minor, 0)
-			.tickPadding(r3.config.axis.padding)
-			.tickSubdivide(r3.config.axis.subticks)
-			.orient("bottom");
+		this.axes.hor.scale	= d3.scale.linear().domain([0,this.max+1]).range([0, this.dimension.width]).nice();
+		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(r3.config.axis.ticks).tickSize(-this.dimension.width, r3.config.axis.minor, 0)
+			.tickPadding(r3.config.axis.padding).tickSubdivide(r3.config.axis.subticks).orient("bottom");
 	} else {
 		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.width], r3.config.scale.ordinality);
-		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).tickPadding(10).orient('bottom');
+		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).tickPadding(r3.config.axis.padding).orient('bottom');
 	}
 };
 
@@ -96,24 +89,23 @@ r3.graph.prototype.setVerAxis = function () {
 	this.axes.ver.group = this.panel.append('g').attr('class',r3.constants.class.veraxis);
 
 	if(graphdef.orientation === 'ver'){
-		this.axes.ver.scale	= d3.scale.linear().domain([this.max+1, 0]).range([0, this.dimension.height]).nice();
-		
+		this.axes.ver.scale	= d3.scale.linear().domain([this.max+1, 0]).range([0, this.dimension.height]).nice();		
 		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).ticks(r3.config.axis.ticks).tickSize(-this.dimension.height, r3.config.axis.minor, 0)
 			.tickPadding(r3.config.axis.padding).tickSubdivide(r3.config.axis.subticks).orient('left');
 	} else {
 		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.height], r3.config.scale.ordinality);
-		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).tickPadding(10).orient('left');
+		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).tickPadding(r3.config.axis.padding).orient('left');
 	}
 };
 
 r3.graph.prototype.drawHorAxis = function () {
 	this.axes.hor.axis = this.axes.hor.group.append('g').call(this.axes.hor.func);
-	this.axes.hor.line = this.axes.hor.group.append('line').attr('x1','0').attr('x2', this.dimension.width);
+	this.axes.hor.line = this.axes.hor.axis.append('line').attr('x1','0').attr('x2', this.dimension.width);
 };
 
 r3.graph.prototype.drawVerAxis = function () {
 	this.axes.ver.axis = this.axes.ver.group.append('g').call(this.axes.ver.func);
-	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.dimension.height);
+	this.axes.ver.line = this.axes.ver.axis.append('line').attr('y1', 0).attr('y2', this.dimension.height);
 };
 
 r3.graph.prototype.finalize = function () { 
