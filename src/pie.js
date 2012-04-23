@@ -22,7 +22,9 @@ r3.piegraph = function (graphdef) {
 					.attr('transform', 'translate(' + this.transition + ',' + this.transition + ')');
 
 	this.arcpath = this.arcs.append("path")
-	    .attr("fill", function(d, i) { return color(i); }).attr('d',this.arcfunc);
+	    .attr("fill", function(d, i) { return color(i); }).attr('d',this.arcfunc)
+		.on('mouseover', function(){d3.select(this).style('stroke','red'); })
+		.on('mouseout', function(){d3.select(this).style('stroke', null);});
 	
 /*	this.arcpath.transition()
 		.ease("bounce")

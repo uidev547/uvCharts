@@ -1,5 +1,5 @@
 r3.config = {
-	palette : 'Nature',
+	palette : 'Earth',
 	
 	axis : {
 		ticks : 8,

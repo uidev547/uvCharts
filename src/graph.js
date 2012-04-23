@@ -35,7 +35,7 @@ r3.graph.prototype.init = function(graphdef) {
 	this.setDimensions();	
 	this.setFrame();
 	this.setPanel();
-	this.setBackground('grey');
+	this.setBackground();
 	this.setMetadata();
 	this.setHorAxis();
 	this.setVerAxis();
@@ -74,7 +74,7 @@ r3.graph.prototype.setBackground = function (color) {
 		this.bg = this.panel.append("rect").attr("class", r3.constants.class.background).attr("height", this.dimension.height).attr("width", this.dimension.width);
 	}
 	
-	this.bg.style('fill',color);
+	this.bg.style('fill',color || 'white');
 };
 
 r3.graph.prototype.setHorAxis = function () {

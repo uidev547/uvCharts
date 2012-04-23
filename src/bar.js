@@ -5,7 +5,7 @@ r3.bargraph = function (graphdef) {
 	this.bargroups = {};
 
 	var bargroup, bars,
-		domainData = this.graphdef.dataset[this.graphdef.categories[0]];
+		domainData = this._labels;
 
 	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(this._labels);
 

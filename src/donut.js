@@ -21,11 +21,13 @@ r3.donutgraph = function (graphdef) {
 					.append('g').attr('class','arc')
 					.attr('transform', 'translate(' + this.transition + ',' + this.transition + ')');
 
+	var arc = this.arcfunc;
 	this.arcs.append("path")
 	    .attr("fill", function(d, i) { return color(i); })
-	    .attr("d", this.arcfunc);
-
-	var arc = this.arcfunc;
+	    .attr("d", this.arcfunc)
+		.on('mouseover', function(){d3.select(this).style('stroke','red'); })
+		.on('mouseout', function(){d3.select(this).style('stroke', null);});
+	
 	this.arcs.append("text")
 	    .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 	    .attr("dy", ".35em")
