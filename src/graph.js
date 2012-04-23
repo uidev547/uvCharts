@@ -12,7 +12,13 @@ r3.graph = function () {
 	this.panel = undefined;
 	this.bg = undefined;
 
+	this.config = r3.config;
 	this.max = undefined;
+	
+	this._labels = undefined;
+	this._categories = undefined;
+	this.labels = undefined;
+	this.categories = undefined;
 
 	this.axes = {
 		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined },
@@ -30,6 +36,7 @@ r3.graph.prototype.init = function(graphdef) {
 	this.setFrame();
 	this.setPanel();
 	this.setBackground('grey');
+	this.setMetadata();
 	this.setHorAxis();
 	this.setVerAxis();
 };
@@ -112,4 +119,12 @@ r3.graph.prototype.finalize = function () {
 	this.drawHorAxis();
 	this.drawVerAxis();
 	console.log(this);
+};
+
+r3.graph.prototype.setMetadata = function () {
+	this._labels = r3.util.getLabelArray(this.graphdef);
+	this._categories = r3.util.getCategoryArray(this.graphdef);
+	
+	this.labels = [];
+	this.categories = [];
 };
