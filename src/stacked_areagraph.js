@@ -1,86 +1,68 @@
-r3.stacked_areagraph = function () {
+r3.stacked_areagraph = function (graphdef) {
 	r3.graph.apply(this, [graphdef]);
-	graphdef.stepup = false;
+	graphdef.stepup = true;
 	this.init(graphdef);
 
-	this.areagroups = [];
-	this.dataset = r3.util.getDataArray(this.graphdef);
+	this.stacklayout = d3.layout.stack()(this._categories.map(function(d) {
+	    return graphdef.dataset[d].map(function(d) { return {x: d.name, y: +d.value}; }); 
+	}));
 
 	var areagroup, areapath, areafunc,
-		domainData = this.graphdef.dataset[this.graphdef.categories[0]];
+		domainData = this._labels, categories = this._categories;
 
-	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
-
-	for(var idx=0, len=this.dataset.length; idx<len; idx++){		
-		areapath = this.panel.append('g').attr('class','area_' + idx).datum(this.dataset[idx]);
-		areagroup = { path: areapath, linefunc: undefined, areafunc: undefined ,line: undefined, area: undefined };
-		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Area'](areapath, idx, areagroup);
-		this.areagroups.push(areagroup);
-	}
+	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d;}));	
+	this.areagroup = this.panel.selectAll('g.areagroup').data(this.stacklayout).enter().append('g').attr('class', 'areagroup');
+	this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'StackArea']();
 
 	this.finalize();
 };
 
 r3.stacked_areagraph.prototype = r3.util.extend(r3.graph);
 
-r3.stacked_areagraph.prototype.drawHorArea = function (areapath, idx, areagroup) {
-	var axes = this.axes;
+r3.stacked_areagraph.prototype.drawHorStackArea = function () {
+	var axes = this.axes, categories = this._categories, config = this.config;
+	axes.ver.scale.rangePoints([0, this.dimension.height]);
 
-	areagroup.linefunc = d3.svg.line()
-				.x(function(d) { return axes.hor.scale(d.value); })
-				.y(function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
-				.interpolate('linear');
+	this.areapath = this.areagroup.append('path')
+					    .attr('class', function(d, i) { return 'areapath_' + categories[i];})
+					    .style('fill', function(d, i) { return r3.util.getColorBand(config, i); })
+					    .attr('d', d3.svg.area()
+						    .y(function(d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand()/2; })
+						    .x0(function(d) { return axes.hor.scale(d.y0); })
+						    .x1(function(d) { return axes.hor.scale(d.y0 + d.y); })
+						)					    
+						.on('mouseover', function(){d3.select(this).style('fill','red');})
+						.on('mouseout',  function(d, i){d3.select(this).style('fill', r3.util.getColorBand(config, i));});
 
-	areagroup.areafunc = d3.svg.area()
-				.x0(axes.hor.scale(0))
-				.x1(areagroup.linefunc.x())
-				.y(areagroup.linefunc.y());
-
-	areagroup.area = areapath.append('svg:path')
-				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.areafunc);
-
-	areagroup.line = areapath.append('svg:path')
-				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.linefunc);
-
-	areapath.selectAll('.dot')
-				.data(this.dataset[idx])
-				.enter()
-				.append('circle')
-				.attr('class', 'dot')
-				.attr('cx', areagroup.linefunc.x())
-				.attr('cy', areagroup.linefunc.y())
-				.attr('r', 3.5).style('fill','white');
+	this.linepath = this.areagroup.append('path')
+						.attr('class', function(d, i) { return 'linepath_' + categories[i];})
+						.style('stroke', 'white').style('fill','none').style('stroke-width',2)
+						.attr('d', d3.svg.line()
+						    .y(function(d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand()/2; })
+						    .x(function(d) { return axes.hor.scale(d.y0 + d.y); })
+						);
 };
 
-r3.stacked_areagraph.prototype.drawVerArea = function (areapath, idx, areagroup) {
-	var axes = this.axes, height = this.dimension.height;
+r3.stacked_areagraph.prototype.drawVerStackArea = function () {
+	var axes = this.axes, categories = this._categories, config = this.config;
+	axes.hor.scale.rangePoints([0, this.dimension.width]);
+	
+	this.areapath = this.areagroup.append('path')
+					    .attr('class', function(d, i) { return 'areapath_' + categories[i];})
+					    .style('fill', function(d, i) { return r3.util.getColorBand(config, i); })
+					    .attr('d', d3.svg.area()
+						    .x(function(d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand()/2; })
+						    .y0(function(d) { return axes.ver.scale(d.y0); })
+						    .y1(function(d) { return axes.ver.scale(d.y0 + d.y); })
+					    )					    
+						.on('mouseover', function(){d3.select(this).style('fill','red');})
+						.on('mouseout',  function(d, i){d3.select(this).style('fill', r3.util.getColorBand(config, i));});;
 
-	areagroup.linefunc = d3.svg.line()
-				.x(function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
-				.y(function(d) { return axes.ver.scale(d.value); })
-				.interpolate('linear');
-
-	areagroup.areafunc = d3.svg.area()
-				.x(areagroup.linefunc.x())
-				.y0(areagroup.linefunc.y())
-				.y1(axes.ver.scale(0));
-
-	areagroup.area = areapath.append('svg:path')
-				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.areafunc);
-
-	areagroup.line = areapath.append('svg:path')
-				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.linefunc);
-
-	areapath.selectAll('.dot')
-				.data(this.dataset[idx])
-				.enter()
-				.append('circle')
-				.attr('class', 'dot')
-				.attr('cx', areagroup.linefunc.x())
-				.attr('cy', areagroup.linefunc.y())
-				.attr('r', 3.5).style('fill','white');
+	this.linepath = this.areagroup.append('path')
+					    .attr('class', function(d, i) { return 'linepath_' + categories[i];})
+					    .style('stroke', 'white').style('fill','none').style('stroke-width',2)
+					    .attr('d', d3.svg.line()
+						    .x(function(d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand()/2; })
+						    .y(function(d) { return axes.ver.scale(d.y0 + d.y); })
+					    );
 };
