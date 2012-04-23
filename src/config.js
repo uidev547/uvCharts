@@ -1,4 +1,6 @@
 r3.config = {
+	palette : 'Nature',
+	
 	axis : {
 		ticks : 8,
 		subticks : 1,
