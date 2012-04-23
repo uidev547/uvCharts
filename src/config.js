@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'New Moon'
+		palette : 'Sea'
 	},
 	
 	axis : {
