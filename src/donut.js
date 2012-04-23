@@ -9,7 +9,7 @@ r3.donutgraph = function (graphdef) {
 	this.category = graphdef.categories[0];
 	this.data = r3.util.getCategoryData(this.graphdef, [this.category]);
 
-	color = d3.scale.category20();
+	color = d3.scale.category10();
 
 	this.layout = d3.layout.pie();
 	this.arcfunc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
@@ -22,17 +22,17 @@ r3.donutgraph = function (graphdef) {
 					.attr('transform', 'translate(' + this.transition + ',' + this.transition + ')');
 
 	var arc = this.arcfunc;
-	this.arcs.append("path")
-	    .attr("fill", function(d, i) { return color(i); })
-	    .attr("d", this.arcfunc)
-		.on('mouseover', function(){d3.select(this).style('stroke','red'); })
+	this.arcs.append('path')
+	    .attr('fill', function(d, i) { return color(i); })
+	    .attr('d', this.arcfunc)
+		.on('mouseover', function(){d3.select(this).style('stroke','white'); })
 		.on('mouseout', function(){d3.select(this).style('stroke', null);});
 	
-	this.arcs.append("text")
-	    .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-	    .attr("dy", ".35em")
-	    .attr("text-anchor", "middle")
-	    .attr("display", function(d) { return d.value > .15 ? null : "none"; })
+	this.arcs.append('text')
+	    .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
+	    .attr('dy', '.35em')
+	    .attr('text-anchor', 'middle')
+	    .attr('display', function(d) { return d.value > .15 ? null : 'none'; })
 	    .text(function(d, i) { return d.value; });
 
 	console.log(this);

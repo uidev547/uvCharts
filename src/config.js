@@ -17,6 +17,10 @@ r3.config = {
 		headerclass : 'r3_header',
 		bodyclass : 'r3_body',
 		footerclass : 'r3_footer'
+	},
+	
+	line : {
+		interpolation : 'linear'
 	}
 };
 

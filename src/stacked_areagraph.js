@@ -29,29 +29,29 @@ r3.stacked_areagraph.prototype.drawHorArea = function (areapath, idx, areagroup)
 	areagroup.linefunc = d3.svg.line()
 				.x(function(d) { return axes.hor.scale(d.value); })
 				.y(function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
-				.interpolate("linear");
+				.interpolate('linear');
 
 	areagroup.areafunc = d3.svg.area()
 				.x0(axes.hor.scale(0))
 				.x1(areagroup.linefunc.x())
 				.y(areagroup.linefunc.y());
 
-	areagroup.area = areapath.append("svg:path")
-				.attr("class", "linepath_" + idx)
-				.attr("d", areagroup.areafunc);
+	areagroup.area = areapath.append('svg:path')
+				.attr('class', 'linepath_' + idx)
+				.attr('d', areagroup.areafunc);
 
-	areagroup.line = areapath.append("svg:path")
-				.attr("class", "linepath_" + idx)
-				.attr("d", areagroup.linefunc);
+	areagroup.line = areapath.append('svg:path')
+				.attr('class', 'linepath_' + idx)
+				.attr('d', areagroup.linefunc);
 
-	areapath.selectAll(".dot")
+	areapath.selectAll('.dot')
 				.data(this.dataset[idx])
 				.enter()
-				.append("circle")
-				.attr("class", "dot")
-				.attr("cx", areagroup.linefunc.x())
-				.attr("cy", areagroup.linefunc.y())
-				.attr("r", 3.5).style("fill","white");
+				.append('circle')
+				.attr('class', 'dot')
+				.attr('cx', areagroup.linefunc.x())
+				.attr('cy', areagroup.linefunc.y())
+				.attr('r', 3.5).style('fill','white');
 };
 
 r3.stacked_areagraph.prototype.drawVerArea = function (areapath, idx, areagroup) {
@@ -60,27 +60,27 @@ r3.stacked_areagraph.prototype.drawVerArea = function (areapath, idx, areagroup)
 	areagroup.linefunc = d3.svg.line()
 				.x(function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
 				.y(function(d) { return axes.ver.scale(d.value); })
-				.interpolate("linear");
+				.interpolate('linear');
 
 	areagroup.areafunc = d3.svg.area()
 				.x(areagroup.linefunc.x())
 				.y0(areagroup.linefunc.y())
 				.y1(axes.ver.scale(0));
 
-	areagroup.area = areapath.append("svg:path")
-				.attr("class", "linepath_" + idx)
-				.attr("d", areagroup.areafunc);
+	areagroup.area = areapath.append('svg:path')
+				.attr('class', 'linepath_' + idx)
+				.attr('d', areagroup.areafunc);
 
-	areagroup.line = areapath.append("svg:path")
-				.attr("class", "linepath_" + idx)
-				.attr("d", areagroup.linefunc);
+	areagroup.line = areapath.append('svg:path')
+				.attr('class', 'linepath_' + idx)
+				.attr('d', areagroup.linefunc);
 
-	areapath.selectAll(".dot")
+	areapath.selectAll('.dot')
 				.data(this.dataset[idx])
 				.enter()
-				.append("circle")
-				.attr("class", "dot")
-				.attr("cx", areagroup.linefunc.x())
-				.attr("cy", areagroup.linefunc.y())
-				.attr("r", 3.5).style("fill","white");
+				.append('circle')
+				.attr('class', 'dot')
+				.attr('cx', areagroup.linefunc.x())
+				.attr('cy', areagroup.linefunc.y())
+				.attr('r', 3.5).style('fill','white');
 };

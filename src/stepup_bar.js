@@ -20,9 +20,9 @@ r3.stepup_bargraph = function (graphdef) {
 
 		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, csum, tsum, color);
 		if(this.graphdef.orientation === 'hor') {
-			bargroup.attr("transform","translate(0," + idx*this.axes.ver.scale.rangeBand()/len + ")");
+			bargroup.attr('transform','translate(0,' + idx*this.axes.ver.scale.rangeBand()/len + ')');
 		} else {
-			bargroup.attr("transform","translate(" + idx*this.axes.hor.scale.rangeBand()/len + ",0)");
+			bargroup.attr('transform','translate(' + idx*this.axes.hor.scale.rangeBand()/len + ',0)');
 		}
 
 		this.bargroups[this._categories[idx]] = bargroup;
@@ -35,36 +35,36 @@ r3.stepup_bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum, color) {
 	var axes = this.axes;
-	bars.append("rect")
-		.attr("height", axes.ver.scale.rangeBand()/len)
-		.attr("width", function (d) { return axes.hor.scale(d.value);})
-		.attr("x", function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value;})
-		.attr("y", function (d) {return axes.ver.scale(d.name);})
+	bars.append('rect')
+		.attr('height', axes.ver.scale.rangeBand()/len)
+		.attr('width', function (d) { return axes.hor.scale(d.value);})
+		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value;})
+		.attr('y', function (d) {return axes.ver.scale(d.name);})
 		.style('stroke','white')
 		.style('fill', color)
 		.on('mouseover', function(){d3.select(this).style('fill','red');})
-		.on('mouseout', function(config, idx){d3.select(this).style('fill', color);});
+		.on('mouseout', function(){d3.select(this).style('fill', color);});
 
-/*	bars.append("text")
-		.attr("class", "value")
-		.attr("x", function(d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]); })
-		.attr("y", function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
-		.attr("dx", -4)
-		.attr("dy", ".35em")
-		.attr("text-anchor", "end")
+/*	bars.append('text')
+		.attr('class', 'value')
+		.attr('x', function(d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]); })
+		.attr('y', function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
+		.attr('dx', -4)
+		.attr('dy', '.35em')
+		.attr('text-anchor', 'end')
 		.text(function(d) { return String(d.value); })
 		.style('fill','white');*/
 };
 
 r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum, color) {
 	var height = this.dimension.height, axes = this.axes;
-	bars.append("rect")
-			.attr("height", function (d) { return height - axes.ver.scale(d.value);})
-			.attr("width", axes.hor.scale.rangeBand()/len)
-			.attr("x", function (d) { return axes.hor.scale(d.name);})
-			.attr("y", function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);})
+	bars.append('rect')
+			.attr('height', function (d) { return height - axes.ver.scale(d.value);})
+			.attr('width', axes.hor.scale.rangeBand()/len)
+			.attr('x', function (d) { return axes.hor.scale(d.name);})
+			.attr('y', function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);})
 			.style('stroke','white')
 			.style('fill', color)
 			.on('mouseover', function(){d3.select(this).style('fill','red');})
-			.on('mouseout', function(config, idx){d3.select(this).style('fill', color);});
+			.on('mouseout', function(){d3.select(this).style('fill', color);});
 };

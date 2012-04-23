@@ -52,26 +52,26 @@ r3.graph.prototype.setDimensions = function () {
 
 r3.graph.prototype.setFrame = function (className){
 	if(this.frame === undefined) {
-		this.frame = d3.select(this.position || "body").append("svg");
+		this.frame = d3.select(this.position || 'body').append('svg');
 	}
 
-	this.frame.attr("class", className || r3.constants.class.frame)
-			.attr("width", this.dimension.width + this.margin.left + this.margin.right)
-			.attr("height", this.dimension.height + this.margin.top + this.margin.bottom);
+	this.frame.attr('class', className || r3.constants.class.frame)
+			.attr('width', this.dimension.width + this.margin.left + this.margin.right)
+			.attr('height', this.dimension.height + this.margin.top + this.margin.bottom);
 };
 
 r3.graph.prototype.setPanel = function (className) {
 	if (this.panel === undefined) {
-		this.panel = this.frame.append("g");
+		this.panel = this.frame.append('g');
 	}
 
-	this.panel.attr("class", className || r3.constants.class.panel)
-		.attr("transform", 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+	this.panel.attr('class', className || r3.constants.class.panel)
+		.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 };
 
 r3.graph.prototype.setBackground = function (color) {
 	if (this.bg === undefined) {
-		this.bg = this.panel.append("rect").attr("class", r3.constants.class.background).attr("height", this.dimension.height).attr("width", this.dimension.width);
+		this.bg = this.panel.append('rect').attr('class', r3.constants.class.background).attr('height', this.dimension.height).attr('width', this.dimension.width);
 	}
 	
 	this.bg.style('fill',color || 'white');
@@ -84,7 +84,7 @@ r3.graph.prototype.setHorAxis = function () {
 	if(graphdef.orientation === 'hor'){
 		this.axes.hor.scale	= d3.scale.linear().domain([0,this.max+1]).range([0, this.dimension.width]).nice();
 		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(r3.config.axis.ticks).tickSize(-this.dimension.width, r3.config.axis.minor, 0)
-			.tickPadding(r3.config.axis.padding).tickSubdivide(r3.config.axis.subticks).orient("bottom");
+			.tickPadding(r3.config.axis.padding).tickSubdivide(r3.config.axis.subticks).orient('bottom');
 	} else {
 		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands( [0, this.dimension.width], r3.config.scale.ordinality);
 		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).tickPadding(r3.config.axis.padding).orient('bottom');
