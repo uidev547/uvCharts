@@ -27,11 +27,11 @@ var dataset = [
 ];
 
 init = function () {
+	console.log(dataset);
 	mydata = new r3.data(dataset);
 	mydata.fetch();
 	mydata.log();
 	
-	mydata.groupby(mydata.dataset, 'name');
-	mydata.groupby(mydata.dataset, 'year');
-	mydata.log();
+	mydata.groupby(mydata.dataset, 'name'); mydata.log();
+	mydata.groupby(mydata.dataset, 'year'); mydata.log();
 };

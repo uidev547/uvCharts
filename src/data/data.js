@@ -44,9 +44,9 @@ r3.data.prototype.fetch = function () {
 };
 
 r3.data.prototype.groupby = function (dataset, column) {
-	if(!dataset || !$.inArray(column, this._dimensions))
-		return;
+	if(!dataset) return;
 	
+	console.log('grouping by ' + column);
 	if(dataset._data === undefined) {
 		for(key in dataset) {
 			this.groupby(dataset[key], column);
