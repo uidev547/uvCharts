@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Soil and Sky'
+		palette : 'Nature'
 	},
 	
 	axis : {
