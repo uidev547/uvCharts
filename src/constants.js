@@ -18,7 +18,7 @@ r3.constants.defaultHorGraphdef = {
 	stepup : false,
 	charttype : undefined,
 
-	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Rockmelt'],
+	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],
 	dataset : {
 		'IE' : [
 			{name: '2001', value: 60 },
@@ -48,7 +48,7 @@ r3.constants.defaultHorGraphdef = {
 			{name: '2004', value: 10},
 			{name: '2005', value: 70},
 		], 
-		'Rockmelt' : [
+		'Safari' : [
 			{name: '2001', value: 30}, 
 			{name: '2002', value: 10}, 
 			{name: '2003', value: 60},
@@ -76,7 +76,7 @@ r3.constants.defaultVerGraphdef = {
 	stepup : false,
 	charttype : undefined,
 
-	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Rockmelt'],
+	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],
 	dataset : {
 		'IE' : [
 			{name: '2001', value: 60 },
@@ -106,7 +106,7 @@ r3.constants.defaultVerGraphdef = {
 			{name: '2004', value: 10},
 			{name: '2005', value: 70},
 		], 
-		'Rockmelt' : [
+		'Safari' : [
 			{name: '2001', value: 30}, 
 			{name: '2002', value: 10}, 
 			{name: '2003', value: 60},

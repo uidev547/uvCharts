@@ -1,17 +1,17 @@
 r3.config = {
 	graph : {
-		palette : 'Candid'
+		palette : 'Soil and Sky'
 	},
 	
 	axis : {
 		ticks : 8,
 		subticks : 1,
-		padding : 10,
+		padding : 5,
 		minor : -10
 	},
 	
 	scale : {
-		ordinality : 0.2
+		ordinality : 0.1
 	},
 	
 	table : {
@@ -22,6 +22,10 @@ r3.config = {
 	},
 	
 	line : {
+		interpolation : 'linear'
+	},
+	
+	area : {
 		interpolation : 'linear'
 	}
 };

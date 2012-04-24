@@ -33,13 +33,14 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 	var axes = this.axes;
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand()/len)
-		.attr('width', function (d) { return axes.hor.scale(d.value);})
+		.attr('width', 0)
 		.attr('x', function (d) {return 0;})
 		.attr('y', function (d) {return axes.ver.scale(d.name);})
 		.style('stroke','white')
 		.style('fill', color)
-		.on('mouseover', function(){d3.select(this).style('fill','red');})
-		.on('mouseout', function(){d3.select(this).style('fill', color);});
+		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill','red');})
+		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
+		.transition().duration(2000).delay(function(d,i){ return i*200;}).attr('width', function (d) { return axes.hor.scale(d.value);});
 
 /*	bars.append('text')
 		.attr('class', 'value')
@@ -54,23 +55,15 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 
 r3.bargraph.prototype.drawVerBars = function (bars, len, color) {
 	var height = this.dimension.height, axes = this.axes;
+	
 	bars.append('rect')
-			.attr('height', function (d) { return height - axes.ver.scale(d.value);})
+			.attr('height', 0)
 			.attr('width', axes.hor.scale.rangeBand()/len)
 			.attr('x', function (d) {return axes.hor.scale(d.name);})
 			.attr('y', function (d) {return axes.ver.scale(d.value);})
 			.style('stroke','white')
 			.style('fill', color)
-			.on('mouseover', function(){d3.select(this).style('fill','red');})
-			.on('mouseout', function(){d3.select(this).style('fill', color);});
-
-/*	bars.append('text')
-			.attr('class', 'value')
-			.attr('x', function(d) { return axes.hor.scale(d.value); })
-			.attr('y', function(d) { return axes.ver.scale(d.name) + axes.hor.scale.rangeBand()/2; })
-			.attr('dx', -4)
-			.attr('dy', '.35em')
-			.attr('text-anchor', 'end')
-			.text(function(d) { return String(d.value); })
-			.style('fill','white');*/
+			.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill','red');})
+			.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
+			.transition().duration(2000).attr('height', function (d) { return height - axes.ver.scale(d.value);});
 };
