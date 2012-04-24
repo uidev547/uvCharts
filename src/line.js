@@ -38,10 +38,11 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.interpolate(r3.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.attr('class', 'linepath_' + this._categories[idx])
-				.attr('d', linegroup.func).style('fill','none').style('stroke', color)
+				.attr('class', 'linepath_' + this._categories[idx])				
 				.on('mouseover', function(){ d3.select(this).style('stroke','red');})
-				.on('mouseout', function() { d3.select(this).style('stroke', color);});
+				.on('mouseout', function() { d3.select(this).style('stroke', color);})
+				.style('fill','none').style('stroke', color)
+				.attr('d', linegroup.func);
 
 	linegroup.path.selectAll('.dot')
 				.data(this.dataset[idx])

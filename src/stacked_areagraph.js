@@ -3,7 +3,7 @@ r3.stacked_areagraph = function (graphdef) {
 	graphdef.stepup = true;
 	this.init(graphdef);
 
-	this.stacklayout = d3.layout.stack()(this._categories.map(function(d) {
+	this.stacklayout = d3.layout.stack().offset('zero')(this._categories.map(function(d) {
 	    return graphdef.dataset[d].map(function(d) { return {x: d.name, y: +d.value}; }); 
 	}));
 

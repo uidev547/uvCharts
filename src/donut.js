@@ -4,7 +4,10 @@ r3.donutgraph = function (graphdef) {
 
 	this.outerRadius = Math.min(this.dimension.height, this.dimension.width)*2/5;
 	this.innerRadius = this.outerRadius * 0.4;
-	this.transition = Math.min(this.dimension.height, this.dimension.width)/2;
+	this.center = {
+		x : this.dimension.width/2,
+		y : this.dimension.height/2
+	}
 
 	this.category = graphdef.categories[0];
 	this.data = r3.util.getCategoryData(this.graphdef, [this.category]);
@@ -19,14 +22,20 @@ r3.donutgraph = function (graphdef) {
 	this.arcs = this.panel.selectAll('g.arc')
 					.data(this.layout).enter()
 					.append('g').attr('class','arc')
-					.attr('transform', 'translate(' + this.transition + ',' + this.transition + ')');
+					.attr('transform', 'translate(' + this.center.x + ',' + this.center.y + ')');
 
-	var arc = this.arcfunc;
+	var arc = this.arcfunc, center = this.center;
 	this.arcs.append('path')
 	    .attr('fill', function(d, i) { return color(i); })
 	    .attr('d', this.arcfunc)
-		.on('mouseover', function(){d3.select(this).style('stroke','white'); })
-		.on('mouseout', function(){d3.select(this).style('stroke', null);});
+		.on('mouseover', function(d, i){
+			var dev = {}; dev.x = arc.centroid(d)[0]/4; dev.y = arc.centroid(d)[1]/4;
+			d3.select(this.parentNode)
+				.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')'); 
+		})
+		.on('mouseout', function(){
+			d3.select(this.parentNode).attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+		});
 	
 	this.arcs.append('text')
 	    .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })

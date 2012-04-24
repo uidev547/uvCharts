@@ -15,8 +15,11 @@ r3.graph = function () {
 	this.config = r3.config;
 	this.max = undefined;
 	
+	/* Metadata of available information, not to be modified*/
 	this._labels = undefined;
 	this._categories = undefined;
+	
+	/* Current selection of Labels and Categories to be displayed */
 	this.labels = undefined;
 	this.categories = undefined;
 
@@ -29,7 +32,6 @@ r3.graph = function () {
 r3.graph.prototype.init = function(graphdef) {
 	this.graphdef = graphdef;
 	this.position = this.graphdef.pos || ('#' + r3.constants.class.pos) || 'body';
-
 	this.max = this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef);
 
 	this.setDimensions();	

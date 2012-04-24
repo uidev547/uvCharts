@@ -23,13 +23,19 @@ r3.piegraph = function (graphdef) {
 					.data(this.layout).enter()
 					.append('g').attr('class','arc')
 					.attr('transform', 'translate(' + this.center.x + ',' + this.center.y + ')');
-
+	
+	var arc = this.arcfunc, center = this.center;
 	this.arcpath = this.arcs.append('path')
 	    .attr('fill', function(d, i) { return color(i); }).attr('d',this.arcfunc)
-		.on('mouseover', function(){d3.select(this).style('stroke','white').style('stroke-width',2.5); })
-		.on('mouseout', function(){d3.select(this).style('stroke', null);});
-
-	var arc = this.arcfunc;
+		.on('mouseover', function(d, i){
+			var dev = {}; dev.x = arc.centroid(d)[0]/4; dev.y = arc.centroid(d)[1]/4;
+			d3.select(this.parentNode)
+				.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')'); 
+		})
+		.on('mouseout', function(){
+			d3.select(this.parentNode).attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+		});
+	
 	this.arcs.append('text')
 	    .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
 	    .attr('dy', '.35em')
