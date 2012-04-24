@@ -11,7 +11,7 @@ r3.config = {
 	},
 	
 	scale : {
-		ordinality : 0.1
+		ordinality : 0.2
 	},
 	
 	table : {

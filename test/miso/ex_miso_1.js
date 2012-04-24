@@ -30,8 +30,17 @@ init = function () {
 	
 		ready : function () {
 			console.log(this.columnNames());
+			console.log(this.rows());
+			console.log(this.groupBy('name', ['year', 'usage']));
+			console.log(this.column('name').data);
 		}
 	});
 	
 	ds.fetch();
+	
+	_.when(ds.fetch()).then(function(){
+		  ds.eachColumn(function(columnName) {
+		    console.log(ds.column(columnName).data);
+		  });
+		});
 };
