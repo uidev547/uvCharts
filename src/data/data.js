@@ -43,8 +43,27 @@ r3.data.prototype.fetch = function () {
 	}
 };
 
-r3.data.prototype.groupBy = function (dataset, name) {
+r3.data.prototype.groupby = function (dataset, column) {
+	if(!dataset || !$.inArray(column, this._dimensions))
+		return;
 	
+	if(dataset._data === undefined) {
+		for(key in dataset) {
+			this.groupby(dataset[key], column);
+		}
+	} else {
+		for(value in this._keyset[column]){
+			dataset[value] = {}; 
+			dataset[value]._data = [];
+		}
+		
+		for(var i=0, length=dataset._data.length; i<length; i++){
+			var value = dataset._data[i][column];
+			dataset[value]._data.push(dataset._data[i]);
+		}
+		
+		dataset._data = undefined;
+	}
 }
 
 r3.data.prototype.log = function () {
@@ -61,4 +80,6 @@ r3.data.prototype.log = function () {
 		
 		console.log('	' + key + ' : ' + valuestr);
 	}
+	
+	console.log(this.dataset);
 };
