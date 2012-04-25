@@ -39,13 +39,14 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this._categories[idx])
-				.attr('d', linegroup.func).style('fill','none').style('stroke', color).style('stroke-width',1.5)
+				.attr('d', linegroup.func).style('fill','none').style('stroke', color).style('stroke-width',1.5).style('stroke-opacity',0.001)
 				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('circle').style('fill',r3.config.effects.hovercolor);
 					d3.select(this.parentNode).select('path').style('stroke',r3.config.effects.hovercolor);
 				})
 				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
 					d3.select(this.parentNode).select('path').style('stroke', color);
-				});
+				})
+				.transition().duration(r3.config.effects.duration).delay(2*idx*r3.config.effects.duration).style('stroke-opacity',1);;
 
 	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])
@@ -72,13 +73,14 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this._categories[idx])
-				.attr('d', linegroup.func).style('fill','none').style('stroke', color).style('stroke-width',1.5)
+				.attr('d', linegroup.func).style('fill','none').style('stroke', color).style('stroke-width',1.5).style('stroke-opacity',0.001)
 				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('circle').style('fill',r3.config.effects.hovercolor);
 					d3.select(this.parentNode).select('path').style('stroke',r3.config.effects.hovercolor);
 				})
 				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
 					d3.select(this.parentNode).select('path').style('stroke', color);
-				});
+				})
+				.transition().duration(r3.config.effects.duration).delay(2*idx*r3.config.effects.duration).style('stroke-opacity',1);
 				
 	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])

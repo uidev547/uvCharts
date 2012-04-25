@@ -16,7 +16,11 @@ r3.stacked_bargraph = function (graphdef) {
 		bargroup = this.panel.append('g').attr('class','r3_bargroup');
 		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this._categories[idx]]).enter().append('g').attr('class','stepupbar_' + this._categories[idx]);
 
-		this['drawStack' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, csum, tsum, color);
+		this['drawStack' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, csum, idx);
+		
+		if(this.graphdef.orientation === 'ver')
+			bargroup.attr('transform','translate(' + 0 + ',' + 2*this.height() + ') scale(1,-1)');
+			
 		this.bargroups.push(bargroup);
 	}
 
@@ -25,8 +29,8 @@ r3.stacked_bargraph = function (graphdef) {
 
 r3.stacked_bargraph.prototype = r3.util.extend(r3.graph);
 
-r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, color) {
-	var width = this.width(), height = this.height(), axes = this.axes;
+r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, idx) {
+	var axes = this.axes, color = r3.util.getColorBand(this.config, idx);
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
 		.attr('width', 0)
@@ -36,7 +40,7 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, col
 		.style('fill', color)
 		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
 		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
-		.transition().duration(800).delay(function(d,i){ return i*800;}).attr('width', function (d) { return axes.hor.scale(d.value);});;
+		.transition().duration(r3.config.effects.duration).delay(idx*r3.config.effects.duration).attr('width', function (d) { return axes.hor.scale(d.value);});
 
 /*	bars.append('text')
 		.attr('class', 'value')
@@ -49,15 +53,16 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, col
 		.style('fill','white');*/
 };
 
-r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, color) {
-	var width = this.width(), height = this.height(), axes = this.axes;
+r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, idx) {
+	var height = this.height(), axes = this.axes, color = r3.util.getColorBand(this.config, idx);
 	bars.append('rect')
-		.attr('height', function (d) { return height - axes.ver.scale(d.value);})
+		.attr('height', 0)
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name);})
-		.attr('y', function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);})
+		.attr('y', function (d, i) { value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value;})
 		.style('stroke','white')
 		.style('fill', color)
 		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
-		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);});
+		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
+		.transition().duration(r3.config.effects.duration).delay(idx*r3.config.effects.duration).attr('height', function (d) { return height - axes.ver.scale(d.value);});
 };

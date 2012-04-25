@@ -11,12 +11,12 @@ r3.bargraph = function (graphdef) {
 		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this._categories[idx]]).enter().append('g').attr('class','bar_' + this._categories[idx]);
 
 		var color = r3.util.getColorBand(this.config, idx);
-		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, color);
+		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, color, idx);
 		
 		if(this.graphdef.orientation === 'hor') {
 			bargroup.attr('transform','translate(0,' + idx*this.axes.ver.scale.rangeBand()/len + ')');
 		} else {
-			bargroup.attr('transform','translate(' + idx*this.axes.hor.scale.rangeBand()/len + ',0)');
+			bargroup.attr('transform','translate(' + idx*this.axes.hor.scale.rangeBand()/len + ',' + this.height() + ') scale(1,-1)');
 		}
 
 		this.bargroups[this._categories[idx]] = bargroup;
@@ -27,7 +27,7 @@ r3.bargraph = function (graphdef) {
 
 r3.bargraph.prototype = r3.util.extend(r3.graph);
 
-r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
+r3.bargraph.prototype.drawHorBars = function (bars, len, color, idx) {
 	var axes = this.axes;
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand()/len)
@@ -38,7 +38,7 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 		.style('fill', color)
 		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
 		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
-		.transition().duration(800).delay(function(d,i){ return i*800;}).attr('width', function (d) { return axes.hor.scale(d.value);});
+		.transition().duration(r3.config.effects.duration).delay(idx*r3.config.effects.duration).attr('width', function (d) { return axes.hor.scale(d.value);});
 
 /*	bars.append('text')
 		.attr('class', 'value')
@@ -51,17 +51,17 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 		.style('fill','white');*/
 };
 
-r3.bargraph.prototype.drawVerBars = function (bars, len, color) {
+r3.bargraph.prototype.drawVerBars = function (bars, len, color, idx) {
 	var height = this.height(), axes = this.axes;
 
 	bars.append('rect')
 			.attr('height', 0)
 			.attr('width', axes.hor.scale.rangeBand()/len)
 			.attr('x', function (d) {return axes.hor.scale(d.name);})
-			.attr('y', function (d) {return axes.ver.scale(d.value);})
+			.attr('y', 0) //.attr('y', function (d) {return axes.ver.scale(d.value);})
 			.style('stroke','white')
 			.style('fill', color)
 			.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
 			.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
-			.transition().duration(2000).attr('height', function (d) { return height - axes.ver.scale(d.value);});
+			.transition().duration(r3.config.effects.duration).delay(idx*r3.config.effects.duration).attr('height', function (d) { return height - axes.ver.scale(d.value);});
 };

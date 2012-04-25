@@ -16,13 +16,11 @@ r3.stepup_bargraph = function (graphdef) {
 		bargroup = this.panel.append('g').attr('class','r3_bargroup');
 		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this._categories[idx]]).enter().append('g').attr('class','stepupbar_' + this._categories[idx]);
 
-		var color = r3.util.getColorBand(this.config, idx);
-
-		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, csum, tsum, color);
+		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, csum, idx);
 		if(this.graphdef.orientation === 'hor') {
 			bargroup.attr('transform','translate(0,' + idx*this.axes.ver.scale.rangeBand()/len + ')');
 		} else {
-			bargroup.attr('transform','translate(' + idx*this.axes.hor.scale.rangeBand()/len + ',0)');
+			bargroup.attr('transform','translate(' + idx*this.axes.hor.scale.rangeBand()/len + ',' + 2*this.height() + ') scale(1,-1)');
 		}
 
 		this.bargroups[this._categories[idx]] = bargroup;
@@ -33,8 +31,8 @@ r3.stepup_bargraph = function (graphdef) {
 
 r3.stepup_bargraph.prototype = r3.util.extend(r3.graph);
 
-r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum, color) {
-	var axes = this.axes;
+r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, idx) {
+	var axes = this.axes, color = r3.util.getColorBand(this.config, idx);
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand()/len)
 		.attr('width', 0)
@@ -44,7 +42,7 @@ r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 		.style('fill', color)
 		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
 		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
-		.transition().duration(2000).attr('width', function (d) { return axes.hor.scale(d.value);}).ease();
+		.transition().duration(r3.config.effects.duration).delay(idx*r3.config.effects.duration).attr('width', function (d) { return axes.hor.scale(d.value);});
 
 /*	bars.append('text')
 		.attr('class', 'value')
@@ -57,15 +55,17 @@ r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 		.style('fill','white');*/
 };
 
-r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum, color) {
-	var height = this.height(), axes = this.axes;
+r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, idx) {
+	var height = this.height(), axes = this.axes, color = r3.util.getColorBand(this.config, idx), max = this.max;
+	
 	bars.append('rect')
-		.attr('height', function (d) { return height - axes.ver.scale(d.value);})
+		.attr('height', 0)
 		.attr('width', axes.hor.scale.rangeBand()/len)
 		.attr('x', function (d) { return axes.hor.scale(d.name);})
-		.attr('y', function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);})
+		.attr('y', function (d, i) { value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value;})
 		.style('stroke','white')
 		.style('fill', color)
 		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
-		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);});
+		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
+		.transition().duration(r3.config.effects.duration).delay(idx*r3.config.effects.duration).attr('height', function (d) { return height - axes.ver.scale(d.value);});
 };

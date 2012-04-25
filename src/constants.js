@@ -1,18 +1,6 @@
 r3.constants = {};
 
 r3.constants.defaultHorGraphdef = {
-	dimension : {
-		width : 400,
-		height : 400
-	},
-
-	margin : {
-		top : 40,
-		bottom : 60,
-		left : 60,
-		right : 40
-	},
-
 	pos : '#r3_div',
 	orientation : 'hor',
 	stepup : false,
@@ -59,18 +47,6 @@ r3.constants.defaultHorGraphdef = {
 };
 
 r3.constants.defaultVerGraphdef = {
-	dimension : {
-		width : 400,
-		height : 400
-	},
-
-	margin : {
-		top : 40,
-		bottom : 60,
-		left : 60,
-		right : 40
-	},
-
 	pos : '#r3_div',
 	orientation : 'ver',
 	stepup : false,

@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Nature'
+		palette : 'Sulphide'
 	},
 	
 	meta : {
@@ -46,7 +46,8 @@ r3.config = {
 	},
 	
 	effects : {
-		hovercolor : 'red'
+		hovercolor : 'red',
+		duration : 600
 	}
 };
 
