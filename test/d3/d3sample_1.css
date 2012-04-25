@@ -25,20 +25,8 @@ path.area {
   shape-rendering: crispEdges;
 }
 
-.r3_horaxis line{
-  stroke: #000;
-}
-
-.r3_horaxis .minor {
-  stroke-opacity: 1;
-}
-
-.r3_horaxis path {
-  display: none;
-}
-
-.r3_veraxis line, .r3_veraxis path {
-  fill: none;
+.r3_horaxis path, .r3_veraxis path {
+ fill: none;
   stroke: #000;
 }
 
