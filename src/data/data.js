@@ -3,9 +3,9 @@ r3.util = {};
 
 r3.data = function (dataset) {
 	this._dataset = dataset;
-	this._columns = [];
-	this._dimensions = [];
-	this._measures = [];
+	this._columns = {};
+	this._dimensions = {};
+	this._measures = {};
 	this._keyset = {};
 	
 	this.dimensions = [];
@@ -22,34 +22,31 @@ r3.data.prototype.fetch = function () {
 	
 	if(this.dataset._data.length > 0){
 		for(property in this.dataset._data[0]){
-			this._columns.push(property);
+			this._columns[property] = true;
 			
 			if(r3.util.isNumber(this.dataset._data[0][property])) {
-				this._measures.push(property);
+				this._measures[property] = true;
 			} else {
-				this._dimensions.push(property);
+				this._dimensions[property] = true;
 				this._keyset[property] = {};
 			}				
 		}
 		
 		for(var i=0, length=this.dataset._data.length; i<length; i++) {
-			for(var j=0, limit=this._dimensions.length; j<limit; j++) {
-				var dimension = this._dimensions[j], 
-					value = this.dataset._data[i][dimension];
-				
+			for(var dimension in this._dimensions) {
+				var value = this.dataset._data[i][dimension];
 				this._keyset[dimension][value] = true;
 			}
 		}
 	}
 };
 
-r3.data.prototype.groupby = function (dataset, column) {
+r3.data.prototype.groupBy = function (dataset, column) {
 	if(!dataset) return;
-	
-	console.log('grouping by ' + column);
+
 	if(dataset._data === undefined) {
 		for(key in dataset) {
-			this.groupby(dataset[key], column);
+			this.groupBy(dataset[key], column);
 		}
 	} else {
 		for(value in this._keyset[column]){
@@ -64,12 +61,74 @@ r3.data.prototype.groupby = function (dataset, column) {
 		
 		dataset._data = undefined;
 	}
+};
+
+r3.data.prototype.groupby = function (columns) {
+	if(!(columns instanceof Array)) {
+		if(this._dimensions[columns] === true) {
+			this._dimensions[columns] = false; 
+			this.dimensions.push(columns);
+			this.groupBy(this.dataset, columns);
+		}
+	} else {
+		for(var i=0, length=columns.length; i<length; i++) {
+			if(this._dimensions[columns[i]] === true) {
+				this._dimensions[columns[i]] = false; 
+				this.dimensions.push(columns[i]);
+				this.groupBy(this.dataset, columns[i]);
+			}
+		}
+	}
+};
+
+r3.data.prototype.merge = function () {
+	
+};
+
+r3.data.prototype.ungroupBy = function (dataset, column, depth, level) {
+	if( dataset === undefined )
+		return;
+	
+	if( level === undefined)
+		level = 0;
+	
+	if( depth === level ) {
+		dataset._tmp = {};
+		//this.merge(dataset, column);
+	} else {
+		//console.log(dataset);
+		for(var property in dataset) {
+			this.ungroupBy(dataset[property], column, depth, level+1);
+		}
+	}
 }
 
+r3.data.prototype.ungroupby = function (columns) {
+	if(!(columns instanceof Array)) {
+		if(this._dimensions[columns] === false) {
+			this._dimensions[columns] = true;
+			if(this.dimensions.indexOf(columns) != -1){
+				this.ungroupBy(this.dataset, columns, this.dimensions.indexOf(columns));
+				this.dimensions.splice(this.dimensions.indexOf(columns),1);
+			}
+		}
+	} else {
+		for(var i=0, length=columns.length; i<length; i++) {
+			if(this._dimensions[columns[i]] === false) {
+				this._dimensions[columns[i]] = true; this.dimensions.push(columns[i]);
+				if(this.dimensions.indexOf(columns[i]) != -1){
+					this.ungroupBy(this.dataset, columns[i], this.dimension.indexOf(columns[i]));
+					this.dimensions.splice(this.dimensions.indexOf(columns[i]),1);
+				}
+			}
+		}
+	}
+};
+
 r3.data.prototype.log = function () {
-	console.log('Columns    : ' + this._columns.join(','));
-	console.log('Dimensions : ' + this._dimensions.join(','));
-	console.log('Measures   : ' + this._measures.join(','));
+	console.log(this._columns);
+	console.log(this._dimensions);
+	console.log(this._measures);
 	
 	console.log('KeySet     : ');
 	for(key in this._keyset) {
