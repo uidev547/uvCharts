@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Sulphide'
+		palette : 'Soil and Sky'
 	},
 	
 	meta : {
@@ -8,8 +8,8 @@ r3.config = {
 	},
 	
 	dimension : {
-		width : 400,
-		height : 400
+		width : 300,
+		height : 300
 	},
 
 	margin : {

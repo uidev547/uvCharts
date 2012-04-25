@@ -46,7 +46,7 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
 					d3.select(this.parentNode).select('path').style('stroke', color);
 				})
-				.transition().duration(r3.config.effects.duration).delay(2*idx*r3.config.effects.duration).style('stroke-opacity',1);;
+				.transition().duration(3*r3.config.effects.duration).delay(2*idx*r3.config.effects.duration).style('stroke-opacity',1);;
 
 	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])
