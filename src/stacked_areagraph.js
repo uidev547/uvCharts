@@ -31,7 +31,7 @@ r3.stacked_areagraph.prototype.drawHorStackArea = function () {
 						    .x0(function(d) { return axes.hor.scale(d.y0); })
 						    .x1(function(d) { return axes.hor.scale(d.y0 + d.y); })
 						)					    
-						.on('mouseover', function(){d3.select(this).style('fill','red');})
+						.on('mouseover', function(){d3.select(this).style('fill',r3.config.effects.hovercolor);})
 						.on('mouseout',  function(d, i){d3.select(this).style('fill', r3.util.getColorBand(config, i));});
 
 	this.linepath = this.areagroup.append('path')
@@ -55,7 +55,7 @@ r3.stacked_areagraph.prototype.drawVerStackArea = function () {
 						    .y0(function(d) { return axes.ver.scale(d.y0); })
 						    .y1(function(d) { return axes.ver.scale(d.y0 + d.y); })
 					    )					    
-						.on('mouseover', function(){d3.select(this).style('fill','red');})
+						.on('mouseover', function(){d3.select(this).style('fill',r3.config.effects.hovercolor);})
 						.on('mouseout',  function(d, i){d3.select(this).style('fill', r3.util.getColorBand(config, i));});;
 
 	this.linepath = this.areagroup.append('path')

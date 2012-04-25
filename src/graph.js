@@ -2,15 +2,15 @@ var r3 = {};
 
 r3.graph = function () {
 	this.graphdef = undefined;
+	this.config = r3.config;
 	
+	//d3 elements 
 	this.frame = undefined;
 	this.panel = undefined;
 	this.bg = undefined;
 
-	this.config = r3.config;
 	this.max = undefined;
 	
-	/* Metadata of available information, not to be modified*/
 	this._labels = undefined;
 	this._categories = undefined;
 
@@ -19,17 +19,13 @@ r3.graph = function () {
 		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined }
 	};
 	
-///
-/// New design variables
-///
-	
-	this._max = undefined;
 };
 
 r3.graph.prototype.init = function(graphdef) {
 	this.graphdef = graphdef;
-	this.position(r3.config.meta.position || ('#' + r3.constants.class.pos) || 'body');
-	this.max = this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef);
+	this._max(this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef))
+		.position(r3.config.meta.position || ('#' + r3.constants.class.pos) || 'body');
+	
 
 	this.setDimensions().setFrame().setPanel().setBackground().setMetadata().setHorAxis().setVerAxis();
 };
@@ -44,7 +40,10 @@ r3.graph.prototype.setFrame = function (className){
 		this.frame = d3.select(this.position() || 'body').append('svg');
 	}
 
-	this.frame.attr('class', className || r3.constants.class.frame).attr('width', this.width() + this.left() + this.right()).attr('height', this.height() + this.top() + this.bottom());
+	this.frame.attr('class', className || r3.constants.class.frame)
+		.attr('width', this.width() + this.left() + this.right())
+		.attr('height', this.height() + this.top() + this.bottom());
+	
 	return this;
 };
 
@@ -53,7 +52,9 @@ r3.graph.prototype.setPanel = function (className) {
 		this.panel = this.frame.append('g');
 	}
 
-	this.panel.attr('class', className || r3.constants.class.panel).attr('transform', 'translate(' + this.left() + ',' + this.top() + ')');
+	this.panel.attr('class', className || r3.constants.class.panel)
+		.attr('transform', 'translate(' + this.left() + ',' + this.top() + ')');
+		
 	return this;
 };
 
@@ -99,19 +100,18 @@ r3.graph.prototype.setVerAxis = function () {
 };
 
 r3.graph.prototype.drawHorAxis = function () {
-	this.axes.hor.axis = this.axes.hor.group.append('g').call(this.axes.hor.func);
-	this.axes.hor.line = this.axes.hor.axis.append('line').attr('x1','0').attr('x2', this.width());
+	this.axes.hor.axis = this.axes.hor.group.append('g').call(this.axes.hor.func); this.axes.hor.axis.selectAll('line').style('stroke','black');
+	this.axes.hor.line = this.axes.hor.group.append('line').attr('x1','0').attr('x2', this.width());
 };
 
 r3.graph.prototype.drawVerAxis = function () {
-	this.axes.ver.axis = this.axes.ver.group.append('g').call(this.axes.ver.func);
-	this.axes.ver.line = this.axes.ver.axis.append('line').attr('y1', 0).attr('y2', this.height());
+	this.axes.ver.axis = this.axes.ver.group.append('g').call(this.axes.ver.func); this.axes.ver.axis.selectAll('line').style('stroke','black');
+	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.height());
 };
 
-r3.graph.prototype.finalize = function () { 
-	this.drawHorAxis();
+r3.graph.prototype.finalize = function () {
+	this.drawHorAxis(); 
 	this.drawVerAxis();
-	//console.log(this);
 };
 
 r3.graph.prototype.setMetadata = function () {
@@ -123,10 +123,6 @@ r3.graph.prototype.setMetadata = function () {
 	
 	return this;
 };
-
-//
-// New Approach to coding graphs
-//
 
 r3.graph.prototype.width = function (w) {
 	if(w) { 
@@ -202,11 +198,20 @@ r3.graph.prototype.maxim = function (max) {
 
 r3.graph.prototype.caption = function (caption) {
 	if(caption) {
-		this._caption = caption;
+		this.config.meta.caption = caption;
 		return this;
 	}
 	
-	return this._caption;
+	return this.config.meta.caption;
+}
+
+r3.graph.prototype._max = function (value) {
+	if(value) {
+		this.max = value;
+		return this;
+	}
+	
+	return this.max;
 }
 
 

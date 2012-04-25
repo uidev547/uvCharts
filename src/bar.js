@@ -1,11 +1,8 @@
 r3.bargraph = function (graphdef) {
-	r3.graph.apply(this, [graphdef]);
-	this.init(graphdef);
+	r3.graph.call(this); this.init(graphdef);
 	
 	this.bargroups = {};
-
-	var bargroup, bars,
-		domainData = this._labels;
+	var bargroup, bars, domainData = this._labels;
 
 	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(this._labels);
 
@@ -15,6 +12,7 @@ r3.bargraph = function (graphdef) {
 
 		var color = r3.util.getColorBand(this.config, idx);
 		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, color);
+		
 		if(this.graphdef.orientation === 'hor') {
 			bargroup.attr('transform','translate(0,' + idx*this.axes.ver.scale.rangeBand()/len + ')');
 		} else {
@@ -38,9 +36,9 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 		.attr('y', function (d) {return axes.ver.scale(d.name);})
 		.style('stroke','white')
 		.style('fill', color)
-		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill','red');})
+		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
 		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
-		.transition().duration(2000).delay(function(d,i){ return i*200;}).attr('width', function (d) { return axes.hor.scale(d.value);});
+		.transition().duration(800).delay(function(d,i){ return i*800;}).attr('width', function (d) { return axes.hor.scale(d.value);});
 
 /*	bars.append('text')
 		.attr('class', 'value')
@@ -63,7 +61,7 @@ r3.bargraph.prototype.drawVerBars = function (bars, len, color) {
 			.attr('y', function (d) {return axes.ver.scale(d.value);})
 			.style('stroke','white')
 			.style('fill', color)
-			.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill','red');})
+			.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
 			.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
 			.transition().duration(2000).attr('height', function (d) { return height - axes.ver.scale(d.value);});
 };

@@ -43,6 +43,10 @@ r3.config = {
 	
 	area : {
 		interpolation : 'linear'
+	},
+	
+	effects : {
+		hovercolor : 'red'
 	}
 };
 

@@ -38,21 +38,28 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.interpolate(r3.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.attr('class', 'linepath_' + this._categories[idx])				
-				.on('mouseover', function(){ d3.select(this).style('stroke','red');})
-				.on('mouseout', function() { d3.select(this).style('stroke', color);})
-				.style('fill','none').style('stroke', color)
-				.attr('d', linegroup.func);
+				.attr('class', 'linepath_' + this._categories[idx])
+				.attr('d', linegroup.func).style('fill','none').style('stroke', color).style('stroke-width',1.5)
+				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('circle').style('fill',r3.config.effects.hovercolor);
+					d3.select(this.parentNode).select('path').style('stroke',r3.config.effects.hovercolor);
+				})
+				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
+					d3.select(this.parentNode).select('path').style('stroke', color);
+				});
 
-	linegroup.path.selectAll('.dot')
+	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])
 				.enter().append('circle')
 				.attr('class', 'dot_' + this._categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5).style('fill','none').style('stroke', color)
-				.on('mouseover', function(){ d3.selectAll('.' + d3.select(this).attr('class')).style('fill','red');})
-				.on('mouseout', function() { d3.selectAll('.' + d3.select(this).attr('class')).style('fill','none');});
+				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('circle').style('fill',r3.config.effects.hovercolor);
+					d3.select(this.parentNode).select('path').style('stroke',r3.config.effects.hovercolor);
+				})
+				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
+					d3.select(this.parentNode).select('path').style('stroke', color);
+				});
 };
 
 r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
@@ -65,17 +72,25 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this._categories[idx])
-				.attr('d', linegroup.func).style('fill','none').style('stroke', color)
-				.on('mouseover', function(){ d3.select(this).style('stroke','red');})
-				.on('mouseout', function() { d3.select(this).style('stroke', color);});
-
-	linegroup.path.selectAll('.dot')
+				.attr('d', linegroup.func).style('fill','none').style('stroke', color).style('stroke-width',1.5)
+				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('circle').style('fill',r3.config.effects.hovercolor);
+					d3.select(this.parentNode).select('path').style('stroke',r3.config.effects.hovercolor);
+				})
+				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
+					d3.select(this.parentNode).select('path').style('stroke', color);
+				});
+				
+	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])
 				.enter().append('circle')
 				.attr('class', 'dot_' + this._categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5).style('fill','none').style('stroke', color)
-				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('.' + d3.select(this).attr('class')).style('fill','red');})
-				.on('mouseout', function() { d3.select(this.parentNode).selectAll('.' + d3.select(this).attr('class')).style('fill','none');});
+				.on('mouseover', function(){ d3.select(this.parentNode).selectAll('circle').style('fill',r3.config.effects.hovercolor);
+					d3.select(this.parentNode).select('path').style('stroke',r3.config.effects.hovercolor);
+				})
+				.on('mouseout', function() { d3.select(this.parentNode).selectAll('circle').style('fill','none');
+					d3.select(this.parentNode).select('path').style('stroke', color);
+				});
 };

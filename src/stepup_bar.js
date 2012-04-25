@@ -37,13 +37,14 @@ r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 	var axes = this.axes;
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand()/len)
-		.attr('width', function (d) { return axes.hor.scale(d.value);})
+		.attr('width', 0)
 		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value;})
 		.attr('y', function (d) {return axes.ver.scale(d.name);})
 		.style('stroke','white')
 		.style('fill', color)
-		.on('mouseover', function(){d3.select(this).style('fill','red');})
-		.on('mouseout', function(){d3.select(this).style('fill', color);});
+		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
+		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);})
+		.transition().duration(2000).attr('width', function (d) { return axes.hor.scale(d.value);}).ease();
 
 /*	bars.append('text')
 		.attr('class', 'value')
@@ -59,12 +60,12 @@ r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum, color) {
 	var height = this.height(), axes = this.axes;
 	bars.append('rect')
-			.attr('height', function (d) { return height - axes.ver.scale(d.value);})
-			.attr('width', axes.hor.scale.rangeBand()/len)
-			.attr('x', function (d) { return axes.hor.scale(d.name);})
-			.attr('y', function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);})
-			.style('stroke','white')
-			.style('fill', color)
-			.on('mouseover', function(){d3.select(this).style('fill','red');})
-			.on('mouseout', function(){d3.select(this).style('fill', color);});
+		.attr('height', function (d) { return height - axes.ver.scale(d.value);})
+		.attr('width', axes.hor.scale.rangeBand()/len)
+		.attr('x', function (d) { return axes.hor.scale(d.name);})
+		.attr('y', function (d, i) {  csum[i] += d.value; return axes.ver.scale(csum[i]);})
+		.style('stroke','white')
+		.style('fill', color)
+		.on('mouseover', function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',r3.config.effects.hovercolor);})
+		.on('mouseout',  function(){ d3.select(this.parentNode.parentNode).selectAll('rect').style('fill',color);});
 };
