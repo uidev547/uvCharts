@@ -3,6 +3,22 @@ r3.config = {
 		palette : 'Nature'
 	},
 	
+	meta : {
+		position : '#r3_div'
+	},
+	
+	dimension : {
+		width : 400,
+		height : 400
+	},
+
+	margin : {
+		top : 40,
+		bottom : 60,
+		left : 60,
+		right : 40
+	},
+	
 	axis : {
 		ticks : 8,
 		subticks : 1,

@@ -25,7 +25,7 @@ r3.areagraph.prototype = r3.util.extend(r3.graph);
 
 r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 	var axes = this.axes, color = r3.util.getColorBand(this.config, idx);
-	axes.ver.scale.rangePoints([0, this.dimension.height]);
+	axes.ver.scale.rangePoints([0, this.height()]);
 
 	areagroup.linefunc = d3.svg.line()
 				.x(function(d) { return axes.hor.scale(d.value); })
@@ -57,7 +57,7 @@ r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 
 r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
 	var axes = this.axes, color = r3.util.getColorBand(this.config, idx);
-	axes.hor.scale.rangePoints([0, this.dimension.width]);
+	axes.hor.scale.rangePoints([0, this.width()]);
 
 	areagroup.linefunc = d3.svg.line()
 				.x(function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })

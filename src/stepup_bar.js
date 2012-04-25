@@ -57,7 +57,7 @@ r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 };
 
 r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum, color) {
-	var height = this.dimension.height, axes = this.axes;
+	var height = this.height(), axes = this.axes;
 	bars.append('rect')
 			.attr('height', function (d) { return height - axes.ver.scale(d.value);})
 			.attr('width', axes.hor.scale.rangeBand()/len)

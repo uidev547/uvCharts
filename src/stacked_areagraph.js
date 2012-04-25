@@ -21,7 +21,7 @@ r3.stacked_areagraph.prototype = r3.util.extend(r3.graph);
 
 r3.stacked_areagraph.prototype.drawHorStackArea = function () {
 	var axes = this.axes, categories = this._categories, config = this.config;
-	axes.ver.scale.rangePoints([0, this.dimension.height]);
+	axes.ver.scale.rangePoints([0, this.height()]);
 
 	this.areapath = this.areagroup.append('path')
 					    .attr('class', function(d, i) { return 'areapath_' + categories[i];})
@@ -45,7 +45,7 @@ r3.stacked_areagraph.prototype.drawHorStackArea = function () {
 
 r3.stacked_areagraph.prototype.drawVerStackArea = function () {
 	var axes = this.axes, categories = this._categories, config = this.config;
-	axes.hor.scale.rangePoints([0, this.dimension.width]);
+	axes.hor.scale.rangePoints([0, this.width()]);
 	
 	this.areapath = this.areagroup.append('path')
 					    .attr('class', function(d, i) { return 'areapath_' + categories[i];})

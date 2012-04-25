@@ -56,7 +56,7 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 };
 
 r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
-	var axes = this.axes, height = this.dimension.height;
+	var axes = this.axes, height = this.height();
 
 	linegroup.func = d3.svg.line()
 				.x(function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })

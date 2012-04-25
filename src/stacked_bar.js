@@ -28,7 +28,7 @@ r3.stacked_bargraph = function (graphdef) {
 r3.stacked_bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, color) {
-	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
+	var width = this.width(), height = this.height(), axes = this.axes;
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
 		.attr('width', function (d) { return axes.hor.scale(d.value);})
@@ -51,7 +51,7 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, col
 };
 
 r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, color) {
-	var width = this.dimension.width, height = this.dimension.height, axes = this.axes;
+	var width = this.width(), height = this.height(), axes = this.axes;
 	bars.append('rect')
 			.attr('height', function (d) { return height - axes.ver.scale(d.value);})
 			.attr('width', axes.hor.scale.rangeBand())

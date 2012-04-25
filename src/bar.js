@@ -54,8 +54,8 @@ r3.bargraph.prototype.drawHorBars = function (bars, len, color) {
 };
 
 r3.bargraph.prototype.drawVerBars = function (bars, len, color) {
-	var height = this.dimension.height, axes = this.axes;
-	
+	var height = this.height(), axes = this.axes;
+
 	bars.append('rect')
 			.attr('height', 0)
 			.attr('width', axes.hor.scale.rangeBand()/len)

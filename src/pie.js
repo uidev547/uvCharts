@@ -2,11 +2,11 @@ r3.piegraph = function (graphdef) {
 	r3.graph.apply(this, [graphdef]);
 	this.init(graphdef);
 
-	this.outerRadius = Math.min(this.dimension.height, this.dimension.width)*2/5;
+	this.outerRadius = Math.min(this.height(), this.width())*2/5;
 	this.innerRadius = 0;
 	this.center = {
-		x : this.dimension.width/2,
-		y : this.dimension.height/2
+		x : this.width()/2,
+		y : this.height()/2
 	}
 	
 	this.category = graphdef.categories[0];
