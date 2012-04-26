@@ -6,4 +6,7 @@ init = function () {
 	
 	mydata.ungroupby('class');
 	mydata.log();
+	
+	mydata.select(['name','class','usage']);
+	mydata.log();
 };
