@@ -12,33 +12,33 @@ r3.constants.defaultHorGraphdef = {
 			{name: '2001', value: 60 },
 			{name: '2002', value: 70 },
 			{name: '2003', value: 80 },
-			{name: '2004', value: 90 },  
+			{name: '2004', value: 90 },
 			{name: '2005', value: 20 }
 		],
 		'Chrome' : [
-			{name: '2001', value: 10}, 
-			{name: '2002', value: 30}, 
+			{name: '2001', value: 10},
+			{name: '2002', value: 30},
 			{name: '2003', value: 50},
 			{name: '2004', value: 90},
 			{name: '2005', value: 70}
 		],
 		'Firefox': [
-			{name: '2001', value: 50}, 
-			{name: '2002', value: 150}, 
+			{name: '2001', value: 50},
+			{name: '2002', value: 150},
 			{name: '2003', value: 20},
 			{name: '2004', value: 80},
 			{name: '2005', value: 40}
 		],
 		'Opera': [
-			{name: '2001', value: 90}, 
-			{name: '2002', value: 60}, 
+			{name: '2001', value: 90},
+			{name: '2002', value: 60},
 			{name: '2003', value: 30},
 			{name: '2004', value: 10},
-			{name: '2005', value: 70},
-		], 
+			{name: '2005', value: 70}
+		],
 		'Safari' : [
-			{name: '2001', value: 30}, 
-			{name: '2002', value: 10}, 
+			{name: '2001', value: 30},
+			{name: '2002', value: 10},
 			{name: '2003', value: 60},
 			{name: '2004', value: 90},
 			{name: '2005', value: 40}
@@ -58,33 +58,33 @@ r3.constants.defaultVerGraphdef = {
 			{name: '2001', value: 60 },
 			{name: '2002', value: 70 },
 			{name: '2003', value: 80 },
-			{name: '2004', value: 90 },  
+			{name: '2004', value: 90 },
 			{name: '2005', value: 20 }
 		],
 		'Chrome' : [
-			{name: '2001', value: 10}, 
-			{name: '2002', value: 30}, 
+			{name: '2001', value: 10},
+			{name: '2002', value: 30},
 			{name: '2003', value: 50},
 			{name: '2004', value: 90},
 			{name: '2005', value: 70}
 		],
 		'Firefox': [
-			{name: '2001', value: 50}, 
-			{name: '2002', value: 150}, 
+			{name: '2001', value: 50},
+			{name: '2002', value: 150},
 			{name: '2003', value: 20},
 			{name: '2004', value: 80},
 			{name: '2005', value: 40}
 		],
 		'Opera': [
-			{name: '2001', value: 90}, 
-			{name: '2002', value: 60}, 
+			{name: '2001', value: 90},
+			{name: '2002', value: 60},
 			{name: '2003', value: 30},
 			{name: '2004', value: 10},
-			{name: '2005', value: 70},
-		], 
+			{name: '2005', value: 70}
+		],
 		'Safari' : [
-			{name: '2001', value: 30}, 
-			{name: '2002', value: 10}, 
+			{name: '2001', value: 30},
+			{name: '2002', value: 10},
 			{name: '2003', value: 60},
 			{name: '2004', value: 90},
 			{name: '2005', value: 40}
@@ -92,7 +92,7 @@ r3.constants.defaultVerGraphdef = {
 	}
 };
 
-r3.constants.class = {
+r3.constants.name = {
 	pos : 'r3_div',
 	frame : 'r3_frame',
 	panel : 'r3_panel',
@@ -115,5 +115,6 @@ r3.constants.palettes = {
     'Sea': ['#334433', '#6699aa', '#88aaaa', '#aacccc', '#447799'],
     'Lemon': ['#eebb00', '#ddaa00', '#eecc00', '#ffee11'],
     'Water': ['#2266bb', '#3388dd', '#55aaee', '#bbddee', '#113355'],
-    'Grass': ['#00AF64', '#36D729', '#61D7A4', '#007241']
+    'Grass': ['#00AF64', '#36D729', '#61D7A4', '#007241'],
+	'Hash' : ['tomato', 'yellowgreen', 'midnightblue', 'lightseagreen', 'gold', 'crimson']
 };

@@ -6,14 +6,14 @@ r3.areagraph = function (graphdef) {
 	this.areagroups = [];
 	this.dataset = r3.util.getDataArray(this.graphdef);
 
-	var areagroup, areapath, areafunc,
+	var areagroup, areapath, areafunc, idx, len,
 		domainData = this.graphdef.dataset[this.graphdef.categories[0]];
 
-	this.axes[this.graphdef.orientation === 'hor'?'ver':'hor'].scale.domain(domainData.map(function(d){ return d.name;}));
+	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData.map(function (d) { return d.name; }));
 
-	for(var idx=0, len=this.dataset.length; idx<len; idx++){		
-		areapath = this.panel.append('g').attr('class','area_' + idx).datum(this.dataset[idx]);
-		areagroup = { path: areapath, linefunc: undefined, areafunc: undefined ,line: undefined, area: undefined };
+	for (idx = 0, len = this.dataset.length; idx < len; idx = idx + 1) {
+		areapath = this.panel.append('g').attr('class', 'area_' + idx).datum(this.dataset[idx]);
+		areagroup = { path: areapath, linefunc: undefined, areafunc: undefined, line: undefined, area: undefined };
 		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Area'](areagroup, idx);
 		this.areagroups.push(areagroup);
 	}
@@ -28,8 +28,8 @@ r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 	axes.ver.scale.rangePoints([0, this.height()]);
 
 	areagroup.linefunc = d3.svg.line()
-				.x(function(d) { return axes.hor.scale(d.value); })
-				.y(function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
+				.x(function (d) { return axes.hor.scale(d.value); })
+				.y(function (d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand() / 2; })
 				.interpolate('linear');
 
 	areagroup.areafunc = d3.svg.area()
@@ -39,11 +39,11 @@ r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 
 	areagroup.area = areagroup.path.append('svg:path')
 				.attr('class', 'areapath_' + idx)
-				.attr('d', areagroup.areafunc).style('opacity',0.2).style('-moz-opacity',0.2).style('fill', color);
-	
+				.attr('d', areagroup.areafunc).style('opacity', 0.2).style('-moz-opacity', 0.2).style('fill', color);
+
 	areagroup.line = areagroup.path.append('svg:path')
 				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.linefunc).style('stroke','white').style('fill','none');
+				.attr('d', areagroup.linefunc).style('stroke', 'white').style('fill', 'none');
 
 	areagroup.path.selectAll('.dot')
 				.data(this.dataset[idx])
@@ -52,7 +52,7 @@ r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 				.attr('class', 'dot')
 				.attr('cx', areagroup.linefunc.x())
 				.attr('cy', areagroup.linefunc.y())
-				.attr('r', 3.5).style('fill','white');
+				.attr('r', 3.5).style('fill', 'white');
 };
 
 r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
@@ -60,8 +60,8 @@ r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
 	axes.hor.scale.rangePoints([0, this.width()]);
 
 	areagroup.linefunc = d3.svg.line()
-				.x(function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
-				.y(function(d) { return axes.ver.scale(d.value); })
+				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
+				.y(function (d) { return axes.ver.scale(d.value); })
 				.interpolate('linear');
 
 	areagroup.areafunc = d3.svg.area()
@@ -71,11 +71,11 @@ r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
 
 	areagroup.area = areagroup.path.append('svg:path')
 				.attr('class', 'areapath_' + idx)
-				.attr('d', areagroup.areafunc).style('opacity',0.2).style('-moz-opacity',0.2).style('fill', color);
+				.attr('d', areagroup.areafunc).style('opacity', 0.2).style('-moz-opacity', 0.2).style('fill', color);
 
 	areagroup.line = areagroup.path.append('svg:path')
 				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.linefunc).style('stroke','white').style('fill','none');
+				.attr('d', areagroup.linefunc).style('stroke', 'white').style('fill', 'none');
 
 	areagroup.path.selectAll('.dot')
 				.data(this.dataset[idx])
@@ -84,5 +84,5 @@ r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
 				.attr('class', 'dot')
 				.attr('cx', areagroup.linefunc.x())
 				.attr('cy', areagroup.linefunc.y())
-				.attr('r', 3.5).style('fill','white');
+				.attr('r', 3.5).style('fill', 'white');
 };

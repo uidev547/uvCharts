@@ -9,7 +9,7 @@ r3.table = function () {
 	this.bodyrows = {};
 };
 
-r3.table.prototype.init = function(graphdef) {
+r3.table.prototype.init = function (graphdef) {
 	this.graphdef = graphdef;
 	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
 
