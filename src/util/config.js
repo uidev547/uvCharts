@@ -1,6 +1,7 @@
 r3.config = {
 	graph : {
-		palette : 'Hash'
+		palette : 'Hash',
+		orientation : 'ver'
 	},
 
 	meta : {
@@ -8,8 +9,8 @@ r3.config = {
 	},
 
 	dimension : {
-		width : 200,
-		height : 200
+		width : 400,
+		height : 400
 	},
 
 	margin : {
@@ -35,6 +36,11 @@ r3.config = {
 		headerclass : 'r3_header',
 		bodyclass : 'r3_body',
 		footerclass : 'r3_footer'
+	},
+	
+	bar : {
+		strokecolor : 'none',
+		hovercolor : 'red'
 	},
 
 	line : {

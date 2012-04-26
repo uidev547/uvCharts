@@ -99,18 +99,20 @@ r3.graph.prototype.setVerAxis = function () {
 r3.graph.prototype.drawHorAxis = function () {
 	this.axes.hor.axis = this.axes.hor.group.append('g').call(this.axes.hor.func);
 	this.axes.hor.axis.selectAll('line').style('stroke', 'black');
-	this.axes.hor.line = this.axes.hor.group.append('line').attr('x1', '0').attr('x2', this.width());
 };
 
 r3.graph.prototype.drawVerAxis = function () {
 	this.axes.ver.axis = this.axes.ver.group.append('g').call(this.axes.ver.func);
 	this.axes.ver.axis.selectAll('line').style('stroke', 'black');
-	this.axes.ver.line = this.axes.ver.group.append('line').attr('y1', 0).attr('y2', this.height());
 };
 
 r3.graph.prototype.finalize = function () {
 	this.drawHorAxis();
 	this.drawVerAxis();
+	
+	this.axes.hor.line = this.panel.append('line').attr('class', r3.constants.name.horaxis).attr('y1', this.height()).attr('y2', this.height())
+								.attr('x1', '0').attr('x2', this.width());
+	this.axes.ver.line = this.panel.append('line').attr('class', r3.constants.name.veraxis).attr('y1', 0).attr('y2', this.height());
 };
 
 r3.graph.prototype.setMetadata = function () {

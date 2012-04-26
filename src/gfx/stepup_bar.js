@@ -5,25 +5,23 @@ r3.stepup_bargraph = function (graphdef) {
 
 	this.bargroups = {};
 
-	var bargroup, bars, idx, len,
-		domainData = this.labels,
-		csum = domainData.map(function (d) {return 0; }),
-		tsum = domainData.map(function (d) {return 0; });
+	var bargroup, bars, idx, length,
+		csum = this.labels.map(function (d) {return 0; });
 
-	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData);
+	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(this.labels);
 
-	for (idx = 0, len = this.categories.length; idx < len; idx = idx + 1) {
+	for (idx = 0, length = this.categories.length; idx < length; idx = idx + 1) {
 		bargroup = this.panel.append('g').attr('class', 'r3_bargroup');
+		this.bargroups[this.categories[idx]] = bargroup;
+		
 		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'stepupbar_' + this.categories[idx]);
 
-		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, len, csum, idx);
+		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, length, csum, idx);
 		if (this.graphdef.orientation === 'hor') {
-			bargroup.attr('transform', 'translate(0,' + idx * this.axes.ver.scale.rangeBand() / len + ')');
+			bargroup.attr('transform', 'translate(0,' + idx * this.axes.ver.scale.rangeBand() / length + ')');
 		} else {
-			bargroup.attr('transform', 'translate(' + idx * this.axes.hor.scale.rangeBand() / len + ',' + 2 * this.height() + ') scale(1,-1)');
-		}
-
-		this.bargroups[this.categories[idx]] = bargroup;
+			bargroup.attr('transform', 'translate(' + idx * this.axes.hor.scale.rangeBand() / length + ',' + 2 * this.height() + ') scale(1,-1)');
+		}		
 	}
 
 	this.finalize();
