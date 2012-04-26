@@ -25,6 +25,14 @@ path.area {
   shape-rendering: crispEdges;
 }
 
+.r3_horaxis > text {
+	font-family : 'Arial';
+}
+
+.r3_veraxis > text {
+	font-family : 'Arial';
+}
+
 .r3_horaxis path, .r3_veraxis path {
  fill: none;
   stroke: #000;

@@ -24,7 +24,10 @@ r3.config = {
 		ticks : 8,
 		subticks : 1,
 		padding : 5,
-		minor : -10
+		minor : -10,
+		strokecolor : '#000',
+		fontfamily : 'Ubuntu',
+		fontsize : '11'
 	},
 
 	scale : {
