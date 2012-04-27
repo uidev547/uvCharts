@@ -82,6 +82,6 @@ r3.util.getPascalCasedName = function (name) {
 };
 
 r3.util.getColorBand = function (config, index) {
-	var len = r3.constants.palettes[config.graph.palette].length;
-	return r3.constants.palettes[config.graph.palette][index % len];
+	var len = r3.palette[config.graph.palette].length;
+	return r3.palette[config.graph.palette][index % len];
 };
