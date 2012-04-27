@@ -16,7 +16,7 @@ r3.donutgraph = function (graphdef) {
 	this.arcfunc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
 	this.panel.data(this.data);
 
-	var color = d3.scale.category10(),
+	var config = this.config,
 		arc = this.arcfunc,
 		center = this.center;
 
@@ -26,7 +26,7 @@ r3.donutgraph = function (graphdef) {
 					.attr('transform', 'translate(' + this.center.x + ',' + this.center.y + ')');
 
 	this.arcs.append('path')
-	    .attr('fill', function (d, i) { return color(i); })
+	    .attr('fill', function (d, i) { return r3.util.getColorBand(config, i); })
 	    .attr('d', this.arcfunc)
 		.on('mouseover', function (d, i) {
 			var dev = {

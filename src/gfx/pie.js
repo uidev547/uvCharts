@@ -16,7 +16,9 @@ r3.piegraph = function (graphdef) {
 	this.arcfunc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
 	this.panel.data(this.data);
 
-	var color = d3.scale.category10(), arc = this.arcfunc, center = this.center;
+	var config = this.config,
+		arc = this.arcfunc,
+		center = this.center;
 
 	this.arcs = this.panel.selectAll('g.arc')
 					.data(this.layout).enter()
@@ -24,7 +26,7 @@ r3.piegraph = function (graphdef) {
 					.attr('transform', 'translate(' + this.center.x + ',' + this.center.y + ')');
 
 	this.arcpath = this.arcs.append('path')
-	    .attr('fill', function (d, i) { return color(i); }).attr('d', this.arcfunc)
+	    .attr('fill', function (d, i) { return r3.util.getColorBand(config, i); }).attr('d', this.arcfunc)
 		.on('mouseover', function (d, i) {
 			var dev = {
 				x : arc.centroid(d)[0] / 4,
