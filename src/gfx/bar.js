@@ -28,7 +28,6 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand() / len)
-		.attr('width', 0)
 		.attr('x', function (d) {return 0; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
 		.style('stroke', this.config.bar.strokecolor)
