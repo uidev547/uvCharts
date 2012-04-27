@@ -1,11 +1,13 @@
 r3.config = {
 	graph : {
-		palette : 'Hash',
-		orientation : 'ver'
+		palette : 'Soft',
+		orientation : 'ver',
+		background : 'white'
 	},
 
 	meta : {
-		position : '#r3_div'
+		position : '#r3_div',
+		caption : 'Usage of browsers by the years'
 	},
 
 	dimension : {
@@ -27,7 +29,8 @@ r3.config = {
 		minor : -10,
 		strokecolor : '#000',
 		fontfamily : 'Ubuntu',
-		fontsize : '11'
+		fontsize : '11',
+		fontweight : 'normal'
 	},
 
 	scale : {
@@ -43,7 +46,10 @@ r3.config = {
 	
 	bar : {
 		strokecolor : 'none',
-		hovercolor : 'red'
+		fontfamily : 'Arial',
+		fontsize : '10',
+		fontweight : 'bold',
+		textcolor : 'black'
 	},
 
 	line : {
@@ -53,9 +59,19 @@ r3.config = {
 	area : {
 		interpolation : 'linear'
 	},
+	
+	caption : {
+		fontfamily : 'Tahoma',
+		fontsize : '14',
+		fontweight : 'normal',
+		fontvariant : 'small-caps',
+		textdecoration : 'underline',
+		hovercolor : 'black'
+	},
 
 	effects : {
 		hovercolor : 'red',
+		strokecolor : 'white',
 		duration : 600
 	}
 };

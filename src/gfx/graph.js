@@ -22,14 +22,14 @@ r3.graph = function () {
 r3.graph.prototype.init = function (graphdef) {
 	this.graphdef = graphdef;
 	this.Max(this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef))
-		.position(r3.config.meta.position || ('#' + r3.constants.name.pos) || 'body');
+		.position(this.config.meta.position || ('#' + r3.constants.name.pos) || 'body');
 
-	this.setDimensions().setFrame().setPanel().setBackground().setMetadata().setHorAxis().setVerAxis();
+	this.setDimensions().setFrame().setPanel().setBackground().setCaption().setMetadata().setHorAxis().setVerAxis();
 };
 
 r3.graph.prototype.setDimensions = function () {
-	return this.height(r3.config.dimension.height).width(r3.config.dimension.width).top(r3.config.margin.top)
-			.bottom(r3.config.margin.bottom).left(r3.config.margin.left).right(r3.config.margin.right);
+	return this.height(this.config.dimension.height).width(this.config.dimension.width).top(this.config.margin.top)
+			.bottom(this.config.margin.bottom).left(this.config.margin.left).right(this.config.margin.right);
 };
 
 r3.graph.prototype.setFrame = function (className) {
@@ -60,24 +60,22 @@ r3.graph.prototype.setBackground = function (color) {
 		this.bg = this.panel.append('rect').attr('class', r3.constants.name.background).attr('height', this.height()).attr('width', this.width());
 	}
 
-	this.bg.style('fill', color || 'white');
+	this.bg.style('fill', color || this.config.graph.background);
 	return this;
 };
 
 r3.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
 	this.axes.hor.group = this.panel.append('g').attr('class', r3.constants.name.horaxis)
-								.style('font-family', this.config.axis.fontfamily)
-								.style('font-size', this.config.axis.fontsize)
 								.attr('transform', 'translate(0,' + this.height() + ')');
 
 	if (graphdef.orientation === 'hor') {
 		this.axes.hor.scale	= d3.scale.linear().domain([0, this.max + 1]).range([0, this.width()]).nice();
-		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(r3.config.axis.ticks).tickSize(-this.width(), r3.config.axis.minor, 0)
-			.tickPadding(r3.config.axis.padding).tickSubdivide(r3.config.axis.subticks).orient('bottom');
+		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(this.config.axis.ticks).tickSize(-this.width(), this.config.axis.minor, 0)
+			.tickPadding(this.config.axis.padding).tickSubdivide(this.config.axis.subticks).orient('bottom');
 	} else {
-		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands([0, this.width()], r3.config.scale.ordinality);
-		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).tickPadding(r3.config.axis.padding).orient('bottom');
+		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands([0, this.width()], this.config.scale.ordinality);
+		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).tickPadding(this.config.axis.padding).orient('bottom');
 	}
 
 	return this;
@@ -85,40 +83,82 @@ r3.graph.prototype.setHorAxis = function () {
 
 r3.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.ver.group = this.panel.append('g').attr('class', r3.constants.name.veraxis)
-								.style('font-family', this.config.axis.fontfamily)
-								.style('font-size', this.config.axis.fontsize);
+	this.axes.ver.group = this.panel.append('g').attr('class', r3.constants.name.veraxis);
 
 	if (graphdef.orientation === 'ver') {
 		this.axes.ver.scale	= d3.scale.linear().domain([this.max + 1, 0]).range([0, this.height()]).nice();
-		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).ticks(r3.config.axis.ticks).tickSize(-this.height(), r3.config.axis.minor, 0)
-			.tickPadding(r3.config.axis.padding).tickSubdivide(r3.config.axis.subticks).orient('left');
+		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).ticks(this.config.axis.ticks).tickSize(-this.height(), this.config.axis.minor, 0)
+			.tickPadding(this.config.axis.padding).tickSubdivide(this.config.axis.subticks).orient('left');
 	} else {
-		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands([0, this.height()], r3.config.scale.ordinality);
-		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).tickPadding(r3.config.axis.padding).orient('left');
+		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands([0, this.height()], this.config.scale.ordinality);
+		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).tickPadding(this.config.axis.padding).orient('left');
 	}
 
 	return this;
 };
 
 r3.graph.prototype.drawHorAxis = function () {
-	this.axes.hor.axis = this.axes.hor.group.append('g').call(this.axes.hor.func);
+	this.axes.hor.axis = this.axes.hor.group.append('g')
+								.style('font-family', this.config.axis.fontfamily)
+								.style('font-size', this.config.axis.fontsize)
+								.style('font-weight', this.config.axis.fontweight)
+								.call(this.axes.hor.func);
+	
 	this.axes.hor.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
 };
 
 r3.graph.prototype.drawVerAxis = function () {
-	this.axes.ver.axis = this.axes.ver.group.append('g').call(this.axes.ver.func);
+	this.axes.ver.axis = this.axes.ver.group.append('g')
+								.style('font-family', this.config.axis.fontfamily)
+								.style('font-size', this.config.axis.fontsize)
+								.style('font-weight', this.config.axis.fontweight)
+								.call(this.axes.ver.func);
+	
 	this.axes.ver.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+};
+
+r3.graph.prototype.setCaption = function () {
+	var config = this.config;
+	
+	this.panel.append('g').attr('class', 'r3_caption').append('text').attr('class', 'r3_captiontext')
+		.text(this.config.meta.caption)
+		.attr('y', - this.config.margin.top / 2)
+		.attr('x', this.config.dimension.width / 2)
+		.attr('text-anchor', 'middle')
+		.style('font-family', this.config.caption.fontfamily)
+		.style('font-size', this.config.caption.fontsize)
+		.style('font-weight', this.config.caption.fontweight)
+		.style('font-variant', this.config.caption.fontvariant)
+		.style('text-decoration', this.config.caption.textdecoration)
+		.on('mouseover', function () {
+			d3.select(this.parentNode).select('.' + r3.constants.name.background).style('fill', config.caption.hovercolor);
+		})
+		.on('mouseout', function () {
+			d3.select(this.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
+		});
+	
+	return this;
 };
 
 r3.graph.prototype.finalize = function () {
 	this.drawHorAxis();
 	this.drawVerAxis();
 	
-	this.axes.hor.line = this.panel.append('line').attr('class', r3.constants.name.horaxis).attr('y1', this.height()).attr('y2', this.height())
-								.attr('x1', '0').attr('x2', this.width()).style('stroke', this.config.axis.strokecolor);
-	this.axes.ver.line = this.panel.append('line').attr('class', r3.constants.name.veraxis).attr('y1', 0).attr('y2', this.height())
+	this.axes.hor.line = this.panel.append('line')
+								.attr('class', r3.constants.name.horaxis)
+								.attr('y1', this.height())
+								.attr('y2', this.height())
+								.attr('x1', '0')
+								.attr('x2', this.width())
 								.style('stroke', this.config.axis.strokecolor);
+	
+	this.axes.ver.line = this.panel.append('line')
+								.attr('class', r3.constants.name.veraxis)
+								.attr('y1', 0)
+								.attr('y2', this.height())
+								.style('stroke', this.config.axis.strokecolor);
+	
+	return this;
 };
 
 r3.graph.prototype.setMetadata = function () {
