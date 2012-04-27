@@ -66,7 +66,7 @@ r3.config = {
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
 		textdecoration : 'underline',
-		hovercolor : 'black'
+		hovercolor : 'dimgrey'
 	},
 
 	effects : {

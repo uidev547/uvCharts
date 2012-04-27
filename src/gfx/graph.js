@@ -131,10 +131,10 @@ r3.graph.prototype.setCaption = function () {
 		.style('font-variant', this.config.caption.fontvariant)
 		.style('text-decoration', this.config.caption.textdecoration)
 		.on('mouseover', function () {
-			d3.select(this.parentNode).select('.' + r3.constants.name.background).style('fill', config.caption.hovercolor);
+			d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.caption.hovercolor);
 		})
 		.on('mouseout', function () {
-			d3.select(this.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
+			d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
 		});
 	
 	return this;
