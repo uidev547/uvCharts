@@ -27,22 +27,33 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 	var axes = this.axes, color = r3.util.getColorBand(this.config, idx), config = this.config;
 	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
 	bars.append('rect')
-		.attr('height', axes.ver.scale.rangeBand() / len).attr('width', 0)
-		.attr('x', function (d) {return 0; }).attr('y', function (d) {return axes.ver.scale(d.name); })
-		.style('stroke', this.config.bar.strokecolor).style('fill', color)
-		.on('mouseover', function () { d3.select(this.parentNode.parentNode).selectAll('rect').style('fill', config.bar.hovercolor); })
-		.on('mouseout',  function () { d3.select(this.parentNode.parentNode).selectAll('rect').style('fill', color); })
-		.transition().duration(r3.config.effects.duration).delay(function (d, i) { return i * r3.config.effects.duration; }).attr('width', function (d) { return axes.hor.scale(d.value); });
+		.attr('height', axes.ver.scale.rangeBand() / len)
+		.attr('width', 0)
+		.attr('x', function (d) {return 0; })
+		.attr('y', function (d) {return axes.ver.scale(d.name); })
+		.style('stroke', this.config.bar.strokecolor)
+		.style('fill', color)
+		.on('mouseover', r3.effects.bar.mouseover(config))
+		.on('mouseout', r3.effects.bar.mouseout(config, color))
+		.transition()
+			.duration(r3.config.effects.duration)
+			.delay(function (d, i) { return i * r3.config.effects.duration; })
+			.attr('width', function (d) { return axes.hor.scale(d.value); });
 
-/*	bars.append('text')
-		.attr('class', 'value')
-		.attr('x', function(d) { return axes.hor.scale(d.value); })
+	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
-		.attr('dx', -4)
+		.attr('dx', 20)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
+		.style('fill', 'none')
+		.style('font-family', this.config.bar.fontfamily)
+		.style('font-size', this.config.bar.fontsize)
+		.style('font-weight', this.config.bar.fontweight)
 		.text(function(d) { return String(d.value); })
-		.style('fill','white');*/
+		.transition()
+			.duration(r3.config.effects.duration)
+			.delay(function (d, i) { return i * r3.config.effects.duration; })
+			.attr('x', function (d) { return axes.hor.scale(d.value); });
 };
 
 r3.bargraph.prototype.drawverBars = function (idx, len) {
@@ -53,7 +64,7 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 			.attr('height', 0).attr('width', axes.hor.scale.rangeBand() / len)
 			.attr('x', function (d) {return axes.hor.scale(d.name); }).attr('y', 0)
 			.style('stroke', this.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', function () { d3.select(this.parentNode.parentNode).selectAll('rect').style('fill', config.bar.hovercolor); })
-			.on('mouseout',  function () { d3.select(this.parentNode.parentNode).selectAll('rect').style('fill', color); })
+			.on('mouseover', r3.effects.bar.mouseover(config))
+			.on('mouseout', r3.effects.bar.mouseout(config, color))
 			.transition().duration(r3.config.effects.duration).delay(idx * r3.config.effects.duration).attr('height', function (d) { return height - axes.ver.scale(d.value); });
 };
