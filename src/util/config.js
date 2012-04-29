@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Bright',
+		palette : 'Sulphide',
 		orientation : 'ver',
 		background : 'white'
 	},
@@ -68,11 +68,19 @@ r3.config = {
 		textdecoration : 'underline',
 		hovercolor : 'dimgrey'
 	},
+	
+	legend : {
+		fontfamily : 'Consolas',
+		fontsize : '12',
+		fontweight : 'normal',
+		textmargin : 15,
+		symbolsize : 10
+	},
 
 	effects : {
 		hovercolor : 'red',
 		strokecolor : 'white',
-		duration : 600
+		duration : 1000
 	}
 };
 

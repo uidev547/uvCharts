@@ -128,24 +128,24 @@ r3.graph.prototype.drawLegends = function () {
 	this.legendgroup = this.panel.append('g').attr('class','r3_legends')
 						.attr('transform', 'translate(' + xorg + ',' + yorg + ')');
 	
-	this.legends = this.legendgroup.selectAll('g').data(this.categories).enter().append('g')
-						.attr('transform', function (d,i) { return 'translate(10,' + 10*(2*i+1) + ')'; });
+	this.legends = this.legendgroup.selectAll('g').data(categories).enter().append('g')
+						.attr('transform', function (d,i) { return 'translate(10,' + 10*(2*i-1) + ')'; });
 	
 	this.legends.attr('class', function (d, i) { return 'r3_legend_' + categories[i]; })
-				.append('rect')
-				.attr('height', 10)
-				.attr('width', 10)
+				.append('rect').attr('class','r3_legendsign')
+				.attr('height', this.config.legend.symbolsize)
+				.attr('width', this.config.legend.symbolsize)
 				.style('fill', function (d, i) { return r3.util.getColorBand(config, i);})
 				.style('stroke', 'none');
 	
 	this.legends.append('text').attr('class','r3_legendtext')
 				.text( function (d,i) { return categories[i]; })
-				.attr('dx', 20)
+				.attr('dx', this.config.legend.textmargin)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'start')
-				.style('font-family', this.config.caption.fontfamily)
-				.style('font-size', this.config.caption.fontsize)
-				.style('font-weight', this.config.caption.fontweight);
+				.style('font-family', this.config.legend.fontfamily)
+				.style('font-size', this.config.legend.fontsize)
+				.style('font-weight', this.config.legend.fontweight);
 	
 	return this;
 };
