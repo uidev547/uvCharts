@@ -105,6 +105,7 @@ r3.graph.prototype.drawHorAxis = function () {
 								.call(this.axes.hor.func);
 	
 	this.axes.hor.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+	return this;
 };
 
 r3.graph.prototype.drawVerAxis = function () {
@@ -115,6 +116,38 @@ r3.graph.prototype.drawVerAxis = function () {
 								.call(this.axes.ver.func);
 	
 	this.axes.ver.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+	return this;
+};
+
+r3.graph.prototype.drawLegends = function () {
+	var xorg = this.config.dimension.width,
+		yorg = 10,
+		categories = this.categories,
+		config = this.config;
+		
+	this.legendgroup = this.panel.append('g').attr('class','r3_legends')
+						.attr('transform', 'translate(' + xorg + ',' + yorg + ')');
+	
+	this.legends = this.legendgroup.selectAll('g').data(this.categories).enter().append('g')
+						.attr('transform', function (d,i) { return 'translate(10,' + 10*(2*i+1) + ')'; });
+	
+	this.legends.attr('class', function (d, i) { return 'r3_legend_' + categories[i]; })
+				.append('rect')
+				.attr('height', 10)
+				.attr('width', 10)
+				.style('fill', function (d, i) { return r3.util.getColorBand(config, i);})
+				.style('stroke', 'none');
+	
+	this.legends.append('text').attr('class','r3_legendtext')
+				.text( function (d,i) { return categories[i]; })
+				.attr('dx', 20)
+				.attr('dy', '.71em')
+				.attr('text-anchor', 'start')
+				.style('font-family', this.config.caption.fontfamily)
+				.style('font-size', this.config.caption.fontsize)
+				.style('font-weight', this.config.caption.fontweight);
+	
+	return this;
 };
 
 r3.graph.prototype.setCaption = function () {
@@ -141,8 +174,7 @@ r3.graph.prototype.setCaption = function () {
 };
 
 r3.graph.prototype.finalize = function () {
-	this.drawHorAxis();
-	this.drawVerAxis();
+	this.drawHorAxis().drawVerAxis().drawLegends();
 	
 	this.axes.hor.line = this.panel.append('line')
 								.attr('class', r3.constants.name.horaxis)
@@ -157,7 +189,7 @@ r3.graph.prototype.finalize = function () {
 								.attr('y1', 0)
 								.attr('y2', this.height())
 								.style('stroke', this.config.axis.strokecolor);
-	
+
 	return this;
 };
 

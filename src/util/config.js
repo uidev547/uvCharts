@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Soft',
+		palette : 'Bright',
 		orientation : 'ver',
 		background : 'white'
 	},
@@ -19,7 +19,7 @@ r3.config = {
 		top : 40,
 		bottom : 60,
 		left : 60,
-		right : 40
+		right : 100
 	},
 
 	axis : {
@@ -53,11 +53,11 @@ r3.config = {
 	},
 
 	line : {
-		interpolation : 'linear'
+		interpolation : 'basis'
 	},
 
 	area : {
-		interpolation : 'linear'
+		interpolation : 'basis'
 	},
 	
 	caption : {
