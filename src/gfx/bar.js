@@ -28,7 +28,7 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand() / len)
-		.attr('x', function (d) {return 0; })
+		.attr('x', 0)
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
 		.style('stroke', this.config.bar.strokecolor)
 		.style('fill', color)
@@ -41,9 +41,9 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
-		.attr('dx', 20)
+		.attr('dx', 2)
 		.attr('dy', '.35em')
-		.attr('text-anchor', 'end')
+		.attr('text-anchor', 'start')
 		.style('fill', 'none')
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)

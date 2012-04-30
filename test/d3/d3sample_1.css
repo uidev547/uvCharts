@@ -57,3 +57,8 @@ path.area {
   background-color: lavender;
 }
 
+text .horizontal_label {
+	-moz-transform : rotate(-90deg);
+	-webkit-transform : rotate(-90deg);
+}
+

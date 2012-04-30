@@ -17,8 +17,8 @@ r3.config = {
 
 	margin : {
 		top : 40,
-		bottom : 60,
-		left : 60,
+		bottom : 90,
+		left : 100,
 		right : 100
 	},
 
@@ -70,7 +70,7 @@ r3.config = {
 	},
 	
 	legend : {
-		fontfamily : 'Consolas',
+		fontfamily : 'Ubuntu',
 		fontsize : '12',
 		fontweight : 'normal',
 		textmargin : 15,
@@ -79,7 +79,7 @@ r3.config = {
 
 	effects : {
 		hovercolor : 'red',
-		strokecolor : 'white',
+		strokecolor : 'none',
 		duration : 1000
 	}
 };

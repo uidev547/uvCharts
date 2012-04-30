@@ -14,8 +14,8 @@ r3.graph = function () {
 	this.categories = undefined;
 
 	this.axes = {
-		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined },
-		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined }
+		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined },
+		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined }
 	};
 };
 
@@ -105,6 +105,21 @@ r3.graph.prototype.drawHorAxis = function () {
 								.call(this.axes.hor.func);
 	
 	this.axes.hor.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+	
+	this.axes.hor.line = this.panel.append('line')
+								.attr('class', r3.constants.name.horaxis)
+								.attr('y1', this.height())
+								.attr('y2', this.height())
+								.attr('x1', '0')
+								.attr('x2', this.width())
+								.style('stroke', this.config.axis.strokecolor);
+	/*
+	this.axes.hor.label = this.axes.hor.group.append('text').attr('display','block')
+								.attr('x', this.width()/2)
+								.attr('y', this.config.margin.bottom/2)
+								.attr('text-anchor','middle')
+								.text('Horizontal Axis Label');
+	*/
 	return this;
 };
 
@@ -116,6 +131,25 @@ r3.graph.prototype.drawVerAxis = function () {
 								.call(this.axes.ver.func);
 	
 	this.axes.ver.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+	
+	this.axes.ver.line = this.panel.append('line')
+								.attr('class', r3.constants.name.veraxis)
+								.attr('y1', 0)
+								.attr('y2', this.height())
+								.style('stroke', this.config.axis.strokecolor);
+	/*
+	this.axes.ver.label = this.axes.ver.group.append('text')
+								.attr('x', -4*this.config.margin.left/5)
+								.attr('y', this.height()/2)
+								.attr('transform','rotate(90deg)')
+								.style('writing-mode','tb-rl')
+								.style('-o-tranform','rotate(270deg)')
+								.style('-moz-tranform','rotate(270deg)')
+								.style('-webkit-tranform','rotate(270deg)')
+								.style('tranform','rotate(270deg)')
+								.attr('text-anchor', 'middle')
+								.text('Vertical Axis Label');
+	*/
 	return this;
 };
 
@@ -175,21 +209,6 @@ r3.graph.prototype.setCaption = function () {
 
 r3.graph.prototype.finalize = function () {
 	this.drawHorAxis().drawVerAxis().drawLegends();
-	
-	this.axes.hor.line = this.panel.append('line')
-								.attr('class', r3.constants.name.horaxis)
-								.attr('y1', this.height())
-								.attr('y2', this.height())
-								.attr('x1', '0')
-								.attr('x2', this.width())
-								.style('stroke', this.config.axis.strokecolor);
-	
-	this.axes.ver.line = this.panel.append('line')
-								.attr('class', r3.constants.name.veraxis)
-								.attr('y1', 0)
-								.attr('y2', this.height())
-								.style('stroke', this.config.axis.strokecolor);
-
 	return this;
 };
 
