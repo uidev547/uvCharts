@@ -41,7 +41,7 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
-		.attr('dx', 2)
+		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.style('fill', 'none')
