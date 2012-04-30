@@ -57,7 +57,7 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, idx
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? String(d.value) : null; })
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
@@ -82,16 +82,16 @@ r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, idx
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
-		.attr('y', -height + 10)
+		.attr('y', -height + 5)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.style('fill', 'none')
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? String(d.value) : null; })
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
-			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 10; });
+			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
 };

@@ -78,8 +78,8 @@ r3.config = {
 	caption : {
 		fontfamily : 'Tahoma',
 		fontsize : '14',
-		fontweight : 'normal',
-		fontvariant : 'small-caps',
+		fontweight : 'bold',
+		fontvariant : 'caps',
 		textdecoration : 'underline',
 		hovercolor : 'dimgrey'
 	},
@@ -95,7 +95,8 @@ r3.config = {
 	effects : {
 		hovercolor : 'red',
 		strokecolor : 'none',
-		duration : 1000
+		textcolor : 'black',
+		duration : 800
 	}
 };
 
