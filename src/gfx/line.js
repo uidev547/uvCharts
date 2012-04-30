@@ -39,10 +39,17 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this.categories[idx])
-				.attr('d', linegroup.func).style('fill', 'none').style('stroke', color).style('stroke-width', 1.5).style('stroke-opacity', 0.001)
+				.attr('d', linegroup.func)
+				.style('fill', 'none')
+				.style('stroke', color)
+				.style('stroke-width', 1.5)
+				.style('stroke-opacity', 0.001)
 				.on('mouseover', r3.effects.line.mouseover(config))
 				.on('mouseout', r3.effects.line.mouseout(config, color))
-				.transition().duration(3 * r3.config.effects.duration).delay(2 * idx * r3.config.effects.duration).style('stroke-opacity', 1);
+				.transition()
+					.duration(3 * r3.config.effects.duration)
+					.delay(2 * idx * r3.config.effects.duration)
+					.style('stroke-opacity', 1);
 
 	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])
@@ -50,7 +57,9 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.attr('class', 'dot_' + this.categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
-				.attr('r', 3.5).style('fill', 'none').style('stroke', color)
+				.attr('r', 3.5)
+				.style('fill', 'none')
+				.style('stroke', color)
 				.on('mouseover', r3.effects.line.mouseover(config))
 				.on('mouseout', r3.effects.line.mouseout(config, color));
 	
@@ -80,10 +89,17 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this.categories[idx])
-				.attr('d', linegroup.func).style('fill', 'none').style('stroke', color).style('stroke-width', 1.5).style('stroke-opacity', 0.001)
+				.attr('d', linegroup.func)
+				.style('fill', 'none')
+				.style('stroke', color)
+				.style('stroke-width', 1.5)
+				.style('stroke-opacity', 0.001)
 				.on('mouseover', r3.effects.line.mouseover(config))
 				.on('mouseout', r3.effects.line.mouseout(config, color))
-				.transition().duration(r3.config.effects.duration).delay(2 * idx * r3.config.effects.duration).style('stroke-opacity', 1);
+				.transition()
+					.duration(r3.config.effects.duration)
+					.delay(2 * idx * r3.config.effects.duration)
+					.style('stroke-opacity', 1);
 
 	linegroup.path.selectAll('circle')
 				.data(this.dataset[idx])
@@ -91,7 +107,8 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.attr('class', 'dot_' + this.categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
-				.attr('r', 3.5).style('fill', 'none').style('stroke', color)
+				.attr('r', 3.5).style('fill', 'none')
+				.style('stroke', color)
 				.on('mouseover', r3.effects.line.mouseover(config))
 				.on('mouseout', r3.effects.line.mouseout(config, color));
 	
@@ -99,7 +116,7 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.data(this.dataset[idx])
 				.enter().append('text')
 				.attr('x', function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
-				.attr('y', function (d) { return axes.ver.scale(d.value) + 10; })
+				.attr('y', function (d) { return axes.ver.scale(d.value) - 20; })
 				.attr('dx', 0)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'middle')
