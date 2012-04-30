@@ -60,10 +60,31 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 	
 	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
 	bars.append('rect')
-			.attr('height', 0).attr('width', axes.hor.scale.rangeBand() / len)
-			.attr('x', function (d) {return axes.hor.scale(d.name); }).attr('y', 0)
+			.attr('height', 0)
+			.attr('width', axes.hor.scale.rangeBand() / len)
+			.attr('x', function (d) {return axes.hor.scale(d.name); })
+			.attr('y', 0)
 			.style('stroke', this.config.bar.strokecolor).style('fill', color)
 			.on('mouseover', r3.effects.bar.mouseover(config))
 			.on('mouseout', r3.effects.bar.mouseout(config, color))
-			.transition().duration(r3.config.effects.duration).delay(idx * r3.config.effects.duration).attr('height', function (d) { return height - axes.ver.scale(d.value); });
+			.transition()
+				.duration(r3.config.effects.duration)
+				.delay(idx * r3.config.effects.duration)
+				.attr('height', function (d) { return height - axes.ver.scale(d.value); });
+	
+	bars.append('text').attr('transform','scale(1,-1)')
+			.attr('x', function(d) { return axes.hor.scale(d.name) + (axes.hor.scale.rangeBand()/len)/2; })
+			.attr('y', -10)
+			.attr('dx', 0)
+			.attr('dy', '.35em')
+			.attr('text-anchor', 'middle')
+			.style('fill', 'none')
+			.style('font-family', this.config.bar.fontfamily)
+			.style('font-size', this.config.bar.fontsize)
+			.style('font-weight', this.config.bar.fontweight)
+			.text(function(d) { return String(d.value); })
+			.transition()
+				.duration(r3.config.effects.duration)
+				.delay(idx * r3.config.effects.duration)
+				.attr('y', function (d) { return -(height - axes.ver.scale(d.value)) - 10; });
 };
