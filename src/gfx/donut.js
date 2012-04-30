@@ -46,6 +46,11 @@ r3.donutgraph = function (graphdef) {
 	    .attr('dy', '.35em')
 	    .attr('text-anchor', 'middle')
 	    .attr('display', function (d) { return d.value > 0.15 ? null : 'none'; })
+	    .style('fill', this.config.donut.fontfill)
+	    .style('font-family', this.config.donut.fontfamily)
+	    .style('font-size', this.config.donut.fontsize)
+	    .style('font-weight', this.config.donut.fontweight)
+	    .style('font-variant', this.config.donut.fontvariant)
 	    .text(function (d, i) { return d.value; });
 
 	console.log(this);

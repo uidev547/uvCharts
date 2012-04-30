@@ -44,7 +44,11 @@ r3.piegraph = function (graphdef) {
 	    .attr('dy', '.35em')
 	    .attr('text-anchor', 'middle')
 	    .attr('display', function (d) { return d.value > 15 ? null : 'none'; })
-	    .attr('color', 'white')
+	    .style('fill', this.config.pie.fontfill)
+	    .style('font-family', this.config.pie.fontfamily)
+	    .style('font-size', this.config.pie.fontsize)
+	    .style('font-weight', this.config.pie.fontweight)
+	    .style('font-variant', this.config.pie.fontvariant)
 	    .text(function (d, i) { return d.value; });
 
 	console.log(this);
