@@ -66,8 +66,10 @@ r3.graph.prototype.setBackground = function (color) {
 
 r3.graph.prototype.setHorAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.hor.group = this.panel.append('g').attr('class', r3.constants.name.horaxis)
-								.attr('transform', 'translate(0,' + this.height() + ')');
+	if (this.axes.hor.group === undefined) {
+		this.axes.hor.group = this.panel.append('g').attr('class', r3.constants.name.horaxis)
+									.attr('transform', 'translate(0,' + this.height() + ')');
+	}
 
 	if (graphdef.orientation === 'hor') {
 		this.axes.hor.scale	= d3.scale.linear().domain([0, this.max + 1]).range([0, this.width()]).nice();
@@ -83,7 +85,9 @@ r3.graph.prototype.setHorAxis = function () {
 
 r3.graph.prototype.setVerAxis = function () {
 	var graphdef = this.graphdef;
-	this.axes.ver.group = this.panel.append('g').attr('class', r3.constants.name.veraxis);
+	if (this.axes.ver.group === undefined) {
+		this.axes.ver.group = this.panel.append('g').attr('class', r3.constants.name.veraxis);
+	}
 
 	if (graphdef.orientation === 'ver') {
 		this.axes.ver.scale	= d3.scale.linear().domain([this.max + 1, 0]).range([0, this.height()]).nice();
@@ -103,9 +107,9 @@ r3.graph.prototype.drawHorAxis = function () {
 								.style('font-size', this.config.axis.fontsize)
 								.style('font-weight', this.config.axis.fontweight)
 								.call(this.axes.hor.func);
-	
+
 	this.axes.hor.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
-	
+
 	this.axes.hor.line = this.panel.append('line')
 								.attr('class', r3.constants.name.horaxis)
 								.attr('y1', this.height())
@@ -129,9 +133,9 @@ r3.graph.prototype.drawVerAxis = function () {
 								.style('font-size', this.config.axis.fontsize)
 								.style('font-weight', this.config.axis.fontweight)
 								.call(this.axes.ver.func);
-	
+
 	this.axes.ver.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
-	
+
 	this.axes.ver.line = this.panel.append('line')
 								.attr('class', r3.constants.name.veraxis)
 								.attr('y1', 0)
@@ -153,43 +157,43 @@ r3.graph.prototype.drawVerAxis = function () {
 	return this;
 };
 
-r3.graph.prototype.drawLegends = function () {
+r3.graph.prototype.setLegend = function () {
 	var xorg = this.config.dimension.width,
 		yorg = 10,
 		categories = this.categories,
 		config = this.config;
-		
-	this.legendgroup = this.panel.append('g').attr('class','r3_legends')
+
+	this.legendgroup = this.panel.append('g').attr('class', 'r3_legend')
 						.attr('transform', 'translate(' + xorg + ',' + yorg + ')');
-	
+
 	this.legends = this.legendgroup.selectAll('g').data(categories).enter().append('g')
-						.attr('transform', function (d,i) { return 'translate(10,' + 10*(2*i-1) + ')'; });
-	
+						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; });
+
 	this.legends.attr('class', function (d, i) { return 'r3_legend_' + categories[i]; })
-				.append('rect').attr('class','r3_legendsign')
+				.append('rect').attr('class', 'r3_legendsign')
 				.attr('height', this.config.legend.symbolsize)
 				.attr('width', this.config.legend.symbolsize)
-				.style('fill', function (d, i) { return r3.util.getColorBand(config, i);})
+				.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
 				.style('stroke', 'none');
-	
-	this.legends.append('text').attr('class','r3_legendtext')
-				.text( function (d,i) { return categories[i]; })
+
+	this.legends.append('text').attr('class', 'r3_legendtext')
+				.text(function (d, i) { return categories[i]; })
 				.attr('dx', this.config.legend.textmargin)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'start')
 				.style('font-family', this.config.legend.fontfamily)
 				.style('font-size', this.config.legend.fontsize)
 				.style('font-weight', this.config.legend.fontweight);
-	
+
 	return this;
 };
 
 r3.graph.prototype.setCaption = function () {
 	var config = this.config;
-	
+
 	this.panel.append('g').attr('class', 'r3_caption').append('text').attr('class', 'r3_captiontext')
 		.text(this.config.meta.caption)
-		.attr('y', - this.config.margin.top / 2)
+		.attr('y', -this.config.margin.top / 2)
 		.attr('x', this.config.dimension.width / 2)
 		.attr('text-anchor', 'middle')
 		.style('font-family', this.config.caption.fontfamily)
@@ -203,18 +207,46 @@ r3.graph.prototype.setCaption = function () {
 		.on('mouseout', function () {
 			d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
 		});
-	
+
 	return this;
 };
 
 r3.graph.prototype.finalize = function () {
-	this.drawHorAxis().drawVerAxis().drawLegends();
+	this.drawHorAxis().drawVerAxis().setLegend();
 	return this;
 };
 
 r3.graph.prototype.setMetadata = function () {
 	this.labels = r3.util.getLabelArray(this.graphdef);
 	this.categories = r3.util.getCategoryArray(this.graphdef);
+	return this;
+};
+
+r3.graph.prototype.remove = function () {
+	this.frame.remove(); return this;
+};
+
+r3.graph.prototype.removeCaption = function () {
+	this.panel.selectAll('g.r3_caption').remove(); return this;
+};
+
+r3.graph.prototype.removeLegend = function () {
+	this.panel.selectAll('g.r3_legend').remove(); return this;
+};
+
+r3.graph.prototype.removePanel = function () {
+	this.panel.remove(); return this;
+};
+
+r3.graph.prototype.removeHorAxis = function () {
+	this.panel.selectAll('g.' + r3.constants.name.horaxis + " > *").remove();
+	this.panel.selectAll('line.' + r3.constants.name.horaxis).remove();
+	return this;
+};
+
+r3.graph.prototype.removeVerAxis = function () {
+	this.panel.selectAll('g.' + r3.constants.name.veraxis + " > *").remove();
+	this.panel.selectAll('line.' + r3.constants.name.veraxis).remove();
 	return this;
 };
 
@@ -307,6 +339,7 @@ r3.graph.prototype.Max = function (value) {
 
 	return this.max;
 };
+
 
 
 
