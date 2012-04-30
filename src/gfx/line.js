@@ -30,7 +30,7 @@ r3.linegraph = function (graphdef) {
 r3.linegraph.prototype = r3.util.extend(r3.graph);
 
 r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
-	var axes = this.axes;
+	var axes = this.axes, config = this.config;
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
@@ -40,12 +40,8 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this.categories[idx])
 				.attr('d', linegroup.func).style('fill', 'none').style('stroke', color).style('stroke-width', 1.5).style('stroke-opacity', 0.001)
-				.on('mouseover', function () { d3.select(this.parentNode).selectAll('circle').style('fill', r3.config.effects.hovercolor);
-					d3.select(this.parentNode).select('path').style('stroke', r3.config.effects.hovercolor);
-				})
-				.on('mouseout', function () { d3.select(this.parentNode).selectAll('circle').style('fill', 'none');
-					d3.select(this.parentNode).select('path').style('stroke', color);
-				})
+				.on('mouseover', r3.effects.line.mouseover(config))
+				.on('mouseout', r3.effects.line.mouseout(config, color))
 				.transition().duration(3 * r3.config.effects.duration).delay(2 * idx * r3.config.effects.duration).style('stroke-opacity', 1);
 
 	linegroup.path.selectAll('circle')
@@ -55,16 +51,27 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5).style('fill', 'none').style('stroke', color)
-				.on('mouseover', function () { d3.select(this.parentNode).selectAll('circle').style('fill', r3.config.effects.hovercolor);
-					d3.select(this.parentNode).select('path').style('stroke', r3.config.effects.hovercolor);
-				})
-				.on('mouseout', function () { d3.select(this.parentNode).selectAll('circle').style('fill', 'none');
-					d3.select(this.parentNode).select('path').style('stroke', color);
-				});
+				.on('mouseover', r3.effects.line.mouseover(config))
+				.on('mouseout', r3.effects.line.mouseout(config, color));
+	
+	linegroup.path.selectAll('text')
+				.data(this.dataset[idx])
+				.enter().append('text')
+				.attr('x', function (d) { return axes.hor.scale(d.value); })
+				.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
+				.attr('dx', 10)
+				.attr('dy', '.35em')
+				.attr('text-anchor', 'start')
+				.style('fill', 'none')
+				.style('font-family', this.config.bar.fontfamily)
+				.style('font-size', this.config.bar.fontsize)
+				.style('font-weight', this.config.bar.fontweight)
+				.text(function(d) { return String(d.value); });
+					
 };
 
 r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
-	var axes = this.axes, height = this.height();
+	var axes = this.axes, height = this.height(), config = this.config;
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
@@ -74,12 +81,8 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 	linegroup.path.append('path')
 				.attr('class', 'linepath_' + this.categories[idx])
 				.attr('d', linegroup.func).style('fill', 'none').style('stroke', color).style('stroke-width', 1.5).style('stroke-opacity', 0.001)
-				.on('mouseover', function () { d3.select(this.parentNode).selectAll('circle').style('fill', r3.config.effects.hovercolor);
-					d3.select(this.parentNode).select('path').style('stroke', r3.config.effects.hovercolor);
-				})
-				.on('mouseout', function () { d3.select(this.parentNode).selectAll('circle').style('fill', 'none');
-					d3.select(this.parentNode).select('path').style('stroke', color);
-				})
+				.on('mouseover', r3.effects.line.mouseover(config))
+				.on('mouseout', r3.effects.line.mouseout(config, color))
 				.transition().duration(r3.config.effects.duration).delay(2 * idx * r3.config.effects.duration).style('stroke-opacity', 1);
 
 	linegroup.path.selectAll('circle')
@@ -89,10 +92,20 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5).style('fill', 'none').style('stroke', color)
-				.on('mouseover', function () { d3.select(this.parentNode).selectAll('circle').style('fill', r3.config.effects.hovercolor).style('stroke', r3.config.effects.hovercolor);
-					d3.select(this.parentNode).select('path').style('stroke', r3.config.effects.hovercolor);
-				})
-				.on('mouseout', function () { d3.select(this.parentNode).selectAll('circle').style('fill', 'none').style('stroke', color);
-					d3.select(this.parentNode).select('path').style('stroke', color);
-				});
+				.on('mouseover', r3.effects.line.mouseover(config))
+				.on('mouseout', r3.effects.line.mouseout(config, color));
+	
+	linegroup.path.selectAll('text')
+				.data(this.dataset[idx])
+				.enter().append('text')
+				.attr('x', function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
+				.attr('y', function (d) { return axes.ver.scale(d.value) + 10; })
+				.attr('dx', 0)
+				.attr('dy', '.71em')
+				.attr('text-anchor', 'middle')
+				.style('fill', 'none')
+				.style('font-family', this.config.bar.fontfamily)
+				.style('font-size', this.config.bar.fontsize)
+				.style('font-weight', this.config.bar.fontweight)
+				.text(function(d) { return String(d.value); });
 };

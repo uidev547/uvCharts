@@ -1,7 +1,6 @@
 r3.config = {
 	graph : {
 		palette : 'Sulphide',
-		orientation : 'ver',
 		background : 'white'
 	},
 
@@ -53,11 +52,11 @@ r3.config = {
 	},
 
 	line : {
-		interpolation : 'basis'
+		interpolation : 'linear'
 	},
 
 	area : {
-		interpolation : 'basis'
+		interpolation : 'linear'
 	},
 	
 	caption : {

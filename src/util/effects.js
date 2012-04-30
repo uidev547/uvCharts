@@ -22,3 +22,20 @@ r3.effects.bar.mouseout = function (config, color) {
 			.style('fill', 'none');
 	}
 };
+
+r3.effects.line = {};
+r3.effects.line.mouseover = function (config) {
+	return function () {
+		d3.select(this.parentNode).selectAll('circle').style('fill', config.effects.hovercolor);
+		d3.select(this.parentNode).select('path').style('stroke', config.effects.hovercolor);
+		d3.select(this.parentNode).selectAll('text').style('fill', config.effects.hovercolor);
+	};
+};
+
+r3.effects.line.mouseout = function (config, color) {
+	return function () {
+		d3.select(this.parentNode).selectAll('circle').style('fill', 'none');
+		d3.select(this.parentNode).select('path').style('stroke', color);
+		d3.select(this.parentNode).selectAll('text').style('fill', 'none');
+	};
+};
