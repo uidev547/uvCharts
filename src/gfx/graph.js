@@ -213,6 +213,7 @@ r3.graph.prototype.setCaption = function () {
 
 r3.graph.prototype.finalize = function () {
 	this.drawHorAxis().drawVerAxis().setLegend();
+	console.log(this);
 	return this;
 };
 
