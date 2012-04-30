@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Sulphide',
+		palette : 'Water',
 		background : 'white'
 	},
 
@@ -57,6 +57,22 @@ r3.config = {
 
 	area : {
 		interpolation : 'linear'
+	},
+	
+	pie : {
+		fontfamily : 'Ubuntu',
+		fontsize : '14',
+		fontweight : 'normal',
+		fontvariant : 'small-caps',
+		fontfill : 'white'
+	},
+	
+	donut : {
+		fontfamily : 'ubuntu',
+		fontsize : '14',
+		fontweight : 'normal',
+		fontvariant : 'small-caps',
+		fontfill : 'white'
 	},
 	
 	caption : {
