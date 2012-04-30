@@ -39,11 +39,14 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, idx
 		.attr('width', 0)
 		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
-		.style('stroke', 'white')
+		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', r3.effects.bar.mouseover(config))
 		.on('mouseout',  r3.effects.bar.mouseout(config, color))
-		.transition().duration(r3.config.effects.duration).delay(idx * r3.config.effects.duration).attr('width', function (d) { return axes.hor.scale(d.value); });
+		.transition()
+			.duration(r3.config.effects.duration)
+			.delay(idx * r3.config.effects.duration)
+			.attr('width', function (d) { return axes.hor.scale(d.value); });
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -68,11 +71,14 @@ r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, idx
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name); })
 		.attr('y', function (d, i) { var value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
-		.style('stroke', 'white')
+		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', r3.effects.bar.mouseover(config))
 		.on('mouseout',  r3.effects.bar.mouseout(config, color))
-		.transition().duration(r3.config.effects.duration).delay(idx * r3.config.effects.duration).attr('height', function (d) { return height - axes.ver.scale(d.value); });
+		.transition()
+			.duration(r3.config.effects.duration)
+			.delay(idx * r3.config.effects.duration)
+			.attr('height', function (d) { return height - axes.ver.scale(d.value); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
