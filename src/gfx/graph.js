@@ -109,6 +109,7 @@ r3.graph.prototype.drawHorAxis = function () {
 								.call(this.axes.hor.func);
 
 	this.axes.hor.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+	this.axes.hor.axis.selectAll('path').style('fill','none');
 
 	this.axes.hor.line = this.panel.append('line')
 								.attr('class', r3.constants.name.horaxis)
@@ -135,6 +136,7 @@ r3.graph.prototype.drawVerAxis = function () {
 								.call(this.axes.ver.func);
 
 	this.axes.ver.axis.selectAll('line').style('stroke', this.config.axis.strokecolor);
+	this.axes.ver.axis.selectAll('path').style('fill','none');
 
 	this.axes.ver.line = this.panel.append('line')
 								.attr('class', r3.constants.name.veraxis)
@@ -213,7 +215,7 @@ r3.graph.prototype.setCaption = function () {
 
 r3.graph.prototype.finalize = function () {
 	this.drawHorAxis().drawVerAxis().setLegend();
-	console.log(this);
+	//console.log(this);
 	return this;
 };
 

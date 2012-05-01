@@ -31,7 +31,10 @@ r3.stepup_bargraph = function (graphdef) {
 r3.stepup_bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum, idx) {
-	var axes = this.axes, color = r3.util.getColorBand(this.config, idx), config = this.config;
+	var axes = this.axes,
+		color = r3.util.getColorBand(this.config, idx),
+		config = this.config;
+
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
