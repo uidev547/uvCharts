@@ -1,12 +1,10 @@
 init = function () {
 	mydata = new r3.data(dataset);
 	mydata.fetch();
-	mydata.groupby(['name','class']);
-	mydata.log();
+	mydata.groupby(['year']);
+	mydata.category = 'name';
+	mydata.measures.push('usage');
 	
-	mydata.ungroupby('class');
-	mydata.log();
-	
-	mydata.select(['name','class','usage']);
+	mydata.graph('bargraph');
 	mydata.log();
 };

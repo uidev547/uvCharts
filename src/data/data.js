@@ -1,6 +1,3 @@
-r3 = {};
-r3.util = {};
-
 r3.data = function (dataset) {
 	this.Dataset = dataset;
 	this.Columns = {};
@@ -10,6 +7,7 @@ r3.data = function (dataset) {
 
 	this.dimensions = [];
 	this.measures = [];
+	this.category = undefined;
 	this.dataset = {data : undefined };
 };
 
