@@ -69,7 +69,7 @@ r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum
 	var height = this.height(),
 		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
-		max = this.max,
+		max = this.max(),
 		config = this.config;
 
 	bars.append('rect')

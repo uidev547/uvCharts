@@ -8,7 +8,7 @@ r3.graph = function () {
 	this.panel = undefined;
 	this.bg = undefined;
 
-	this.max = undefined;
+	this.Max = undefined;
 
 	this.labels = undefined;
 	this.categories = undefined;
@@ -21,15 +21,29 @@ r3.graph = function () {
 
 r3.graph.prototype.init = function (graphdef) {
 	this.graphdef = graphdef;
-	this.Max(this.graphdef.stepup ? r3.util.getStepMaxValue(this.graphdef) : r3.util.getMaxValue(this.graphdef))
-		.position(this.config.meta.position || ('#' + r3.constants.name.pos) || 'body');
-
-	this.setDimensions().setFrame().setPanel().setBackground().setCaption().setMetadata().setHorAxis().setVerAxis();
+	this.max(this.graphdef.stepup)
+		.position(this.config.meta.position || ('#' + r3.constants.name.pos) || 'body')
+		.setDimensions()
+		.setFrame()
+		.setPanel()
+		.setBackground()
+		.setCaption()
+		.setMetadata()
+		.setHorAxis()
+		.setVerAxis();
+	
+	return this;
 };
 
 r3.graph.prototype.setDimensions = function () {
-	return this.height(this.config.dimension.height).width(this.config.dimension.width).top(this.config.margin.top)
-			.bottom(this.config.margin.bottom).left(this.config.margin.left).right(this.config.margin.right);
+	this.height(this.config.dimension.height)
+		.width(this.config.dimension.width)
+		.top(this.config.margin.top)
+		.bottom(this.config.margin.bottom)
+		.left(this.config.margin.left)
+		.right(this.config.margin.right);
+	
+	return this;
 };
 
 r3.graph.prototype.setFrame = function (className) {
@@ -57,10 +71,38 @@ r3.graph.prototype.setPanel = function (className) {
 
 r3.graph.prototype.setBackground = function (color) {
 	if (this.bg === undefined) {
-		this.bg = this.panel.append('rect').attr('class', r3.constants.name.background).attr('height', this.height()).attr('width', this.width());
+		this.bg = this.panel.append('rect').attr('class', r3.constants.name.background)
+						.attr('height', this.height())
+						.attr('width', this.width());
 	}
 
 	this.bg.style('fill', color || this.config.graph.background);
+	return this;
+};
+
+r3.graph.prototype.setCaption = function () {
+	var self = this;
+	this.caption = this.panel.append('g').attr('class', 'r3_caption');
+	
+	this.caption.append('text').attr('class', 'r3_captiontext')
+		.text(this.config.meta.caption)
+		.attr('y', -this.config.margin.top / 2)
+		.attr('x', this.config.dimension.width / 2)
+		.attr('text-anchor', 'middle')
+		.style('font-family', this.config.caption.fontfamily)
+		.style('font-size', this.config.caption.fontsize)
+		.style('font-weight', this.config.caption.fontweight)
+		.style('font-variant', this.config.caption.fontvariant)
+		.style('text-decoration', this.config.caption.textdecoration)
+		.on('mouseover', r3.effects.caption.mouseover(this.config))
+		.on('mouseout', r3.effects.caption.mouseout(this.config));
+
+	return this;
+};
+
+r3.graph.prototype.setMetadata = function () {
+	this.labels = r3.util.getLabelArray(this.graphdef);
+	this.categories = r3.util.getCategoryArray(this.graphdef);
 	return this;
 };
 
@@ -72,12 +114,26 @@ r3.graph.prototype.setHorAxis = function () {
 	}
 
 	if (graphdef.orientation === 'hor') {
-		this.axes.hor.scale	= d3.scale.linear().domain([0, this.max + 1]).range([0, this.width()]).nice();
-		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).ticks(this.config.axis.ticks).tickSize(-this.width(), this.config.axis.minor, 0)
-			.tickPadding(this.config.axis.padding).tickSubdivide(this.config.axis.subticks).orient('bottom');
+		this.axes.hor.scale	= d3.scale.linear()
+								.domain([0, this.max() + 1])
+								.range([0, this.width()])
+								.nice();
+		
+		this.axes.hor.func = d3.svg.axis()
+								.scale(this.axes.hor.scale)
+								.ticks(this.config.axis.ticks)
+								.tickSize(-this.width(), this.config.axis.minor, 0)
+								.tickPadding(this.config.axis.padding)
+								.tickSubdivide(this.config.axis.subticks)
+								.orient('bottom');
 	} else {
-		this.axes.hor.scale = d3.scale.ordinal().rangeRoundBands([0, this.width()], this.config.scale.ordinality);
-		this.axes.hor.func = d3.svg.axis().scale(this.axes.hor.scale).tickPadding(this.config.axis.padding).orient('bottom');
+		this.axes.hor.scale = d3.scale.ordinal()
+								.rangeRoundBands([0, this.width()], this.config.scale.ordinality);
+		
+		this.axes.hor.func = d3.svg.axis()
+								.scale(this.axes.hor.scale)
+								.tickPadding(this.config.axis.padding)
+								.orient('bottom');
 	}
 
 	return this;
@@ -90,12 +146,26 @@ r3.graph.prototype.setVerAxis = function () {
 	}
 
 	if (graphdef.orientation === 'ver') {
-		this.axes.ver.scale	= d3.scale.linear().domain([this.max + 1, 0]).range([0, this.height()]).nice();
-		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).ticks(this.config.axis.ticks).tickSize(-this.height(), this.config.axis.minor, 0)
-			.tickPadding(this.config.axis.padding).tickSubdivide(this.config.axis.subticks).orient('left');
+		this.axes.ver.scale	= d3.scale.linear()
+								.domain([this.max() + 1, 0])
+								.range([0, this.height()])
+								.nice();
+		
+		this.axes.ver.func = d3.svg.axis()
+								.scale(this.axes.ver.scale)
+								.ticks(this.config.axis.ticks)
+								.tickSize(-this.height(), this.config.axis.minor, 0)
+								.tickPadding(this.config.axis.padding)
+								.tickSubdivide(this.config.axis.subticks)
+								.orient('left');
 	} else {
-		this.axes.ver.scale = d3.scale.ordinal().rangeRoundBands([0, this.height()], this.config.scale.ordinality);
-		this.axes.ver.func = d3.svg.axis().scale(this.axes.ver.scale).tickPadding(this.config.axis.padding).orient('left');
+		this.axes.ver.scale = d3.scale.ordinal()
+								.rangeRoundBands([0, this.height()], this.config.scale.ordinality);
+		
+		this.axes.ver.func = d3.svg.axis()
+								.scale(this.axes.ver.scale)
+								.tickPadding(this.config.axis.padding)
+								.orient('left');
 	}
 
 	return this;
@@ -162,24 +232,23 @@ r3.graph.prototype.drawVerAxis = function () {
 r3.graph.prototype.setLegend = function () {
 	var xorg = this.config.dimension.width,
 		yorg = 10,
-		categories = this.categories,
-		config = this.config;
+		self = this;
 
-	this.legendgroup = this.panel.append('g').attr('class', 'r3_legend')
+	var legendgroup = this.panel.append('g').attr('class', 'r3_legend')
 						.attr('transform', 'translate(' + xorg + ',' + yorg + ')');
 
-	this.legends = this.legendgroup.selectAll('g').data(categories).enter().append('g')
+	this.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
 						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; });
 
-	this.legends.attr('class', function (d, i) { return 'r3_legend_' + categories[i]; })
+	this.legends.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; })
 				.append('rect').attr('class', 'r3_legendsign')
 				.attr('height', this.config.legend.symbolsize)
 				.attr('width', this.config.legend.symbolsize)
-				.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+				.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
 				.style('stroke', 'none');
 
 	this.legends.append('text').attr('class', 'r3_legendtext')
-				.text(function (d, i) { return categories[i]; })
+				.text(function (d, i) { return self.categories[i]; })
 				.attr('dx', this.config.legend.textmargin)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'start')
@@ -190,55 +259,40 @@ r3.graph.prototype.setLegend = function () {
 	return this;
 };
 
-r3.graph.prototype.setCaption = function () {
-	var config = this.config;
-
-	this.panel.append('g').attr('class', 'r3_caption').append('text').attr('class', 'r3_captiontext')
-		.text(this.config.meta.caption)
-		.attr('y', -this.config.margin.top / 2)
-		.attr('x', this.config.dimension.width / 2)
-		.attr('text-anchor', 'middle')
-		.style('font-family', this.config.caption.fontfamily)
-		.style('font-size', this.config.caption.fontsize)
-		.style('font-weight', this.config.caption.fontweight)
-		.style('font-variant', this.config.caption.fontvariant)
-		.style('text-decoration', this.config.caption.textdecoration)
-		.on('mouseover', function () {
-			d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.caption.hovercolor);
-		})
-		.on('mouseout', function () {
-			d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
-		});
-
-	return this;
-};
-
 r3.graph.prototype.finalize = function () {
-	this.drawHorAxis().drawVerAxis().setLegend();
+	this.drawHorAxis()
+		.drawVerAxis()
+		.setLegend();
+	//Uncomment to log graph objects
 	//console.log(this);
 	return this;
 };
 
-r3.graph.prototype.setMetadata = function () {
-	this.labels = r3.util.getLabelArray(this.graphdef);
-	this.categories = r3.util.getCategoryArray(this.graphdef);
+/*
+ * Functions to remove individual elements of an graph
+ */
+
+r3.graph.prototype.remove = function () {
+	this.frame.remove(); 
 	return this;
 };
 
-r3.graph.prototype.remove = function () {
-	this.frame.remove(); return this;
-};
-
 r3.graph.prototype.removeCaption = function () {
-	this.panel.selectAll('g.r3_caption').remove(); return this;
+	this.caption.remove(); 
+	return this;
 };
 
 r3.graph.prototype.removeLegend = function () {
-	this.panel.selectAll('g.r3_legend').remove(); return this;
+	if (this.legends[0]) {
+		this.legends[0].parentNode.remove();
+	}
+	
+	return this;
 };
 
 r3.graph.prototype.removePanel = function () {
-	this.panel.remove(); return this;
+	this.panel.remove(); 
+	return this;
 };
 
 r3.graph.prototype.removeHorAxis = function () {
@@ -252,6 +306,10 @@ r3.graph.prototype.removeVerAxis = function () {
 	this.panel.selectAll('line.' + r3.constants.name.veraxis).remove();
 	return this;
 };
+
+/*
+ * Setters and getters for various common properties of the graph
+ */
 
 r3.graph.prototype.width = function (w) {
 	if (w) {
@@ -316,15 +374,6 @@ r3.graph.prototype.position = function (pos) {
 	return this.config.meta.position;
 };
 
-r3.graph.prototype.maxim = function (max) {
-	if (max) {
-		this.max = max;
-		return this;
-	}
-
-	return this.max;
-};
-
 r3.graph.prototype.caption = function (caption) {
 	if (caption) {
 		this.config.meta.caption = caption;
@@ -334,13 +383,16 @@ r3.graph.prototype.caption = function (caption) {
 	return this.config.meta.caption;
 };
 
-r3.graph.prototype.Max = function (value) {
-	if (value) {
-		this.max = value;
+r3.graph.prototype.max = function (stepup) {
+	if (stepup === true) {
+		this.Max = r3.util.getStepMaxValue(this.graphdef);
+		return this;
+	} else if (stepup === false) {
+		this.Max = r3.util.getMaxValue(this.graphdef);
 		return this;
 	}
 
-	return this.max;
+	return this.Max;
 };
 
 
