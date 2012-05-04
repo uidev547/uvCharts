@@ -1,12 +1,12 @@
 var r3 = {};
 
 r3.graph = function () {
-	this.graphdef = undefined;
-	this.config = r3.config;
+	this.graphdef = undefined;	/* Dataset definition for the graph */
+	this.config = $.extend(true, {}, r3.config); /* Graph configuration */
 
-	this.frame = undefined;
-	this.panel = undefined;
-	this.bg = undefined;
+	this.frame = undefined;		/* <svg> containing panel*/
+	this.panel = undefined;		/* <g> containing all other elements*/
+	this.bg = undefined;		/* <rect> acting as the background */
 
 	this.Max = undefined;
 
@@ -264,7 +264,7 @@ r3.graph.prototype.finalize = function () {
 		.drawVerAxis()
 		.setLegend();
 	//Uncomment to log graph objects
-	//console.log(this);
+	console.log(this);
 	return this;
 };
 
