@@ -29,7 +29,7 @@ r3.data.prototype.plot = function (dataset, path, graphtype) {
 		
 		graphdef.dataset = dataset.plotData;
 		
-		graphdef.stepup = false; graphdef.orientation = 'hor'; graphdef.pos = 'body';
+		graphdef.stepup = false; graphdef.orientation = 'ver'; graphdef.pos = 'body';
 		r3.util.transposeData(graphdef);
 		d3.select('#r3_div').append('div').text(path.join(' || ')); d3.select('#r3_div').append('hr');
 		var plotgraph = new r3[graphtype](graphdef);
