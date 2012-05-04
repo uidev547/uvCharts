@@ -41,3 +41,16 @@ r3.effects.line.mouseout = function (config, color) {
 		d3.select(this.parentNode).selectAll('text').style('fill', 'none');
 	};
 };
+
+r3.effects.caption = {};
+r3.effects.caption.mouseover = function (config) {
+	return function () {
+		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.caption.hovercolor);
+	};
+};
+
+r3.effects.caption.mouseout = function (config) {
+	return function () {
+		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
+	};
+};
