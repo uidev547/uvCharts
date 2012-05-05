@@ -1,6 +1,6 @@
 describe('GraphObject', function () {	
-	var testGraph = new r3.graph();	
 	it('should have the default properties right after construction', function () {
+		var testGraph = new r3.graph();	
 		expect(testGraph.graphdef).toBeUndefined();
 		expect(testGraph.config).toEqual(r3.config);
 		expect(testGraph.frame).toBeUndefined();
@@ -10,9 +10,10 @@ describe('GraphObject', function () {
 		expect(testGraph.categories).toBeUndefined();		
 	});
 	
-	var initGraph = new r3.graph();
-	initGraph.init(r3.constants.defaultHorGraphdef);
 	it('should have right properties on initialization', function () {
+		var initGraph = new r3.graph();
+		initGraph.init(r3.constants.defaultHorGraphdef);
+		
 		expect(initGraph.width()).toEqual(400);
 		expect(initGraph.height()).toEqual(400);
 		expect(initGraph.top()).toEqual(40);

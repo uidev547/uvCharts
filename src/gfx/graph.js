@@ -186,13 +186,13 @@ r3.graph.prototype.drawHorAxis = function () {
 								.attr('x1', '0')
 								.attr('x2', this.width())
 								.style('stroke', this.config.axis.strokecolor);
-	/*
+	
 	this.axes.hor.label = this.axes.hor.group.append('text').attr('display','block')
 								.attr('x', this.width()/2)
 								.attr('y', this.config.margin.bottom/2)
 								.attr('text-anchor','middle')
 								.text('Horizontal Axis Label');
-	*/
+	
 	return this;
 };
 
@@ -211,19 +211,23 @@ r3.graph.prototype.drawVerAxis = function () {
 								.attr('y1', 0)
 								.attr('y2', this.height())
 								.style('stroke', this.config.axis.strokecolor);
-	/*
+	
 	this.axes.ver.label = this.axes.ver.group.append('text')
 								.attr('x', -4*this.config.margin.left/5)
 								.attr('y', this.height()/2)
-								.attr('transform','rotate(90deg)')
+								.style('transform','rotate(90deg)')
+								.style('width','1em')
 								.style('writing-mode','tb-rl')
+								.style('filter','flipv fliph')
+								.style('white-space','nowrap')
 								.style('-o-tranform','rotate(270deg)')
-								.style('-moz-tranform','rotate(270deg)')
+								.style('-moz-tranform','rotate(-270deg)')
+								.style('-moz-transform-origin','bottom left')
 								.style('-webkit-tranform','rotate(270deg)')
 								.style('tranform','rotate(270deg)')
 								.attr('text-anchor', 'middle')
 								.text('Vertical Axis Label');
-	*/
+	
 	return this;
 };
 
@@ -262,7 +266,7 @@ r3.graph.prototype.finalize = function () {
 		.drawVerAxis()
 		.setLegend();
 	//Uncomment to log graph objects
-	console.log(this);
+	//console.log(this);
 	return this;
 };
 
