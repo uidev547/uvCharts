@@ -8,8 +8,6 @@ r3.graph = function () {
 	this.panel = undefined;		/* <g> containing all other elements*/
 	this.bg = undefined;		/* <rect> acting as the background */
 
-	this.Max = undefined;
-
 	this.labels = undefined;
 	this.categories = undefined;
 
@@ -385,14 +383,14 @@ r3.graph.prototype.caption = function (caption) {
 
 r3.graph.prototype.max = function (stepup) {
 	if (stepup === true) {
-		this.Max = r3.util.getStepMaxValue(this.graphdef);
+		this.config.graph.max = r3.util.getStepMaxValue(this.graphdef);
 		return this;
 	} else if (stepup === false) {
-		this.Max = r3.util.getMaxValue(this.graphdef);
+		this.config.graph.max = r3.util.getMaxValue(this.graphdef);
 		return this;
 	}
 
-	return this.Max;
+	return this.config.graph.max;
 };
 
 
