@@ -1,7 +1,8 @@
 r3.config = {
 	graph : {
 		palette : 'Water',
-		background : 'white'
+		background : 'white',
+		max : 0
 	},
 
 	meta : {
@@ -64,7 +65,9 @@ r3.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : 'white'
+		fontfill : 'white',
+		strokecolor : 'none',
+		strokewidth : 2
 	},
 	
 	donut : {
@@ -72,7 +75,10 @@ r3.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : 'white'
+		fontfill : 'white',
+		factor : 0.4,
+		strokecolor : 'none',
+		strokewidth : 2
 	},
 	
 	caption : {

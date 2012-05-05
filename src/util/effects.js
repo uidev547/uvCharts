@@ -54,3 +54,39 @@ r3.effects.caption.mouseout = function (config) {
 		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
 	};
 };
+
+r3.effects.donut = {};
+r3.effects.donut.mouseover = function (center, arcfunc, d) {
+	return function (d) {
+		var dev = {
+				x : arcfunc.centroid(d)[0] / 5,
+				y : arcfunc.centroid(d)[1] / 5
+			};
+
+		d3.select(this.parentNode).attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
+	};
+};
+
+r3.effects.donut.mouseout = function (center) {
+	return function () {
+		d3.select(this.parentNode).attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+	};
+};
+
+r3.effects.pie = {};
+r3.effects.pie.mouseover = function (center, arcfunc, d) {
+	return function (d) {
+		var dev = {
+				x : arcfunc.centroid(d)[0] / 5,
+				y : arcfunc.centroid(d)[1] / 5
+			};
+
+		d3.select(this.parentNode).attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
+	};
+};
+
+r3.effects.pie.mouseout = function (center) {
+	return function () {
+		d3.select(this.parentNode).attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+	};
+};
