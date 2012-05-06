@@ -25,6 +25,21 @@ r3.util.getStepMaxValue = function (graphdef) {
 	return d3.max(sumMap);
 };
 
+r3.util.getSumUpArray = function (graphdef) {
+	var sumMap = graphdef.dataset[graphdef.categories[0]].map(function () {return 0; });
+	graphdef.categories.map(function (d) {
+		graphdef.dataset[d].map(function (d, i) {
+			sumMap[i] += d.value;
+		});
+	});
+	
+	return sumMap;
+};
+
+r3.util.getPercentage = function (value, total) {
+	return value * 100 / total;
+};
+
 r3.util.getDataArray = function (graphdef) {
 	return graphdef.categories.map(function (d) { return graphdef.dataset[d]; });
 };

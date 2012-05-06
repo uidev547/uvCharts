@@ -113,7 +113,7 @@ r3.graph.prototype.setHorAxis = function () {
 
 	if (graphdef.orientation === 'hor') {
 		this.axes.hor.scale	= d3.scale.linear()
-								.domain([0, this.max() + 1])
+								.domain([0, this.max()])
 								.range([0, this.width()])
 								.nice();
 		
@@ -145,7 +145,7 @@ r3.graph.prototype.setVerAxis = function () {
 
 	if (graphdef.orientation === 'ver') {
 		this.axes.ver.scale	= d3.scale.linear()
-								.domain([this.max() + 1, 0])
+								.domain([this.max(), 0])
 								.range([0, this.height()])
 								.nice();
 		
@@ -394,6 +394,9 @@ r3.graph.prototype.max = function (stepup) {
 		return this;
 	} else if (stepup === false) {
 		this.config.graph.max = r3.util.getMaxValue(this.graphdef);
+		return this;
+	} else if (stepup === 'percent') {
+		this.config.graph.max = 100;
 		return this;
 	}
 

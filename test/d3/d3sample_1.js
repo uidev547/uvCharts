@@ -51,6 +51,10 @@ init = function() {
 
 	stackareaHorTest = new r3.stacked_areagraph(r3.constants.defaultHorGraphdef);
 	stackareaVerTest = new r3.stacked_areagraph(r3.constants.defaultVerGraphdef);
+	
+	centareaHorTest = new r3.percent_areagraph(r3.constants.defaultHorGraphdef);
+	centareaVerTest = new r3.percent_areagraph(r3.constants.defaultVerGraphdef);
+	
 	donutTest = new r3.donutgraph(r3.constants.defaultVerGraphdef);
 	pieTest = new r3.piegraph(r3.constants.defaultVerGraphdef);
 	
