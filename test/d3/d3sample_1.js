@@ -55,6 +55,9 @@ init = function() {
 	centareaHorTest = new r3.percent_areagraph(r3.constants.defaultHorGraphdef);
 	centareaVerTest = new r3.percent_areagraph(r3.constants.defaultVerGraphdef);
 	
+	centbarHorTest = new r3.percent_bargraph(r3.constants.defaultHorGraphdef);
+	centbarVerTest = new r3.percent_bargraph(r3.constants.defaultVerGraphdef);
+	
 	donutTest = new r3.donutgraph(r3.constants.defaultVerGraphdef);
 	pieTest = new r3.piegraph(r3.constants.defaultVerGraphdef);
 	

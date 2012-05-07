@@ -1,6 +1,7 @@
-r3.stacked_bargraph = function (graphdef) {
+r3.percent_bargraph = function (graphdef) {
 	r3.graph.call(this);
-	graphdef.stepup = true;
+	graphdef.stepup = 'percent';
+	this.config.scale.ordinality = 0;
 	this.init(graphdef);
 
 	this.bargroups = [];
@@ -16,7 +17,7 @@ r3.stacked_bargraph = function (graphdef) {
 		color = r3.util.getColorBand(this.config, idx);
 
 		bargroup = this.panel.append('g').attr('class', 'r3_bargroup');
-		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'stackedbar_' + this.categories[idx]);
+		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'percentbar_' + this.categories[idx]);
 
 		this['drawStack' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, csum, tsum, idx);
 
@@ -30,14 +31,18 @@ r3.stacked_bargraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.stacked_bargraph.prototype = r3.util.extend(r3.graph);
+r3.percent_bargraph.prototype = r3.util.extend(r3.graph);
 
-r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, idx) {
-	var axes = this.axes, color = r3.util.getColorBand(this.config, idx), config = this.config;
+r3.percent_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, idx) {
+	var axes = this.axes,
+		color = r3.util.getColorBand(this.config, idx),
+		config = this.config,
+		sumMap = r3.util.getSumUpArray(this.graphdef);
+	
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
 		.attr('width', 0)
-		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
+		.attr('x', function (d, i) { var value = axes.hor.scale(r3.util.getPercentage(csum[i], sumMap[i])); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
 		.style('stroke', 'none')
 		.style('fill', color)
@@ -46,7 +51,7 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, idx
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
-			.attr('width', function (d) { return axes.hor.scale(d.value); });
+			.attr('width', function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.value, sumMap[i]));});
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -57,20 +62,25 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (bars, csum, tsum, idx
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
-		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? String(d.value) : null; })
+		.text(function(d, i) { return ( axes.hor.scale(r3.util.getPercentage(csum[i], sumMap[i])) > 15 ) ? String(Math.round(r3.util.getPercentage(d.value, sumMap[i]))) : null; })
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
-			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
+			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(r3.util.getPercentage(tsum[i], sumMap[i])) - 5; });
 };
 
-r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, idx) {
-	var height = this.height(), axes = this.axes, color = r3.util.getColorBand(this.config, idx), config = this.config;
+r3.percent_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, idx) {
+	var height = this.height(),
+		axes = this.axes,
+		color = r3.util.getColorBand(this.config, idx),
+		config = this.config,
+		sumMap = r3.util.getSumUpArray(this.graphdef);
+	
 	bars.append('rect')
 		.attr('height', 0)
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name); })
-		.attr('y', function (d, i) { var value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
+		.attr('y', function (d, i) { var value = axes.ver.scale(r3.util.getPercentage(csum[i], sumMap[i])); csum[i] -= d.value; return value; })
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', r3.effects.bar.mouseover(config))
@@ -78,7 +88,7 @@ r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, idx
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
-			.attr('height', function (d) { return height - axes.ver.scale(d.value); });
+			.attr('height', function (d, i) { return height - axes.ver.scale(r3.util.getPercentage(d.value, sumMap[i])); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
@@ -89,9 +99,9 @@ r3.stacked_bargraph.prototype.drawStackVerBars = function (bars, csum, tsum, idx
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
-		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? String(d.value) : null; })
+		.text(function(d, i) { return ( height - axes.ver.scale(r3.util.getPercentage(d.value, sumMap[i])) > 15) ? String(Math.round(r3.util.getPercentage(d.value, sumMap[i]))) : null; })
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
-			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
+			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(r3.util.getPercentage(tsum[i], sumMap[i]))) + 5; });
 };
