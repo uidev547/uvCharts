@@ -5,24 +5,15 @@ r3.stepup_bargraph = function (graphdef) {
 
 	this.bargroups = {};
 
-	var bargroup, bars, idx, length,
+	var idx, length,
 		csum = this.labels.map(function (d) {return 0; }),
 		tsum = this.labels.map(function (d) {return 0; });
 
 	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(this.labels);
 
 	for (idx = 0, length = this.categories.length; idx < length; idx = idx + 1) {
-		bargroup = this.panel.append('g').attr('class', 'r3_bargroup');
-		this.bargroups[this.categories[idx]] = bargroup;
-		
-		bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'stepupbar_' + this.categories[idx]);
-
-		this['drawStepUp' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](bars, length, csum, tsum, idx);
-		if (this.graphdef.orientation === 'hor') {
-			bargroup.attr('transform', 'translate(0,' + idx * this.axes.ver.scale.rangeBand() / length + ')');
-		} else {
-			bargroup.attr('transform', 'translate(' + idx * this.axes.hor.scale.rangeBand() / length + ',' + 2 * this.height() + ') scale(1,-1)');
-		}		
+		this.bargroups[this.categories[idx]] = this.panel.append('g').attr('class', 'r3_bargroup_' + this.categories[idx]);
+		this['drawStepUp' + this.graphdef.orientation + 'Bars'](idx, length, csum, tsum);	
 	}
 
 	this.finalize();
@@ -30,11 +21,13 @@ r3.stepup_bargraph = function (graphdef) {
 
 r3.stepup_bargraph.prototype = r3.util.extend(r3.graph);
 
-r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum, idx) {
+r3.stepup_bargraph.prototype.drawStepUphorBars = function (idx, len, csum, tsum) {
 	var axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
-		config = this.config;
+		config = this.config,
+		bargroup = this.bargroups[this.categories[idx]];
 
+	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'stepupbar_' + this.categories[idx]);
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
@@ -63,15 +56,19 @@ r3.stepup_bargraph.prototype.drawStepUpHorBars = function (bars, len, csum, tsum
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]); });
+	
+	bargroup.attr('transform', 'translate(0,' + idx * axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum, idx) {
+r3.stepup_bargraph.prototype.drawStepUpverBars = function (idx, len, csum, tsum) {
 	var height = this.height(),
 		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
 		max = this.max(),
-		config = this.config;
+		config = this.config,
+		bargroup = this.bargroups[this.categories[idx]];
 
+	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'stepupbar_' + this.categories[idx]);
 	bars.append('rect')
 		.attr('height', 0)
 		.attr('width', axes.hor.scale.rangeBand() / len)
@@ -100,4 +97,6 @@ r3.stepup_bargraph.prototype.drawStepUpVerBars = function (bars, len, csum, tsum
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) - 10; });
+	
+	bargroup.attr('transform', 'translate(' + idx * axes.hor.scale.rangeBand() / len + ',' + 2 * this.height() + ') scale(1,-1)');
 };
