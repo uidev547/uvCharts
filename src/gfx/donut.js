@@ -26,8 +26,8 @@ r3.donutgraph = function (graphdef) {
 	    .style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
 	    .style('stroke', this.config.donut.strokecolor)
 	    .style('stroke-width', this.config.donut.strokewidth)
-		.on('mouseover', r3.effects.donut.mouseover(center, arcfunc))
-		.on('mouseout', r3.effects.donut.mouseout(center));
+		.on('mouseover', r3.effects.donut.mouseover(center, arcfunc, config))
+		.on('mouseout', r3.effects.donut.mouseout(center, config));
 
 	this.arcs.append('text')
 	    .attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
