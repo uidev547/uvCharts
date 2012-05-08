@@ -38,8 +38,8 @@ r3.stepup_bargraph.prototype.drawStepUphorBars = function (idx, len, csum, tsum)
 		.on('mouseover', r3.effects.bar.mouseover(config))
 		.on('mouseout',  r3.effects.bar.mouseout(config, color))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(config.effects.duration)
+			.delay(idx * config.effects.duration)
 			.attr('width', function (d) { return axes.hor.scale(d.value); });
 
 	bars.append('text')
@@ -53,8 +53,8 @@ r3.stepup_bargraph.prototype.drawStepUphorBars = function (idx, len, csum, tsum)
 		.style('font-weight', this.config.bar.fontweight)
 		.text(function(d) { return String(d.value); })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(config.effects.duration)
+			.delay(idx * config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]); });
 	
 	bargroup.attr('transform', 'translate(0,' + idx * axes.ver.scale.rangeBand() / len + ')');
@@ -79,8 +79,8 @@ r3.stepup_bargraph.prototype.drawStepUpverBars = function (idx, len, csum, tsum)
 		.on('mouseover', r3.effects.bar.mouseover(config))
 		.on('mouseout', r3.effects.bar.mouseout(config, color))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(config.effects.duration)
+			.delay(idx * config.effects.duration)
 			.attr('height', function (d) { return height - axes.ver.scale(d.value); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
@@ -94,8 +94,8 @@ r3.stepup_bargraph.prototype.drawStepUpverBars = function (idx, len, csum, tsum)
 		.style('font-weight', this.config.bar.fontweight)
 		.text(function(d) { return String(d.value); })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(config.effects.duration)
+			.delay(idx * config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) - 10; });
 	
 	bargroup.attr('transform', 'translate(' + idx * axes.hor.scale.rangeBand() / len + ',' + 2 * this.height() + ') scale(1,-1)');
