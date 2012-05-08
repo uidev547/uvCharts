@@ -56,37 +56,45 @@ r3.effects.caption.mouseout = function (config) {
 };
 
 r3.effects.donut = {};
-r3.effects.donut.mouseover = function (center, arcfunc, d) {
+r3.effects.donut.mouseover = function (center, arcfunc, config, d) {
 	return function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
 				y : arcfunc.centroid(d)[1] / 5
 			};
 
-		d3.select(this.parentNode).attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
+		d3.select(this.parentNode).transition()
+			.duration(config.effects.duration)
+			.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
 	};
 };
 
-r3.effects.donut.mouseout = function (center) {
+r3.effects.donut.mouseout = function (center, config) {
 	return function () {
-		d3.select(this.parentNode).attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+		d3.select(this.parentNode).transition()
+			.duration(config.effects.duration)
+			.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
 	};
 };
 
 r3.effects.pie = {};
-r3.effects.pie.mouseover = function (center, arcfunc, d) {
+r3.effects.pie.mouseover = function (center, arcfunc, config, d) {
 	return function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
 				y : arcfunc.centroid(d)[1] / 5
 			};
 
-		d3.select(this.parentNode).attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
+		d3.select(this.parentNode).transition()
+			.duration(config.effects.duration)
+			.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
 	};
 };
 
-r3.effects.pie.mouseout = function (center) {
+r3.effects.pie.mouseout = function (center, config) {
 	return function () {
-		d3.select(this.parentNode).attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+		d3.select(this.parentNode).transition()
+			.duration(config.effects.duration)
+			.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
 	};
 };
