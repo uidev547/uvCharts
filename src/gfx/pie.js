@@ -10,6 +10,7 @@ r3.piegraph = function (graphdef) {
 	this.category = graphdef.categories[0];
 
 	var data = r3.util.getCategoryData(this.graphdef, [this.category]),
+		labels = this.labels,
 		arcfunc = d3.svg.arc().innerRadius(0).outerRadius(this.radius),
 		config = this.config,
 		center = this.center,
@@ -40,6 +41,9 @@ r3.piegraph = function (graphdef) {
 	    .style('font-weight', this.config.pie.fontweight)
 	    .style('font-variant', this.config.pie.fontvariant)
 	    .text(function (d) { return d.value; });
+	
+	this.arcs.append('svg:title')
+		.text(function (d, i) { return labels[i] + ' : ' + d.value;});
 };
 
 r3.piegraph.prototype = r3.util.extend(r3.graph);
