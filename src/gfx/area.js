@@ -30,20 +30,25 @@ r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 	areagroup.linefunc = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
 				.y(function (d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand() / 2; })
-				.interpolate('linear');
+				.interpolate(this.config.area.interpolation);
 
 	areagroup.areafunc = d3.svg.area()
 				.x0(axes.hor.scale(0))
 				.x1(areagroup.linefunc.x())
-				.y(areagroup.linefunc.y());
+				.y(areagroup.linefunc.y())
+				.interpolate(this.config.area.interpolation);
 
 	areagroup.area = areagroup.path.append('svg:path')
 				.attr('class', 'areapath_' + idx)
-				.attr('d', areagroup.areafunc).style('opacity', 0.2).style('-moz-opacity', 0.2).style('fill', color);
+				.attr('d', areagroup.areafunc)
+				.style('opacity', 0.2)
+				.style('-moz-opacity', 0.2).style('fill', color);
 
 	areagroup.line = areagroup.path.append('svg:path')
 				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.linefunc).style('stroke', 'white').style('fill', 'none');
+				.attr('d', areagroup.linefunc)
+				.style('stroke', 'white')
+				.style('fill', 'none');
 
 	areagroup.path.selectAll('.dot')
 				.data(this.dataset[idx])
@@ -62,20 +67,26 @@ r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
 	areagroup.linefunc = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
 				.y(function (d) { return axes.ver.scale(d.value); })
-				.interpolate('linear');
+				.interpolate(this.config.area.interpolation);
 
 	areagroup.areafunc = d3.svg.area()
 				.x(areagroup.linefunc.x())
 				.y0(areagroup.linefunc.y())
-				.y1(axes.ver.scale(0));
+				.y1(axes.ver.scale(0))
+				.interpolate(this.config.area.interpolation);
 
 	areagroup.area = areagroup.path.append('svg:path')
 				.attr('class', 'areapath_' + idx)
-				.attr('d', areagroup.areafunc).style('opacity', 0.2).style('-moz-opacity', 0.2).style('fill', color);
+				.attr('d', areagroup.areafunc)
+				.style('opacity', 0.2)
+				.style('-moz-opacity', 0.2)
+				.style('fill', color);
 
 	areagroup.line = areagroup.path.append('svg:path')
 				.attr('class', 'linepath_' + idx)
-				.attr('d', areagroup.linefunc).style('stroke', 'white').style('fill', 'none');
+				.attr('d', areagroup.linefunc)
+				.style('stroke', 'white')
+				.style('fill', 'none');
 
 	areagroup.path.selectAll('.dot')
 				.data(this.dataset[idx])

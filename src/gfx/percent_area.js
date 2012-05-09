@@ -39,11 +39,12 @@ r3.percent_areagraph.prototype.drawhorStackArea = function () {
 		    .y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
 		    .x0(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0, sumMap[i])); })
 		    .x1(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+		    .interpolate(this.config.area.interpolation)
 		)
 		.on('mouseover', function () {d3.select(this).style('fill', r3.config.effects.hovercolor); })
 		.on('mouseout',  function (d, i) {d3.select(this).style('fill', r3.util.getColorBand(config, i)); });
 
-/*	this.areagroup.append('path')
+	this.areagroup.append('path')
 		.attr('class', function (d, i) { return 'line_' + categories[i]; })
 		.style('stroke', 'white')
 		.style('fill', 'none')
@@ -51,7 +52,8 @@ r3.percent_areagraph.prototype.drawhorStackArea = function () {
 		.attr('d', d3.svg.line()
 		    .y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
 		    .x(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
-		);*/
+		    .interpolate(this.config.area.interpolation)
+		);
 };
 
 r3.percent_areagraph.prototype.drawverStackArea = function () {
@@ -69,11 +71,12 @@ r3.percent_areagraph.prototype.drawverStackArea = function () {
 		    .x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
 		    .y0(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0, sumMap[i])); })
 		    .y1(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+		    .interpolate(this.config.area.interpolation)
 	    )
 		.on('mouseover', function () {d3.select(this).style('fill', r3.config.effects.hovercolor); })
 		.on('mouseout',  function (d, i) {d3.select(this).style('fill', r3.util.getColorBand(config, i)); });
 
-/*	this.areagroup.append('path')
+	this.areagroup.append('path')
 	    .attr('class', function (d, i) { return 'line_' + categories[i]; })
 	    .style('stroke', 'white')
 	    .style('fill', 'none')
@@ -81,5 +84,6 @@ r3.percent_areagraph.prototype.drawverStackArea = function () {
 	    .attr('d', d3.svg.line()
 		    .x(function (d, i) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
 		    .y(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
-	    );*/
+		    .interpolate(this.config.area.interpolation)
+	    );
 };
