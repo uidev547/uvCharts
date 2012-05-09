@@ -1,6 +1,6 @@
 r3.config = {
 	graph : {
-		palette : 'Water',
+		palette : 'Brink',
 		background : 'white',
 		max : 0
 	},
@@ -57,7 +57,7 @@ r3.config = {
 	},
 
 	area : {
-		interpolation : 'linear'
+		interpolation : 'cardinal'
 	},
 	
 	pie : {

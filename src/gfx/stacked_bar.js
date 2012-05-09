@@ -23,7 +23,8 @@ r3.stacked_bargraph = function (graphdef) {
 r3.stacked_bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.stacked_bargraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
-	var axes = this.axes,
+	var self = this,
+		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
 		config = this.config,
 		bargroup = this.bargroups[this.categories[idx]];
@@ -59,10 +60,14 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
+	
+	bars.append('svg:title')
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 };
 
 r3.stacked_bargraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
-	var height = this.height(),
+	var self = this,
+		height = this.height(),
 		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
 		config = this.config,
@@ -99,6 +104,9 @@ r3.stacked_bargraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
+	
+	bars.append('svg:title')
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
 	bargroup.attr('transform', 'translate(0,' + 2 * this.height() + ') scale(1,-1)');
 };

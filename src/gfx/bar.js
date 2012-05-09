@@ -20,7 +20,10 @@ r3.bargraph.prototype = r3.util.extend(r3.graph);
 r3.bargraph.prototype.drawhorBars = function (idx, len) {
 	var axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
-		config = this.config;
+		config = this.config,
+		labels = this.labels,
+		categories = this.categories,
+		self = this;
 	
 	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
 	bars.append('rect')
@@ -51,6 +54,9 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 			.delay(function (d, i) { return i * r3.config.effects.duration; })
 			.attr('x', function (d) { return axes.hor.scale(d.value); });
 	
+	bars.append('svg:title')
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+	
 	this.bargroups[this.categories[idx]].attr('transform', 'translate(0,' + idx * axes.ver.scale.rangeBand() / len + ')');
 };
 
@@ -58,7 +64,8 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 	var height = this.height(),
 		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
-		config = this.config;
+		config = this.config,
+		self = this;
 	
 	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
 	
@@ -90,6 +97,9 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 				.duration(r3.config.effects.duration)
 				.delay(idx * r3.config.effects.duration)
 				.attr('y', function (d) { return -(height - axes.ver.scale(d.value)) - 10; });
+	
+	bars.append('svg:title')
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
 	this.bargroups[this.categories[idx]].attr('transform', 'translate(' + idx * axes.hor.scale.rangeBand() / len + ',' + this.height() + ') scale(1,-1)');
 };
