@@ -1,105 +1,102 @@
 r3.bargraph = function (graphdef) {
-	r3.graph.call(this);
-	this.init(graphdef);
+	var self = this;
+	r3.graph.call(self);
+	self.init(graphdef);
 
-	this.bargroups = {};
+	self.bargroups = {};
 	var idx, length;
 
-	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(this.labels);
+	self.axes[self.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(self.labels);
 
-	for (idx = 0, length = this.categories.length; idx < length; idx = idx + 1) {
-		this.bargroups[this.categories[idx]] = this.panel.append('g').attr('class', 'r3_bargroup ' + this.categories[idx]);
-		this['draw' + this.graphdef.orientation + 'Bars'](idx, length);
+	for (idx = 0, length = self.categories.length; idx < length; idx = idx + 1) {
+		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'r3_bargroup ' + self.categories[idx]);
+		self['draw' + self.graphdef.orientation + 'Bars'](idx, length);
 	}
 
-	this.finalize();
+	self.finalize();
 };
 
 r3.bargraph.prototype = r3.util.extend(r3.graph);
 
 r3.bargraph.prototype.drawhorBars = function (idx, len) {
-	var axes = this.axes,
-		color = r3.util.getColorBand(this.config, idx),
-		config = this.config,
-		labels = this.labels,
-		categories = this.categories,
-		self = this;
+	var self = this,
+		color = r3.util.getColorBand(this.config, idx);
 	
-	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
+	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+				.append('g').attr('class', 'bar_' + self.categories[idx]);
+	
 	bars.append('rect')
-		.attr('height', axes.ver.scale.rangeBand() / len)
+		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
-		.attr('y', function (d) {return axes.ver.scale(d.name); })
-		.style('stroke', this.config.bar.strokecolor)
+		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
+		.style('stroke', self.config.bar.strokecolor)
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(config))
-		.on('mouseout', r3.effects.bar.mouseout(config, color))
+		.on('mouseover', r3.effects.bar.mouseover(self.config))
+		.on('mouseout', r3.effects.bar.mouseout(self.config, color))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(function (d, i) { return i * r3.config.effects.duration; })
-			.attr('width', function (d) { return axes.hor.scale(d.value); });
+			.duration(self.config.effects.duration)
+			.delay(function (d, i) { return i * self.config.effects.duration; })
+			.attr('width', function (d) { return self.axes.hor.scale(d.value); });
 
 	bars.append('text')
-		.attr('y', function(d) { return axes.ver.scale(d.name) + (axes.ver.scale.rangeBand()/len)/2; })
+		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.style('fill', 'none')
-		.style('font-family', this.config.bar.fontfamily)
-		.style('font-size', this.config.bar.fontsize)
-		.style('font-weight', this.config.bar.fontweight)
+		.style('font-family', self.config.bar.fontfamily)
+		.style('font-size', self.config.bar.fontsize)
+		.style('font-weight', self.config.bar.fontweight)
 		.text(function(d) { return String(d.value); })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(function (d, i) { return i * r3.config.effects.duration; })
-			.attr('x', function (d) { return axes.hor.scale(d.value); });
+			.duration(self.config.effects.duration)
+			.delay(function (d, i) { return i * self.config.effects.duration; })
+			.attr('x', function (d) { return self.axes.hor.scale(d.value); });
 	
 	bars.append('svg:title')
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
-	this.bargroups[this.categories[idx]].attr('transform', 'translate(0,' + idx * axes.ver.scale.rangeBand() / len + ')');
+	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
 r3.bargraph.prototype.drawverBars = function (idx, len) {
-	var height = this.height(),
-		axes = this.axes,
-		color = r3.util.getColorBand(this.config, idx),
-		config = this.config,
-		self = this;
+	var self = this,
+		color = r3.util.getColorBand(this.config, idx);
 	
-	bars = this.bargroups[this.categories[idx]].selectAll('g').data(this.graphdef.dataset[this.categories[idx]]).enter().append('g').attr('class', 'bar_' + this.categories[idx]);
+	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+			.append('g').attr('class', 'bar_' + self.categories[idx]);
 	
 	bars.append('rect')
 			.attr('height', 0)
-			.attr('width', axes.hor.scale.rangeBand() / len)
-			.attr('x', function (d) {return axes.hor.scale(d.name); })
+			.attr('width', self.axes.hor.scale.rangeBand() / len)
+			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
-			.style('stroke', this.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', r3.effects.bar.mouseover(config))
-			.on('mouseout', r3.effects.bar.mouseout(config, color))
+			.style('stroke', self.config.bar.strokecolor).style('fill', color)
+			.on('mouseover', r3.effects.bar.mouseover(self.config))
+			.on('mouseout', r3.effects.bar.mouseout(self.config, color))
 			.transition()
-				.duration(r3.config.effects.duration)
-				.delay(idx * r3.config.effects.duration)
-				.attr('height', function (d) { return height - axes.ver.scale(d.value); });
+				.duration(self.config.effects.duration)
+				.delay(idx * self.config.effects.duration)
+				.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
-			.attr('x', function(d) { return axes.hor.scale(d.name) + (axes.hor.scale.rangeBand()/len)/2; })
+			.attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
 			.attr('y', -10)
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.style('fill', 'none')
-			.style('font-family', this.config.bar.fontfamily)
-			.style('font-size', this.config.bar.fontsize)
-			.style('font-weight', this.config.bar.fontweight)
+			.style('font-family', self.config.bar.fontfamily)
+			.style('font-size', self.config.bar.fontsize)
+			.style('font-weight', self.config.bar.fontweight)
 			.text(function(d) { return String(d.value); })
 			.transition()
-				.duration(r3.config.effects.duration)
-				.delay(idx * r3.config.effects.duration)
-				.attr('y', function (d) { return -(height - axes.ver.scale(d.value)) - 10; });
+				.duration(self.config.effects.duration)
+				.delay(idx * self.config.effects.duration)
+				.attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 	
 	bars.append('svg:title')
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
-	this.bargroups[this.categories[idx]].attr('transform', 'translate(' + idx * axes.hor.scale.rangeBand() / len + ',' + this.height() + ') scale(1,-1)');
+	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
