@@ -4,54 +4,96 @@ r3.effects.bar = {};
 r3.effects.bar.mouseover = function (config) {
 	return function () {
 		d3.select(this.parentNode.parentNode).selectAll('rect')
-			.style('fill', config.effects.hovercolor)
-			.style('stroke', config.effects.strokecolor);
+			.transition().duration(config.effects.hover)
+				.style('fill', config.effects.hovercolor)
+				.style('stroke', config.effects.strokecolor);
 	
 		d3.select(this.parentNode.parentNode).selectAll('text')
-			.style('fill', config.effects.textcolor);
+			.transition().duration(config.effects.hover)
+				.style('fill', config.effects.textcolor)
+				.style('opacity', 1);
 	}
 };
 
 r3.effects.bar.mouseout = function (config, color) {
 	return function () {
 		d3.select(this.parentNode.parentNode).selectAll('rect')
-			.style('fill', color)
-			.style('stroke', 'none');
+			.transition().duration(config.effects.hover)
+				.style('fill', color)
+				.style('stroke', 'none');
 	
 		d3.select(this.parentNode.parentNode).selectAll('text')
-			.style('fill', 'none');
+			.transition().duration(config.effects.hover)
+				.style('fill', 'none');
 	}
+};
+
+r3.effects.area = {};
+r3.effects.area.mouseover = function (config) {
+	return function () {
+		d3.select(this)
+			.transition().duration(config.effects.hover)
+				.style('fill', config.effects.hovercolor);
+	};
+};
+
+r3.effects.area.mouseout = function (config) {
+	return function (d, i) {
+		d3.select(this)
+			.transition().duration(config.effects.hover)
+				.style('fill', r3.util.getColorBand(config, i)); 
+	};
 };
 
 r3.effects.line = {};
 r3.effects.line.mouseover = function (config) {
 	return function () {
-		d3.select(this.parentNode).selectAll('circle').style('fill', config.effects.hovercolor);
-		d3.select(this.parentNode).selectAll('circle').style('stroke', config.effects.hovercolor);
-		d3.select(this.parentNode).select('path').style('stroke', config.effects.hovercolor);
-		d3.select(this.parentNode).selectAll('text').style('fill', config.effects.textcolor);
+		d3.select(this.parentNode).selectAll('circle')
+			.transition().duration(config.effects.hover)
+				.style('fill', config.effects.hovercolor)
+				.style('stroke', config.effects.hovercolor);
+				
+		d3.select(this.parentNode).select('path')
+			.transition().duration(config.effects.hover)
+				.style('stroke', config.effects.hovercolor);
+				
+		d3.select(this.parentNode).selectAll('text')
+			.transition().duration(config.effects.hover)
+				.style('fill', config.effects.textcolor);
 	};
 };
 
 r3.effects.line.mouseout = function (config, color) {
 	return function () {
-		d3.select(this.parentNode).selectAll('circle').style('fill', 'none');
-		d3.select(this.parentNode).selectAll('circle').style('stroke', color);
-		d3.select(this.parentNode).select('path').style('stroke', color);
-		d3.select(this.parentNode).selectAll('text').style('fill', 'none');
+		d3.select(this.parentNode).selectAll('circle')
+			.transition().duration(config.effects.hover)
+				.style('fill', 'none')
+				.style('stroke', color);
+				
+		d3.select(this.parentNode).select('path')
+			.transition().duration(config.effects.hover)
+				.style('stroke', color);
+				
+		d3.select(this.parentNode).selectAll('text')
+			.transition().duration(config.effects.hover)
+				.style('fill', 'none');
 	};
 };
 
 r3.effects.caption = {};
 r3.effects.caption.mouseover = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.caption.hovercolor);
+		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background)
+			.transition().duration(config.effects.duration)
+				.style('fill', config.caption.hovercolor);
 	};
 };
 
 r3.effects.caption.mouseout = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background).style('fill', config.graph.background);
+		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background)
+			.transition().duration(config.effects.duration)
+				.style('fill', config.graph.background);
 	};
 };
 
@@ -63,17 +105,17 @@ r3.effects.donut.mouseover = function (center, arcfunc, config, d) {
 				y : arcfunc.centroid(d)[1] / 5
 			};
 
-		d3.select(this.parentNode).transition()
-			.duration(config.effects.duration)
-			.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
+		d3.select(this.parentNode)
+			.transition().duration(config.effects.duration)
+				.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
 	};
 };
 
 r3.effects.donut.mouseout = function (center, config) {
 	return function () {
-		d3.select(this.parentNode).transition()
-			.duration(config.effects.duration)
-			.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+		d3.select(this.parentNode)
+			.transition().duration(config.effects.duration)
+				.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
 	};
 };
 
@@ -85,16 +127,16 @@ r3.effects.pie.mouseover = function (center, arcfunc, config, d) {
 				y : arcfunc.centroid(d)[1] / 5
 			};
 
-		d3.select(this.parentNode).transition()
-			.duration(config.effects.duration)
-			.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
+		d3.select(this.parentNode)
+			.transition().duration(config.effects.duration)
+				.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
 	};
 };
 
 r3.effects.pie.mouseout = function (center, config) {
 	return function () {
-		d3.select(this.parentNode).transition()
-			.duration(config.effects.duration)
-			.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
+		d3.select(this.parentNode)
+			.transition().duration(config.effects.duration)
+				.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
 	};
 };
