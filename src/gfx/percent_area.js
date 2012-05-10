@@ -41,8 +41,8 @@ r3.percent_areagraph.prototype.drawhorStackArea = function () {
 		    .x1(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 		    .interpolate(this.config.area.interpolation)
 		)
-		.on('mouseover', function () {d3.select(this).style('fill', r3.config.effects.hovercolor); })
-		.on('mouseout',  function (d, i) {d3.select(this).style('fill', r3.util.getColorBand(config, i)); });
+		.on('mouseover', r3.effects.area.mouseover(this.config))
+		.on('mouseout', r3.effects.area.mouseout(this.config));
 
 	this.areagroup.append('path')
 		.attr('class', function (d, i) { return 'line_' + categories[i]; })
@@ -73,8 +73,8 @@ r3.percent_areagraph.prototype.drawverStackArea = function () {
 		    .y1(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 		    .interpolate(this.config.area.interpolation)
 	    )
-		.on('mouseover', function () {d3.select(this).style('fill', r3.config.effects.hovercolor); })
-		.on('mouseout',  function (d, i) {d3.select(this).style('fill', r3.util.getColorBand(config, i)); });
+		.on('mouseover', r3.effects.area.mouseover(this.config))
+		.on('mouseout', r3.effects.area.mouseout(this.config));
 
 	this.areagroup.append('path')
 	    .attr('class', function (d, i) { return 'line_' + categories[i]; })

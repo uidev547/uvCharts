@@ -1,36 +1,39 @@
 r3.linegraph = function (graphdef) {
-	r3.graph.apply(this, [graphdef]);
+	var self = this;
+	r3.graph.apply(self);
 	graphdef.stepup = false;
-	this.init(graphdef);
+	self.init(graphdef);
 
-	this.linegroups = {};
-	this.dataset = r3.util.getDataArray(this.graphdef);
+	self.linegroups = {};
+	self.dataset = r3.util.getDataArray(self.graphdef);
 
 	var linegroup, linepath, linefunc, idx, len, color,
-		domainData = this.labels;
+		domainData = self.labels;
 
-	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData);
 
-	for (idx = 0, len = this.categories.length; idx < len; idx = idx + 1) {
-		color = r3.util.getColorBand(this.config, idx);
+	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
+		color = r3.util.getColorBand(self.config, idx);
 
-		linepath = this.panel.append('g').attr('class', 'line_' + this.categories[idx]).datum(this.dataset[idx]);
+		linepath = self.panel.append('g').attr('class', 'line_' + self.categories[idx]).datum(self.dataset[idx]);
 		linegroup = {
 			path: linepath,
 			func: undefined
 		};
 
-		this['draw' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Lines'](linegroup, idx, color);
-		this.linegroups[this.categories[idx]] = linegroup;
+		self['draw' + r3.util.getPascalCasedName(self.graphdef.orientation) + 'Lines'](linegroup, idx, color);
+		self.linegroups[self.categories[idx]] = linegroup;
 	}
 
-	this.finalize();
+	self.finalize();
 };
 
 r3.linegraph.prototype = r3.util.extend(r3.graph);
 
 r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
-	var axes = this.axes, config = this.config;
+	var self = this,
+		axes = self.axes,
+		config = self.config;
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
@@ -38,7 +41,7 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.interpolate(r3.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.attr('class', 'linepath_' + this.categories[idx])
+				.attr('class', 'linepath_' + self.categories[idx])
 				.attr('d', linegroup.func)
 				.style('fill', 'none')
 				.style('stroke', color)
@@ -47,14 +50,14 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.on('mouseover', r3.effects.line.mouseover(config))
 				.on('mouseout', r3.effects.line.mouseout(config, color))
 				.transition()
-					.duration(3 * r3.config.effects.duration)
-					.delay(2 * idx * r3.config.effects.duration)
+					.duration(3 * self.config.effects.duration)
+					.delay(2 * idx * self.config.effects.duration)
 					.style('stroke-opacity', 1);
 
 	linegroup.path.selectAll('circle')
-				.data(this.dataset[idx])
+				.data(self.dataset[idx])
 				.enter().append('circle')
-				.attr('class', 'dot_' + this.categories[idx])
+				.attr('class', 'dot_' + self.categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
@@ -64,7 +67,7 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.on('mouseout', r3.effects.line.mouseout(config, color));
 	
 	linegroup.path.selectAll('text')
-				.data(this.dataset[idx])
+				.data(self.dataset[idx])
 				.enter().append('text')
 				.attr('x', function (d) { return axes.hor.scale(d.value); })
 				.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -72,15 +75,18 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.attr('dy', '.35em')
 				.attr('text-anchor', 'start')
 				.style('fill', 'none')
-				.style('font-family', this.config.bar.fontfamily)
-				.style('font-size', this.config.bar.fontsize)
-				.style('font-weight', this.config.bar.fontweight)
+				.style('font-family', self.config.bar.fontfamily)
+				.style('font-size', self.config.bar.fontsize)
+				.style('font-weight', self.config.bar.fontweight)
 				.text(function(d) { return String(d.value); });
 					
 };
 
 r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
-	var axes = this.axes, height = this.height(), config = this.config;
+	var self = this,
+		axes = self.axes,
+		height = self.height(),
+		config = self.config;
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
@@ -88,7 +94,7 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.interpolate(r3.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.attr('class', 'linepath_' + this.categories[idx])
+				.attr('class', 'linepath_' + self.categories[idx])
 				.attr('d', linegroup.func)
 				.style('fill', 'none')
 				.style('stroke', color)
@@ -97,14 +103,14 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.on('mouseover', r3.effects.line.mouseover(config))
 				.on('mouseout', r3.effects.line.mouseout(config, color))
 				.transition()
-					.duration(r3.config.effects.duration)
-					.delay(2 * idx * r3.config.effects.duration)
+					.duration(self.config.effects.duration)
+					.delay(2 * idx * self.config.effects.duration)
 					.style('stroke-opacity', 1);
 
 	linegroup.path.selectAll('circle')
-				.data(this.dataset[idx])
+				.data(self.dataset[idx])
 				.enter().append('circle')
-				.attr('class', 'dot_' + this.categories[idx])
+				.attr('class', 'dot_' + self.categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5).style('fill', 'none')
@@ -113,7 +119,7 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.on('mouseout', r3.effects.line.mouseout(config, color));
 	
 	linegroup.path.selectAll('text')
-				.data(this.dataset[idx])
+				.data(self.dataset[idx])
 				.enter().append('text')
 				.attr('x', function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
 				.attr('y', function (d) { return axes.ver.scale(d.value) - 20; })
@@ -121,8 +127,8 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'middle')
 				.style('fill', 'none')
-				.style('font-family', this.config.bar.fontfamily)
-				.style('font-size', this.config.bar.fontsize)
-				.style('font-weight', this.config.bar.fontweight)
+				.style('font-family', self.config.bar.fontfamily)
+				.style('font-size', self.config.bar.fontsize)
+				.style('font-weight', self.config.bar.fontweight)
 				.text(function(d) { return String(d.value); });
 };
