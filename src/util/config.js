@@ -2,6 +2,8 @@ r3.config = {
 	graph : {
 		palette : 'Brink',
 		background : 'white',
+		type : undefined,
+		orientation : 'Horizontal',
 		max : 0
 	},
 
@@ -57,7 +59,8 @@ r3.config = {
 	},
 
 	area : {
-		interpolation : 'cardinal'
+		interpolation : 'cardinal',
+		opacity : 0.2
 	},
 	
 	pie : {
@@ -82,10 +85,10 @@ r3.config = {
 	},
 	
 	caption : {
-		fontfamily : 'Tahoma',
+		fontfamily : 'Cambria',
 		fontsize : '14',
 		fontweight : 'bold',
-		fontvariant : 'caps',
+		fontvariant : 'small-caps',
 		textdecoration : 'underline',
 		hovercolor : 'dimgrey'
 	},
@@ -102,7 +105,8 @@ r3.config = {
 		hovercolor : 'red',
 		strokecolor : 'none',
 		textcolor : 'black',
-		duration : 800
+		duration : 800,
+		hover : 400
 	}
 };
 
