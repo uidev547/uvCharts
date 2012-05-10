@@ -64,7 +64,9 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.style('fill', 'none')
 				.style('stroke', color)
 				.on('mouseover', r3.effects.line.mouseover(config))
-				.on('mouseout', r3.effects.line.mouseout(config, color));
+				.on('mouseout', r3.effects.line.mouseout(config, color))
+					.append('svg:title')
+					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
 	linegroup.path.selectAll('text')
 				.data(self.dataset[idx])
@@ -116,7 +118,9 @@ r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.attr('r', 3.5).style('fill', 'none')
 				.style('stroke', color)
 				.on('mouseover', r3.effects.line.mouseover(config))
-				.on('mouseout', r3.effects.line.mouseout(config, color));
+				.on('mouseout', r3.effects.line.mouseout(config, color))
+					.append('svg:title')
+					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
 	linegroup.path.selectAll('text')
 				.data(self.dataset[idx])
