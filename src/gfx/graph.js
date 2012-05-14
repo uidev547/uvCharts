@@ -15,6 +15,8 @@ r3.graph = function () {
 		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined },
 		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined }
 	};
+	
+	this.effects = {};
 };
 
 r3.graph.prototype.init = function (graphdef) {
@@ -248,10 +250,10 @@ r3.graph.prototype.setLegend = function () {
 						.attr('transform', 'translate(' + self.width() + ',' + 10 + ')');
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
-						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; });
+						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
+						.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; });
 
-	self.legends.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; })
-				.append('rect').attr('class', 'r3_legendsign')
+	self.legends.append('rect').attr('class', 'r3_legendsign')
 				.attr('height', self.config.legend.symbolsize)
 				.attr('width', self.config.legend.symbolsize)
 				.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })

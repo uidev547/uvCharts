@@ -1,8 +1,8 @@
 r3.effects = {};
 
 r3.effects.bar = {};
-r3.effects.bar.mouseover = function (config) {
-	return function () {
+r3.effects.bar.mouseover = function (config, legend) {
+	var effect = function () {
 		d3.select(this.parentNode.parentNode).selectAll('rect')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
@@ -12,7 +12,13 @@ r3.effects.bar.mouseover = function (config) {
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor)
 				.style('opacity', 1);
+	};
+	
+	if(legend) {
+		legend.on('mouseover',effect);
 	}
+	
+	return effect;
 };
 
 r3.effects.bar.mouseout = function (config, color) {
@@ -51,6 +57,7 @@ r3.effects.line.mouseover = function (config) {
 		d3.select(this.parentNode).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
+				.style('fill-opacity', 1)
 				.style('stroke', config.effects.hovercolor);
 				
 		d3.select(this.parentNode).select('path')
@@ -67,7 +74,8 @@ r3.effects.line.mouseout = function (config, color) {
 	return function () {
 		d3.select(this.parentNode).selectAll('circle')
 			.transition().duration(config.effects.hover)
-				.style('fill', 'none')
+				.style('fill', color)
+				.style('fill-opacity', 0.6)
 				.style('stroke', color);
 				
 		d3.select(this.parentNode).select('path')
