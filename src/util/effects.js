@@ -148,3 +148,16 @@ r3.effects.pie.mouseout = function (center, config) {
 				.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
 	};
 };
+
+r3.effects.legend = {};
+r3.effects.legend.mouseover = function (self) {
+	return function (d, i) {
+		self.$.find('.' + self.id + '_' + self.categories[i] + ':first').trigger('mouseover');
+	};
+};
+
+r3.effects.legend.mouseout = function (self) {
+	return function (d, i) {
+		self.$.find('.' + self.id + '_' + self.categories[i] + ':first').trigger('mouseout');
+	};
+};

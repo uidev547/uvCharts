@@ -6,6 +6,10 @@ r3.util.extend = function (f) {
 	return new G();
 };
 
+r3.util.getUniqueId = function () {
+	return new Date().getTime();
+};
+
 r3.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {

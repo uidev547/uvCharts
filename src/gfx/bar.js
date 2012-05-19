@@ -26,6 +26,7 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 				.append('g').attr('class', 'bar_' + self.categories[idx]);
 	
 	bars.append('rect')
+		.attr('class', self.id + '_' + self.categories[idx])
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
@@ -67,6 +68,7 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 			.append('g').attr('class', 'bar_' + self.categories[idx]);
 	
 	bars.append('rect')
+			.attr('class', self.id + '_' + self.categories[idx])
 			.attr('height', 0)
 			.attr('width', self.axes.hor.scale.rangeBand() / len)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })

@@ -1,6 +1,7 @@
 var r3 = {};
 
 r3.graph = function () {
+	this.id = r3.util.getUniqueId();
 	this.graphdef = undefined;	/* Dataset definition for the graph */
 	this.config = $.extend(true, {}, r3.config); /* Graph configuration */
 
@@ -16,7 +17,7 @@ r3.graph = function () {
 		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined }
 	};
 	
-	this.effects = {};
+	this.$ = undefined;
 };
 
 r3.graph.prototype.init = function (graphdef) {
@@ -32,7 +33,7 @@ r3.graph.prototype.init = function (graphdef) {
 		.setMetadata()
 		.setHorAxis()
 		.setVerAxis();
-	
+		
 	return this;
 };
 
@@ -54,9 +55,11 @@ r3.graph.prototype.setFrame = function (className) {
 		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
-	self.frame.attr('class', className || r3.constants.name.frame)
+	self.frame.attr('class', r3.constants.name.frame + '_' + self.id)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
+	
+	self.$ = $('.' + r3.constants.name.frame + '_' + self.id);
 
 	return this;
 };
@@ -257,7 +260,9 @@ r3.graph.prototype.setLegend = function () {
 				.attr('height', self.config.legend.symbolsize)
 				.attr('width', self.config.legend.symbolsize)
 				.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
-				.style('stroke', 'none');
+				.style('stroke', 'none')
+				.on('mouseover', r3.effects.legend.mouseover(self))
+				.on('mouseout', r3.effects.legend.mouseout(self));
 
 	self.legends.append('text').attr('class', 'r3_legendtext')
 				.text(function (d, i) { return self.categories[i]; })
