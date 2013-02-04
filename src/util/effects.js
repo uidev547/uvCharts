@@ -31,7 +31,7 @@ r3.effects.bar.mouseout = function (config, color) {
 		d3.select(this.parentNode.parentNode).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
-	}
+	};
 };
 
 r3.effects.area = {};
