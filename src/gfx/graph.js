@@ -30,6 +30,7 @@ r3.graph.prototype.init = function (graphdef) {
 		.setPanel()
 		.setBackground()
 		.setCaption()
+		.setSubCaption()
 		.setMetadata()
 		.setHorAxis()
 		.setVerAxis();
@@ -104,6 +105,24 @@ r3.graph.prototype.setCaption = function () {
 		.style('text-decoration', self.config.caption.textdecoration)
 		.on('mouseover', r3.effects.caption.mouseover(self.config))
 		.on('mouseout', r3.effects.caption.mouseout(self.config));
+
+	return this;
+};
+
+r3.graph.prototype.setSubCaption = function () {
+	var self = this;
+	self.subCaption = self.panel.append('g').attr('class', 'r3_subCaption');
+	
+	self.subCaption.append('text').attr('class', 'r3_subcaptiontext')
+		.text(self.config.meta.subCaption)
+		.attr('y', -self.config.margin.top / 2 + 1*self.config.caption.fontsize)
+		.attr('x', self.config.dimension.width / 2)
+		.attr('text-anchor', 'middle')
+		.style('font-family', self.config.subCaption.fontfamily)
+		.style('font-size', self.config.subCaption.fontsize)
+		.style('font-weight', self.config.subCaption.fontweight)
+		.style('font-variant', self.config.subCaption.fontvariant)
+		.style('text-decoration', self.config.subCaption.textdecoration);
 
 	return this;
 };
@@ -403,6 +422,15 @@ r3.graph.prototype.caption = function (caption) {
 
 	return this.config.meta.caption;
 };
+
+r3.graph.prototype.subCaption = function(subCaption){
+	if(subCaption){
+		this.config.meta.subCaption = subCaption;
+		return this;
+	}
+
+	return this.config.meta.caption;
+}
 
 r3.graph.prototype.max = function (stepup) {
 	if (stepup === true) {
