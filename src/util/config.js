@@ -9,7 +9,8 @@ r3.config = {
 
 	meta : {
 		position : '#r3_div',
-		caption : 'Usage of browsers by the years'
+		caption : 'Usage of browsers by the years',
+		subCaption : 'Among major vendors'
 	},
 
 	dimension : {
@@ -18,7 +19,7 @@ r3.config = {
 	},
 
 	margin : {
-		top : 40,
+		top : 50,
 		bottom : 90,
 		left : 100,
 		right : 100
@@ -91,6 +92,14 @@ r3.config = {
 		fontvariant : 'small-caps',
 		textdecoration : 'underline',
 		hovercolor : 'dimgrey'
+	},
+
+	subCaption : {
+		fontfamily : 'Cambria',
+		fontsize : '9',
+		fontweight : 'normal',
+		fontvariant : 'normal',
+		textdecoration : 'none',
 	},
 	
 	legend : {
