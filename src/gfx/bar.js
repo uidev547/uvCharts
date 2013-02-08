@@ -5,17 +5,17 @@
  */
 r3.BarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self);
-	self.init(graphdef, config);
+	r3.Graph.call(self).setDefaults(graphdef).init(graphdef, config);
 
 	self.bargroups = {};
-	var idx, length;
 
-	self.axes[self.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(self.labels);
+	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels);
 
-	for (idx = 0, length = self.categories.length; idx < length; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'r3_bargroup ' + self.categories[idx]);
-		self['draw' + self.graphdef.orientation + 'Bars'](idx, length);
+	var idx, length = self.categories.length;
+	for (idx = 0; idx < length; idx = idx + 1) {
+		var category = self.categories[idx];
+		self.bargroups[category] = self.panel.append('g').attr('class', 'r3_bargroup').classed('cg_' + category, true);
+		self['draw' + self.graphdef.orientation + 'Bars'](idx);
 	}
 
 	self.finalize();
@@ -23,23 +23,29 @@ r3.BarGraph = function (graphdef, config) {
 
 r3.BarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.BarGraph.prototype.drawhorBars = function (idx, len) {
+r3.BarGraph.prototype.setDefaults = function (graphdef) {
+	graphdef.stepup = false;
+	return this;
+};
+
+r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	var self = this,
-		color = r3.util.getColorBand(this.config, idx);
+		color = r3.util.getColorBand(this.config, idx),
+		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-				.append('g').attr('class', 'bar_' + self.categories[idx]);
+				.append('g').attr('class', 'cge_' + self.categories[idx]);
 	
 	bars.append('rect')
 		.attr('class', self.id + '_' + self.categories[idx])
-		.classed(self.categories[idx], true)
+		.classed('cr_' + self.categories[idx], true)
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
 		.style('stroke', self.config.bar.strokecolor)
 		.style('fill', color)
 		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
+		.on('mouseout', r3.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
@@ -50,7 +56,7 @@ r3.BarGraph.prototype.drawhorBars = function (idx, len) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed(self.categories[idx], true)
+		.classed('cr_' + self.categories[idx], true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
@@ -67,23 +73,24 @@ r3.BarGraph.prototype.drawhorBars = function (idx, len) {
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.BarGraph.prototype.drawverBars = function (idx, len) {
+r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 	var self = this,
-		color = r3.util.getColorBand(this.config, idx);
+		color = r3.util.getColorBand(this.config, idx),
+		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-			.append('g').attr('class', 'bar_' + self.categories[idx]);
+			.append('g').attr('class', 'cge_' + self.categories[idx]);
 	
 	bars.append('rect')
 			.attr('class', self.id + '_' + self.categories[idx])
-			.classed(self.categories[idx], true)
+			.classed('cr_' + self.categories[idx], true)
 			.attr('height', 0)
 			.attr('width', self.axes.hor.scale.rangeBand() / len)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
 			.on('mouseover', r3.effects.bar.mouseover(self, idx))
-			.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
+			.on('mouseout', r3.effects.bar.mouseout(self, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
@@ -95,7 +102,7 @@ r3.BarGraph.prototype.drawverBars = function (idx, len) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.classed(self.categories[idx], true)
+			.classed('cr_' + self.categories[idx], true)
 			.style('fill', 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)

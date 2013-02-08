@@ -1,28 +1,32 @@
 r3.StackedBarGraph = function (graphdef) {
-	r3.Graph.call(this);
-	graphdef.stepup = true;
-	this.init(graphdef);
+	var self = this;
+	r3.Graph.call(self).setDefaults(graphdef).init(graphdef);
 
-	this.bargroups = {};
+	self.bargroups = {};
 
 	var bargroup, bars, idx, len, color,
-		domainData = this.labels,
+		domainData = self.labels,
 		csum = domainData.map(function (d) {return 0; }),
 		tsum = domainData.map(function (d) {return 0; });
 
-	this.axes[this.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
-	for (idx = 0, len = this.categories.length; idx < len; idx = idx + 1) {
-		this.bargroups[this.categories[idx]] = this.panel.append('g').attr('class', 'r3_stackedbargroup_' + this.categories[idx]);
-		this['drawStack' + r3.util.getPascalCasedName(this.graphdef.orientation) + 'Bars'](idx, csum, tsum);
+	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
+		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
+		self['draw' + self.graphdef.orientation + 'Bars'](idx, csum, tsum);
 	}
 
-	this.finalize();
+	self.finalize();
 };
 
 r3.StackedBarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.StackedBarGraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
+r3.StackedBarGraph.prototype.setDefaults = function (graphdef) {
+	graphdef.stepup = true;
+	return this;
+};
+
+r3.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 	var self = this,
 		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
@@ -30,17 +34,18 @@ r3.StackedBarGraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 		bargroup = this.bargroups[this.categories[idx]];
 	
 	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]])
-				.enter().append('g').attr('class', 'r3_stackedbar_' + this.categories[idx]);
+				.enter().append('g').attr('class', 'cge_' + this.categories[idx]);
 	
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
 		.attr('width', 0)
 		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
+		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
+		.on('mouseout', r3.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
@@ -51,6 +56,7 @@ r3.StackedBarGraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 		.attr('dx', 0)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
+		.classed('cr_' + self.categories[idx], true)
 		.style('fill', 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
@@ -65,7 +71,7 @@ r3.StackedBarGraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 };
 
-r3.StackedBarGraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
+r3.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	var self = this,
 		height = this.height(),
 		axes = this.axes,
@@ -81,10 +87,11 @@ r3.StackedBarGraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name); })
 		.attr('y', function (d, i) { var value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
+		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
+		.on('mouseout', r3.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
@@ -95,6 +102,7 @@ r3.StackedBarGraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
 		.attr('y', -height + 5)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
+		.classed('cr_' + self.categories[idx], true)
 		.style('fill', 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)

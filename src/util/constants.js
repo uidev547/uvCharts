@@ -2,8 +2,7 @@ r3.constants = {};
 
 r3.constants.defaultHorGraphdef = {
 	pos : '#r3_div',
-	orientation : 'hor',
-	stepup : false,
+	orientation : 'Horizontal',
 	charttype : undefined,
 
 	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],
@@ -48,8 +47,7 @@ r3.constants.defaultHorGraphdef = {
 
 r3.constants.defaultVerGraphdef = {
 	pos : '#r3_div',
-	orientation : 'ver',
-	stepup : false,
+	orientation : 'Vertical',
 	charttype : undefined,
 
 	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],

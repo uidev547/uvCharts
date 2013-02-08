@@ -6,12 +6,12 @@ r3.effects.bar.mouseover = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('rect.' + category)
+		graph.frame.selectAll('rect.cr_' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('stroke', config.effects.strokecolor);
 	
-		graph.frame.selectAll('text.' + category)
+		graph.frame.selectAll('text.cr_' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor)
 				.style('opacity', 1);
@@ -21,17 +21,18 @@ r3.effects.bar.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.bar.mouseout = function (graph, color, idx) {
+r3.effects.bar.mouseout = function (graph, idx, color) {
 	var config = graph.config,
 		category = graph.categories[idx];
+	color = color || r3.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
-		graph.frame.selectAll('rect.' + category)
+		graph.frame.selectAll('rect.cr_' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('stroke', 'none');
 	
-		graph.frame.selectAll('text.' + category)
+		graph.frame.selectAll('text.cr_' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
 	};

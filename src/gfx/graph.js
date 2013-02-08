@@ -3,7 +3,7 @@ var r3 = {};
 r3.Graph = function () {
 	this.id = r3.util.getUniqueId();
 	this.graphdef = undefined;	/* Dataset definition for the graph */
-	this.config = $.extend(true, {}, r3.config); /* Graph configuration */
+	this.config = undefined; /* Graph configuration */
 
 	this.frame = undefined;		/* <svg> containing panel*/
 	this.panel = undefined;		/* <g> containing all other elements*/
@@ -22,11 +22,13 @@ r3.Graph = function () {
 	};
 	
 	this.$ = undefined;
+	return this;
 };
 
-r3.Graph.prototype.init = function (graphdef) {
+r3.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
+	self.config = $.extend(true, $.extend(true, {}, r3.config), config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || ('#' + r3.constants.name.pos) || 'body')
 		.setDimensions()
@@ -55,28 +57,30 @@ r3.Graph.prototype.setDimensions = function () {
 	return this;
 };
 
-r3.Graph.prototype.setFrame = function (className) {
+r3.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (self.frame === undefined) {
 		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
-	self.frame.attr('class', r3.constants.name.frame + '_' + self.id)
+	self.frame.attr('id', r3.constants.name.frame + '_' + self.id)
+		.classed(r3.constants.name.frame, true)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
 	
-	self.$ = $('.' + r3.constants.name.frame + '_' + self.id);
+	self.$ = $('svg#' + r3.constants.name.frame + '_' + self.id);
 
 	return this;
 };
 
-r3.Graph.prototype.setPanel = function (className) {
+r3.Graph.prototype.setPanel = function () {
 	var self = this;
 	if (self.panel === undefined) {
 		self.panel = self.frame.append('g');
 	}
 
-	self.panel.attr('class', className || r3.constants.name.panel)
+	self.panel.attr('id', r3.constants.name.panel + '_' + self.id)
+		.classed(r3.constants.name.panel, true)
 		.attr('transform', 'translate(' + self.left() + ',' + self.top() + ')');
 
 	return this;
@@ -147,7 +151,7 @@ r3.Graph.prototype.setHorAxis = function () {
 									.attr('transform', 'translate(0,' + self.height() + ')');
 	}
 
-	if (graphdef.orientation === 'hor') {
+	if (graphdef.orientation === 'Horizontal') {
 		self.axes.hor.scale	= d3.scale.linear()
 								.domain([0, self.max()])
 								.range([0, self.width()])
@@ -180,7 +184,7 @@ r3.Graph.prototype.setVerAxis = function () {
 		self.axes.ver.group = self.panel.append('g').attr('class', r3.constants.name.veraxis);
 	}
 
-	if (graphdef.orientation === 'ver') {
+	if (graphdef.orientation === 'Vertical') {
 		self.axes.ver.scale	= d3.scale.linear()
 								.domain([self.max(), 0])
 								.range([0, self.height()])
@@ -288,10 +292,10 @@ r3.Graph.prototype.setLegend = function () {
 						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
 						.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; })
 						.on('mouseover', function (d, i) {
-							return self.effects.group[d].mouseover;
+							self.effects.group[d].mouseover();
 						})
 						.on('mouseout', function (d, i) {
-							return self.effects.group[d].mouseout;
+							self.effects.group[d].mouseout();
 						});
 
 	self.legends.append('rect').attr('class', 'r3_legendsign')
@@ -312,14 +316,14 @@ r3.Graph.prototype.setLegend = function () {
 	return this;
 };
 
-r3.Graph.prototype.finalize = function () {
+r3.Graph.prototype.finalize = function (loggableFlag) {
 	var self = this;
 	self.drawHorAxis()
 		.drawVerAxis()
 		.setLegend();
 	
 	//Uncomment to log graph objects
-	//console.log(self);
+	if (loggableFlag) { console.log(self); }
 	self.axes.hor.group.select('.r3_axeslabel').remove();
 	self.axes.ver.group.select('.r3_axeslabel').remove();
 	return self;

@@ -1,21 +1,17 @@
-r3.LineGraph = function (graphdef) {
+r3.LineGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.apply(self);
-	graphdef.stepup = false;
-	self.init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef).init(graphdef, config);
 
 	self.linegroups = {};
 	self.dataset = r3.util.getDataArray(self.graphdef);
 
-	var linegroup, linepath, linefunc, idx, len, color,
+	var linegroup, linepath, linefunc, idx, len = self.categories.length,
 		domainData = self.labels;
 
-	self.axes[self.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
-	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		color = r3.util.getColorBand(self.config, idx);
-
-		linepath = self.panel.append('g').attr('class', 'line_' + self.categories[idx]).datum(self.dataset[idx]);
+	for (idx = 0; idx < len; idx = idx + 1) {
+		linepath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]).datum(self.dataset[idx]);
 		linegroup = {
 			path: linepath,
 			func: undefined
@@ -30,10 +26,16 @@ r3.LineGraph = function (graphdef) {
 
 r3.LineGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.LineGraph.prototype.drawHorLines = function (linegroup, idx, color) {
+r3.LineGraph.prototype.setDefaults = function (graphdef) {
+	graphdef.stepup = false;
+	return this;
+};
+
+r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	var self = this,
 		axes = self.axes,
-		config = self.config;
+		config = self.config,
+		color = r3.util.getColorBand(self.config, idx);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
@@ -41,7 +43,7 @@ r3.LineGraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.interpolate(r3.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.attr('class', 'linepath_' + self.categories[idx])
+				.attr('class', 'cr_' + self.categories[idx])
 				.attr('d', linegroup.func)
 				.style('fill', 'none')
 				.style('stroke', color)
@@ -57,7 +59,7 @@ r3.LineGraph.prototype.drawHorLines = function (linegroup, idx, color) {
 	linegroup.path.selectAll('circle')
 				.data(self.dataset[idx])
 				.enter().append('circle')
-				.attr('class', 'dot_' + self.categories[idx])
+				.attr('class', 'cr_' + self.categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
@@ -77,19 +79,21 @@ r3.LineGraph.prototype.drawHorLines = function (linegroup, idx, color) {
 				.attr('dx', 10)
 				.attr('dy', '.35em')
 				.attr('text-anchor', 'start')
+				.classed('cr_' + self.categories[idx], true)
 				.style('fill', 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
 				.text(function(d) { return String(d.value); });
-					
+	
+	return this;
 };
 
-r3.LineGraph.prototype.drawVerLines = function (linegroup, idx, color) {
+r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 	var self = this,
 		axes = self.axes,
-		height = self.height(),
-		config = self.config;
+		config = self.config,
+		color = r3.util.getColorBand(self.config, idx);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
@@ -97,8 +101,8 @@ r3.LineGraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.interpolate(r3.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.attr('class', 'linepath_' + self.categories[idx])
 				.attr('d', linegroup.func)
+				.classed('cr_' + self.categories[idx], true)
 				.style('fill', 'none')
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
@@ -113,10 +117,10 @@ r3.LineGraph.prototype.drawVerLines = function (linegroup, idx, color) {
 	linegroup.path.selectAll('circle')
 				.data(self.dataset[idx])
 				.enter().append('circle')
-				.attr('class', 'dot_' + self.categories[idx])
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
+				.classed('cr_' + self.categories[idx], true)
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
 				.style('stroke', color)
@@ -133,9 +137,12 @@ r3.LineGraph.prototype.drawVerLines = function (linegroup, idx, color) {
 				.attr('dx', 0)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'middle')
+				.classed('cr_' + self.categories[idx], true)
 				.style('fill', 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
 				.text(function(d) { return String(d.value); });
+
+	return this;
 };

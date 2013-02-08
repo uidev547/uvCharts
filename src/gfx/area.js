@@ -10,7 +10,7 @@ r3.AreaGraph = function (graphdef) {
 	var areagroup, areapath, areafunc, idx, len,
 		domainData = self.graphdef.dataset[self.graphdef.categories[0]];
 
-	self.axes[self.graphdef.orientation === 'hor' ? 'ver' : 'hor'].scale.domain(domainData.map(function (d) { return d.name; }));
+	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData.map(function (d) { return d.name; }));
 
 	for (idx = 0, len = self.dataset.length; idx < len; idx = idx + 1) {
 		areapath = self.panel.append('g').attr('class', 'area_' + idx).datum(self.dataset[idx]);
@@ -24,7 +24,7 @@ r3.AreaGraph = function (graphdef) {
 
 r3.AreaGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.AreaGraph.prototype.drawHorArea = function (areagroup, idx) {
+r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 	var self = this,
 		color = r3.util.getColorBand(self.config, idx);
 		
@@ -64,7 +64,7 @@ r3.AreaGraph.prototype.drawHorArea = function (areagroup, idx) {
 				.style('fill', 'white');
 };
 
-r3.AreaGraph.prototype.drawVerArea = function (areagroup, idx) {
+r3.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
 	var self = this,
 		color = r3.util.getColorBand(self.config, idx);
 	
