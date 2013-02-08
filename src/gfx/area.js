@@ -1,6 +1,6 @@
-r3.areagraph = function (graphdef) {
+r3.AreaGraph = function (graphdef) {
 	var self = this;
-	r3.graph.apply(self, [graphdef]);
+	r3.Graph.apply(self, [graphdef]);
 	graphdef.stepup = false;
 	self.init(graphdef);
 
@@ -22,9 +22,9 @@ r3.areagraph = function (graphdef) {
 	self.finalize();
 };
 
-r3.areagraph.prototype = r3.util.extend(r3.graph);
+r3.AreaGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
+r3.AreaGraph.prototype.drawHorArea = function (areagroup, idx) {
 	var self = this,
 		color = r3.util.getColorBand(self.config, idx);
 		
@@ -64,7 +64,7 @@ r3.areagraph.prototype.drawHorArea = function (areagroup, idx) {
 				.style('fill', 'white');
 };
 
-r3.areagraph.prototype.drawVerArea = function (areagroup, idx) {
+r3.AreaGraph.prototype.drawVerArea = function (areagroup, idx) {
 	var self = this,
 		color = r3.util.getColorBand(self.config, idx);
 	

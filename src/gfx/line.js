@@ -1,6 +1,6 @@
-r3.linegraph = function (graphdef) {
+r3.LineGraph = function (graphdef) {
 	var self = this;
-	r3.graph.apply(self);
+	r3.Graph.apply(self);
 	graphdef.stepup = false;
 	self.init(graphdef);
 
@@ -28,9 +28,9 @@ r3.linegraph = function (graphdef) {
 	self.finalize();
 };
 
-r3.linegraph.prototype = r3.util.extend(r3.graph);
+r3.LineGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
+r3.LineGraph.prototype.drawHorLines = function (linegroup, idx, color) {
 	var self = this,
 		axes = self.axes,
 		config = self.config;
@@ -85,7 +85,7 @@ r3.linegraph.prototype.drawHorLines = function (linegroup, idx, color) {
 					
 };
 
-r3.linegraph.prototype.drawVerLines = function (linegroup, idx, color) {
+r3.LineGraph.prototype.drawVerLines = function (linegroup, idx, color) {
 	var self = this,
 		axes = self.axes,
 		height = self.height(),

@@ -1,5 +1,5 @@
-r3.stacked_areagraph = function (graphdef) {
-	r3.graph.call(this, graphdef);
+r3.StackedAreaGraph = function (graphdef) {
+	r3.Graph.call(this, graphdef);
 	graphdef.stepup = true;
 	this.init(graphdef);
 
@@ -18,9 +18,9 @@ r3.stacked_areagraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.stacked_areagraph.prototype = r3.util.extend(r3.graph);
+r3.StackedAreaGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.stacked_areagraph.prototype.drawhorStackArea = function () {
+r3.StackedAreaGraph.prototype.drawhorStackArea = function () {
 	var axes = this.axes,
 		categories = this.categories,
 		config = this.config;
@@ -51,7 +51,7 @@ r3.stacked_areagraph.prototype.drawhorStackArea = function () {
 		);
 };
 
-r3.stacked_areagraph.prototype.drawverStackArea = function () {
+r3.StackedAreaGraph.prototype.drawverStackArea = function () {
 	var axes = this.axes,
 		categories = this.categories,
 		config = this.config;

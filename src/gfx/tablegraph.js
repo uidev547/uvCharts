@@ -1,5 +1,5 @@
-r3.tablegraph = function (graphdef) {
-	r3.table.apply(this, [graphdef]);
+r3.TableGraph = function (graphdef) {
+	r3.Table.apply(this, [graphdef]);
 	this.init(graphdef);
 
 	if (this.graphdef.orientation === 'hor') {
@@ -11,9 +11,9 @@ r3.tablegraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.tablegraph.prototype = r3.util.extend(r3.table);
+r3.TableGraph.prototype = r3.util.extend(r3.Table);
 
-r3.tablegraph.prototype.setHorTable = function () {
+r3.TableGraph.prototype.setHorTable = function () {
 	var categories = this.graphdef.categories, tableData = r3.util.getTabularArray(this.graphdef);
 
 	categories.unshift('');
@@ -29,7 +29,7 @@ r3.tablegraph.prototype.setHorTable = function () {
 					.text(function (d) {return d; });
 };
 
-r3.tablegraph.prototype.setVerTable = function () {
+r3.TableGraph.prototype.setVerTable = function () {
 	var labels = r3.util.getLabelArray(this.graphdef), dataset = this.graphdef.dataset;
 
 	labels.unshift('');

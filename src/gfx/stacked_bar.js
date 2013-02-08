@@ -1,5 +1,5 @@
-r3.stacked_bargraph = function (graphdef) {
-	r3.graph.call(this);
+r3.StackedBarGraph = function (graphdef) {
+	r3.Graph.call(this);
 	graphdef.stepup = true;
 	this.init(graphdef);
 
@@ -20,9 +20,9 @@ r3.stacked_bargraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.stacked_bargraph.prototype = r3.util.extend(r3.graph);
+r3.StackedBarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.stacked_bargraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
+r3.StackedBarGraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 	var self = this,
 		axes = this.axes,
 		color = r3.util.getColorBand(this.config, idx),
@@ -39,8 +39,8 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(config))
-		.on('mouseout',  r3.effects.bar.mouseout(config, color))
+		.on('mouseover', r3.effects.bar.mouseover(self, idx))
+		.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)
@@ -65,7 +65,7 @@ r3.stacked_bargraph.prototype.drawStackHorBars = function (idx, csum, tsum) {
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 };
 
-r3.stacked_bargraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
+r3.StackedBarGraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
 	var self = this,
 		height = this.height(),
 		axes = this.axes,
@@ -83,8 +83,8 @@ r3.stacked_bargraph.prototype.drawStackVerBars = function (idx, csum, tsum) {
 		.attr('y', function (d, i) { var value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(config))
-		.on('mouseout',  r3.effects.bar.mouseout(config, color))
+		.on('mouseover', r3.effects.bar.mouseover(self, idx))
+		.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
 		.transition()
 			.duration(r3.config.effects.duration)
 			.delay(idx * r3.config.effects.duration)

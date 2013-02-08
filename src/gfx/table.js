@@ -1,4 +1,4 @@
-r3.table = function () {
+r3.Table = function () {
 	this.caption = undefined;
 	this.position = undefined;
 	this.graphdef = undefined;
@@ -9,7 +9,7 @@ r3.table = function () {
 	this.bodyrows = {};
 };
 
-r3.table.prototype.init = function (graphdef) {
+r3.Table.prototype.init = function (graphdef) {
 	this.graphdef = graphdef;
 	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
 
@@ -18,6 +18,6 @@ r3.table.prototype.init = function (graphdef) {
 	this.body = this.table.append('tbody').attr('class', r3.config.table.bodyclass);
 };
 
-r3.table.prototype.finalize = function () {
+r3.Table.prototype.finalize = function () {
 	//console.log(this);
 };

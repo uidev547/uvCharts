@@ -1,37 +1,43 @@
 r3.effects = {};
 
 r3.effects.bar = {};
-r3.effects.bar.mouseover = function (config, legend) {
+r3.effects.bar.mouseover = function (graph, idx) {
+	var config = graph.config,
+		category = graph.categories[idx];
+
 	var effect = function () {
-		d3.select(this.parentNode.parentNode).selectAll('rect')
+		graph.frame.selectAll('rect.' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('stroke', config.effects.strokecolor);
 	
-		d3.select(this.parentNode.parentNode).selectAll('text')
+		graph.frame.selectAll('text.' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor)
 				.style('opacity', 1);
 	};
-	
-	if(legend) {
-		legend.on('mouseover',effect);
-	}
-	
+
+	graph.effects.group[category]['mouseover'] = effect;
 	return effect;
 };
 
-r3.effects.bar.mouseout = function (config, color) {
-	return function () {
-		d3.select(this.parentNode.parentNode).selectAll('rect')
+r3.effects.bar.mouseout = function (graph, color, idx) {
+	var config = graph.config,
+		category = graph.categories[idx];
+
+	var effect = function () {
+		graph.frame.selectAll('rect.' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('stroke', 'none');
 	
-		d3.select(this.parentNode.parentNode).selectAll('text')
+		graph.frame.selectAll('text.' + category)
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
 	};
+
+	graph.effects.group[graph.categories[idx]]['mouseout'] = effect;
+	return effect;
 };
 
 r3.effects.area = {};
@@ -47,7 +53,7 @@ r3.effects.area.mouseout = function (config) {
 	return function (d, i) {
 		d3.select(this)
 			.transition().duration(config.effects.hover)
-				.style('fill', r3.util.getColorBand(config, i)); 
+				.style('fill', r3.util.getColorBand(config, i));
 	};
 };
 
@@ -150,14 +156,10 @@ r3.effects.pie.mouseout = function (center, config) {
 };
 
 r3.effects.legend = {};
-r3.effects.legend.mouseover = function (self) {
-	return function (d, i) {
-		self.$.find('.' + self.id + '_' + self.categories[i] + ':first').trigger('mouseover');
-	};
+r3.effects.legend.mouseover = function (self, idx) {
+	return self.effects.group[self.categories[idx]].mouseover;
 };
 
-r3.effects.legend.mouseout = function (self) {
-	return function (d, i) {
-		self.$.find('.' + self.id + '_' + self.categories[i] + ':first').trigger('mouseout');
-	};
+r3.effects.legend.mouseout = function (self, idx) {
+	return self.effects.group[self.categories[idx]].mouseout;
 };

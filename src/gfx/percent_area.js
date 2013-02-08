@@ -1,5 +1,5 @@
-r3.percent_areagraph = function (graphdef) {
-	r3.graph.call(this, graphdef);
+r3.PercentAreaGraph = function (graphdef) {
+	r3.Graph.call(this, graphdef);
 	graphdef.stepup = 'percent';
 	this.init(graphdef);
 
@@ -22,9 +22,9 @@ r3.percent_areagraph = function (graphdef) {
 	this.finalize();
 };
 
-r3.percent_areagraph.prototype = r3.util.extend(r3.graph);
+r3.PercentAreaGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.percent_areagraph.prototype.drawhorStackArea = function () {
+r3.PercentAreaGraph.prototype.drawhorStackArea = function () {
 	var axes = this.axes,
 		categories = this.categories,
 		config = this.config,
@@ -56,7 +56,7 @@ r3.percent_areagraph.prototype.drawhorStackArea = function () {
 		);
 };
 
-r3.percent_areagraph.prototype.drawverStackArea = function () {
+r3.PercentAreaGraph.prototype.drawverStackArea = function () {
 	var axes = this.axes,
 		categories = this.categories,
 		config = this.config,

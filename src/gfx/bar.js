@@ -1,7 +1,12 @@
-r3.bargraph = function (graphdef) {
+/**
+ * A normal 2d bar chart capable of being rendered in horizontal and vertical manner
+ * @param {Graphdef Object} graphdef Definition of the graph being rendered
+ * @param {Config Object} config   [description]
+ */
+r3.BarGraph = function (graphdef, config) {
 	var self = this;
-	r3.graph.call(self);
-	self.init(graphdef);
+	r3.Graph.call(self);
+	self.init(graphdef, config);
 
 	self.bargroups = {};
 	var idx, length;
@@ -16,9 +21,9 @@ r3.bargraph = function (graphdef) {
 	self.finalize();
 };
 
-r3.bargraph.prototype = r3.util.extend(r3.graph);
+r3.BarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.bargraph.prototype.drawhorBars = function (idx, len) {
+r3.BarGraph.prototype.drawhorBars = function (idx, len) {
 	var self = this,
 		color = r3.util.getColorBand(this.config, idx);
 	
@@ -27,13 +32,14 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 	
 	bars.append('rect')
 		.attr('class', self.id + '_' + self.categories[idx])
+		.classed(self.categories[idx], true)
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
 		.style('stroke', self.config.bar.strokecolor)
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self.config))
-		.on('mouseout', r3.effects.bar.mouseout(self.config, color))
+		.on('mouseover', r3.effects.bar.mouseover(self, idx))
+		.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
@@ -44,6 +50,7 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
+		.classed(self.categories[idx], true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
@@ -60,7 +67,7 @@ r3.bargraph.prototype.drawhorBars = function (idx, len) {
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.bargraph.prototype.drawverBars = function (idx, len) {
+r3.BarGraph.prototype.drawverBars = function (idx, len) {
 	var self = this,
 		color = r3.util.getColorBand(this.config, idx);
 	
@@ -69,13 +76,14 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 	
 	bars.append('rect')
 			.attr('class', self.id + '_' + self.categories[idx])
+			.classed(self.categories[idx], true)
 			.attr('height', 0)
 			.attr('width', self.axes.hor.scale.rangeBand() / len)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', r3.effects.bar.mouseover(self.config))
-			.on('mouseout', r3.effects.bar.mouseout(self.config, color))
+			.on('mouseover', r3.effects.bar.mouseover(self, idx))
+			.on('mouseout', r3.effects.bar.mouseout(self, color, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
@@ -87,6 +95,7 @@ r3.bargraph.prototype.drawverBars = function (idx, len) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
+			.classed(self.categories[idx], true)
 			.style('fill', 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)

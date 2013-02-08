@@ -1,6 +1,6 @@
-r3.donutgraph = function (graphdef) {
+r3.DonutGraph = function (graphdef) {
 	var self = this;
-	r3.graph.apply(self);
+	r3.Graph.apply(self);
 	self.init(graphdef);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
@@ -44,4 +44,4 @@ r3.donutgraph = function (graphdef) {
 		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
 };
 
-r3.donutgraph.prototype = r3.util.extend(r3.graph);
+r3.DonutGraph.prototype = r3.util.extend(r3.Graph);

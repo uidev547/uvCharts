@@ -1,6 +1,6 @@
 var r3 = {};
 
-r3.graph = function () {
+r3.Graph = function () {
 	this.id = r3.util.getUniqueId();
 	this.graphdef = undefined;	/* Dataset definition for the graph */
 	this.config = $.extend(true, {}, r3.config); /* Graph configuration */
@@ -8,6 +8,10 @@ r3.graph = function () {
 	this.frame = undefined;		/* <svg> containing panel*/
 	this.panel = undefined;		/* <g> containing all other elements*/
 	this.bg = undefined;		/* <rect> acting as the background */
+	this.effects = {
+		group : {},
+		frame : {}
+	};
 
 	this.labels = undefined;
 	this.categories = undefined;
@@ -20,7 +24,7 @@ r3.graph = function () {
 	this.$ = undefined;
 };
 
-r3.graph.prototype.init = function (graphdef) {
+r3.Graph.prototype.init = function (graphdef) {
 	var self = this;
 	self.graphdef = graphdef;
 	self.max(self.graphdef.stepup)
@@ -33,12 +37,13 @@ r3.graph.prototype.init = function (graphdef) {
 		.setSubCaption()
 		.setMetadata()
 		.setHorAxis()
-		.setVerAxis();
+		.setVerAxis()
+		.setEffectsObject();
 		
 	return this;
 };
 
-r3.graph.prototype.setDimensions = function () {
+r3.Graph.prototype.setDimensions = function () {
 	var self = this;
 	self.height(self.config.dimension.height)
 		.width(self.config.dimension.width)
@@ -50,7 +55,7 @@ r3.graph.prototype.setDimensions = function () {
 	return this;
 };
 
-r3.graph.prototype.setFrame = function (className) {
+r3.Graph.prototype.setFrame = function (className) {
 	var self = this;
 	if (self.frame === undefined) {
 		self.frame = d3.select(self.position() || 'body').append('svg');
@@ -65,7 +70,7 @@ r3.graph.prototype.setFrame = function (className) {
 	return this;
 };
 
-r3.graph.prototype.setPanel = function (className) {
+r3.Graph.prototype.setPanel = function (className) {
 	var self = this;
 	if (self.panel === undefined) {
 		self.panel = self.frame.append('g');
@@ -77,7 +82,7 @@ r3.graph.prototype.setPanel = function (className) {
 	return this;
 };
 
-r3.graph.prototype.setBackground = function (color) {
+r3.Graph.prototype.setBackground = function (color) {
 	var self = this;
 	if (self.bg === undefined) {
 		self.bg = self.panel.append('rect').attr('class', r3.constants.name.background)
@@ -89,7 +94,7 @@ r3.graph.prototype.setBackground = function (color) {
 	return this;
 };
 
-r3.graph.prototype.setCaption = function () {
+r3.Graph.prototype.setCaption = function () {
 	var self = this;
 	self.caption = self.panel.append('g').attr('class', 'r3_caption');
 	
@@ -109,7 +114,7 @@ r3.graph.prototype.setCaption = function () {
 	return this;
 };
 
-r3.graph.prototype.setSubCaption = function () {
+r3.Graph.prototype.setSubCaption = function () {
 	var self = this;
 	self.subCaption = self.panel.append('g').attr('class', 'r3_subCaption');
 	
@@ -127,14 +132,14 @@ r3.graph.prototype.setSubCaption = function () {
 	return this;
 };
 
-r3.graph.prototype.setMetadata = function () {
+r3.Graph.prototype.setMetadata = function () {
 	var self = this;
 	self.labels = r3.util.getLabelArray(self.graphdef);
 	self.categories = r3.util.getCategoryArray(self.graphdef);
 	return this;
 };
 
-r3.graph.prototype.setHorAxis = function () {
+r3.Graph.prototype.setHorAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (self.axes.hor.group === undefined) {
@@ -168,7 +173,7 @@ r3.graph.prototype.setHorAxis = function () {
 	return this;
 };
 
-r3.graph.prototype.setVerAxis = function () {
+r3.Graph.prototype.setVerAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (self.axes.ver.group === undefined) {
@@ -201,7 +206,15 @@ r3.graph.prototype.setVerAxis = function () {
 	return this;
 };
 
-r3.graph.prototype.drawHorAxis = function () {
+r3.Graph.prototype.setEffectsObject = function () {
+	var self = this;
+	for (var i = 0; i < self.categories.length ; i++) {
+		self.effects.group[self.categories[i]] = {};
+	}
+	return self;
+};
+
+r3.Graph.prototype.drawHorAxis = function () {
 	var self = this;
 	self.axes.hor.axis = self.axes.hor.group.append('g')
 								.style('font-family', self.config.axis.fontfamily)
@@ -231,7 +244,7 @@ r3.graph.prototype.drawHorAxis = function () {
 	return this;
 };
 
-r3.graph.prototype.drawVerAxis = function () {
+r3.Graph.prototype.drawVerAxis = function () {
 	var self = this;
 	self.axes.ver.axis = self.axes.ver.group.append('g')
 								.style('font-family', self.config.axis.fontfamily)
@@ -265,7 +278,7 @@ r3.graph.prototype.drawVerAxis = function () {
 	return this;
 };
 
-r3.graph.prototype.setLegend = function () {
+r3.Graph.prototype.setLegend = function () {
 	var self = this;
 
 	var legendgroup = self.panel.append('g').attr('class', 'r3_legend')
@@ -273,15 +286,19 @@ r3.graph.prototype.setLegend = function () {
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
 						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
-						.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; });
+						.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; })
+						.on('mouseover', function (d, i) {
+							return self.effects.group[d].mouseover;
+						})
+						.on('mouseout', function (d, i) {
+							return self.effects.group[d].mouseout;
+						});
 
 	self.legends.append('rect').attr('class', 'r3_legendsign')
 				.attr('height', self.config.legend.symbolsize)
 				.attr('width', self.config.legend.symbolsize)
 				.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
-				.style('stroke', 'none')
-				.on('mouseover', r3.effects.legend.mouseover(self))
-				.on('mouseout', r3.effects.legend.mouseout(self));
+				.style('stroke', 'none');
 
 	self.legends.append('text').attr('class', 'r3_legendtext')
 				.text(function (d, i) { return self.categories[i]; })
@@ -295,7 +312,7 @@ r3.graph.prototype.setLegend = function () {
 	return this;
 };
 
-r3.graph.prototype.finalize = function () {
+r3.Graph.prototype.finalize = function () {
 	var self = this;
 	self.drawHorAxis()
 		.drawVerAxis()
@@ -312,17 +329,17 @@ r3.graph.prototype.finalize = function () {
  * Functions to remove individual elements of an graph
  */
 
-r3.graph.prototype.remove = function () {
-	this.frame.remove(); 
+r3.Graph.prototype.remove = function () {
+	this.frame.remove();
 	return this;
 };
 
-r3.graph.prototype.removeCaption = function () {
-	this.caption.remove(); 
+r3.Graph.prototype.removeCaption = function () {
+	this.caption.remove();
 	return this;
 };
 
-r3.graph.prototype.removeLegend = function () {
+r3.Graph.prototype.removeLegend = function () {
 	if (this.legends[0]) {
 		this.legends[0].parentNode.remove();
 	}
@@ -330,18 +347,18 @@ r3.graph.prototype.removeLegend = function () {
 	return this;
 };
 
-r3.graph.prototype.removePanel = function () {
-	this.panel.remove(); 
+r3.Graph.prototype.removePanel = function () {
+	this.panel.remove();
 	return this;
 };
 
-r3.graph.prototype.removeHorAxis = function () {
+r3.Graph.prototype.removeHorAxis = function () {
 	this.panel.selectAll('g.' + r3.constants.name.horaxis + " > *").remove();
 	this.panel.selectAll('line.' + r3.constants.name.horaxis).remove();
 	return this;
 };
 
-r3.graph.prototype.removeVerAxis = function () {
+r3.Graph.prototype.removeVerAxis = function () {
 	this.panel.selectAll('g.' + r3.constants.name.veraxis + " > *").remove();
 	this.panel.selectAll('line.' + r3.constants.name.veraxis).remove();
 	return this;
@@ -351,7 +368,7 @@ r3.graph.prototype.removeVerAxis = function () {
  * Setters and getters for various common properties of the graph
  */
 
-r3.graph.prototype.width = function (w) {
+r3.Graph.prototype.width = function (w) {
 	if (w) {
 		this.config.dimension.width = w;
 		return this;
@@ -360,7 +377,7 @@ r3.graph.prototype.width = function (w) {
 	return this.config.dimension.width;
 };
 
-r3.graph.prototype.height = function (h) {
+r3.Graph.prototype.height = function (h) {
 	if (h) {
 		this.config.dimension.height = h;
 		return this;
@@ -369,7 +386,7 @@ r3.graph.prototype.height = function (h) {
 	return this.config.dimension.height;
 };
 
-r3.graph.prototype.top = function (t) {
+r3.Graph.prototype.top = function (t) {
 	if (t) {
 		this.config.margin.top = t;
 		return this;
@@ -378,7 +395,7 @@ r3.graph.prototype.top = function (t) {
 	return this.config.margin.top;
 };
 
-r3.graph.prototype.bottom = function (b) {
+r3.Graph.prototype.bottom = function (b) {
 	if (b) {
 		this.config.margin.bottom = b;
 		return this;
@@ -387,7 +404,7 @@ r3.graph.prototype.bottom = function (b) {
 	return this.config.margin.bottom;
 };
 
-r3.graph.prototype.left = function (l) {
+r3.Graph.prototype.left = function (l) {
 	if (l) {
 		this.config.margin.left = l;
 		return this;
@@ -396,7 +413,7 @@ r3.graph.prototype.left = function (l) {
 	return this.config.margin.left;
 };
 
-r3.graph.prototype.right = function (r) {
+r3.Graph.prototype.right = function (r) {
 	if (r) {
 		this.config.margin.right = r;
 		return this;
@@ -405,7 +422,7 @@ r3.graph.prototype.right = function (r) {
 	return this.config.margin.right;
 };
 
-r3.graph.prototype.position = function (pos) {
+r3.Graph.prototype.position = function (pos) {
 	if (pos) {
 		this.config.meta.position = pos;
 		return this;
@@ -414,7 +431,7 @@ r3.graph.prototype.position = function (pos) {
 	return this.config.meta.position;
 };
 
-r3.graph.prototype.caption = function (caption) {
+r3.Graph.prototype.caption = function (caption) {
 	if (caption) {
 		this.config.meta.caption = caption;
 		return this;
@@ -423,16 +440,16 @@ r3.graph.prototype.caption = function (caption) {
 	return this.config.meta.caption;
 };
 
-r3.graph.prototype.subCaption = function(subCaption){
+r3.Graph.prototype.subCaption = function(subCaption){
 	if(subCaption){
 		this.config.meta.subCaption = subCaption;
 		return this;
 	}
 
 	return this.config.meta.caption;
-}
+};
 
-r3.graph.prototype.max = function (stepup) {
+r3.Graph.prototype.max = function (stepup) {
 	if (stepup === true) {
 		this.config.graph.max = r3.util.getStepMaxValue(this.graphdef);
 		return this;
