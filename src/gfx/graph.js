@@ -1,14 +1,28 @@
 var r3 = {};
 
+/**
+ * r3.Graph is an abstract class of sorts which serves as the base for all other graphs.
+ * id					- unique id corresponding to the graph, created using the timestamp
+ * graphdef		- definition of the graph, containing data on which the graph is built
+ * config			- configuration of the graph, affecting the visual styling of the graph
+ * frame			- <svg> element acting as the parent graph container
+ * panel			- <g> element containing everything else, making it easier to move all elements across the svg
+ * bg					- <rect> element which acts as the background for the graph
+ * effects		- object containing functions which cause the various interactions on the graph
+ * labels			- labels from the dataset provided
+ * categories	- categories from the dataset provided
+ * axes				- object containing axes related stuff: group, func, scale, axis, line, label
+ * $					- jQuery object of the graph, just in case
+ */
 r3.Graph = function () {
 	var self = this;
 	self.id = r3.util.getUniqueId();
-	self.graphdef = undefined;	/* Dataset definition for the graph */
-	self.config = undefined; /* Graph configuration */
+	self.graphdef = undefined;
+	self.config = undefined;
 
-	self.frame = undefined;		/* <svg> containing panel*/
-	self.panel = undefined;		/* <g> containing all other elements*/
-	self.bg = undefined;		/* <rect> acting as the background */
+	self.frame = undefined;
+	self.panel = undefined;
+	self.bg = undefined;
 	self.effects = {};
 
 	self.labels = undefined;
