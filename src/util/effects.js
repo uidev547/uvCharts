@@ -17,14 +17,14 @@ r3.effects.bar.mouseover = function (graph, idx) {
 				.style('opacity', 1);
 	};
 
-	graph.effects.group[category]['mouseover'] = effect;
+	graph.effects[category]['mouseover'] = effect;
 	return effect;
 };
 
 r3.effects.bar.mouseout = function (graph, idx, color) {
 	var config = graph.config,
 		category = graph.categories[idx];
-	color = color || r3.util.getColorBand(graph.config, idx);
+		color = color || r3.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + category)
@@ -37,7 +37,7 @@ r3.effects.bar.mouseout = function (graph, idx, color) {
 				.style('fill', 'none');
 	};
 
-	graph.effects.group[graph.categories[idx]]['mouseout'] = effect;
+	graph.effects[category]['mouseout'] = effect;
 	return effect;
 };
 

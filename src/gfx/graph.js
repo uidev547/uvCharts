@@ -1,27 +1,25 @@
 var r3 = {};
 
 r3.Graph = function () {
-	this.id = r3.util.getUniqueId();
-	this.graphdef = undefined;	/* Dataset definition for the graph */
-	this.config = undefined; /* Graph configuration */
+	var self = this;
+	self.id = r3.util.getUniqueId();
+	self.graphdef = undefined;	/* Dataset definition for the graph */
+	self.config = undefined; /* Graph configuration */
 
-	this.frame = undefined;		/* <svg> containing panel*/
-	this.panel = undefined;		/* <g> containing all other elements*/
-	this.bg = undefined;		/* <rect> acting as the background */
-	this.effects = {
-		group : {},
-		frame : {}
-	};
+	self.frame = undefined;		/* <svg> containing panel*/
+	self.panel = undefined;		/* <g> containing all other elements*/
+	self.bg = undefined;		/* <rect> acting as the background */
+	self.effects = {};
 
-	this.labels = undefined;
-	this.categories = undefined;
+	self.labels = undefined;
+	self.categories = undefined;
 
-	this.axes = {
+	self.axes = {
 		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined },
 		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined }
 	};
 	
-	this.$ = undefined;
+	self.$ = undefined;
 	return this;
 };
 
@@ -213,7 +211,7 @@ r3.Graph.prototype.setVerAxis = function () {
 r3.Graph.prototype.setEffectsObject = function () {
 	var self = this;
 	for (var i = 0; i < self.categories.length ; i++) {
-		self.effects.group[self.categories[i]] = {};
+		self.effects[self.categories[i]] = {};
 	}
 	return self;
 };
@@ -292,10 +290,13 @@ r3.Graph.prototype.setLegend = function () {
 						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
 						.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; })
 						.on('mouseover', function (d, i) {
-							self.effects.group[d].mouseover();
+							self.effects[d].mouseover();
 						})
 						.on('mouseout', function (d, i) {
-							self.effects.group[d].mouseout();
+							self.effects[d].mouseout();
+						})
+						.on('click', function (d, i) {
+							self.toggleChartGroup(i);
 						});
 
 	self.legends.append('rect').attr('class', 'r3_legendsign')
