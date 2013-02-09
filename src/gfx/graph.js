@@ -302,7 +302,8 @@ r3.Graph.prototype.setLegend = function () {
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
 						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
-						.attr('class', function (d, i) { return 'r3_legend_' + self.categories[i]; })
+						.attr('class', function (d, i) { return 'cl_' + self.categories[i]; })
+						.attr('disabled', 'false')
 						.on('mouseover', function (d, i) {
 							self.effects[d].mouseover();
 						})
@@ -310,7 +311,7 @@ r3.Graph.prototype.setLegend = function () {
 							self.effects[d].mouseout();
 						})
 						.on('click', function (d, i) {
-							self.toggleChartGroup(i);
+							r3.effects.legend.click(i, this, self);
 						});
 
 	self.legends.append('rect').attr('class', 'r3_legendsign')

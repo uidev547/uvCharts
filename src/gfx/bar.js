@@ -119,9 +119,10 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
 
-r3.BarGraph.prototype.toggleChartGroup = function (idx) {
-	var self = this, category = self.categories[idx],
-			state = self.bargroups[category].select('g.cge_' + category).style('display');
+r3.BarGraph.prototype.toggleGraphGroup = function (i) {
+	var self = this, category = self.categories[i],
+			state = self.bargroups[category].select('g.cge_' + category).style('display'),
+			color = r3.util.getColorBand(self.config, i);
 
 	self.bargroups[category].selectAll('g.cge_' + category).style('display', (state === 'none')? null : 'none');
 	return this;

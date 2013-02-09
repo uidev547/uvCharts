@@ -164,3 +164,11 @@ r3.effects.legend.mouseover = function (self, idx) {
 r3.effects.legend.mouseout = function (self, idx) {
 	return self.effects.group[self.categories[idx]].mouseout;
 };
+
+r3.effects.legend.click = function (i, ctx, graph) {
+	var disabled = (d3.select(ctx).attr('disabled') === 'false') ? false : true;
+	graph.toggleGraphGroup(i);
+	d3.select(ctx).select('rect').style('fill', disabled ? r3.util.getColorBand(graph.config, i) : r3.config.legend.inactive_color);
+	d3.select(ctx).select('text').style('fill', disabled ? null : r3.config.legend.inactive_color);
+	d3.select(ctx).attr('disabled', disabled ? 'false' : 'true');
+};

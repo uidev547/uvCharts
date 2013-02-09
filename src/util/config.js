@@ -99,15 +99,16 @@ r3.config = {
 		fontsize : '9',
 		fontweight : 'normal',
 		fontvariant : 'normal',
-		textdecoration : 'none',
+		textdecoration : 'none'
 	},
-	
+
 	legend : {
 		fontfamily : 'Ubuntu',
 		fontsize : '12',
 		fontweight : 'normal',
 		textmargin : 15,
-		symbolsize : 10
+		symbolsize : 10,
+		inactive_color : '#DDD'
 	},
 
 	effects : {
