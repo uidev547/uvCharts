@@ -33,6 +33,11 @@ module.exports = function(grunt) {
               'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js', 
               'src/gfx/table.js', 'src/gfx/tablegraph.js'],
         dest: 'dist/r3_gfx.js'
+      },
+
+      style : {
+      	src : ['src/css/r3.css'],
+	dest : 'dist/r3.css'
       }
     },
     
@@ -49,8 +54,8 @@ module.exports = function(grunt) {
     },
     
     watch: {
-      files: '<config:concat.gfx.src>',
-      tasks: 'build_gfx'
+      files: ['<config:concat.gfx.src>', '<config:concat.style.src>'],
+      tasks: 'build_gfx concat:style'
     },
     
     jshint: {

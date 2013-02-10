@@ -24,15 +24,14 @@ r3.Graph = function () {
 	self.panel = undefined;
 	self.bg = undefined;
 	self.effects = {};
-
-	self.labels = undefined;
-	self.categories = undefined;
-
 	self.axes = {
 		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined },
 		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined }
 	};
-	
+
+	self.labels = undefined;
+	self.categories = undefined;
+
 	self.$ = undefined;
 	return this;
 };
@@ -482,4 +481,14 @@ r3.Graph.prototype.max = function (stepup) {
 	}
 
 	return this.config.graph.max;
+};
+
+/* Additional Graph functions */
+r3.Graph.prototype.toggleGraphGroup = function (i) {
+	var self = this, category = self.categories[i],
+			state = self.frame.select('g.cge_' + category).style('display'),
+			color = r3.util.getColorBand(self.config, i);
+
+	self.frame.selectAll('g.cge_' + category).style('display', (state === 'none')? null : 'none');
+	return this;
 };

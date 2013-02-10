@@ -11,13 +11,14 @@ r3.LineGraph = function (graphdef, config) {
 	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0; idx < len; idx = idx + 1) {
-		linepath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]).datum(self.dataset[idx]);
+		linepath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx])
+												.append('g').attr('class', 'cge_' + self.categories[idx]).datum(self.dataset[idx]);
 		linegroup = {
 			path: linepath,
 			func: undefined
 		};
 
-		self['draw' + r3.util.getPascalCasedName(self.graphdef.orientation) + 'Lines'](linegroup, idx, color);
+		self['draw' + self.graphdef.orientation + 'Lines'](linegroup, idx, color);
 		self.linegroups[self.categories[idx]] = linegroup;
 	}
 

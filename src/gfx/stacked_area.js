@@ -1,24 +1,29 @@
-r3.StackedAreaGraph = function (graphdef) {
-	r3.Graph.call(this, graphdef);
-	graphdef.stepup = true;
-	this.init(graphdef);
+r3.StackedAreaGraph = function (graphdef, config) {
+	var self = this;
+	r3.Graph.call(self, graphdef).setDefaults(graphdef, config).init(graphdef, config);
 
-	stacklayout = d3.layout.stack().offset('zero')(this.categories.map(function (d) {
+	stacklayout = d3.layout.stack().offset('zero')(self.categories.map(function (d) {
 			return graphdef.dataset[d].map(function (d) { return {x: d.name, y: +d.value}; });
 	}));
 
 	var areagroup, areapath, areafunc,
-		labels = this.labels,
-		categories = this.categories;
+		labels = self.labels,
+		categories = self.categories;
 
-	this.axes[this.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(labels.map(function (d) { return d; }));
-	this.areagroup = this.panel.selectAll('g.areagroup').data(stacklayout).enter().append('g').attr('class', 'areagroup');
-	this['draw' + this.graphdef.orientation + 'Area']();
+	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(labels.map(function (d) { return d; }));
+	self.areagroup = self.panel.append('g').selectAll('g')
+											.data(stacklayout).enter().append('g').attr('class', function (d, i) { return 'cge_' + categories[i]; });
+	self['draw' + self.graphdef.orientation + 'Area']();
 
-	this.finalize();
+	self.finalize();
 };
 
 r3.StackedAreaGraph.prototype = r3.util.extend(r3.Graph);
+
+r3.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = true;
+	return this;
+};
 
 r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	var axes = this.axes,

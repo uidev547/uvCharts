@@ -13,9 +13,10 @@ r3.AreaGraph = function (graphdef) {
 	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData.map(function (d) { return d.name; }));
 
 	for (idx = 0, len = self.dataset.length; idx < len; idx = idx + 1) {
-		areapath = self.panel.append('g').attr('class', 'area_' + idx).datum(self.dataset[idx]);
+		areapath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx])
+												.append('g').attr('class', 'cge_' + self.categories[idx]).datum(self.dataset[idx]);
 		areagroup = { path: areapath, linefunc: undefined, areafunc: undefined, line: undefined, area: undefined };
-		self['draw' + r3.util.getPascalCasedName(self.graphdef.orientation) + 'Area'](areagroup, idx);
+		self['draw' + self.graphdef.orientation + 'Area'](areagroup, idx);
 		self.areagroups.push(areagroup);
 	}
 

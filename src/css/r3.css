@@ -1,0 +1,4 @@
+g.r3_legend g:hover {
+	cursor : pointer;
+	fill : red;
+}

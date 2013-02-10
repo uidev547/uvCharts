@@ -85,7 +85,7 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('class', self.id + '_' + self.categories[idx])
 			.classed('cr_' + self.categories[idx], true)
 			.attr('height', 0)
-			.attr('width', self.axes.hor.scale.rangeBand() / len)
+			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
@@ -94,7 +94,8 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
-				.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); });
+				.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); })
+				.attr('width', self.axes.hor.scale.rangeBand() / len);
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 			.attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
@@ -117,13 +118,4 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
-};
-
-r3.BarGraph.prototype.toggleGraphGroup = function (i) {
-	var self = this, category = self.categories[i],
-			state = self.bargroups[category].select('g.cge_' + category).style('display'),
-			color = r3.util.getColorBand(self.config, i);
-
-	self.bargroups[category].selectAll('g.cge_' + category).style('display', (state === 'none')? null : 'none');
-	return this;
 };
