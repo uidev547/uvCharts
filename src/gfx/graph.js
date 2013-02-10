@@ -276,19 +276,13 @@ r3.Graph.prototype.drawVerAxis = function () {
 								.attr('y2', self.height())
 								.style('stroke', self.config.axis.strokecolor);
 	
-	self.axes.ver.label = self.axes.ver.group.append('text').attr('class','r3_axeslabel')
-								.attr('x', -4*self.config.margin.left/5)
-								.attr('y', self.height()/2)
+	self.axes.ver.label = self.axes.ver.group.append('g')
+								.attr('transform', 'translate(' + -4*self.config.margin.left/5 + ',' + self.height()/2 + ')rotate(270)')
+								.append('text').attr('class','r3_axeslabel')
 								.attr('text-anchor', 'middle')
 								.classed('cal', true)
 								.style('width','1em')
-								.style('writing-mode','tb-rl')
-								.style('filter','flipv fliph')
 								.style('white-space','nowrap')
-								.style('transform','rotate(270)')
-								.style('-o-tranform','rotate(270)')
-								.style('-moz-tranform','rotate(270)')
-								.style('-webkit-tranform','rotate(270)')
 								.text('Vertical Axis Label');
 	
 	return this;
