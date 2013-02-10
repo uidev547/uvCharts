@@ -26,7 +26,7 @@ r3.PercentBarGraph = function (graphdef, config) {
 		self.bargroups.push(bargroup);
 	}
 
-	self.finalize(true);
+	self.finalize();
 };
 
 r3.PercentBarGraph.prototype = r3.util.extend(r3.Graph);

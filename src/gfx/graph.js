@@ -252,7 +252,7 @@ r3.Graph.prototype.drawHorAxis = function () {
 								.attr('display','block')
 								.attr('class','r3_axeslabel')
 								.attr('x', self.width()/2)
-								.attr('y', self.config.margin.bottom/2)
+								.attr('y', self.config.margin.bottom/2 + 1*self.config.axis.fontsize)
 								.attr('text-anchor','middle')
 								.text('Horizontal Axis Label');
 	
@@ -279,15 +279,16 @@ r3.Graph.prototype.drawVerAxis = function () {
 	self.axes.ver.label = self.axes.ver.group.append('text').attr('class','r3_axeslabel')
 								.attr('x', -4*self.config.margin.left/5)
 								.attr('y', self.height()/2)
-								//.style('transform','rotate(90deg)')
+								.attr('text-anchor', 'middle')
+								.classed('cal', true)
 								.style('width','1em')
 								.style('writing-mode','tb-rl')
 								.style('filter','flipv fliph')
 								.style('white-space','nowrap')
-								.style('-o-tranform','rotate(270deg)')
-								.style('-moz-tranform','rotate(270deg)')
-								.style('-webkit-tranform','rotate(270deg)')
-								.attr('text-anchor', 'middle')
+								.style('transform','rotate(270)')
+								.style('-o-tranform','rotate(270)')
+								.style('-moz-tranform','rotate(270)')
+								.style('-webkit-tranform','rotate(270)')
 								.text('Vertical Axis Label');
 	
 	return this;
@@ -339,8 +340,8 @@ r3.Graph.prototype.finalize = function (loggableFlag) {
 	
 	//Uncomment to log graph objects
 	if (loggableFlag) { console.log(self); }
-	self.axes.hor.group.select('.r3_axeslabel').remove();
-	self.axes.ver.group.select('.r3_axeslabel').remove();
+	//self.axes.hor.group.select('.r3_axeslabel').remove();
+	//self.axes.ver.group.select('.r3_axeslabel').remove();
 	return self;
 };
 
