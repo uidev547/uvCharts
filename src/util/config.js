@@ -102,7 +102,8 @@ r3.config = {
 		fontweight : 'bold',
 		fontvariant : 'small-caps',
 		textdecoration : 'none',
-		hovercolor : 'dimgrey'
+		hovercolor : 'dimgrey',
+		textanchor : 'middle'
 	},
 
 	subCaption : {
@@ -110,7 +111,8 @@ r3.config = {
 		fontsize : '9',
 		fontweight : 'normal',
 		fontvariant : 'normal',
-		textdecoration : 'none'
+		textdecoration : 'none',
+		textanchor : 'middle'
 	},
 
 	legend : {

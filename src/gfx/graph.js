@@ -1,3 +1,7 @@
+/**
+ * r3 is the namespace, which holds everything else related to the library
+ * @type {Object}
+ */
 var r3 = {};
 
 /**
@@ -57,8 +61,8 @@ r3.Graph.prototype.init = function (graphdef, config) {
 		.setCaption()
 		.setSubCaption()
 		.setMetadata()
-		.setHorAxis()
-		.setVerAxis()
+		.setHorizontalAxis()
+		.setVerticalAxis()
 		.setEffectsObject();
 		
 	return this;
@@ -139,6 +143,10 @@ r3.Graph.prototype.setBackground = function (color) {
 	return this;
 };
 
+/**
+ * Sets the caption for the graph
+ * @return {Object}			The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setCaption = function () {
 	var self = this;
 	self.caption = self.panel.append('g').attr('class', 'r3_caption');
@@ -147,7 +155,7 @@ r3.Graph.prototype.setCaption = function () {
 		.text(self.config.meta.caption)
 		.attr('y', -self.config.margin.top / 2)
 		.attr('x', self.config.dimension.width / 2)
-		.attr('text-anchor', 'middle')
+		.attr('text-anchor', self.config.caption.textanchor)
 		.style('font-family', self.config.caption.fontfamily)
 		.style('font-size', self.config.caption.fontsize)
 		.style('font-weight', self.config.caption.fontweight)
@@ -159,6 +167,11 @@ r3.Graph.prototype.setCaption = function () {
 	return this;
 };
 
+
+/**
+ * Sets the subcaption for the graph
+ * @return {Object}			The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setSubCaption = function () {
 	var self = this;
 	self.subCaption = self.panel.append('g').attr('class', 'r3_subCaption');
@@ -167,7 +180,7 @@ r3.Graph.prototype.setSubCaption = function () {
 		.text(self.config.meta.subCaption)
 		.attr('y', -self.config.margin.top / 2 + 1*self.config.caption.fontsize)
 		.attr('x', self.config.dimension.width / 2)
-		.attr('text-anchor', 'middle')
+		.attr('text-anchor', self.config.caption.textanchor)
 		.style('font-family', self.config.subCaption.fontfamily)
 		.style('font-size', self.config.subCaption.fontsize)
 		.style('font-weight', self.config.subCaption.fontweight)
@@ -177,6 +190,11 @@ r3.Graph.prototype.setSubCaption = function () {
 	return this;
 };
 
+
+/**
+ * Sets the metadata for the graph, this includes the labels and the categories
+ * @return {Object}			The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setMetadata = function () {
 	var self = this;
 	self.labels = r3.util.getLabelArray(self.graphdef);
@@ -184,7 +202,11 @@ r3.Graph.prototype.setMetadata = function () {
 	return this;
 };
 
-r3.Graph.prototype.setHorAxis = function () {
+/**
+ * Sets the Horizontal Axis functions but doesnt render it yet
+ * return {Object}			The graph object itself, to support method chaining
+ */
+r3.Graph.prototype.setHorizontalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (self.axes.hor.group === undefined) {
@@ -218,7 +240,11 @@ r3.Graph.prototype.setHorAxis = function () {
 	return this;
 };
 
-r3.Graph.prototype.setVerAxis = function () {
+/**
+ * Sets the Vertical axis functions, but doesnt render it yet
+ * @return {Object}				The graph object itself, to support method chaining
+ */
+r3.Graph.prototype.setVerticalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (self.axes.ver.group === undefined) {
@@ -251,6 +277,10 @@ r3.Graph.prototype.setVerAxis = function () {
 	return this;
 };
 
+/**
+ * Creates placeholders for functions which cause the various animations across the graph to be able invoke it from other places
+ * @return {Object}				The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setEffectsObject = function () {
 	var self = this;
 	for (var i = 0; i < self.categories.length ; i++) {
@@ -259,7 +289,11 @@ r3.Graph.prototype.setEffectsObject = function () {
 	return self;
 };
 
-r3.Graph.prototype.drawHorAxis = function () {
+/**
+ * Draws the horizontal axis within the frame based on the orientation and functions already created
+ * @return {Object} The graph object itself, to support method chaining
+ */
+r3.Graph.prototype.drawHorizontalAxis = function () {
 	var self = this;
 	self.axes.hor.axis = self.axes.hor.group.append('g')
 								.style('font-family', self.config.label.fontfamily)
@@ -292,7 +326,11 @@ r3.Graph.prototype.drawHorAxis = function () {
 	return this;
 };
 
-r3.Graph.prototype.drawVerAxis = function () {
+/**
+ * Draws the vertical axis within the frame based on the orientation and functions already created
+ * @return {Object} The graph object itself, to support method chaining
+ */
+r3.Graph.prototype.drawVerticalAxis = function () {
 	var self = this;
 	self.axes.ver.axis = self.axes.ver.group.append('g')
 								.style('font-family', self.config.label.fontfamily)
@@ -323,6 +361,10 @@ r3.Graph.prototype.drawVerAxis = function () {
 	return this;
 };
 
+/**
+ * Sets the legend and related interactions for the graph based on the configuration
+ * @return {Object}	The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setLegend = function () {
 	var self = this;
 
@@ -361,33 +403,47 @@ r3.Graph.prototype.setLegend = function () {
 	return this;
 };
 
-r3.Graph.prototype.finalize = function (loggableFlag) {
+/**
+ * Finalizes stuff related to graph, used in conjuction with init to setup all the generic graph stuff
+ * @param  {Boolean} isLoggable Specifies whether the graph object should be logged or not, for debug purpose only
+ * @return {Object}             The graph object itself, to support method chaining
+ */
+r3.Graph.prototype.finalize = function (isLoggable) {
 	var self = this;
-	self.drawHorAxis()
-		.drawVerAxis()
+	self.drawHorizontalAxis()
+		.drawVerticalAxis()
 		.setLegend();
 	
-	//Uncomment to log graph objects
-	if (loggableFlag) { console.log(self); }
-	//self.axes.hor.group.select('.r3_axeslabel').remove();
-	//self.axes.ver.group.select('.r3_axeslabel').remove();
-	return self;
+	if (isLoggable) { console.log(self); }
+	return this;
 };
 
 /*
  * Functions to remove individual elements of an graph
  */
 
+/**
+ * Removes the entire graph object
+ * @return {Object} The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.remove = function () {
 	this.frame.remove();
 	return this;
 };
 
+/**
+ * Removes the caption component of the graph
+ * @return {Object} The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.removeCaption = function () {
 	this.caption.remove();
 	return this;
 };
 
+/**
+ * Removes the legend component of the graph
+ * @return {Object} The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.removeLegend = function () {
 	if (this.legends[0]) {
 		this.legends[0].parentNode.remove();
