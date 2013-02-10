@@ -3,7 +3,7 @@ var r3 = {};
 /**
  * r3.Graph is an abstract class of sorts which serves as the base for all other graphs.
  * id					- unique id corresponding to the graph, created using the timestamp
- * graphdef		- definition of the graph, containing data on which the graph is built
+ * graphdef		- definition of the graph, containing data on which the visualization is built
  * config			- configuration of the graph, affecting the visual styling of the graph
  * frame			- <svg> element acting as the parent graph container
  * panel			- <g> element containing everything else, making it easier to move all elements across the svg
@@ -13,6 +13,8 @@ var r3 = {};
  * categories	- categories from the dataset provided
  * axes				- object containing axes related stuff: group, func, scale, axis, line, label
  * $					- jQuery object of the graph, just in case
+ *
+ *
  */
 r3.Graph = function () {
 	var self = this;
@@ -36,6 +38,12 @@ r3.Graph = function () {
 	return this;
 };
 
+/**
+ * As the name suggests, this function initializes graph object construction based on the config and graphdef
+ * @param  {Object} graphdef Definition of the graph, take a look at constants.js for complete documentation
+ * @param  {Object} config   Configuration of the graph, take a look at config.js for complete documentation
+ * @return {Object}          The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
@@ -56,6 +64,10 @@ r3.Graph.prototype.init = function (graphdef, config) {
 	return this;
 };
 
+/**
+ * Sets the dimensions of the graphs, namely height, width and margins: left, right, top and bottom
+ * @return {Object}				The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setDimensions = function () {
 	var self = this;
 	self.height(self.config.dimension.height)
@@ -68,6 +80,10 @@ r3.Graph.prototype.setDimensions = function () {
 	return this;
 };
 
+/**
+ * Sets the main <svg> element which contains rest of the graph elements
+ * @return {Object}				The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (self.frame === undefined) {
@@ -78,12 +94,21 @@ r3.Graph.prototype.setFrame = function () {
 		.classed(r3.constants.name.frame, true)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
-	
+
+	self.frame.append('rect').classed('r3_frame_bg', true)
+		.attr('width', self.width() + self.left() + self.right())
+		.attr('height', self.height() + self.top() + self.bottom())
+		.style('fill', self.config.frame.bgcolor);
+
 	self.$ = $('svg#' + r3.constants.name.frame + '_' + self.id);
 
 	return this;
 };
 
+/**
+ * Sets the <g> element which serves as the base position for the graph elements
+ * @return {Object}				The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setPanel = function () {
 	var self = this;
 	if (self.panel === undefined) {
@@ -97,6 +122,11 @@ r3.Graph.prototype.setPanel = function () {
 	return this;
 };
 
+/**
+ * Sets the <rect> element which serves as the background for the chart
+ * @param {String} color Color code for the background, set to config value if not specified
+ * @return {Object}			The graph object itself, to support method chaining
+ */
 r3.Graph.prototype.setBackground = function (color) {
 	var self = this;
 	if (self.bg === undefined) {
@@ -232,9 +262,9 @@ r3.Graph.prototype.setEffectsObject = function () {
 r3.Graph.prototype.drawHorAxis = function () {
 	var self = this;
 	self.axes.hor.axis = self.axes.hor.group.append('g')
-								.style('font-family', self.config.axis.fontfamily)
-								.style('font-size', self.config.axis.fontsize)
-								.style('font-weight', self.config.axis.fontweight)
+								.style('font-family', self.config.label.fontfamily)
+								.style('font-size', self.config.label.fontsize)
+								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.hor.func);
 
 	self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
@@ -248,12 +278,15 @@ r3.Graph.prototype.drawHorAxis = function () {
 								.attr('x2', self.width())
 								.style('stroke', self.config.axis.strokecolor);
 	
-	self.axes.hor.label = self.axes.hor.group.append('text')
+	self.axes.hor.label = self.axes.hor.group.append('g')
+								.append('text')
 								.attr('display','block')
 								.attr('class','r3_axeslabel')
 								.attr('x', self.width()/2)
-								.attr('y', self.config.margin.bottom/2 + 1*self.config.axis.fontsize)
+								.attr('y', self.config.margin.bottom/2 + 1*self.config.label.fontsize)
 								.attr('text-anchor','middle')
+								.style('font-size', self.config.axis.fontsize)
+								.style('font-family', self.config.axis.fontfamily)
 								.text('Horizontal Axis Label');
 	
 	return this;
@@ -262,9 +295,9 @@ r3.Graph.prototype.drawHorAxis = function () {
 r3.Graph.prototype.drawVerAxis = function () {
 	var self = this;
 	self.axes.ver.axis = self.axes.ver.group.append('g')
-								.style('font-family', self.config.axis.fontfamily)
-								.style('font-size', self.config.axis.fontsize)
-								.style('font-weight', self.config.axis.fontweight)
+								.style('font-family', self.config.label.fontfamily)
+								.style('font-size', self.config.label.fontsize)
+								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.ver.func);
 
 	self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
@@ -281,6 +314,8 @@ r3.Graph.prototype.drawVerAxis = function () {
 								.append('text').attr('class','r3_axeslabel')
 								.attr('text-anchor', 'middle')
 								.classed('cal', true)
+								.style('font-family', self.config.axis.fontfamily)
+								.style('font-size', self.config.axis.fontsize)
 								.style('width','1em')
 								.style('white-space','nowrap')
 								.text('Vertical Axis Label');

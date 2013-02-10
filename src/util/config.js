@@ -25,6 +25,10 @@ r3.config = {
 		right : 100
 	},
 
+	frame : {
+		bgcolor : '#ccc'
+	},
+
 	axis : {
 		ticks : 8,
 		subticks : 1,
@@ -32,8 +36,15 @@ r3.config = {
 		minor : -10,
 		strokecolor : '#000',
 		fontfamily : 'Ubuntu',
+		fontsize : '14',
+		fontweight : 'bold'
+	},
+
+	label : {
+		fontfamily : 'Ubuntu',
 		fontsize : '11',
-		fontweight : 'normal'
+		fontweight : 'normal',
+		strokecolor : '#000'
 	},
 
 	scale : {
@@ -90,7 +101,7 @@ r3.config = {
 		fontsize : '14',
 		fontweight : 'bold',
 		fontvariant : 'small-caps',
-		textdecoration : 'underline',
+		textdecoration : 'none',
 		hovercolor : 'dimgrey'
 	},
 

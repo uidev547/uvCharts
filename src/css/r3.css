@@ -1,4 +1,8 @@
-g.r3_legend g:hover {
+.r3_legend g:hover {
 	cursor : pointer;
 	fill : red;
+}
+
+.r3_frame {
+	margin : 5px;
 }
