@@ -14,8 +14,8 @@ r3.PercentBarGraph = function (graphdef, config) {
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
 		color = r3.util.getColorBand(self.config, idx);
 
-		bargroup = self.panel.append('g').attr('class', 'r3_bargroup');
-		bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'percentbar_' + self.categories[idx]);
+		bargroup = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
+		bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
 
 		self['draw' + r3.util.getPascalCasedName(self.graphdef.orientation) + 'Bars'](bars, csum, tsum, idx);
 

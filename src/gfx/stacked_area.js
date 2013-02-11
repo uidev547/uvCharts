@@ -28,6 +28,11 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	
 	axes.ver.scale.rangePoints([0, self.height()]);
 
+	for(var i = 0; i < categories.length; i = i + 1){
+		r3.effects.area.mouseover(self, i);
+		r3.effects.area.mouseout(self, i);
+	}
+
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
 			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
@@ -37,8 +42,8 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 				.x1(function (d) { return axes.hor.scale(d.y0 + d.y); })
 				.interpolate(self.config.area.interpolation)
 			)
-		.on('mouseover', r3.effects.area.mouseover(self.config))
-		.on('mouseout',  r3.effects.area.mouseout(self.config));
+		.on('mouseover', function (d,i){ self.effects[categories[i]].mouseover(); })
+		.on('mouseout',  function (d,i) { self.effects[categories[i]].mouseout(); });
 
 	self.areagroup.append('path')
 		.attr('class', function (d, i) { return 'line_' + categories[i]; })
@@ -62,7 +67,15 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 	axes.hor.scale.rangePoints([0, self.width()]);
 
 	self.areagroup.append('path')
-			.attr('class', 'r3_area')
+			.attr('class', 'r3_area');
+
+	for(var i = 0; i < categories.length; i = i + 1){
+		r3.effects.area.mouseover(self, i);
+		r3.effects.area.mouseout(self,i);
+	}
+
+	self.areagroup.append('path')
+			.attr('class', function (d, i) { return 'area_' + categories[i]; })
 			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
@@ -70,11 +83,12 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 				.y1(function (d) { return axes.ver.scale(d.y0 + d.y); })
 				.interpolate(self.config.area.interpolation)
 			)
-		.on('mouseover', r3.effects.area.mouseover(self.config))
-		.on('mouseout',  r3.effects.area.mouseout(self.config));
+		.on('mouseover', function (d,i){ self.effects[categories[i]].mouseover(); })
+		.on('mouseout',  function (d,i) { self.effects[categories[i]].mouseout(); });
+
 
 	self.areagroup.append('path')
-			.attr('class', 'r3_outline')
+			.attr('class', function (d, i) { return 'line_' + categories[i]; })
 			.style('stroke', 'white')
 			.style('fill', 'none')
 			.style('stroke-width', 2)
