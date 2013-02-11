@@ -42,20 +42,32 @@ r3.effects.bar.mouseout = function (graph, idx, color) {
 };
 
 r3.effects.area = {};
-r3.effects.area.mouseover = function (config) {
-	return function () {
-		d3.select(this)
-			.transition().duration(config.effects.hover)
-				.style('fill', config.effects.hovercolor);
-	};
-};
+r3.effects.area.mouseover = function (graph, idx) {
+	var config = graph.config,
+		category = graph.categories[idx];
 
-r3.effects.area.mouseout = function (config) {
-	return function (d, i) {
-		d3.select(this)
-			.transition().duration(config.effects.hover)
-				.style('fill', r3.util.getColorBand(config, i));
+	var effect = function () {
+		graph.frame.selectAll('.cge_' + category).select('path.area_'+category)
+		.transition().duration(config.effects.hover)
+		.style('fill',config.effects.hovercolor);
 	};
+
+	graph.effects[category]['mouseover'] = effect;
+	return effect;
+};	
+
+r3.effects.area.mouseout = function (graph, idx) {
+	var config = graph.config,
+		category = graph.categories[idx];
+
+	var effect = function () {
+		graph.frame.selectAll('.cge_'+category).select('path.area_'+category)
+		.transition().duration(config.effects.hover)
+		.style('fill',r3.util.getColorBand(config,idx));
+	}
+	
+	graph.effects[category]['mouseout'] = effect;
+	return effect;
 };
 
 r3.effects.line = {};

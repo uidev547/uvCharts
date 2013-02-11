@@ -26,25 +26,30 @@ r3.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
-	var axes = this.axes,
-		categories = this.categories,
-		config = this.config;
+	var self = this, axes = self.axes,
+		categories = self.categories,
+		config = self.config;
 	
-	axes.ver.scale.rangePoints([0, this.height()]);
+	axes.ver.scale.rangePoints([0, self.height()]);
 
-	this.areagroup.append('path')
+	for(var i = 0; i < categories.length; i = i + 1){
+		r3.effects.area.mouseover(self, i);
+		r3.effects.area.mouseout(self,i);
+	}
+
+	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
 			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
 				.x0(function (d) { return axes.hor.scale(d.y0); })
 				.x1(function (d) { return axes.hor.scale(d.y0 + d.y); })
-				.interpolate(this.config.area.interpolation)
+				.interpolate(self.config.area.interpolation)
 			)
-		.on('mouseover', r3.effects.area.mouseover(this.config))
-		.on('mouseout',  r3.effects.area.mouseout(this.config));
+		.on('mouseover', function (d,i){ self.effects[categories[i]].mouseover(); })
+		.on('mouseout',  function (d,i) { self.effects[categories[i]].mouseout(); });
 
-	this.areagroup.append('path')
+	self.areagroup.append('path')
 		.attr('class', function (d, i) { return 'line_' + categories[i]; })
 		.style('stroke', 'white')
 		.style('fill', 'none')
@@ -52,30 +57,36 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 		.attr('d', d3.svg.line()
 			.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
 			.x(function (d) { return axes.hor.scale(d.y0 + d.y); })
-			.interpolate(this.config.area.interpolation)
+			.interpolate(self.config.area.interpolation)
 		);
 };
 
 r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
-	var axes = this.axes,
-		categories = this.categories,
-		config = this.config;
+	var self = this, axes = self.axes,
+		categories = self.categories,
+		config = self.config;
 	
-	axes.hor.scale.rangePoints([0, this.width()]);
+	axes.hor.scale.rangePoints([0, self.width()]);
 
-	this.areagroup.append('path')
+	for(var i = 0; i < categories.length; i = i + 1){
+		r3.effects.area.mouseover(self, i);
+		r3.effects.area.mouseout(self,i);
+	}
+
+	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
 			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
 				.y0(function (d) { return axes.ver.scale(d.y0); })
 				.y1(function (d) { return axes.ver.scale(d.y0 + d.y); })
-				.interpolate(this.config.area.interpolation)
+				.interpolate(self.config.area.interpolation)
 			)
-		.on('mouseover', r3.effects.area.mouseover(this.config))
-		.on('mouseout',  r3.effects.area.mouseout(this.config));
+		.on('mouseover', function (d,i){ self.effects[categories[i]].mouseover(); })
+		.on('mouseout',  function (d,i) { self.effects[categories[i]].mouseout(); });
 
-	this.areagroup.append('path')
+
+	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'line_' + categories[i]; })
 			.style('stroke', 'white')
 			.style('fill', 'none')
@@ -83,6 +94,6 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 			.attr('d', d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
 				.y(function (d) { return axes.ver.scale(d.y0 + d.y); })
-				.interpolate(this.config.area.interpolation)
+				.interpolate(self.config.area.interpolation)
 			);
 };
