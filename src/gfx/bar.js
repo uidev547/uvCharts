@@ -1,19 +1,19 @@
 /**
  * A normal 2d bar chart capable of being rendered in horizontal and vertical manner
- * @param {Graphdef Object} graphdef Definition of the graph being rendered
- * @param {Config Object} config   [description]
+ * @param {Object} graphdef Definition of the graph being rendered
+ * @param {Object} config   Configuration of the graph being rendered
  */
 r3.BarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef).init(graphdef, config);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = {};
 
 	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels);
 
-	var idx, length = self.categories.length;
+	var idx, length = self.categories.length, category;
 	for (idx = 0; idx < length; idx = idx + 1) {
-		var category = self.categories[idx];
+		category = self.categories[idx];
 		self.bargroups[category] = self.panel.append('g').attr('class', 'r3_bargroup').classed('cg_' + category, true);
 		self['draw' + self.graphdef.orientation + 'Bars'](idx);
 	}
@@ -23,7 +23,7 @@ r3.BarGraph = function (graphdef, config) {
 
 r3.BarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.BarGraph.prototype.setDefaults = function (graphdef) {
+r3.BarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };

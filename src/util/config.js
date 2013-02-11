@@ -72,6 +72,7 @@ r3.config = {
 
 	area : {
 		interpolation : 'cardinal',
+		offset : 'zero',
 		opacity : 0.2
 	},
 	
