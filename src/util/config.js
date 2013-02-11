@@ -37,7 +37,11 @@ r3.config = {
 		strokecolor : '#000',
 		fontfamily : 'Ubuntu',
 		fontsize : '14',
-		fontweight : 'bold'
+		fontweight : 'bold',
+		hlabel : 'Horizontal Axis Label',
+		vlabel : 'Vertical Axis Label',
+		hsublabel : 'h sublabel',
+		vsublabel : 'v sublabel'
 	},
 
 	label : {

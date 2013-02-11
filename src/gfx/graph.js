@@ -51,7 +51,7 @@ r3.Graph = function () {
 r3.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
-	self.config = $.extend(true, $.extend(true, {}, r3.config), config);
+	self.config = $.extend(true, {}, r3.config, config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || ('#' + r3.constants.name.pos) || 'body')
 		.setDimensions()
@@ -313,15 +313,25 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 								.style('stroke', self.config.axis.strokecolor);
 	
 	self.axes.hor.label = self.axes.hor.group.append('g')
-								.append('text')
+														.classed('r3_axeslabelgroup', true)
+														.attr('transform', 'translate(' + self.width()/2 + ',' + (self.config.margin.bottom/2 + 1*self.config.label.fontsize) + ')');
+								
+	self.axes.hor.label.append('text')
 								.attr('display','block')
-								.attr('class','r3_axeslabel')
-								.attr('x', self.width()/2)
-								.attr('y', self.config.margin.bottom/2 + 1*self.config.label.fontsize)
+								.attr('class','r3_axeslabel').classed('cal', true)
 								.attr('text-anchor','middle')
 								.style('font-size', self.config.axis.fontsize)
 								.style('font-family', self.config.axis.fontfamily)
-								.text('Horizontal Axis Label');
+								.text(self.config.axis.hlabel);
+
+	self.axes.hor.label.append('text')
+								.attr('display','block')
+								.attr('y', 1*self.config.axis.fontsize)
+								.attr('class','r3_axessublabel').classed('casl', true)
+								.attr('text-anchor','middle')
+								.style('font-size', self.config.axis.fontsize - 2)
+								.style('font-family', self.config.axis.fontfamily)
+								.text(self.config.axis.hsublabel);
 	
 	return this;
 };
@@ -348,15 +358,22 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 								.style('stroke', self.config.axis.strokecolor);
 	
 	self.axes.ver.label = self.axes.ver.group.append('g')
-								.attr('transform', 'translate(' + -4*self.config.margin.left/5 + ',' + self.height()/2 + ')rotate(270)')
-								.append('text').attr('class','r3_axeslabel')
+								.attr('transform', 'translate(' + -4*self.config.margin.left/5 + ',' + self.height()/2 + ')rotate(270)');
+								
+	self.axes.ver.label.append('text').attr('class','r3_axeslabel')
 								.attr('text-anchor', 'middle')
 								.classed('cal', true)
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize)
-								.style('width','1em')
-								.style('white-space','nowrap')
-								.text('Vertical Axis Label');
+								.text(self.config.axis.vlabel);
+
+	self.axes.ver.label.append('text').attr('class', 'r3_axessublabel')
+								.attr('text-anchor', 'middle')
+								.attr('y', +self.config.axis.fontsize)
+								.classed('casl', true)
+								.style('font-family', self.config.axis.fontfamily)
+								.style('font-size', self.config.axis.fontsize - 2)
+								.text(self.config.axis.vsublabel);
 	
 	return this;
 };
