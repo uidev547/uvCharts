@@ -59,40 +59,53 @@ r3.effects.area.mouseout = function (config) {
 };
 
 r3.effects.line = {};
-r3.effects.line.mouseover = function (config) {
-	return function () {
-		d3.select(this.parentNode).selectAll('circle')
+r3.effects.line.mouseover = function (graph, idx) {
+	var config = graph.config,
+		category = graph.categories[idx];
+
+	var effect = function () {
+		graph.frame.selectAll('.cge_' + category).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('fill-opacity', 1)
 				.style('stroke', config.effects.hovercolor);
-				
-		d3.select(this.parentNode).select('path')
+
+		graph.frame.selectAll('.cge_' + category).select('path')
 			.transition().duration(config.effects.hover)
 				.style('stroke', config.effects.hovercolor);
-				
-		d3.select(this.parentNode).selectAll('text')
+
+		graph.frame.selectAll('.cge_' + category).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor);
 	};
-};
+	graph.effects[category]['mouseover'] = effect;
 
-r3.effects.line.mouseout = function (config, color) {
-	return function () {
-		d3.select(this.parentNode).selectAll('circle')
+	return effect;
+};	
+
+r3.effects.line.mouseout = function (graph, idx, color) {
+	var config = graph.config,
+		category = graph.categories[idx],
+		color = color || r3.util.getColorBand(graph.config, idx);
+
+	var effect = function () {
+		graph.frame.selectAll('.cge_' + category).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
 				.style('stroke', color);
-				
-		d3.select(this.parentNode).select('path')
+
+		graph.frame.selectAll('.cge_' + category).select('path')
 			.transition().duration(config.effects.hover)
 				.style('stroke', color);
-				
-		d3.select(this.parentNode).selectAll('text')
+
+		graph.frame.selectAll('.cge_' + category).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
-	};
+
+	};	
+	graph.effects[category]['mouseout'] = effect;
+	return effect;
 };
 
 r3.effects.caption = {};
