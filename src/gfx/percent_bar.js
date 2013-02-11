@@ -1,6 +1,6 @@
 r3.PercentBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config || {scale: {}}).init(graphdef, config);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = [];
 
