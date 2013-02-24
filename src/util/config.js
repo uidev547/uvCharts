@@ -53,13 +53,6 @@ r3.config = {
 	scale : {
 		ordinality : 0.2
 	},
-
-	table : {
-		tableclass : 'r3_table',
-		headerclass : 'r3_header',
-		bodyclass : 'r3_body',
-		footerclass : 'r3_footer'
-	},
 	
 	bar : {
 		strokecolor : 'none',

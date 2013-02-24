@@ -47,5 +47,11 @@ r3.constants.name = {
 	panel : 'r3_panel',
 	background : 'r3_bg',
 	horaxis : 'r3_horaxis',
-	veraxis : 'r3_veraxis'
+	veraxis : 'r3_veraxis',
+	table : {
+			tableclass : 'r3_table',
+			headerclass : 'r3_header',
+			bodyclass : 'r3_body',
+			footerclass : 'r3_footer'
+	}
 };
