@@ -1,73 +1,51 @@
 init = function() {
-	barHorTest = new r3.BarGraph(r3.constants.defaultHorGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	tbarHorTest = new r3.BarGraph(r3.constants.defaultHorGraphdef, r3.config);
-	barVerTest = new r3.BarGraph(r3.constants.defaultVerGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	tbarVerTest = new r3.BarGraph(r3.constants.defaultVerGraphdef, r3.config);
+	var horConfig = $.extend(true, {}, r3.config);
+	var verConfig = $.extend(true, {}, r3.config);
+	var graphdef = $.extend(true, {}, r3.constants.graphdef);
+	var tgraphdef = $.extend(true, {}, r3.constants.graphdef);
 	
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	
-	stepUpBarHorTest = new r3.StepUpBarGraph(r3.constants.defaultHorGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	tstepUpBarHorTest = new r3.StepUpBarGraph(r3.constants.defaultHorGraphdef, r3.config);
-	stepUpBarVerTest = new r3.StepUpBarGraph(r3.constants.defaultVerGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	tstepUpBarVerTest = new r3.StepUpBarGraph(r3.constants.defaultVerGraphdef, r3.config);
-	
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	
-	stackedBarHorTest = new r3.StackedBarGraph(r3.constants.defaultHorGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	tstackedBarHorTest = new r3.StackedBarGraph(r3.constants.defaultHorGraphdef, r3.config);
-	stackedBarVerTest = new r3.StackedBarGraph(r3.constants.defaultVerGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	tstackedBarVerTest = new r3.StackedBarGraph(r3.constants.defaultVerGraphdef, r3.config);
+	verConfig.graph.orientation = 'Vertical';
+	r3.util.transposeData(tgraphdef);
 
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
+	barHorTest = r3.buildGraph('Bar', graphdef, horConfig);
+	tbarHorTest = r3.buildGraph('Bar', tgraphdef, horConfig);
+	barVerTest = r3.buildGraph('Bar', graphdef, verConfig);
+	tbarVerTest = r3.buildGraph('Bar', tgraphdef, verConfig);
 	
-	lineHorTest = new r3.LineGraph(r3.constants.defaultHorGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	tlineHorTest = new r3.LineGraph(r3.constants.defaultHorGraphdef, r3.config);
-	lineVerTest = new r3.LineGraph(r3.constants.defaultVerGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	tlineVerTest = new r3.LineGraph(r3.constants.defaultVerGraphdef, r3.config);
+	stepUpBarHorTest = r3.buildGraph('StepUpBar', graphdef, horConfig);
+	tstepUpBarHorTest = r3.buildGraph('StepUpBar', tgraphdef, horConfig);
+	stepUpBarVerTest = r3.buildGraph('StepUpBar', graphdef, verConfig);
+	tstepUpBarVerTest = r3.buildGraph('StepUpBar', tgraphdef, verConfig);
+	
+	stackedBarHorTest = r3.buildGraph('StackedBar', graphdef, horConfig);
+	tstackedBarHorTest = r3.buildGraph('StackedBar', tgraphdef, horConfig);
+	stackedBarVerTest = r3.buildGraph('StackedBar', graphdef, verConfig);
+	tstackedBarVerTest = r3.buildGraph('StackedBar', tgraphdef, verConfig);
 
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	
-	areaHorTest = new r3.AreaGraph(r3.constants.defaultHorGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	tareaHorTest = new r3.AreaGraph(r3.constants.defaultHorGraphdef, r3.config);
-	areaVerTest = new r3.AreaGraph(r3.constants.defaultVerGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	tareaVerTest = new r3.AreaGraph(r3.constants.defaultVerGraphdef, r3.config);
+	lineHorTest = r3.buildGraph('Line', graphdef, horConfig);
+	tlineHorTest = r3.buildGraph('Line', tgraphdef, horConfig);
+	lineVerTest = r3.buildGraph('Line', graphdef, verConfig);
+	tlineVerTest = r3.buildGraph('Line', tgraphdef, verConfig);
 
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
+	areaHorTest = r3.buildGraph('Area', graphdef, horConfig);
+	tareaHorTest = r3.buildGraph('Area', tgraphdef, horConfig);
+	areaVerTest = r3.buildGraph('Area', graphdef, verConfig);
+	tareaVerTest = r3.buildGraph('Area', tgraphdef, verConfig);
 
-	stackareaHorTest = new r3.StackedAreaGraph(r3.constants.defaultHorGraphdef, r3.config);
-	stackareaVerTest = new r3.StackedAreaGraph(r3.constants.defaultVerGraphdef, r3.config);
+	stackareaHorTest = r3.buildGraph('StackedArea', graphdef, horConfig);
+	stackareaVerTest = r3.buildGraph('StackedArea', graphdef, verConfig);
 	
-	centareaHorTest = new r3.PercentAreaGraph(r3.constants.defaultHorGraphdef, r3.config);
-	centareaVerTest = new r3.PercentAreaGraph(r3.constants.defaultVerGraphdef, r3.config);
+	centareaHorTest = r3.buildGraph('PercentArea', graphdef, horConfig);
+	centareaVerTest = r3.buildGraph('PercentArea', graphdef, verConfig);
 	
-	centbarHorTest = new r3.PercentBarGraph(r3.constants.defaultHorGraphdef, r3.config, r3.config);
-	centbarVerTest = new r3.PercentBarGraph(r3.constants.defaultVerGraphdef, r3.config, r3.config);
+	centbarHorTest = r3.buildGraph('PercentBar', graphdef, verConfig);
+	centbarVerTest = r3.buildGraph('PercentBar', graphdef, verConfig);
 	
-	donutTest = new r3.DonutGraph(r3.constants.defaultVerGraphdef, r3.config);
-	pieTest = new r3.PieGraph(r3.constants.defaultVerGraphdef, r3.config);
+	donutTest = r3.buildGraph('Donut', graphdef, horConfig);
+	pieTest = r3.buildGraph('Pie', graphdef, horConfig);
 	
-	tableHorTest = new r3.TableGraph(r3.constants.defaultHorGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
-	ttableHorTest = new r3.TableGraph(r3.constants.defaultHorGraphdef, r3.config);
-	tableVerTest = new r3.TableGraph(r3.constants.defaultVerGraphdef, r3.config);
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	tableVerTest = new r3.TableGraph(r3.constants.defaultVerGraphdef, r3.config);
-	
-	r3.util.transposeData(r3.constants.defaultVerGraphdef);
-	r3.util.transposeData(r3.constants.defaultHorGraphdef);
+	tableHorTest = new r3.TableGraph(graphdef, horConfig);
+	ttableHorTest = new r3.TableGraph(tgraphdef, horConfig);
+	tableVerTest = new r3.TableGraph(graphdef, verConfig);
+	tableVerTest = new r3.TableGraph(tgraphdef, verConfig);
 };

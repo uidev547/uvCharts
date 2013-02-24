@@ -9,7 +9,7 @@ r3.PercentBarGraph = function (graphdef, config) {
 		csum = domainData.map(function (d) {return 0; }),
 		tsum = domainData.map(function (d) {return 0; });
 
-	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
 		color = r3.util.getColorBand(self.config, idx);
@@ -17,9 +17,9 @@ r3.PercentBarGraph = function (graphdef, config) {
 		bargroup = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
 		bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
 
-		self['draw' + r3.util.getPascalCasedName(self.graphdef.orientation) + 'Bars'](bars, csum, tsum, idx);
+		self['draw' + r3.util.getPascalCasedName(self.config.graph.orientation) + 'Bars'](bars, csum, tsum, idx);
 
-		if (self.graphdef.orientation === 'Vertical') {
+		if (self.config.graph.orientation === 'Vertical') {
 			bargroup.attr('transform', 'translate(0,' + 2 * self.height() + ') scale(1,-1)');
 		}
 

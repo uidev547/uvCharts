@@ -8,7 +8,7 @@ r3.LineGraph = function (graphdef, config) {
 	var linegroup, linepath, linefunc, idx, len = self.categories.length,
 		domainData = self.labels;
 
-	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0; idx < len; idx = idx + 1) {
 		linepath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx])
@@ -18,7 +18,7 @@ r3.LineGraph = function (graphdef, config) {
 			func: undefined
 		};
 
-		self['draw' + self.graphdef.orientation + 'Lines'](linegroup, idx, color);
+		self['draw' + self.config.graph.orientation + 'Lines'](linegroup, idx, color);
 		self.linegroups[self.categories[idx]] = linegroup;
 	}
 

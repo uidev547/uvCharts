@@ -16,9 +16,9 @@ r3.PercentAreaGraph = function (graphdef) {
 		domainData = self.labels,
 		categories = self.categories;
 
-	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 	self.areagroup = self.panel.selectAll('g.areagroup').data(stacklayout).enter().append('g').attr('class',function (d,i) { return 'cge_' + self.categories[i]; });
-	self['draw' + self.graphdef.orientation + 'Area']();
+	self['draw' + self.config.graph.orientation + 'Area']();
 
 	self.finalize(true);
 };

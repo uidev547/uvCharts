@@ -6,10 +6,10 @@ r3.StackedAreaGraph = function (graphdef, config) {
 			return graphdef.dataset[d].map(function (d) { return {x: d.name, y: +d.value}; });
 	}));
 
-	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels.map(function (d) { return d; }));
+	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels.map(function (d) { return d; }));
 	self.areagroup = self.panel.append('g').selectAll('g')
 											.data(stacklayout).enter().append('g').attr('class', function (d, i) { return 'cge_' + self.categories[i]; });
-	self['draw' + self.graphdef.orientation + 'Area']();
+	self['draw' + self.config.graph.orientation + 'Area']();
 
 	self.finalize();
 };

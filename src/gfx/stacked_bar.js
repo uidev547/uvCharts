@@ -9,11 +9,11 @@ r3.StackedBarGraph = function (graphdef) {
 		csum = domainData.map(function (d) {return 0; }),
 		tsum = domainData.map(function (d) {return 0; });
 
-	self.axes[self.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
+	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
 		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
-		self['draw' + self.graphdef.orientation + 'Bars'](idx, csum, tsum);
+		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
 	self.finalize();

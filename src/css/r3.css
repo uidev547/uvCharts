@@ -6,3 +6,7 @@
 .r3_frame {
 	margin : 5px;
 }
+
+.r3_horaxis, .r3_veraxis {
+  shape-rendering: crispEdges;
+}

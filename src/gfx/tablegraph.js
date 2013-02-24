@@ -1,8 +1,8 @@
-r3.TableGraph = function (graphdef) {
+r3.TableGraph = function (graphdef, config) {
 	r3.Table.apply(this, [graphdef]);
-	this.init(graphdef);
+	this.init(graphdef, config);
 
-	if (this.graphdef.orientation === 'hor') {
+	if (this.config.graph.orientation === 'Horizontal') {
 		this.setHorTable();
 	} else {
 		this.setVerTable();

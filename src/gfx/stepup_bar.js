@@ -8,11 +8,11 @@ r3.StepUpBarGraph = function (graphdef, config) {
 		csum = self.labels.map(function (d) {return 0; }),
 		tsum = self.labels.map(function (d) {return 0; });
 
-	self.axes[this.graphdef.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(this.labels);
+	self.axes[this.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(this.labels);
 
 	for (idx = 0; idx < length; idx = idx + 1) {
 		self.bargroups[self.categories[idx]] = this.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
-		self['draw' + self.graphdef.orientation + 'Bars'](idx, csum, tsum);
+		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
 	self.finalize();

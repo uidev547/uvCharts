@@ -22,14 +22,14 @@ module.exports = function(grunt) {
     
     concat: {
       dist: {
-        src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js',
+        src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js',
               'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js', 
               'src/gfx/table.js', 'src/gfx/tablegraph.js'],
         dest: 'dist/r3.js'
       },
       
       gfx : {
-        src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js',
+        src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js',
               'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js', 
               'src/gfx/table.js', 'src/gfx/tablegraph.js'],
         dest: 'dist/r3_gfx.js'
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 
       style : {
       	src : ['src/css/r3.css'],
-	dest : 'dist/r3.css'
+				dest : 'dist/r3.css'
       }
     },
     

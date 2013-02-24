@@ -2,13 +2,12 @@ r3.config = {
 	graph : {
 		palette : 'Brink',
 		background : 'white',
-		type : undefined,
 		orientation : 'Horizontal',
 		max : 0
 	},
 
 	meta : {
-		position : '#r3_div',
+		position : '.r3_div',
 		caption : 'Usage of browsers by the years',
 		subCaption : 'Among major vendors'
 	},
@@ -26,16 +25,16 @@ r3.config = {
 	},
 
 	frame : {
-		bgcolor : '#ccc'
+		bgcolor : '#fff'
 	},
 
 	axis : {
 		ticks : 8,
-		subticks : 1,
+		subticks : 2,
 		padding : 5,
 		minor : -10,
 		strokecolor : '#000',
-		fontfamily : 'Ubuntu',
+		fontfamily : 'Arial',
 		fontsize : '14',
 		fontweight : 'bold',
 		hlabel : 'Horizontal Axis Label',
@@ -45,7 +44,7 @@ r3.config = {
 	},
 
 	label : {
-		fontfamily : 'Ubuntu',
+		fontfamily : 'Arial',
 		fontsize : '11',
 		fontweight : 'normal',
 		strokecolor : '#000'
@@ -81,7 +80,7 @@ r3.config = {
 	},
 	
 	pie : {
-		fontfamily : 'Ubuntu',
+		fontfamily : 'Arial',
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
@@ -91,7 +90,7 @@ r3.config = {
 	},
 	
 	donut : {
-		fontfamily : 'ubuntu',
+		fontfamily : 'Arial',
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
@@ -102,7 +101,7 @@ r3.config = {
 	},
 	
 	caption : {
-		fontfamily : 'Cambria',
+		fontfamily : 'Arial',
 		fontsize : '14',
 		fontweight : 'bold',
 		fontvariant : 'small-caps',
@@ -112,7 +111,7 @@ r3.config = {
 	},
 
 	subCaption : {
-		fontfamily : 'Cambria',
+		fontfamily : 'Arial',
 		fontsize : '9',
 		fontweight : 'normal',
 		fontvariant : 'normal',
@@ -121,8 +120,8 @@ r3.config = {
 	},
 
 	legend : {
-		fontfamily : 'Ubuntu',
-		fontsize : '12',
+		fontfamily : 'Arial',
+		fontsize : '11',
 		fontweight : 'normal',
 		textmargin : 15,
 		symbolsize : 10,
@@ -137,4 +136,3 @@ r3.config = {
 		hover : 400
 	}
 };
-

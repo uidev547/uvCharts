@@ -16,29 +16,27 @@ var r3 = {};
  * labels			- labels from the dataset provided
  * categories	- categories from the dataset provided
  * axes				- object containing axes related stuff: group, func, scale, axis, line, label
- * $					- jQuery object of the graph, just in case
  *
  *
  */
 r3.Graph = function () {
 	var self = this;
 	self.id = r3.util.getUniqueId();
-	self.graphdef = undefined;
-	self.config = undefined;
+	self.graphdef = null;
+	self.config = null;
 
-	self.frame = undefined;
-	self.panel = undefined;
-	self.bg = undefined;
+	self.frame = null;
+	self.panel = null;
+	self.bg = null;
 	self.effects = {};
 	self.axes = {
-		hor : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined },
-		ver : { group: undefined, scale : undefined, func: undefined, axis : undefined, line : undefined, label : undefined }
+		hor : { group: null, scale : null, func: null, axis : null, line : null, label : null },
+		ver : { group: null, scale : null, func: null, axis : null, line : null, label : null }
 	};
 
-	self.labels = undefined;
-	self.categories = undefined;
+	self.labels = null;
+	self.categories = null;
 
-	self.$ = undefined;
 	return this;
 };
 
@@ -53,7 +51,7 @@ r3.Graph.prototype.init = function (graphdef, config) {
 	self.graphdef = graphdef;
 	self.config = $.extend(true, {}, r3.config, config);
 	self.max(self.graphdef.stepup)
-		.position(self.config.meta.position || ('#' + r3.constants.name.pos) || 'body')
+		.position(self.config.meta.position || 'body')
 		.setDimensions()
 		.setFrame()
 		.setPanel()
@@ -90,7 +88,7 @@ r3.Graph.prototype.setDimensions = function () {
  */
 r3.Graph.prototype.setFrame = function () {
 	var self = this;
-	if (self.frame === undefined) {
+	if (!self.frame) {
 		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
@@ -115,7 +113,7 @@ r3.Graph.prototype.setFrame = function () {
  */
 r3.Graph.prototype.setPanel = function () {
 	var self = this;
-	if (self.panel === undefined) {
+	if (!self.panel) {
 		self.panel = self.frame.append('g');
 	}
 
@@ -133,7 +131,7 @@ r3.Graph.prototype.setPanel = function () {
  */
 r3.Graph.prototype.setBackground = function (color) {
 	var self = this;
-	if (self.bg === undefined) {
+	if (!self.bg) {
 		self.bg = self.panel.append('rect').attr('class', r3.constants.name.background)
 						.attr('height', self.height())
 						.attr('width', self.width());
@@ -209,12 +207,13 @@ r3.Graph.prototype.setMetadata = function () {
 r3.Graph.prototype.setHorizontalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
-	if (self.axes.hor.group === undefined) {
+	if (!self.axes.hor.group) {
 		self.axes.hor.group = self.panel.append('g').attr('class', r3.constants.name.horaxis)
-									.attr('transform', 'translate(0,' + self.height() + ')');
+									.attr('transform', 'translate(0,' + self.height() + ')')
+									.style('sharp-rendering','crispEdges');
 	}
 
-	if (graphdef.orientation === 'Horizontal') {
+	if (self.config.graph.orientation === 'Horizontal') {
 		self.axes.hor.scale	= d3.scale.linear()
 								.domain([0, self.max()])
 								.range([0, self.width()])
@@ -247,11 +246,12 @@ r3.Graph.prototype.setHorizontalAxis = function () {
 r3.Graph.prototype.setVerticalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
-	if (self.axes.ver.group === undefined) {
-		self.axes.ver.group = self.panel.append('g').attr('class', r3.constants.name.veraxis);
+	if (!self.axes.ver.group) {
+		self.axes.ver.group = self.panel.append('g').attr('class', r3.constants.name.veraxis)
+															.style('sharp-rendering','crispEdges');
 	}
 
-	if (graphdef.orientation === 'Vertical') {
+	if (self.config.graph.orientation === 'Vertical') {
 		self.axes.ver.scale	= d3.scale.linear()
 								.domain([self.max(), 0])
 								.range([0, self.height()])

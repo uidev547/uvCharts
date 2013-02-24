@@ -9,13 +9,15 @@ r3.Table = function () {
 	this.bodyrows = {};
 };
 
-r3.Table.prototype.init = function (graphdef) {
+r3.Table.prototype.init = function (graphdef, config) {
 	this.graphdef = graphdef;
-	this.position = this.graphdef.pos || '#chart3rdiv' || 'body';
+	this.config = $.extend(true, {}, config);
+	this.position = this.config.meta.pos || 'body';
 
-	this.table = d3.select(this.position).append('table').attr('class', r3.config.table.tableclass);
-	this.header = this.table.append('thead').attr('class', r3.config.table.headerclass);
-	this.body = this.table.append('tbody').attr('class', r3.config.table.bodyclass);
+	this.table = d3.select(this.position).append('table').attr('class', this.config.table.tableclass);
+	this.header = this.table.append('thead').attr('class', this.config.table.headerclass);
+	this.body = this.table.append('tbody').attr('class', this.config.table.bodyclass);
+	this.footer = this.table.append('tfoot').attr('class', this.config.table.footerclass);
 };
 
 r3.Table.prototype.finalize = function () {
