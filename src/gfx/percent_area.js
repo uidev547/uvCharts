@@ -1,8 +1,6 @@
-r3.PercentAreaGraph = function (graphdef) {
+r3.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self, graphdef);
-	graphdef.stepup = 'percent';
-	self.init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
@@ -24,6 +22,11 @@ r3.PercentAreaGraph = function (graphdef) {
 };
 
 r3.PercentAreaGraph.prototype = r3.util.extend(r3.Graph);
+
+r3.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = 'percent';
+	return this;
+};
 
 r3.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 	var self = this, axes = self.axes,

@@ -1,6 +1,6 @@
-r3.StackedBarGraph = function (graphdef) {
+r3.StackedBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef).init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = {};
 
@@ -12,7 +12,7 @@ r3.StackedBarGraph = function (graphdef) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
+		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cge_' + self.categories[idx]);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
@@ -21,7 +21,7 @@ r3.StackedBarGraph = function (graphdef) {
 
 r3.StackedBarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.StackedBarGraph.prototype.setDefaults = function (graphdef) {
+r3.StackedBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };

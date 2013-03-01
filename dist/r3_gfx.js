@@ -260,13 +260,13 @@ r3.Graph.prototype.setVerticalAxis = function () {
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
 								.ticks(self.config.axis.ticks)
-								.tickSize(-self.height(), self.config.axis.minor, 0)
+								.tickSize(-self.width(), self.config.axis.minor, 0)
 								.tickPadding(self.config.axis.padding)
 								.tickSubdivide(self.config.axis.subticks)
 								.orient('left');
 	} else {
 		self.axes.ver.scale = d3.scale.ordinal()
-								.rangeRoundBands([0, self.height()], self.config.scale.ordinality);
+								.rangeRoundBands([0, self.width()], self.config.scale.ordinality);
 		
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
@@ -756,7 +756,7 @@ r3.config = {
 	scale : {
 		ordinality : 0.2
 	},
-	
+
 	bar : {
 		strokecolor : 'none',
 		fontfamily : 'Arial',
@@ -774,7 +774,7 @@ r3.config = {
 		offset : 'zero',
 		opacity : 0.2
 	},
-	
+
 	pie : {
 		fontfamily : 'Arial',
 		fontsize : '14',
@@ -1133,11 +1133,9 @@ r3.palette = {
 	'Bright' : ['#ef597b', '#ff6d31', '#73b66b', '#ffcb18', '#29a2c6'],
 	'Lint' : ['#667b99', '#afbbd2', '#ccd5e6', '#e9eef6', '#ff6637']
 };
-r3.AreaGraph = function (graphdef) {
+r3.AreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.apply(self, [graphdef]);
-	graphdef.stepup = false;
-	self.init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.areagroups = [];
 	self.dataset = r3.util.getDataArray(self.graphdef);
@@ -1159,6 +1157,11 @@ r3.AreaGraph = function (graphdef) {
 };
 
 r3.AreaGraph.prototype = r3.util.extend(r3.Graph);
+
+r3.AreaGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = false;
+	return this;
+};
 
 r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 	var self = this,
@@ -1360,10 +1363,9 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
-r3.DonutGraph = function (graphdef) {
+r3.DonutGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.apply(self);
-	self.init(graphdef);
+	r3.Graph.call(self).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
@@ -1409,7 +1411,7 @@ r3.DonutGraph = function (graphdef) {
 r3.DonutGraph.prototype = r3.util.extend(r3.Graph);
 r3.LineGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef).init(graphdef, config);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.linegroups = {};
 	self.dataset = r3.util.getDataArray(self.graphdef);
@@ -1436,8 +1438,9 @@ r3.LineGraph = function (graphdef, config) {
 
 r3.LineGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.LineGraph.prototype.setDefaults = function (graphdef) {
+r3.LineGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
+	config.scale.ordinality = 0;
 	return this;
 };
 
@@ -1556,11 +1559,9 @@ r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 
 	return this;
 };
-r3.PercentAreaGraph = function (graphdef) {
+r3.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self, graphdef);
-	graphdef.stepup = 'percent';
-	self.init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
@@ -1582,6 +1583,11 @@ r3.PercentAreaGraph = function (graphdef) {
 };
 
 r3.PercentAreaGraph.prototype = r3.util.extend(r3.Graph);
+
+r3.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = 'percent';
+	return this;
+};
 
 r3.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 	var self = this, axes = self.axes,
@@ -1773,10 +1779,9 @@ r3.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
 			.delay(idx * r3.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(r3.util.getPercentage(tsum[i], sumMap[i]))) + 5; });
 };
-r3.PieGraph = function (graphdef) {
+r3.PieGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.apply(self);
-	self.init(graphdef);
+	r3.Graph.call(self).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
@@ -1922,9 +1927,9 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 
 	return self;
 };
-r3.StackedBarGraph = function (graphdef) {
+r3.StackedBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef).init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = {};
 
@@ -1936,7 +1941,7 @@ r3.StackedBarGraph = function (graphdef) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
+		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cge_' + self.categories[idx]);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
@@ -1945,7 +1950,7 @@ r3.StackedBarGraph = function (graphdef) {
 
 r3.StackedBarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.StackedBarGraph.prototype.setDefaults = function (graphdef) {
+r3.StackedBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };
@@ -2044,7 +2049,7 @@ r3.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 };
 r3.StepUpBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef).init(graphdef, config);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	this.bargroups = {};
 
@@ -2064,7 +2069,7 @@ r3.StepUpBarGraph = function (graphdef, config) {
 
 r3.StepUpBarGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.StepUpBarGraph.prototype.setDefaults = function (graphdef) {
+r3.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };

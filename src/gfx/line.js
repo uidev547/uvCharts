@@ -1,6 +1,6 @@
 r3.LineGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef).init(graphdef, config);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.linegroups = {};
 	self.dataset = r3.util.getDataArray(self.graphdef);
@@ -27,8 +27,9 @@ r3.LineGraph = function (graphdef, config) {
 
 r3.LineGraph.prototype = r3.util.extend(r3.Graph);
 
-r3.LineGraph.prototype.setDefaults = function (graphdef) {
+r3.LineGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
+	config.scale.ordinality = 0;
 	return this;
 };
 

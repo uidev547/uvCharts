@@ -53,7 +53,7 @@ r3.config = {
 	scale : {
 		ordinality : 0.2
 	},
-	
+
 	bar : {
 		strokecolor : 'none',
 		fontfamily : 'Arial',
@@ -71,7 +71,7 @@ r3.config = {
 		offset : 'zero',
 		opacity : 0.2
 	},
-	
+
 	pie : {
 		fontfamily : 'Arial',
 		fontsize : '14',

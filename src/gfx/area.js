@@ -1,8 +1,6 @@
-r3.AreaGraph = function (graphdef) {
+r3.AreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.apply(self, [graphdef]);
-	graphdef.stepup = false;
-	self.init(graphdef);
+	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.areagroups = [];
 	self.dataset = r3.util.getDataArray(self.graphdef);
@@ -24,6 +22,11 @@ r3.AreaGraph = function (graphdef) {
 };
 
 r3.AreaGraph.prototype = r3.util.extend(r3.Graph);
+
+r3.AreaGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = false;
+	return this;
+};
 
 r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 	var self = this,

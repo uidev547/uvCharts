@@ -1,7 +1,6 @@
-r3.PieGraph = function (graphdef) {
+r3.PieGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.apply(self);
-	self.init(graphdef);
+	r3.Graph.call(self).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
