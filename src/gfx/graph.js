@@ -1,12 +1,12 @@
 /**
- * r3 is the namespace, which holds everything else related to the library
+ * uv is the namespace, which holds everything else related to the library
  * @type {Object}
  */
-var r3 = {};
+var uv = {};
 
 /**
- * r3.Graph is an abstract class of sorts which serves as the base for all other graphs.
- * id					- unique id corresponding to the graph, created using the timestamp
+ * uv.Graph is an abstract class of sorts which serves as the base for all other graphs.
+ * id					- unique id corresponding to the graph, created using current timestamp
  * graphdef		- definition of the graph, containing data on which the visualization is built
  * config			- configuration of the graph, affecting the visual styling of the graph
  * frame			- <svg> element acting as the parent graph container
@@ -17,11 +17,10 @@ var r3 = {};
  * categories	- categories from the dataset provided
  * axes				- object containing axes related stuff: group, func, scale, axis, line, label
  *
- *
  */
-r3.Graph = function () {
+uv.Graph = function () {
 	var self = this;
-	self.id = r3.util.getUniqueId();
+	self.id = uv.util.getUniqueId();
 	self.graphdef = null;
 	self.config = null;
 
@@ -46,10 +45,10 @@ r3.Graph = function () {
  * @param  {Object} config   Configuration of the graph, take a look at config.js for complete documentation
  * @return {Object}          The graph object itself, to support method chaining
  */
-r3.Graph.prototype.init = function (graphdef, config) {
+uv.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
-	self.config = $.extend(true, {}, r3.config, config);
+	self.config = $.extend(true, {}, uv.config, config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || 'body')
 		.setDimensions()
@@ -70,7 +69,7 @@ r3.Graph.prototype.init = function (graphdef, config) {
  * Sets the dimensions of the graphs, namely height, width and margins: left, right, top and bottom
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setDimensions = function () {
+uv.Graph.prototype.setDimensions = function () {
 	var self = this;
 	self.height(self.config.dimension.height)
 		.width(self.config.dimension.width)
@@ -86,14 +85,14 @@ r3.Graph.prototype.setDimensions = function () {
  * Sets the main <svg> element which contains rest of the graph elements
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setFrame = function () {
+uv.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (!self.frame) {
 		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
-	self.frame.attr('id', r3.constants.name.frame + '_' + self.id)
-		.classed(r3.constants.name.frame, true)
+	self.frame.attr('id', uv.constants.name.frame + '_' + self.id)
+		.classed(uv.constants.name.frame, true)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
 
@@ -102,7 +101,7 @@ r3.Graph.prototype.setFrame = function () {
 		.attr('height', self.height() + self.top() + self.bottom())
 		.style('fill', self.config.frame.bgcolor);
 
-	self.$ = $('svg#' + r3.constants.name.frame + '_' + self.id);
+	self.$ = $('svg#' + uv.constants.name.frame + '_' + self.id);
 
 	return this;
 };
@@ -111,14 +110,14 @@ r3.Graph.prototype.setFrame = function () {
  * Sets the <g> element which serves as the base position for the graph elements
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setPanel = function () {
+uv.Graph.prototype.setPanel = function () {
 	var self = this;
 	if (!self.panel) {
 		self.panel = self.frame.append('g');
 	}
 
-	self.panel.attr('id', r3.constants.name.panel + '_' + self.id)
-		.classed(r3.constants.name.panel, true)
+	self.panel.attr('id', uv.constants.name.panel + '_' + self.id)
+		.classed(uv.constants.name.panel, true)
 		.attr('transform', 'translate(' + self.left() + ',' + self.top() + ')');
 
 	return this;
@@ -129,10 +128,10 @@ r3.Graph.prototype.setPanel = function () {
  * @param {String} color Color code for the background, set to config value if not specified
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setBackground = function (color) {
+uv.Graph.prototype.setBackground = function (color) {
 	var self = this;
 	if (!self.bg) {
-		self.bg = self.panel.append('rect').attr('class', r3.constants.name.background)
+		self.bg = self.panel.append('rect').attr('class', uv.constants.name.background)
 						.attr('height', self.height())
 						.attr('width', self.width());
 	}
@@ -145,7 +144,7 @@ r3.Graph.prototype.setBackground = function (color) {
  * Sets the caption for the graph
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setCaption = function () {
+uv.Graph.prototype.setCaption = function () {
 	var self = this;
 	self.caption = self.panel.append('g').attr('class', 'r3_caption');
 	
@@ -159,8 +158,8 @@ r3.Graph.prototype.setCaption = function () {
 		.style('font-weight', self.config.caption.fontweight)
 		.style('font-variant', self.config.caption.fontvariant)
 		.style('text-decoration', self.config.caption.textdecoration)
-		.on('mouseover', r3.effects.caption.mouseover(self.config))
-		.on('mouseout', r3.effects.caption.mouseout(self.config));
+		.on('mouseover', uv.effects.caption.mouseover(self.config))
+		.on('mouseout', uv.effects.caption.mouseout(self.config));
 
 	return this;
 };
@@ -170,12 +169,12 @@ r3.Graph.prototype.setCaption = function () {
  * Sets the subcaption for the graph
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setSubCaption = function () {
+uv.Graph.prototype.setSubCaption = function () {
 	var self = this;
 	self.subCaption = self.panel.append('g').attr('class', 'r3_subCaption');
 	
 	self.subCaption.append('text').attr('class', 'r3_subcaptiontext')
-		.text(self.config.meta.subCaption)
+		.text(self.config.meta.subcaption)
 		.attr('y', -self.config.margin.top / 2 + 1*self.config.caption.fontsize)
 		.attr('x', self.config.dimension.width / 2)
 		.attr('text-anchor', self.config.caption.textanchor)
@@ -193,10 +192,10 @@ r3.Graph.prototype.setSubCaption = function () {
  * Sets the metadata for the graph, this includes the labels and the categories
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setMetadata = function () {
+uv.Graph.prototype.setMetadata = function () {
 	var self = this;
-	self.labels = r3.util.getLabelArray(self.graphdef);
-	self.categories = r3.util.getCategoryArray(self.graphdef);
+	self.labels = uv.util.getLabelArray(self.graphdef);
+	self.categories = uv.util.getCategoryArray(self.graphdef);
 	return this;
 };
 
@@ -204,11 +203,11 @@ r3.Graph.prototype.setMetadata = function () {
  * Sets the Horizontal Axis functions but doesnt render it yet
  * return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setHorizontalAxis = function () {
+uv.Graph.prototype.setHorizontalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (!self.axes.hor.group) {
-		self.axes.hor.group = self.panel.append('g').attr('class', r3.constants.name.horaxis)
+		self.axes.hor.group = self.panel.append('g').attr('class', uv.constants.name.horaxis)
 									.attr('transform', 'translate(0,' + self.height() + ')')
 									.style('sharp-rendering','crispEdges');
 	}
@@ -243,11 +242,11 @@ r3.Graph.prototype.setHorizontalAxis = function () {
  * Sets the Vertical axis functions, but doesnt render it yet
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setVerticalAxis = function () {
+uv.Graph.prototype.setVerticalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (!self.axes.ver.group) {
-		self.axes.ver.group = self.panel.append('g').attr('class', r3.constants.name.veraxis)
+		self.axes.ver.group = self.panel.append('g').attr('class', uv.constants.name.veraxis)
 															.style('sharp-rendering','crispEdges');
 	}
 
@@ -281,7 +280,7 @@ r3.Graph.prototype.setVerticalAxis = function () {
  * Creates placeholders for functions which cause the various animations across the graph to be able invoke it from other places
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setEffectsObject = function () {
+uv.Graph.prototype.setEffectsObject = function () {
 	var self = this;
 	for (var i = 0; i < self.categories.length ; i++) {
 		self.effects[self.categories[i]] = {};
@@ -293,7 +292,7 @@ r3.Graph.prototype.setEffectsObject = function () {
  * Draws the horizontal axis within the frame based on the orientation and functions already created
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.drawHorizontalAxis = function () {
+uv.Graph.prototype.drawHorizontalAxis = function () {
 	var self = this;
 	self.axes.hor.axis = self.axes.hor.group.append('g')
 								.style('font-family', self.config.label.fontfamily)
@@ -305,7 +304,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
 	self.axes.hor.line = self.panel.append('line')
-								.attr('class', r3.constants.name.horaxis)
+								.attr('class', uv.constants.name.horaxis)
 								.attr('y1', self.height())
 								.attr('y2', self.height())
 								.attr('x1', '0')
@@ -322,7 +321,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 								.attr('text-anchor','middle')
 								.style('font-size', self.config.axis.fontsize)
 								.style('font-family', self.config.axis.fontfamily)
-								.text(self.config.axis.hlabel);
+								.text(self.config.meta.hlabel);
 
 	self.axes.hor.label.append('text')
 								.attr('display','block')
@@ -331,7 +330,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 								.attr('text-anchor','middle')
 								.style('font-size', self.config.axis.fontsize - 2)
 								.style('font-family', self.config.axis.fontfamily)
-								.text(self.config.axis.hsublabel);
+								.text(self.config.meta.hsublabel);
 	
 	return this;
 };
@@ -340,7 +339,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
  * Draws the vertical axis within the frame based on the orientation and functions already created
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.drawVerticalAxis = function () {
+uv.Graph.prototype.drawVerticalAxis = function () {
 	var self = this;
 	self.axes.ver.axis = self.axes.ver.group.append('g')
 								.style('font-family', self.config.label.fontfamily)
@@ -352,7 +351,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
 	self.axes.ver.line = self.panel.append('line')
-								.attr('class', r3.constants.name.veraxis)
+								.attr('class', uv.constants.name.veraxis)
 								.attr('y1', 0)
 								.attr('y2', self.height())
 								.style('stroke', self.config.axis.strokecolor);
@@ -365,7 +364,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 								.classed('cal', true)
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize)
-								.text(self.config.axis.vlabel);
+								.text(self.config.meta.vlabel);
 
 	self.axes.ver.label.append('text').attr('class', 'r3_axessublabel')
 								.attr('text-anchor', 'middle')
@@ -373,7 +372,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 								.classed('casl', true)
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize - 2)
-								.text(self.config.axis.vsublabel);
+								.text(self.config.meta.vsublabel);
 	
 	return this;
 };
@@ -382,7 +381,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
  * Sets the legend and related interactions for the graph based on the configuration
  * @return {Object}	The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setLegend = function () {
+uv.Graph.prototype.setLegend = function () {
 	var self = this;
 
 	var legendgroup = self.panel.append('g').attr('class', 'r3_legend')
@@ -399,13 +398,13 @@ r3.Graph.prototype.setLegend = function () {
 							self.effects[d].mouseout();
 						})
 						.on('click', function (d, i) {
-							r3.effects.legend.click(i, this, self);
+							uv.effects.legend.click(i, this, self);
 						});
 
 	self.legends.append('rect').attr('class', 'r3_legendsign')
 				.attr('height', self.config.legend.symbolsize)
 				.attr('width', self.config.legend.symbolsize)
-				.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
+				.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 				.style('stroke', 'none');
 
 	self.legends.append('text').attr('class', 'r3_legendtext')
@@ -425,7 +424,7 @@ r3.Graph.prototype.setLegend = function () {
  * @param  {Boolean} isLoggable Specifies whether the graph object should be logged or not, for debug purpose only
  * @return {Object}             The graph object itself, to support method chaining
  */
-r3.Graph.prototype.finalize = function (isLoggable) {
+uv.Graph.prototype.finalize = function (isLoggable) {
 	var self = this;
 	self.drawHorizontalAxis()
 		.drawVerticalAxis()
@@ -443,7 +442,7 @@ r3.Graph.prototype.finalize = function (isLoggable) {
  * Removes the entire graph object
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.remove = function () {
+uv.Graph.prototype.remove = function () {
 	this.frame.remove();
 	return this;
 };
@@ -452,7 +451,7 @@ r3.Graph.prototype.remove = function () {
  * Removes the caption component of the graph
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.removeCaption = function () {
+uv.Graph.prototype.removeCaption = function () {
 	this.caption.remove();
 	return this;
 };
@@ -461,7 +460,7 @@ r3.Graph.prototype.removeCaption = function () {
  * Removes the legend component of the graph
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.removeLegend = function () {
+uv.Graph.prototype.removeLegend = function () {
 	if (this.legends[0]) {
 		this.legends[0].parentNode.remove();
 	}
@@ -469,20 +468,20 @@ r3.Graph.prototype.removeLegend = function () {
 	return this;
 };
 
-r3.Graph.prototype.removePanel = function () {
+uv.Graph.prototype.removePanel = function () {
 	this.panel.remove();
 	return this;
 };
 
-r3.Graph.prototype.removeHorAxis = function () {
-	this.panel.selectAll('g.' + r3.constants.name.horaxis + " > *").remove();
-	this.panel.selectAll('line.' + r3.constants.name.horaxis).remove();
+uv.Graph.prototype.removeHorAxis = function () {
+	this.panel.selectAll('g.' + uv.constants.name.horaxis + " > *").remove();
+	this.panel.selectAll('line.' + uv.constants.name.horaxis).remove();
 	return this;
 };
 
-r3.Graph.prototype.removeVerAxis = function () {
-	this.panel.selectAll('g.' + r3.constants.name.veraxis + " > *").remove();
-	this.panel.selectAll('line.' + r3.constants.name.veraxis).remove();
+uv.Graph.prototype.removeVerAxis = function () {
+	this.panel.selectAll('g.' + uv.constants.name.veraxis + " > *").remove();
+	this.panel.selectAll('line.' + uv.constants.name.veraxis).remove();
 	return this;
 };
 
@@ -490,7 +489,7 @@ r3.Graph.prototype.removeVerAxis = function () {
  * Setters and getters for various common properties of the graph
  */
 
-r3.Graph.prototype.width = function (w) {
+uv.Graph.prototype.width = function (w) {
 	if (w) {
 		this.config.dimension.width = w;
 		return this;
@@ -499,7 +498,7 @@ r3.Graph.prototype.width = function (w) {
 	return this.config.dimension.width;
 };
 
-r3.Graph.prototype.height = function (h) {
+uv.Graph.prototype.height = function (h) {
 	if (h) {
 		this.config.dimension.height = h;
 		return this;
@@ -508,7 +507,7 @@ r3.Graph.prototype.height = function (h) {
 	return this.config.dimension.height;
 };
 
-r3.Graph.prototype.top = function (t) {
+uv.Graph.prototype.top = function (t) {
 	if (t) {
 		this.config.margin.top = t;
 		return this;
@@ -517,7 +516,7 @@ r3.Graph.prototype.top = function (t) {
 	return this.config.margin.top;
 };
 
-r3.Graph.prototype.bottom = function (b) {
+uv.Graph.prototype.bottom = function (b) {
 	if (b) {
 		this.config.margin.bottom = b;
 		return this;
@@ -526,7 +525,7 @@ r3.Graph.prototype.bottom = function (b) {
 	return this.config.margin.bottom;
 };
 
-r3.Graph.prototype.left = function (l) {
+uv.Graph.prototype.left = function (l) {
 	if (l) {
 		this.config.margin.left = l;
 		return this;
@@ -535,7 +534,7 @@ r3.Graph.prototype.left = function (l) {
 	return this.config.margin.left;
 };
 
-r3.Graph.prototype.right = function (r) {
+uv.Graph.prototype.right = function (r) {
 	if (r) {
 		this.config.margin.right = r;
 		return this;
@@ -544,7 +543,7 @@ r3.Graph.prototype.right = function (r) {
 	return this.config.margin.right;
 };
 
-r3.Graph.prototype.position = function (pos) {
+uv.Graph.prototype.position = function (pos) {
 	if (pos) {
 		this.config.meta.position = pos;
 		return this;
@@ -553,7 +552,7 @@ r3.Graph.prototype.position = function (pos) {
 	return this.config.meta.position;
 };
 
-r3.Graph.prototype.caption = function (caption) {
+uv.Graph.prototype.caption = function (caption) {
 	if (caption) {
 		this.config.meta.caption = caption;
 		return this;
@@ -562,7 +561,7 @@ r3.Graph.prototype.caption = function (caption) {
 	return this.config.meta.caption;
 };
 
-r3.Graph.prototype.subCaption = function(subCaption){
+uv.Graph.prototype.subCaption = function(subCaption){
 	if(subCaption){
 		this.config.meta.subCaption = subCaption;
 		return this;
@@ -571,12 +570,12 @@ r3.Graph.prototype.subCaption = function(subCaption){
 	return this.config.meta.caption;
 };
 
-r3.Graph.prototype.max = function (stepup) {
+uv.Graph.prototype.max = function (stepup) {
 	if (stepup === true) {
-		this.config.graph.max = r3.util.getStepMaxValue(this.graphdef);
+		this.config.graph.max = uv.util.getStepMaxValue(this.graphdef);
 		return this;
 	} else if (stepup === false) {
-		this.config.graph.max = r3.util.getMaxValue(this.graphdef);
+		this.config.graph.max = uv.util.getMaxValue(this.graphdef);
 		return this;
 	} else if (stepup === 'percent') {
 		this.config.graph.max = 100;
@@ -587,10 +586,10 @@ r3.Graph.prototype.max = function (stepup) {
 };
 
 /* Additional Graph functions */
-r3.Graph.prototype.toggleGraphGroup = function (i) {
+uv.Graph.prototype.toggleGraphGroup = function (i) {
 	var self = this, category = self.categories[i],
 			state = self.frame.select('g.cge_' + category).style('display'),
-			color = r3.util.getColorBand(self.config, i);
+			color = uv.util.getColorBand(self.config, i);
 
 	self.frame.selectAll('g.cge_' + category).style('display', (state === 'none')? null : 'none');
 	return this;

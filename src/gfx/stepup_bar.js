@@ -1,6 +1,6 @@
-r3.StepUpBarGraph = function (graphdef, config) {
+uv.StepUpBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	this.bargroups = {};
 
@@ -18,16 +18,16 @@ r3.StepUpBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.StepUpBarGraph.prototype = r3.util.extend(r3.Graph);
+uv.StepUpBarGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
+uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };
 
-r3.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
+uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 	var self = this, len = self.categories.length;
-		color = r3.util.getColorBand(self.config, idx),
+		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
 	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
@@ -39,8 +39,8 @@ r3.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx, color))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx, color))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
@@ -68,9 +68,9 @@ r3.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
+uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	var self = this, len = self.categories.length,
-		color = r3.util.getColorBand(self.config, idx),
+		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
 	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
@@ -82,8 +82,8 @@ r3.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx, color))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx, color))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)

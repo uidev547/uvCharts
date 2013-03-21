@@ -1,5 +1,5 @@
-r3.TableGraph = function (graphdef, config) {
-	r3.Table.apply(this, [graphdef]);
+uv.TableGraph = function (graphdef, config) {
+	uv.Table.apply(this, [graphdef]);
 	this.init(graphdef, config);
 
 	if (this.config.graph.orientation === 'Horizontal') {
@@ -11,10 +11,10 @@ r3.TableGraph = function (graphdef, config) {
 	this.finalize();
 };
 
-r3.TableGraph.prototype = r3.util.extend(r3.Table);
+uv.TableGraph.prototype = uv.util.extend(uv.Table);
 
-r3.TableGraph.prototype.setHorTable = function () {
-	var categories = this.graphdef.categories, tableData = r3.util.getTabularArray(this.graphdef);
+uv.TableGraph.prototype.setHorTable = function () {
+	var categories = this.graphdef.categories, tableData = uv.util.getTabularArray(this.graphdef);
 
 	categories.unshift('');
 	this.header.append('tr').selectAll('td').data(categories).enter().append('td').text(function (d) { return d; });
@@ -29,8 +29,8 @@ r3.TableGraph.prototype.setHorTable = function () {
 					.text(function (d) {return d; });
 };
 
-r3.TableGraph.prototype.setVerTable = function () {
-	var labels = r3.util.getLabelArray(this.graphdef), dataset = this.graphdef.dataset;
+uv.TableGraph.prototype.setVerTable = function () {
+	var labels = uv.util.getLabelArray(this.graphdef), dataset = this.graphdef.dataset;
 
 	labels.unshift('');
 	this.header.append('tr').selectAll('td').data(labels).enter().append('td').text(function (d) { return d; });

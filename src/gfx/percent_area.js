@@ -1,6 +1,6 @@
-r3.PercentAreaGraph = function (graphdef, config) {
+uv.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
@@ -21,33 +21,33 @@ r3.PercentAreaGraph = function (graphdef, config) {
 	self.finalize(true);
 };
 
-r3.PercentAreaGraph.prototype = r3.util.extend(r3.Graph);
+uv.PercentAreaGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
+uv.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'percent';
 	return this;
 };
 
-r3.PercentAreaGraph.prototype.drawHorizontalArea = function () {
+uv.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config,
-		sumMap = r3.util.getSumUpArray(self.graphdef);
+		sumMap = uv.util.getSumUpArray(self.graphdef);
 	
 	axes.ver.scale.rangePoints([0, self.height()]);
 
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self,i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self,i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
-				.x0(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0, sumMap[i])); })
-				.x1(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.x0(function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.y0, sumMap[i])); })
+				.x1(function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 		)
 		.on('mouseover', function (d,i) { self.effects[categories[i]].mouseover(); })
@@ -60,31 +60,31 @@ r3.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 		.style('stroke-width', 2)
 		.attr('d', d3.svg.line()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
-				.x(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.x(function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 		);
 };
 
-r3.PercentAreaGraph.prototype.drawVerticalArea = function () {
+uv.PercentAreaGraph.prototype.drawVerticalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config,
-		sumMap = r3.util.getSumUpArray(self.graphdef);
+		sumMap = uv.util.getSumUpArray(self.graphdef);
 	
 	axes.hor.scale.rangePoints([0, self.width()]);
 	
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self,i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self,i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
-				.y0(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0, sumMap[i])); })
-				.y1(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.y0(function (d, i) { return axes.ver.scale(uv.util.getPercentage(d.y0, sumMap[i])); })
+				.y1(function (d, i) { return axes.ver.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 			)
 		.on('mouseover', function (d,i) {self.effects[categories[i]].mouseover(); })
@@ -97,7 +97,7 @@ r3.PercentAreaGraph.prototype.drawVerticalArea = function () {
 			.style('stroke-width', 2)
 			.attr('d', d3.svg.line()
 				.x(function (d, i) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
-				.y(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.y(function (d, i) { return axes.ver.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 			);
 };

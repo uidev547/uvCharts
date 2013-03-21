@@ -1,4 +1,4 @@
-r3.palette = {
+uv.palette = {
 	'Plain' : [ '#1F77B4' ],
 	'Simple' : [ '#d42f3c', '#85b1e6', '#FD6D16', '#dfe617' ],
 	'RGB' : [ '#bb2211', '#2222bb', '#22aa22', '#9999aa', '#223322' ],

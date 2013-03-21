@@ -1,6 +1,6 @@
-r3.constants = {};
+uv.constants = {};
 
-r3.constants.graphdef = {
+uv.constants.graphdef = {
 	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],
 	dataset : {
 		'IE' : [
@@ -41,7 +41,7 @@ r3.constants.graphdef = {
 	}
 };
 
-r3.constants.name = {
+uv.constants.name = {
 	pos : 'r3_div',
 	frame : 'r3_frame',
 	panel : 'r3_panel',

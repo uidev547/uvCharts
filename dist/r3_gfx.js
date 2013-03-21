@@ -1,12 +1,12 @@
 /**
- * r3 is the namespace, which holds everything else related to the library
+ * uv is the namespace, which holds everything else related to the library
  * @type {Object}
  */
-var r3 = {};
+var uv = {};
 
 /**
- * r3.Graph is an abstract class of sorts which serves as the base for all other graphs.
- * id					- unique id corresponding to the graph, created using the timestamp
+ * uv.Graph is an abstract class of sorts which serves as the base for all other graphs.
+ * id					- unique id corresponding to the graph, created using current timestamp
  * graphdef		- definition of the graph, containing data on which the visualization is built
  * config			- configuration of the graph, affecting the visual styling of the graph
  * frame			- <svg> element acting as the parent graph container
@@ -17,11 +17,10 @@ var r3 = {};
  * categories	- categories from the dataset provided
  * axes				- object containing axes related stuff: group, func, scale, axis, line, label
  *
- *
  */
-r3.Graph = function () {
+uv.Graph = function () {
 	var self = this;
-	self.id = r3.util.getUniqueId();
+	self.id = uv.util.getUniqueId();
 	self.graphdef = null;
 	self.config = null;
 
@@ -46,10 +45,10 @@ r3.Graph = function () {
  * @param  {Object} config   Configuration of the graph, take a look at config.js for complete documentation
  * @return {Object}          The graph object itself, to support method chaining
  */
-r3.Graph.prototype.init = function (graphdef, config) {
+uv.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
-	self.config = $.extend(true, {}, r3.config, config);
+	self.config = $.extend(true, {}, uv.config, config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || 'body')
 		.setDimensions()
@@ -70,7 +69,7 @@ r3.Graph.prototype.init = function (graphdef, config) {
  * Sets the dimensions of the graphs, namely height, width and margins: left, right, top and bottom
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setDimensions = function () {
+uv.Graph.prototype.setDimensions = function () {
 	var self = this;
 	self.height(self.config.dimension.height)
 		.width(self.config.dimension.width)
@@ -86,14 +85,14 @@ r3.Graph.prototype.setDimensions = function () {
  * Sets the main <svg> element which contains rest of the graph elements
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setFrame = function () {
+uv.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (!self.frame) {
 		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
-	self.frame.attr('id', r3.constants.name.frame + '_' + self.id)
-		.classed(r3.constants.name.frame, true)
+	self.frame.attr('id', uv.constants.name.frame + '_' + self.id)
+		.classed(uv.constants.name.frame, true)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
 
@@ -102,7 +101,7 @@ r3.Graph.prototype.setFrame = function () {
 		.attr('height', self.height() + self.top() + self.bottom())
 		.style('fill', self.config.frame.bgcolor);
 
-	self.$ = $('svg#' + r3.constants.name.frame + '_' + self.id);
+	self.$ = $('svg#' + uv.constants.name.frame + '_' + self.id);
 
 	return this;
 };
@@ -111,14 +110,14 @@ r3.Graph.prototype.setFrame = function () {
  * Sets the <g> element which serves as the base position for the graph elements
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setPanel = function () {
+uv.Graph.prototype.setPanel = function () {
 	var self = this;
 	if (!self.panel) {
 		self.panel = self.frame.append('g');
 	}
 
-	self.panel.attr('id', r3.constants.name.panel + '_' + self.id)
-		.classed(r3.constants.name.panel, true)
+	self.panel.attr('id', uv.constants.name.panel + '_' + self.id)
+		.classed(uv.constants.name.panel, true)
 		.attr('transform', 'translate(' + self.left() + ',' + self.top() + ')');
 
 	return this;
@@ -129,10 +128,10 @@ r3.Graph.prototype.setPanel = function () {
  * @param {String} color Color code for the background, set to config value if not specified
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setBackground = function (color) {
+uv.Graph.prototype.setBackground = function (color) {
 	var self = this;
 	if (!self.bg) {
-		self.bg = self.panel.append('rect').attr('class', r3.constants.name.background)
+		self.bg = self.panel.append('rect').attr('class', uv.constants.name.background)
 						.attr('height', self.height())
 						.attr('width', self.width());
 	}
@@ -145,7 +144,7 @@ r3.Graph.prototype.setBackground = function (color) {
  * Sets the caption for the graph
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setCaption = function () {
+uv.Graph.prototype.setCaption = function () {
 	var self = this;
 	self.caption = self.panel.append('g').attr('class', 'r3_caption');
 	
@@ -159,8 +158,8 @@ r3.Graph.prototype.setCaption = function () {
 		.style('font-weight', self.config.caption.fontweight)
 		.style('font-variant', self.config.caption.fontvariant)
 		.style('text-decoration', self.config.caption.textdecoration)
-		.on('mouseover', r3.effects.caption.mouseover(self.config))
-		.on('mouseout', r3.effects.caption.mouseout(self.config));
+		.on('mouseover', uv.effects.caption.mouseover(self.config))
+		.on('mouseout', uv.effects.caption.mouseout(self.config));
 
 	return this;
 };
@@ -170,12 +169,12 @@ r3.Graph.prototype.setCaption = function () {
  * Sets the subcaption for the graph
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setSubCaption = function () {
+uv.Graph.prototype.setSubCaption = function () {
 	var self = this;
 	self.subCaption = self.panel.append('g').attr('class', 'r3_subCaption');
 	
 	self.subCaption.append('text').attr('class', 'r3_subcaptiontext')
-		.text(self.config.meta.subCaption)
+		.text(self.config.meta.subcaption)
 		.attr('y', -self.config.margin.top / 2 + 1*self.config.caption.fontsize)
 		.attr('x', self.config.dimension.width / 2)
 		.attr('text-anchor', self.config.caption.textanchor)
@@ -193,10 +192,10 @@ r3.Graph.prototype.setSubCaption = function () {
  * Sets the metadata for the graph, this includes the labels and the categories
  * @return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setMetadata = function () {
+uv.Graph.prototype.setMetadata = function () {
 	var self = this;
-	self.labels = r3.util.getLabelArray(self.graphdef);
-	self.categories = r3.util.getCategoryArray(self.graphdef);
+	self.labels = uv.util.getLabelArray(self.graphdef);
+	self.categories = uv.util.getCategoryArray(self.graphdef);
 	return this;
 };
 
@@ -204,11 +203,11 @@ r3.Graph.prototype.setMetadata = function () {
  * Sets the Horizontal Axis functions but doesnt render it yet
  * return {Object}			The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setHorizontalAxis = function () {
+uv.Graph.prototype.setHorizontalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (!self.axes.hor.group) {
-		self.axes.hor.group = self.panel.append('g').attr('class', r3.constants.name.horaxis)
+		self.axes.hor.group = self.panel.append('g').attr('class', uv.constants.name.horaxis)
 									.attr('transform', 'translate(0,' + self.height() + ')')
 									.style('sharp-rendering','crispEdges');
 	}
@@ -243,11 +242,11 @@ r3.Graph.prototype.setHorizontalAxis = function () {
  * Sets the Vertical axis functions, but doesnt render it yet
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setVerticalAxis = function () {
+uv.Graph.prototype.setVerticalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (!self.axes.ver.group) {
-		self.axes.ver.group = self.panel.append('g').attr('class', r3.constants.name.veraxis)
+		self.axes.ver.group = self.panel.append('g').attr('class', uv.constants.name.veraxis)
 															.style('sharp-rendering','crispEdges');
 	}
 
@@ -281,7 +280,7 @@ r3.Graph.prototype.setVerticalAxis = function () {
  * Creates placeholders for functions which cause the various animations across the graph to be able invoke it from other places
  * @return {Object}				The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setEffectsObject = function () {
+uv.Graph.prototype.setEffectsObject = function () {
 	var self = this;
 	for (var i = 0; i < self.categories.length ; i++) {
 		self.effects[self.categories[i]] = {};
@@ -293,7 +292,7 @@ r3.Graph.prototype.setEffectsObject = function () {
  * Draws the horizontal axis within the frame based on the orientation and functions already created
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.drawHorizontalAxis = function () {
+uv.Graph.prototype.drawHorizontalAxis = function () {
 	var self = this;
 	self.axes.hor.axis = self.axes.hor.group.append('g')
 								.style('font-family', self.config.label.fontfamily)
@@ -305,7 +304,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
 	self.axes.hor.line = self.panel.append('line')
-								.attr('class', r3.constants.name.horaxis)
+								.attr('class', uv.constants.name.horaxis)
 								.attr('y1', self.height())
 								.attr('y2', self.height())
 								.attr('x1', '0')
@@ -322,7 +321,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 								.attr('text-anchor','middle')
 								.style('font-size', self.config.axis.fontsize)
 								.style('font-family', self.config.axis.fontfamily)
-								.text(self.config.axis.hlabel);
+								.text(self.config.meta.hlabel);
 
 	self.axes.hor.label.append('text')
 								.attr('display','block')
@@ -331,7 +330,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
 								.attr('text-anchor','middle')
 								.style('font-size', self.config.axis.fontsize - 2)
 								.style('font-family', self.config.axis.fontfamily)
-								.text(self.config.axis.hsublabel);
+								.text(self.config.meta.hsublabel);
 	
 	return this;
 };
@@ -340,7 +339,7 @@ r3.Graph.prototype.drawHorizontalAxis = function () {
  * Draws the vertical axis within the frame based on the orientation and functions already created
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.drawVerticalAxis = function () {
+uv.Graph.prototype.drawVerticalAxis = function () {
 	var self = this;
 	self.axes.ver.axis = self.axes.ver.group.append('g')
 								.style('font-family', self.config.label.fontfamily)
@@ -352,7 +351,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
 	self.axes.ver.line = self.panel.append('line')
-								.attr('class', r3.constants.name.veraxis)
+								.attr('class', uv.constants.name.veraxis)
 								.attr('y1', 0)
 								.attr('y2', self.height())
 								.style('stroke', self.config.axis.strokecolor);
@@ -365,7 +364,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 								.classed('cal', true)
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize)
-								.text(self.config.axis.vlabel);
+								.text(self.config.meta.vlabel);
 
 	self.axes.ver.label.append('text').attr('class', 'r3_axessublabel')
 								.attr('text-anchor', 'middle')
@@ -373,7 +372,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
 								.classed('casl', true)
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize - 2)
-								.text(self.config.axis.vsublabel);
+								.text(self.config.meta.vsublabel);
 	
 	return this;
 };
@@ -382,7 +381,7 @@ r3.Graph.prototype.drawVerticalAxis = function () {
  * Sets the legend and related interactions for the graph based on the configuration
  * @return {Object}	The graph object itself, to support method chaining
  */
-r3.Graph.prototype.setLegend = function () {
+uv.Graph.prototype.setLegend = function () {
 	var self = this;
 
 	var legendgroup = self.panel.append('g').attr('class', 'r3_legend')
@@ -399,13 +398,13 @@ r3.Graph.prototype.setLegend = function () {
 							self.effects[d].mouseout();
 						})
 						.on('click', function (d, i) {
-							r3.effects.legend.click(i, this, self);
+							uv.effects.legend.click(i, this, self);
 						});
 
 	self.legends.append('rect').attr('class', 'r3_legendsign')
 				.attr('height', self.config.legend.symbolsize)
 				.attr('width', self.config.legend.symbolsize)
-				.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
+				.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 				.style('stroke', 'none');
 
 	self.legends.append('text').attr('class', 'r3_legendtext')
@@ -425,7 +424,7 @@ r3.Graph.prototype.setLegend = function () {
  * @param  {Boolean} isLoggable Specifies whether the graph object should be logged or not, for debug purpose only
  * @return {Object}             The graph object itself, to support method chaining
  */
-r3.Graph.prototype.finalize = function (isLoggable) {
+uv.Graph.prototype.finalize = function (isLoggable) {
 	var self = this;
 	self.drawHorizontalAxis()
 		.drawVerticalAxis()
@@ -443,7 +442,7 @@ r3.Graph.prototype.finalize = function (isLoggable) {
  * Removes the entire graph object
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.remove = function () {
+uv.Graph.prototype.remove = function () {
 	this.frame.remove();
 	return this;
 };
@@ -452,7 +451,7 @@ r3.Graph.prototype.remove = function () {
  * Removes the caption component of the graph
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.removeCaption = function () {
+uv.Graph.prototype.removeCaption = function () {
 	this.caption.remove();
 	return this;
 };
@@ -461,7 +460,7 @@ r3.Graph.prototype.removeCaption = function () {
  * Removes the legend component of the graph
  * @return {Object} The graph object itself, to support method chaining
  */
-r3.Graph.prototype.removeLegend = function () {
+uv.Graph.prototype.removeLegend = function () {
 	if (this.legends[0]) {
 		this.legends[0].parentNode.remove();
 	}
@@ -469,20 +468,20 @@ r3.Graph.prototype.removeLegend = function () {
 	return this;
 };
 
-r3.Graph.prototype.removePanel = function () {
+uv.Graph.prototype.removePanel = function () {
 	this.panel.remove();
 	return this;
 };
 
-r3.Graph.prototype.removeHorAxis = function () {
-	this.panel.selectAll('g.' + r3.constants.name.horaxis + " > *").remove();
-	this.panel.selectAll('line.' + r3.constants.name.horaxis).remove();
+uv.Graph.prototype.removeHorAxis = function () {
+	this.panel.selectAll('g.' + uv.constants.name.horaxis + " > *").remove();
+	this.panel.selectAll('line.' + uv.constants.name.horaxis).remove();
 	return this;
 };
 
-r3.Graph.prototype.removeVerAxis = function () {
-	this.panel.selectAll('g.' + r3.constants.name.veraxis + " > *").remove();
-	this.panel.selectAll('line.' + r3.constants.name.veraxis).remove();
+uv.Graph.prototype.removeVerAxis = function () {
+	this.panel.selectAll('g.' + uv.constants.name.veraxis + " > *").remove();
+	this.panel.selectAll('line.' + uv.constants.name.veraxis).remove();
 	return this;
 };
 
@@ -490,7 +489,7 @@ r3.Graph.prototype.removeVerAxis = function () {
  * Setters and getters for various common properties of the graph
  */
 
-r3.Graph.prototype.width = function (w) {
+uv.Graph.prototype.width = function (w) {
 	if (w) {
 		this.config.dimension.width = w;
 		return this;
@@ -499,7 +498,7 @@ r3.Graph.prototype.width = function (w) {
 	return this.config.dimension.width;
 };
 
-r3.Graph.prototype.height = function (h) {
+uv.Graph.prototype.height = function (h) {
 	if (h) {
 		this.config.dimension.height = h;
 		return this;
@@ -508,7 +507,7 @@ r3.Graph.prototype.height = function (h) {
 	return this.config.dimension.height;
 };
 
-r3.Graph.prototype.top = function (t) {
+uv.Graph.prototype.top = function (t) {
 	if (t) {
 		this.config.margin.top = t;
 		return this;
@@ -517,7 +516,7 @@ r3.Graph.prototype.top = function (t) {
 	return this.config.margin.top;
 };
 
-r3.Graph.prototype.bottom = function (b) {
+uv.Graph.prototype.bottom = function (b) {
 	if (b) {
 		this.config.margin.bottom = b;
 		return this;
@@ -526,7 +525,7 @@ r3.Graph.prototype.bottom = function (b) {
 	return this.config.margin.bottom;
 };
 
-r3.Graph.prototype.left = function (l) {
+uv.Graph.prototype.left = function (l) {
 	if (l) {
 		this.config.margin.left = l;
 		return this;
@@ -535,7 +534,7 @@ r3.Graph.prototype.left = function (l) {
 	return this.config.margin.left;
 };
 
-r3.Graph.prototype.right = function (r) {
+uv.Graph.prototype.right = function (r) {
 	if (r) {
 		this.config.margin.right = r;
 		return this;
@@ -544,7 +543,7 @@ r3.Graph.prototype.right = function (r) {
 	return this.config.margin.right;
 };
 
-r3.Graph.prototype.position = function (pos) {
+uv.Graph.prototype.position = function (pos) {
 	if (pos) {
 		this.config.meta.position = pos;
 		return this;
@@ -553,7 +552,7 @@ r3.Graph.prototype.position = function (pos) {
 	return this.config.meta.position;
 };
 
-r3.Graph.prototype.caption = function (caption) {
+uv.Graph.prototype.caption = function (caption) {
 	if (caption) {
 		this.config.meta.caption = caption;
 		return this;
@@ -562,7 +561,7 @@ r3.Graph.prototype.caption = function (caption) {
 	return this.config.meta.caption;
 };
 
-r3.Graph.prototype.subCaption = function(subCaption){
+uv.Graph.prototype.subCaption = function(subCaption){
 	if(subCaption){
 		this.config.meta.subCaption = subCaption;
 		return this;
@@ -571,12 +570,12 @@ r3.Graph.prototype.subCaption = function(subCaption){
 	return this.config.meta.caption;
 };
 
-r3.Graph.prototype.max = function (stepup) {
+uv.Graph.prototype.max = function (stepup) {
 	if (stepup === true) {
-		this.config.graph.max = r3.util.getStepMaxValue(this.graphdef);
+		this.config.graph.max = uv.util.getStepMaxValue(this.graphdef);
 		return this;
 	} else if (stepup === false) {
-		this.config.graph.max = r3.util.getMaxValue(this.graphdef);
+		this.config.graph.max = uv.util.getMaxValue(this.graphdef);
 		return this;
 	} else if (stepup === 'percent') {
 		this.config.graph.max = 100;
@@ -587,27 +586,27 @@ r3.Graph.prototype.max = function (stepup) {
 };
 
 /* Additional Graph functions */
-r3.Graph.prototype.toggleGraphGroup = function (i) {
+uv.Graph.prototype.toggleGraphGroup = function (i) {
 	var self = this, category = self.categories[i],
 			state = self.frame.select('g.cge_' + category).style('display'),
-			color = r3.util.getColorBand(self.config, i);
+			color = uv.util.getColorBand(self.config, i);
 
 	self.frame.selectAll('g.cge_' + category).style('display', (state === 'none')? null : 'none');
 	return this;
 };
-r3.util = {};
+uv.util = {};
 
-r3.util.extend = function (f) {
+uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
 };
 
-r3.util.getUniqueId = function () {
+uv.util.getUniqueId = function () {
 	return new Date().getTime();
 };
 
-r3.util.getMaxValue = function (graphdef) {
+uv.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {
 			return d.value;
@@ -615,7 +614,7 @@ r3.util.getMaxValue = function (graphdef) {
 	}));
 };
 
-r3.util.getStepMaxValue = function (graphdef) {
+uv.util.getStepMaxValue = function (graphdef) {
 	var sumMap = graphdef.dataset[graphdef.categories[0]].map(function () {return 0; });
 	graphdef.categories.map(function (d) {
 		graphdef.dataset[d].map(function (d, i) {
@@ -626,7 +625,7 @@ r3.util.getStepMaxValue = function (graphdef) {
 	return d3.max(sumMap);
 };
 
-r3.util.getSumUpArray = function (graphdef) {
+uv.util.getSumUpArray = function (graphdef) {
 	var sumMap = graphdef.dataset[graphdef.categories[0]].map(function () {return 0; });
 	graphdef.categories.map(function (d) {
 		graphdef.dataset[d].map(function (d, i) {
@@ -637,15 +636,15 @@ r3.util.getSumUpArray = function (graphdef) {
 	return sumMap;
 };
 
-r3.util.getPercentage = function (value, total) {
+uv.util.getPercentage = function (value, total) {
 	return value * 100 / total;
 };
 
-r3.util.getDataArray = function (graphdef) {
+uv.util.getDataArray = function (graphdef) {
 	return graphdef.categories.map(function (d) { return graphdef.dataset[d]; });
 };
 
-r3.util.getTabularArray = function (graphdef) {
+uv.util.getTabularArray = function (graphdef) {
 	var table = [], i, j, catlen, len, arr = [];
 	for (i = 0, len = graphdef.dataset[graphdef.categories[0]].length; i < len; i = i + 1) {
 		arr = [];
@@ -658,15 +657,15 @@ r3.util.getTabularArray = function (graphdef) {
 	return table;
 };
 
-r3.util.getLabelArray = function (graphdef) {
+uv.util.getLabelArray = function (graphdef) {
 	return graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
 };
 
-r3.util.getCategoryArray = function (graphdef) {
+uv.util.getCategoryArray = function (graphdef) {
 	return graphdef.categories.map(function (d) { return d; });
 };
 
-r3.util.getCategoryData = function (graphdef, categories) {
+uv.util.getCategoryData = function (graphdef, categories) {
 	return categories.map(function (d) {
 		return graphdef.dataset[d].map(function (d) {
 			return d.value;
@@ -674,7 +673,7 @@ r3.util.getCategoryData = function (graphdef, categories) {
 	});
 };
 
-r3.util.transposeData = function (graphdef) {
+uv.util.transposeData = function (graphdef) {
 	var dataset = {}, i, j, length, jlength,
 		name, label, value, categories = graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
 
@@ -693,15 +692,15 @@ r3.util.transposeData = function (graphdef) {
 	graphdef.dataset = dataset;
 };
 
-r3.util.getPascalCasedName = function (name) {
+uv.util.getPascalCasedName = function (name) {
 	return name.substring(0, 1).toUpperCase() + name.substring(1);
 };
 
-r3.util.getColorBand = function (config, index) {
-	var len = r3.palette[config.graph.palette].length;
-	return r3.palette[config.graph.palette][index % len];
+uv.util.getColorBand = function (config, index) {
+	var len = uv.palette[config.graph.palette].length;
+	return uv.palette[config.graph.palette][index % len];
 };
-r3.config = {
+uv.config = {
 	graph : {
 		palette : 'Brink',
 		background : 'white',
@@ -712,7 +711,11 @@ r3.config = {
 	meta : {
 		position : '.r3_div',
 		caption : 'Usage of browsers by the years',
-		subCaption : 'Among major vendors'
+		subcaption : 'Among major vendors',
+		hlabel : 'Horizontal Axis Label',
+		vlabel : 'Vertical Axis Label',
+		hsublabel : 'h sublabel',
+		vsublabel : 'v sublabel'
 	},
 
 	dimension : {
@@ -728,7 +731,7 @@ r3.config = {
 	},
 
 	frame : {
-		bgcolor : '#fff'
+		bgcolor : 'white'
 	},
 
 	axis : {
@@ -739,11 +742,7 @@ r3.config = {
 		strokecolor : '#000',
 		fontfamily : 'Arial',
 		fontsize : '14',
-		fontweight : 'bold',
-		hlabel : 'Horizontal Axis Label',
-		vlabel : 'Vertical Axis Label',
-		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel'
+		fontweight : 'bold'
 	},
 
 	label : {
@@ -762,7 +761,7 @@ r3.config = {
 		fontfamily : 'Arial',
 		fontsize : '10',
 		fontweight : 'bold',
-		textcolor : 'black'
+		textcolor : '#000'
 	},
 
 	line : {
@@ -832,9 +831,9 @@ r3.config = {
 		hover : 400
 	}
 };
-r3.constants = {};
+uv.constants = {};
 
-r3.constants.graphdef = {
+uv.constants.graphdef = {
 	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],
 	dataset : {
 		'IE' : [
@@ -875,7 +874,7 @@ r3.constants.graphdef = {
 	}
 };
 
-r3.constants.name = {
+uv.constants.name = {
 	pos : 'r3_div',
 	frame : 'r3_frame',
 	panel : 'r3_panel',
@@ -890,32 +889,32 @@ r3.constants.name = {
 	}
 };
 
-r3.types = {};
+uv.types = {};
 
-r3.registerGraph = function (type, functionName) {
-  r3.types[type] = functionName;
+uv.addChart = function (type, functionName) {
+  uv.types[type] = functionName;
 };
 
-r3.registerGraph('Bar','BarGraph');
-r3.registerGraph('Line','LineGraph');
-r3.registerGraph('StackedBar','StackedBarGraph');
-r3.registerGraph('StepUpBar','StepUpBarGraph');
-r3.registerGraph('Area','AreaGraph');
-r3.registerGraph('StackedArea','StackedAreaGraph');
-r3.registerGraph('PercentBar','PercentBarGraph');
-r3.registerGraph('PercentArea','PercentAreaGraph');
-r3.registerGraph('Pie','PieGraph');
-r3.registerGraph('Donut','DonutGraph');
+uv.addChart('Bar','BarGraph');
+uv.addChart('Line','LineGraph');
+uv.addChart('StackedBar','StackedBarGraph');
+uv.addChart('StepUpBar','StepUpBarGraph');
+uv.addChart('Area','AreaGraph');
+uv.addChart('StackedArea','StackedAreaGraph');
+uv.addChart('PercentBar','PercentBarGraph');
+uv.addChart('PercentArea','PercentAreaGraph');
+uv.addChart('Pie','PieGraph');
+uv.addChart('Donut','DonutGraph');
 
-r3.buildGraph = function (type, graphdef, config) {
-  if (r3.types[type] !== undefined) {
-    return new r3[r3.types[type]](graphdef, config);
+uv.chart = function (type, graphdef, config) {
+  if (uv.types[type] !== undefined) {
+    return new uv[uv.types[type]](graphdef, config);
   }
 };
-r3.effects = {};
+uv.effects = {};
 
-r3.effects.bar = {};
-r3.effects.bar.mouseover = function (graph, idx) {
+uv.effects.bar = {};
+uv.effects.bar.mouseover = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
@@ -935,10 +934,10 @@ r3.effects.bar.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.bar.mouseout = function (graph, idx, color) {
+uv.effects.bar.mouseout = function (graph, idx, color) {
 	var config = graph.config,
 		category = graph.categories[idx];
-		color = color || r3.util.getColorBand(graph.config, idx);
+		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + category)
@@ -955,8 +954,8 @@ r3.effects.bar.mouseout = function (graph, idx, color) {
 	return effect;
 };
 
-r3.effects.area = {};
-r3.effects.area.mouseover = function (graph, idx) {
+uv.effects.area = {};
+uv.effects.area.mouseover = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
@@ -970,22 +969,22 @@ r3.effects.area.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.area.mouseout = function (graph, idx) {
+uv.effects.area.mouseout = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_'+category).select('path.area_'+category)
 		.transition().duration(config.effects.hover)
-		.style('fill',r3.util.getColorBand(config,idx));
+		.style('fill',uv.util.getColorBand(config,idx));
 	};
 	
 	graph.effects[category]['mouseout'] = effect;
 	return effect;
 };
 
-r3.effects.line = {};
-r3.effects.line.mouseover = function (graph, idx) {
+uv.effects.line = {};
+uv.effects.line.mouseover = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
@@ -1009,10 +1008,10 @@ r3.effects.line.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.line.mouseout = function (graph, idx, color) {
+uv.effects.line.mouseout = function (graph, idx, color) {
 	var config = graph.config,
 		category = graph.categories[idx],
-		color = color || r3.util.getColorBand(graph.config, idx);
+		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_' + category).selectAll('circle')
@@ -1034,25 +1033,25 @@ r3.effects.line.mouseout = function (graph, idx, color) {
 	return effect;
 };
 
-r3.effects.caption = {};
-r3.effects.caption.mouseover = function (config) {
+uv.effects.caption = {};
+uv.effects.caption.mouseover = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background)
+		d3.select(this.parentNode.parentNode).select('.' + uv.constants.name.background)
 			.transition().duration(config.effects.duration)
 				.style('fill', config.caption.hovercolor);
 	};
 };
 
-r3.effects.caption.mouseout = function (config) {
+uv.effects.caption.mouseout = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background)
+		d3.select(this.parentNode.parentNode).select('.' + uv.constants.name.background)
 			.transition().duration(config.effects.duration)
 				.style('fill', config.graph.background);
 	};
 };
 
-r3.effects.donut = {};
-r3.effects.donut.mouseover = function (center, arcfunc, config, d) {
+uv.effects.donut = {};
+uv.effects.donut.mouseover = function (center, arcfunc, config, d) {
 	return function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
@@ -1065,7 +1064,7 @@ r3.effects.donut.mouseover = function (center, arcfunc, config, d) {
 	};
 };
 
-r3.effects.donut.mouseout = function (center, config) {
+uv.effects.donut.mouseout = function (center, config) {
 	return function () {
 		d3.select(this.parentNode)
 			.transition().duration(config.effects.duration)
@@ -1073,8 +1072,8 @@ r3.effects.donut.mouseout = function (center, config) {
 	};
 };
 
-r3.effects.pie = {};
-r3.effects.pie.mouseover = function (center, arcfunc, config, d) {
+uv.effects.pie = {};
+uv.effects.pie.mouseover = function (center, arcfunc, config, d) {
 	return function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
@@ -1087,7 +1086,7 @@ r3.effects.pie.mouseover = function (center, arcfunc, config, d) {
 	};
 };
 
-r3.effects.pie.mouseout = function (center, config) {
+uv.effects.pie.mouseout = function (center, config) {
 	return function () {
 		d3.select(this.parentNode)
 			.transition().duration(config.effects.duration)
@@ -1095,24 +1094,24 @@ r3.effects.pie.mouseout = function (center, config) {
 	};
 };
 
-r3.effects.legend = {};
-r3.effects.legend.mouseover = function (self, idx) {
+uv.effects.legend = {};
+uv.effects.legend.mouseover = function (self, idx) {
 	return self.effects.group[self.categories[idx]].mouseover;
 };
 
-r3.effects.legend.mouseout = function (self, idx) {
+uv.effects.legend.mouseout = function (self, idx) {
 	return self.effects.group[self.categories[idx]].mouseout;
 };
 
-r3.effects.legend.click = function (i, ctx, graph) {
+uv.effects.legend.click = function (i, ctx, graph) {
 	var disabled = (d3.select(ctx).attr('disabled') === 'false') ? false : true;
 	graph.toggleGraphGroup(i);
-	d3.select(ctx).select('rect').style('fill', disabled ? r3.util.getColorBand(graph.config, i) : r3.config.legend.inactive_color);
-	d3.select(ctx).select('text').style('fill', disabled ? null : r3.config.legend.inactive_color);
+	d3.select(ctx).select('rect').style('fill', disabled ? uv.util.getColorBand(graph.config, i) : uv.config.legend.inactive_color);
+	d3.select(ctx).select('text').style('fill', disabled ? null : uv.config.legend.inactive_color);
 	d3.select(ctx).attr('disabled', disabled ? 'false' : 'true');
 };
 
-r3.palette = {
+uv.palette = {
 	'Plain' : [ '#1F77B4' ],
 	'Simple' : [ '#d42f3c', '#85b1e6', '#FD6D16', '#dfe617' ],
 	'RGB' : [ '#bb2211', '#2222bb', '#22aa22', '#9999aa', '#223322' ],
@@ -1133,12 +1132,12 @@ r3.palette = {
 	'Bright' : ['#ef597b', '#ff6d31', '#73b66b', '#ffcb18', '#29a2c6'],
 	'Lint' : ['#667b99', '#afbbd2', '#ccd5e6', '#e9eef6', '#ff6637']
 };
-r3.AreaGraph = function (graphdef, config) {
+uv.AreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.areagroups = [];
-	self.dataset = r3.util.getDataArray(self.graphdef);
+	self.dataset = uv.util.getDataArray(self.graphdef);
 
 	var areagroup, areapath, areafunc, idx, len,
 		domainData = self.graphdef.dataset[self.graphdef.categories[0]];
@@ -1156,16 +1155,16 @@ r3.AreaGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.AreaGraph.prototype = r3.util.extend(r3.Graph);
+uv.AreaGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.AreaGraph.prototype.setDefaults = function (graphdef, config) {
+uv.AreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };
 
-r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
+uv.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 	var self = this,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 		
 	self.axes.ver.scale.rangePoints([0, self.height()]);
 
@@ -1203,9 +1202,9 @@ r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 				.style('fill', 'white');
 };
 
-r3.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
+uv.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
 	var self = this,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 	
 	self.axes.hor.scale.rangePoints([0, self.width()]);
 
@@ -1247,9 +1246,9 @@ r3.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
  * @param {Object} graphdef Definition of the graph being rendered
  * @param {Object} config   Configuration of the graph being rendered
  */
-r3.BarGraph = function (graphdef, config) {
+uv.BarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = {};
 
@@ -1265,16 +1264,16 @@ r3.BarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.BarGraph.prototype = r3.util.extend(r3.Graph);
+uv.BarGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.BarGraph.prototype.setDefaults = function (graphdef, config) {
+uv.BarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };
 
-r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
+uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	var self = this,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
@@ -1288,8 +1287,8 @@ r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
 		.style('stroke', self.config.bar.strokecolor)
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
@@ -1317,9 +1316,9 @@ r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.BarGraph.prototype.drawVerticalBars = function (idx) {
+uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 	var self = this,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
@@ -1333,8 +1332,8 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', r3.effects.bar.mouseover(self, idx))
-			.on('mouseout', r3.effects.bar.mouseout(self, idx))
+			.on('mouseover', uv.effects.bar.mouseover(self, idx))
+			.on('mouseout', uv.effects.bar.mouseout(self, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
@@ -1363,9 +1362,9 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
-r3.DonutGraph = function (graphdef, config) {
+uv.DonutGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).init(graphdef, config);
+	uv.Graph.call(self).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
@@ -1375,7 +1374,7 @@ r3.DonutGraph = function (graphdef, config) {
 	
 	self.category = graphdef.categories[0];
 	
-	var data = r3.util.getCategoryData(self.graphdef, [self.category]),
+	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
 		arcfunc = d3.svg.arc().innerRadius(self.radius * self.config.donut.factor).outerRadius(self.radius),
 		layout = d3.layout.pie();
 
@@ -1387,11 +1386,11 @@ r3.DonutGraph = function (graphdef, config) {
 
 	self.arcs.append('path')
 			.attr('d', arcfunc)
-			.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 			.style('stroke', self.config.donut.strokecolor)
 			.style('stroke-width', self.config.donut.strokewidth)
-		.on('mouseover', r3.effects.donut.mouseover(self.center, arcfunc, self.config))
-		.on('mouseout', r3.effects.donut.mouseout(self.center, self.config));
+		.on('mouseover', uv.effects.donut.mouseover(self.center, arcfunc, self.config))
+		.on('mouseout', uv.effects.donut.mouseout(self.center, self.config));
 
 	self.arcs.append('text')
 			.attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
@@ -1408,13 +1407,13 @@ r3.DonutGraph = function (graphdef, config) {
 		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
 };
 
-r3.DonutGraph.prototype = r3.util.extend(r3.Graph);
-r3.LineGraph = function (graphdef, config) {
+uv.DonutGraph.prototype = uv.util.extend(uv.Graph);
+uv.LineGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.linegroups = {};
-	self.dataset = r3.util.getDataArray(self.graphdef);
+	self.dataset = uv.util.getDataArray(self.graphdef);
 
 	var linegroup, linepath, linefunc, idx, len = self.categories.length,
 		domainData = self.labels;
@@ -1436,24 +1435,24 @@ r3.LineGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.LineGraph.prototype = r3.util.extend(r3.Graph);
+uv.LineGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.LineGraph.prototype.setDefaults = function (graphdef, config) {
+uv.LineGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	config.scale.ordinality = 0;
 	return this;
 };
 
-r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
+uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	var self = this,
 		axes = self.axes,
 		config = self.config,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
 				.y(function (d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand() / 2; })
-				.interpolate(r3.config.line.interpolation);
+				.interpolate(uv.config.line.interpolation);
 
 	linegroup.path.append('path')
 				.classed('cr_' + self.categories[idx], true)
@@ -1462,8 +1461,8 @@ r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
 				.style('stroke-opacity', 0.01)
-				.on('mouseover', r3.effects.line.mouseover(self,idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self,idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 				.transition()
 					.duration(3 * self.config.effects.duration)
 					.delay(2 * idx * self.config.effects.duration)
@@ -1479,8 +1478,8 @@ r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
 				.style('stroke', color)
-				.on('mouseover', r3.effects.line.mouseover(self, idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self, idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 					.append('svg:title')
 					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
@@ -1502,16 +1501,16 @@ r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	return this;
 };
 
-r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
+uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 	var self = this,
 		axes = self.axes,
 		config = self.config,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
 				.y(function (d) { return axes.ver.scale(d.value); })
-				.interpolate(r3.config.line.interpolation);
+				.interpolate(uv.config.line.interpolation);
 
 	linegroup.path.append('path')
 				.attr('d', linegroup.func)
@@ -1520,8 +1519,8 @@ r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
 				.style('stroke-opacity', 0.01)
-				.on('mouseover', r3.effects.line.mouseover(self, idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self, idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 				.transition()
 					.duration(self.config.effects.duration)
 					.delay(2 * idx * self.config.effects.duration)
@@ -1537,8 +1536,8 @@ r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
 				.style('stroke', color)
-				.on('mouseover', r3.effects.line.mouseover(self, idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self, idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 					.append('svg:title')
 					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
@@ -1559,9 +1558,9 @@ r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 
 	return this;
 };
-r3.PercentAreaGraph = function (graphdef, config) {
+uv.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
@@ -1582,33 +1581,33 @@ r3.PercentAreaGraph = function (graphdef, config) {
 	self.finalize(true);
 };
 
-r3.PercentAreaGraph.prototype = r3.util.extend(r3.Graph);
+uv.PercentAreaGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
+uv.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'percent';
 	return this;
 };
 
-r3.PercentAreaGraph.prototype.drawHorizontalArea = function () {
+uv.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config,
-		sumMap = r3.util.getSumUpArray(self.graphdef);
+		sumMap = uv.util.getSumUpArray(self.graphdef);
 	
 	axes.ver.scale.rangePoints([0, self.height()]);
 
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self,i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self,i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
-				.x0(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0, sumMap[i])); })
-				.x1(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.x0(function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.y0, sumMap[i])); })
+				.x1(function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 		)
 		.on('mouseover', function (d,i) { self.effects[categories[i]].mouseover(); })
@@ -1621,31 +1620,31 @@ r3.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 		.style('stroke-width', 2)
 		.attr('d', d3.svg.line()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
-				.x(function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.x(function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 		);
 };
 
-r3.PercentAreaGraph.prototype.drawVerticalArea = function () {
+uv.PercentAreaGraph.prototype.drawVerticalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config,
-		sumMap = r3.util.getSumUpArray(self.graphdef);
+		sumMap = uv.util.getSumUpArray(self.graphdef);
 	
 	axes.hor.scale.rangePoints([0, self.width()]);
 	
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self,i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self,i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
-				.y0(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0, sumMap[i])); })
-				.y1(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.y0(function (d, i) { return axes.ver.scale(uv.util.getPercentage(d.y0, sumMap[i])); })
+				.y1(function (d, i) { return axes.ver.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 			)
 		.on('mouseover', function (d,i) {self.effects[categories[i]].mouseover(); })
@@ -1658,13 +1657,13 @@ r3.PercentAreaGraph.prototype.drawVerticalArea = function () {
 			.style('stroke-width', 2)
 			.attr('d', d3.svg.line()
 				.x(function (d, i) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
-				.y(function (d, i) { return axes.ver.scale(r3.util.getPercentage(d.y0 + d.y, sumMap[i])); })
+				.y(function (d, i) { return axes.ver.scale(uv.util.getPercentage(d.y0 + d.y, sumMap[i])); })
 				.interpolate(self.config.area.interpolation)
 			);
 };
-r3.PercentBarGraph = function (graphdef, config) {
+uv.PercentBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = [];
 
@@ -1676,12 +1675,12 @@ r3.PercentBarGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 
 		bargroup = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
 		bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
 
-		self['draw' + r3.util.getPascalCasedName(self.config.graph.orientation) + 'Bars'](bars, csum, tsum, idx);
+		self['draw' + uv.util.getPascalCasedName(self.config.graph.orientation) + 'Bars'](bars, csum, tsum, idx);
 
 		if (self.config.graph.orientation === 'Vertical') {
 			bargroup.attr('transform', 'translate(0,' + 2 * self.height() + ') scale(1,-1)');
@@ -1693,35 +1692,35 @@ r3.PercentBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.PercentBarGraph.prototype = r3.util.extend(r3.Graph);
+uv.PercentBarGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.PercentBarGraph.prototype.setDefaults = function (graphdef, config) {
+uv.PercentBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'percent';
 	config.scale.ordinality = 0;
 	return this;
 };
 
-r3.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, idx) {
+uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, idx) {
 	var self = this,
 		axes = this.axes,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		config = this.config,
-		sumMap = r3.util.getSumUpArray(this.graphdef);
+		sumMap = uv.util.getSumUpArray(this.graphdef);
 	
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
 		.attr('width', 0)
-		.attr('x', function (d, i) { var value = axes.hor.scale(r3.util.getPercentage(csum[i], sumMap[i])); csum[i] += d.value; return value; })
+		.attr('x', function (d, i) { var value = axes.hor.scale(uv.util.getPercentage(csum[i], sumMap[i])); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
-			.attr('width', function (d, i) { return axes.hor.scale(r3.util.getPercentage(d.value, sumMap[i]));});
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
+			.attr('width', function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.value, sumMap[i]));});
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -1733,35 +1732,35 @@ r3.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
-		.text(function(d, i) { return ( axes.hor.scale(r3.util.getPercentage(csum[i], sumMap[i])) > 15 ) ? String(Math.round(r3.util.getPercentage(d.value, sumMap[i]))) : null; })
+		.text(function(d, i) { return ( axes.hor.scale(uv.util.getPercentage(csum[i], sumMap[i])) > 15 ) ? String(Math.round(uv.util.getPercentage(d.value, sumMap[i]))) : null; })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
-			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(r3.util.getPercentage(tsum[i], sumMap[i])) - 5; });
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
+			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(uv.util.getPercentage(tsum[i], sumMap[i])) - 5; });
 };
 
-r3.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx) {
+uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx) {
 	var self = this,
 		height = this.height(),
 		axes = this.axes,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		config = this.config,
-		sumMap = r3.util.getSumUpArray(this.graphdef);
+		sumMap = uv.util.getSumUpArray(this.graphdef);
 	
 	bars.append('rect')
 		.attr('height', 0)
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name); })
-		.attr('y', function (d, i) { var value = axes.ver.scale(r3.util.getPercentage(csum[i], sumMap[i])); csum[i] -= d.value; return value; })
+		.attr('y', function (d, i) { var value = axes.ver.scale(uv.util.getPercentage(csum[i], sumMap[i])); csum[i] -= d.value; return value; })
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
-			.attr('height', function (d, i) { return height - axes.ver.scale(r3.util.getPercentage(d.value, sumMap[i])); });
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
+			.attr('height', function (d, i) { return height - axes.ver.scale(uv.util.getPercentage(d.value, sumMap[i])); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
@@ -1773,15 +1772,15 @@ r3.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
-		.text(function(d, i) { return ( height - axes.ver.scale(r3.util.getPercentage(d.value, sumMap[i])) > 15) ? String(Math.round(r3.util.getPercentage(d.value, sumMap[i]))) : null; })
+		.text(function(d, i) { return ( height - axes.ver.scale(uv.util.getPercentage(d.value, sumMap[i])) > 15) ? String(Math.round(uv.util.getPercentage(d.value, sumMap[i]))) : null; })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
-			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(r3.util.getPercentage(tsum[i], sumMap[i]))) + 5; });
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
+			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(uv.util.getPercentage(tsum[i], sumMap[i]))) + 5; });
 };
-r3.PieGraph = function (graphdef, config) {
+uv.PieGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).init(graphdef, config);
+	uv.Graph.call(self).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
@@ -1791,7 +1790,7 @@ r3.PieGraph = function (graphdef, config) {
 	
 	self.category = graphdef.categories[0];
 
-	var data = r3.util.getCategoryData(self.graphdef, [self.category]),
+	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
 		arcfunc = d3.svg.arc().innerRadius(0).outerRadius(self.radius),
 		layout = d3.layout.pie();
 
@@ -1803,11 +1802,11 @@ r3.PieGraph = function (graphdef, config) {
 
 	self.arcs.append('path')
 			.attr('d', arcfunc)
-			.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 			.style('stroke', self.config.pie.strokecolor)
 			.style('stroke-width', self.config.pie.strokewidth)
-		.on('mouseover', r3.effects.pie.mouseover(self.center, arcfunc, self.config))
-		.on('mouseout', r3.effects.pie.mouseout(self.center, self.config));
+		.on('mouseover', uv.effects.pie.mouseover(self.center, arcfunc, self.config))
+		.on('mouseout', uv.effects.pie.mouseout(self.center, self.config));
 
 	self.arcs.append('text')
 			.attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
@@ -1824,10 +1823,10 @@ r3.PieGraph = function (graphdef, config) {
 		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
 };
 
-r3.PieGraph.prototype = r3.util.extend(r3.Graph);
-r3.StackedAreaGraph = function (graphdef, config) {
+uv.PieGraph.prototype = uv.util.extend(uv.Graph);
+uv.StackedAreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self, graphdef).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef).setDefaults(graphdef, config).init(graphdef, config);
 
 	var stacklayout = d3.layout.stack().offset(self.config.area.offset)(self.categories.map(function (d) {
 			return graphdef.dataset[d].map(function (d) { return {x: d.name, y: +d.value}; });
@@ -1841,14 +1840,14 @@ r3.StackedAreaGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.StackedAreaGraph.prototype = r3.util.extend(r3.Graph);
+uv.StackedAreaGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
+uv.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };
 
-r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
+uv.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config;
@@ -1856,13 +1855,13 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	axes.ver.scale.rangePoints([0, self.height()]);
 
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self, i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self, i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
 				.x0(function (d) { return axes.hor.scale(d.y0); })
@@ -1886,7 +1885,7 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	return self;
 };
 
-r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
+uv.StackedAreaGraph.prototype.drawVerticalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config;
@@ -1897,13 +1896,13 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 			.attr('class', 'r3_area');
 
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self,i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self,i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
 				.y0(function (d) { return axes.ver.scale(d.y0); })
@@ -1927,9 +1926,9 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 
 	return self;
 };
-r3.StackedBarGraph = function (graphdef, config) {
+uv.StackedBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = {};
 
@@ -1948,17 +1947,17 @@ r3.StackedBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.StackedBarGraph.prototype = r3.util.extend(r3.Graph);
+uv.StackedBarGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.StackedBarGraph.prototype.setDefaults = function (graphdef, config) {
+uv.StackedBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };
 
-r3.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
+uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 	var self = this,
 		axes = this.axes,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		config = this.config,
 		bargroup = this.bargroups[this.categories[idx]];
 	
@@ -1973,11 +1972,11 @@ r3.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
 			.attr('width', function (d) { return axes.hor.scale(d.value); });
 
 	bars.append('text')
@@ -1992,19 +1991,19 @@ r3.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.style('font-weight', config.bar.fontweight)
 		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? String(d.value) : null; })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
 	
 	bars.append('svg:title')
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 };
 
-r3.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
+uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	var self = this,
 		height = this.height(),
 		axes = this.axes,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		config = this.config,
 		bargroup = this.bargroups[this.categories[idx]];
 	
@@ -2019,11 +2018,11 @@ r3.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
 			.attr('height', function (d) { return height - axes.ver.scale(d.value); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
@@ -2038,8 +2037,8 @@ r3.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.style('font-weight', config.bar.fontweight)
 		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? String(d.value) : null; })
 		.transition()
-			.duration(r3.config.effects.duration)
-			.delay(idx * r3.config.effects.duration)
+			.duration(uv.config.effects.duration)
+			.delay(idx * uv.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
 	
 	bars.append('svg:title')
@@ -2047,9 +2046,9 @@ r3.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	
 	bargroup.attr('transform', 'translate(0,' + 2 * this.height() + ') scale(1,-1)');
 };
-r3.StepUpBarGraph = function (graphdef, config) {
+uv.StepUpBarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	this.bargroups = {};
 
@@ -2067,16 +2066,16 @@ r3.StepUpBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.StepUpBarGraph.prototype = r3.util.extend(r3.Graph);
+uv.StepUpBarGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
+uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };
 
-r3.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
+uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 	var self = this, len = self.categories.length;
-		color = r3.util.getColorBand(self.config, idx),
+		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
 	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
@@ -2088,8 +2087,8 @@ r3.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx, color))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx, color))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
@@ -2117,9 +2116,9 @@ r3.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
+uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	var self = this, len = self.categories.length,
-		color = r3.util.getColorBand(self.config, idx),
+		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
 	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
@@ -2131,8 +2130,8 @@ r3.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.classed('cr_' + self.categories[idx], true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx, color))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx, color))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
@@ -2159,7 +2158,7 @@ r3.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	
 	bargroup.attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + 2 * self.height() + ') scale(1,-1)');
 };
-r3.Table = function () {
+uv.Table = function () {
 	this.caption = undefined;
 	this.position = undefined;
 	this.graphdef = undefined;
@@ -2170,7 +2169,7 @@ r3.Table = function () {
 	this.bodyrows = {};
 };
 
-r3.Table.prototype.init = function (graphdef, config) {
+uv.Table.prototype.init = function (graphdef, config) {
 	this.graphdef = graphdef;
 	this.config = $.extend(true, {}, config);
 	this.position = this.config.meta.pos || 'body';
@@ -2181,11 +2180,11 @@ r3.Table.prototype.init = function (graphdef, config) {
 	this.footer = this.table.append('tfoot').attr('class', this.config.table.footerclass);
 };
 
-r3.Table.prototype.finalize = function () {
+uv.Table.prototype.finalize = function () {
 	//console.log(this);
 };
-r3.TableGraph = function (graphdef, config) {
-	r3.Table.apply(this, [graphdef]);
+uv.TableGraph = function (graphdef, config) {
+	uv.Table.apply(this, [graphdef]);
 	this.init(graphdef, config);
 
 	if (this.config.graph.orientation === 'Horizontal') {
@@ -2197,10 +2196,10 @@ r3.TableGraph = function (graphdef, config) {
 	this.finalize();
 };
 
-r3.TableGraph.prototype = r3.util.extend(r3.Table);
+uv.TableGraph.prototype = uv.util.extend(uv.Table);
 
-r3.TableGraph.prototype.setHorTable = function () {
-	var categories = this.graphdef.categories, tableData = r3.util.getTabularArray(this.graphdef);
+uv.TableGraph.prototype.setHorTable = function () {
+	var categories = this.graphdef.categories, tableData = uv.util.getTabularArray(this.graphdef);
 
 	categories.unshift('');
 	this.header.append('tr').selectAll('td').data(categories).enter().append('td').text(function (d) { return d; });
@@ -2215,8 +2214,8 @@ r3.TableGraph.prototype.setHorTable = function () {
 					.text(function (d) {return d; });
 };
 
-r3.TableGraph.prototype.setVerTable = function () {
-	var labels = r3.util.getLabelArray(this.graphdef), dataset = this.graphdef.dataset;
+uv.TableGraph.prototype.setVerTable = function () {
+	var labels = uv.util.getLabelArray(this.graphdef), dataset = this.graphdef.dataset;
 
 	labels.unshift('');
 	this.header.append('tr').selectAll('td').data(labels).enter().append('td').text(function (d) { return d; });

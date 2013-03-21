@@ -1,16 +1,16 @@
-r3.util = {};
+uv.util = {};
 
-r3.util.extend = function (f) {
+uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
 };
 
-r3.util.getUniqueId = function () {
+uv.util.getUniqueId = function () {
 	return new Date().getTime();
 };
 
-r3.util.getMaxValue = function (graphdef) {
+uv.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {
 			return d.value;
@@ -18,7 +18,7 @@ r3.util.getMaxValue = function (graphdef) {
 	}));
 };
 
-r3.util.getStepMaxValue = function (graphdef) {
+uv.util.getStepMaxValue = function (graphdef) {
 	var sumMap = graphdef.dataset[graphdef.categories[0]].map(function () {return 0; });
 	graphdef.categories.map(function (d) {
 		graphdef.dataset[d].map(function (d, i) {
@@ -29,7 +29,7 @@ r3.util.getStepMaxValue = function (graphdef) {
 	return d3.max(sumMap);
 };
 
-r3.util.getSumUpArray = function (graphdef) {
+uv.util.getSumUpArray = function (graphdef) {
 	var sumMap = graphdef.dataset[graphdef.categories[0]].map(function () {return 0; });
 	graphdef.categories.map(function (d) {
 		graphdef.dataset[d].map(function (d, i) {
@@ -40,15 +40,15 @@ r3.util.getSumUpArray = function (graphdef) {
 	return sumMap;
 };
 
-r3.util.getPercentage = function (value, total) {
+uv.util.getPercentage = function (value, total) {
 	return value * 100 / total;
 };
 
-r3.util.getDataArray = function (graphdef) {
+uv.util.getDataArray = function (graphdef) {
 	return graphdef.categories.map(function (d) { return graphdef.dataset[d]; });
 };
 
-r3.util.getTabularArray = function (graphdef) {
+uv.util.getTabularArray = function (graphdef) {
 	var table = [], i, j, catlen, len, arr = [];
 	for (i = 0, len = graphdef.dataset[graphdef.categories[0]].length; i < len; i = i + 1) {
 		arr = [];
@@ -61,15 +61,15 @@ r3.util.getTabularArray = function (graphdef) {
 	return table;
 };
 
-r3.util.getLabelArray = function (graphdef) {
+uv.util.getLabelArray = function (graphdef) {
 	return graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
 };
 
-r3.util.getCategoryArray = function (graphdef) {
+uv.util.getCategoryArray = function (graphdef) {
 	return graphdef.categories.map(function (d) { return d; });
 };
 
-r3.util.getCategoryData = function (graphdef, categories) {
+uv.util.getCategoryData = function (graphdef, categories) {
 	return categories.map(function (d) {
 		return graphdef.dataset[d].map(function (d) {
 			return d.value;
@@ -77,7 +77,7 @@ r3.util.getCategoryData = function (graphdef, categories) {
 	});
 };
 
-r3.util.transposeData = function (graphdef) {
+uv.util.transposeData = function (graphdef) {
 	var dataset = {}, i, j, length, jlength,
 		name, label, value, categories = graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
 
@@ -96,11 +96,11 @@ r3.util.transposeData = function (graphdef) {
 	graphdef.dataset = dataset;
 };
 
-r3.util.getPascalCasedName = function (name) {
+uv.util.getPascalCasedName = function (name) {
 	return name.substring(0, 1).toUpperCase() + name.substring(1);
 };
 
-r3.util.getColorBand = function (config, index) {
-	var len = r3.palette[config.graph.palette].length;
-	return r3.palette[config.graph.palette][index % len];
+uv.util.getColorBand = function (config, index) {
+	var len = uv.palette[config.graph.palette].length;
+	return uv.palette[config.graph.palette][index % len];
 };

@@ -1,6 +1,6 @@
-r3.StackedAreaGraph = function (graphdef, config) {
+uv.StackedAreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self, graphdef).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef).setDefaults(graphdef, config).init(graphdef, config);
 
 	var stacklayout = d3.layout.stack().offset(self.config.area.offset)(self.categories.map(function (d) {
 			return graphdef.dataset[d].map(function (d) { return {x: d.name, y: +d.value}; });
@@ -14,14 +14,14 @@ r3.StackedAreaGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.StackedAreaGraph.prototype = r3.util.extend(r3.Graph);
+uv.StackedAreaGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
+uv.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;
 	return this;
 };
 
-r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
+uv.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config;
@@ -29,13 +29,13 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	axes.ver.scale.rangePoints([0, self.height()]);
 
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self, i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self, i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
 				.x0(function (d) { return axes.hor.scale(d.y0); })
@@ -59,7 +59,7 @@ r3.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	return self;
 };
 
-r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
+uv.StackedAreaGraph.prototype.drawVerticalArea = function () {
 	var self = this, axes = self.axes,
 		categories = self.categories,
 		config = self.config;
@@ -70,13 +70,13 @@ r3.StackedAreaGraph.prototype.drawVerticalArea = function () {
 			.attr('class', 'r3_area');
 
 	for(var i = 0; i < categories.length; i = i + 1){
-		r3.effects.area.mouseover(self, i);
-		r3.effects.area.mouseout(self,i);
+		uv.effects.area.mouseover(self, i);
+		uv.effects.area.mouseout(self,i);
 	}
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) { return 'area_' + categories[i]; })
-			.style('fill', function (d, i) { return r3.util.getColorBand(config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
 				.y0(function (d) { return axes.ver.scale(d.y0); })

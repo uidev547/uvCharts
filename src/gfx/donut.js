@@ -1,6 +1,6 @@
-r3.DonutGraph = function (graphdef, config) {
+uv.DonutGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).init(graphdef, config);
+	uv.Graph.call(self).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
@@ -10,7 +10,7 @@ r3.DonutGraph = function (graphdef, config) {
 	
 	self.category = graphdef.categories[0];
 	
-	var data = r3.util.getCategoryData(self.graphdef, [self.category]),
+	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
 		arcfunc = d3.svg.arc().innerRadius(self.radius * self.config.donut.factor).outerRadius(self.radius),
 		layout = d3.layout.pie();
 
@@ -22,11 +22,11 @@ r3.DonutGraph = function (graphdef, config) {
 
 	self.arcs.append('path')
 			.attr('d', arcfunc)
-			.style('fill', function (d, i) { return r3.util.getColorBand(self.config, i); })
+			.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 			.style('stroke', self.config.donut.strokecolor)
 			.style('stroke-width', self.config.donut.strokewidth)
-		.on('mouseover', r3.effects.donut.mouseover(self.center, arcfunc, self.config))
-		.on('mouseout', r3.effects.donut.mouseout(self.center, self.config));
+		.on('mouseover', uv.effects.donut.mouseover(self.center, arcfunc, self.config))
+		.on('mouseout', uv.effects.donut.mouseout(self.center, self.config));
 
 	self.arcs.append('text')
 			.attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
@@ -43,4 +43,4 @@ r3.DonutGraph = function (graphdef, config) {
 		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
 };
 
-r3.DonutGraph.prototype = r3.util.extend(r3.Graph);
+uv.DonutGraph.prototype = uv.util.extend(uv.Graph);

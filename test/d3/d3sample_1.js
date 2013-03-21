@@ -1,51 +1,51 @@
 init = function() {
-	var horConfig = $.extend(true, {}, r3.config);
-	var verConfig = $.extend(true, {}, r3.config);
-	var graphdef = $.extend(true, {}, r3.constants.graphdef);
-	var tgraphdef = $.extend(true, {}, r3.constants.graphdef);
+	var horConfig = $.extend(true, {}, uv.config);
+	var verConfig = $.extend(true, {}, uv.config);
+	var graphdef = $.extend(true, {}, uv.constants.graphdef);
+	var tgraphdef = $.extend(true, {}, uv.constants.graphdef);
 	
 	verConfig.graph.orientation = 'Vertical';
-	r3.util.transposeData(tgraphdef);
+	uv.util.transposeData(tgraphdef);
 
-	barHorTest = r3.buildGraph('Bar', graphdef, horConfig);
-	tbarHorTest = r3.buildGraph('Bar', tgraphdef, horConfig);
-	barVerTest = r3.buildGraph('Bar', graphdef, verConfig);
-	tbarVerTest = r3.buildGraph('Bar', tgraphdef, verConfig);
+	barHorTest = uv.chart('Bar', graphdef, horConfig);
+	tbarHorTest = uv.chart('Bar', tgraphdef, horConfig);
+	barVerTest = uv.chart('Bar', graphdef, verConfig);
+	tbarVerTest = uv.chart('Bar', tgraphdef, verConfig);
 	
-	stepUpBarHorTest = r3.buildGraph('StepUpBar', graphdef, horConfig);
-	tstepUpBarHorTest = r3.buildGraph('StepUpBar', tgraphdef, horConfig);
-	stepUpBarVerTest = r3.buildGraph('StepUpBar', graphdef, verConfig);
-	tstepUpBarVerTest = r3.buildGraph('StepUpBar', tgraphdef, verConfig);
+	stepUpBarHorTest = uv.chart('StepUpBar', graphdef, horConfig);
+	tstepUpBarHorTest = uv.chart('StepUpBar', tgraphdef, horConfig);
+	stepUpBarVerTest = uv.chart('StepUpBar', graphdef, verConfig);
+	tstepUpBarVerTest = uv.chart('StepUpBar', tgraphdef, verConfig);
 	
-	stackedBarHorTest = r3.buildGraph('StackedBar', graphdef, horConfig);
-	tstackedBarHorTest = r3.buildGraph('StackedBar', tgraphdef, horConfig);
-	stackedBarVerTest = r3.buildGraph('StackedBar', graphdef, verConfig);
-	tstackedBarVerTest = r3.buildGraph('StackedBar', tgraphdef, verConfig);
+	stackedBarHorTest = uv.chart('StackedBar', graphdef, horConfig);
+	tstackedBarHorTest = uv.chart('StackedBar', tgraphdef, horConfig);
+	stackedBarVerTest = uv.chart('StackedBar', graphdef, verConfig);
+	tstackedBarVerTest = uv.chart('StackedBar', tgraphdef, verConfig);
 
-	lineHorTest = r3.buildGraph('Line', graphdef, horConfig);
-	tlineHorTest = r3.buildGraph('Line', tgraphdef, horConfig);
-	lineVerTest = r3.buildGraph('Line', graphdef, verConfig);
-	tlineVerTest = r3.buildGraph('Line', tgraphdef, verConfig);
+	lineHorTest = uv.chart('Line', graphdef, horConfig);
+	tlineHorTest = uv.chart('Line', tgraphdef, horConfig);
+	lineVerTest = uv.chart('Line', graphdef, verConfig);
+	tlineVerTest = uv.chart('Line', tgraphdef, verConfig);
 
-	areaHorTest = r3.buildGraph('Area', graphdef, horConfig);
-	tareaHorTest = r3.buildGraph('Area', tgraphdef, horConfig);
-	areaVerTest = r3.buildGraph('Area', graphdef, verConfig);
-	tareaVerTest = r3.buildGraph('Area', tgraphdef, verConfig);
+	areaHorTest = uv.chart('Area', graphdef, horConfig);
+	tareaHorTest = uv.chart('Area', tgraphdef, horConfig);
+	areaVerTest = uv.chart('Area', graphdef, verConfig);
+	tareaVerTest = uv.chart('Area', tgraphdef, verConfig);
 
-	stackareaHorTest = r3.buildGraph('StackedArea', graphdef, horConfig);
-	stackareaVerTest = r3.buildGraph('StackedArea', graphdef, verConfig);
+	stackareaHorTest = uv.chart('StackedArea', graphdef, horConfig);
+	stackareaVerTest = uv.chart('StackedArea', graphdef, verConfig);
 	
-	centareaHorTest = r3.buildGraph('PercentArea', graphdef, horConfig);
-	centareaVerTest = r3.buildGraph('PercentArea', graphdef, verConfig);
+	centareaHorTest = uv.chart('PercentArea', graphdef, horConfig);
+	centareaVerTest = uv.chart('PercentArea', graphdef, verConfig);
 	
-	centbarHorTest = r3.buildGraph('PercentBar', graphdef, verConfig);
-	centbarVerTest = r3.buildGraph('PercentBar', graphdef, verConfig);
+	centbarHorTest = uv.chart('PercentBar', graphdef, verConfig);
+	centbarVerTest = uv.chart('PercentBar', graphdef, verConfig);
 	
-	donutTest = r3.buildGraph('Donut', graphdef, horConfig);
-	pieTest = r3.buildGraph('Pie', graphdef, horConfig);
+	donutTest = uv.chart('Donut', graphdef, horConfig);
+	pieTest = uv.chart('Pie', graphdef, horConfig);
 	
-	tableHorTest = new r3.TableGraph(graphdef, horConfig);
-	ttableHorTest = new r3.TableGraph(tgraphdef, horConfig);
-	tableVerTest = new r3.TableGraph(graphdef, verConfig);
-	tableVerTest = new r3.TableGraph(tgraphdef, verConfig);
+	tableHorTest = new uv.TableGraph(graphdef, horConfig);
+	ttableHorTest = new uv.TableGraph(tgraphdef, horConfig);
+	tableVerTest = new uv.TableGraph(graphdef, verConfig);
+	tableVerTest = new uv.TableGraph(tgraphdef, verConfig);
 };

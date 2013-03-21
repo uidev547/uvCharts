@@ -1,7 +1,7 @@
-r3.effects = {};
+uv.effects = {};
 
-r3.effects.bar = {};
-r3.effects.bar.mouseover = function (graph, idx) {
+uv.effects.bar = {};
+uv.effects.bar.mouseover = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
@@ -21,10 +21,10 @@ r3.effects.bar.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.bar.mouseout = function (graph, idx, color) {
+uv.effects.bar.mouseout = function (graph, idx, color) {
 	var config = graph.config,
 		category = graph.categories[idx];
-		color = color || r3.util.getColorBand(graph.config, idx);
+		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + category)
@@ -41,8 +41,8 @@ r3.effects.bar.mouseout = function (graph, idx, color) {
 	return effect;
 };
 
-r3.effects.area = {};
-r3.effects.area.mouseover = function (graph, idx) {
+uv.effects.area = {};
+uv.effects.area.mouseover = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
@@ -56,22 +56,22 @@ r3.effects.area.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.area.mouseout = function (graph, idx) {
+uv.effects.area.mouseout = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_'+category).select('path.area_'+category)
 		.transition().duration(config.effects.hover)
-		.style('fill',r3.util.getColorBand(config,idx));
+		.style('fill',uv.util.getColorBand(config,idx));
 	};
 	
 	graph.effects[category]['mouseout'] = effect;
 	return effect;
 };
 
-r3.effects.line = {};
-r3.effects.line.mouseover = function (graph, idx) {
+uv.effects.line = {};
+uv.effects.line.mouseover = function (graph, idx) {
 	var config = graph.config,
 		category = graph.categories[idx];
 
@@ -95,10 +95,10 @@ r3.effects.line.mouseover = function (graph, idx) {
 	return effect;
 };
 
-r3.effects.line.mouseout = function (graph, idx, color) {
+uv.effects.line.mouseout = function (graph, idx, color) {
 	var config = graph.config,
 		category = graph.categories[idx],
-		color = color || r3.util.getColorBand(graph.config, idx);
+		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_' + category).selectAll('circle')
@@ -120,25 +120,25 @@ r3.effects.line.mouseout = function (graph, idx, color) {
 	return effect;
 };
 
-r3.effects.caption = {};
-r3.effects.caption.mouseover = function (config) {
+uv.effects.caption = {};
+uv.effects.caption.mouseover = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background)
+		d3.select(this.parentNode.parentNode).select('.' + uv.constants.name.background)
 			.transition().duration(config.effects.duration)
 				.style('fill', config.caption.hovercolor);
 	};
 };
 
-r3.effects.caption.mouseout = function (config) {
+uv.effects.caption.mouseout = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + r3.constants.name.background)
+		d3.select(this.parentNode.parentNode).select('.' + uv.constants.name.background)
 			.transition().duration(config.effects.duration)
 				.style('fill', config.graph.background);
 	};
 };
 
-r3.effects.donut = {};
-r3.effects.donut.mouseover = function (center, arcfunc, config, d) {
+uv.effects.donut = {};
+uv.effects.donut.mouseover = function (center, arcfunc, config, d) {
 	return function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
@@ -151,7 +151,7 @@ r3.effects.donut.mouseover = function (center, arcfunc, config, d) {
 	};
 };
 
-r3.effects.donut.mouseout = function (center, config) {
+uv.effects.donut.mouseout = function (center, config) {
 	return function () {
 		d3.select(this.parentNode)
 			.transition().duration(config.effects.duration)
@@ -159,8 +159,8 @@ r3.effects.donut.mouseout = function (center, config) {
 	};
 };
 
-r3.effects.pie = {};
-r3.effects.pie.mouseover = function (center, arcfunc, config, d) {
+uv.effects.pie = {};
+uv.effects.pie.mouseover = function (center, arcfunc, config, d) {
 	return function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
@@ -173,7 +173,7 @@ r3.effects.pie.mouseover = function (center, arcfunc, config, d) {
 	};
 };
 
-r3.effects.pie.mouseout = function (center, config) {
+uv.effects.pie.mouseout = function (center, config) {
 	return function () {
 		d3.select(this.parentNode)
 			.transition().duration(config.effects.duration)
@@ -181,19 +181,19 @@ r3.effects.pie.mouseout = function (center, config) {
 	};
 };
 
-r3.effects.legend = {};
-r3.effects.legend.mouseover = function (self, idx) {
+uv.effects.legend = {};
+uv.effects.legend.mouseover = function (self, idx) {
 	return self.effects.group[self.categories[idx]].mouseover;
 };
 
-r3.effects.legend.mouseout = function (self, idx) {
+uv.effects.legend.mouseout = function (self, idx) {
 	return self.effects.group[self.categories[idx]].mouseout;
 };
 
-r3.effects.legend.click = function (i, ctx, graph) {
+uv.effects.legend.click = function (i, ctx, graph) {
 	var disabled = (d3.select(ctx).attr('disabled') === 'false') ? false : true;
 	graph.toggleGraphGroup(i);
-	d3.select(ctx).select('rect').style('fill', disabled ? r3.util.getColorBand(graph.config, i) : r3.config.legend.inactive_color);
-	d3.select(ctx).select('text').style('fill', disabled ? null : r3.config.legend.inactive_color);
+	d3.select(ctx).select('rect').style('fill', disabled ? uv.util.getColorBand(graph.config, i) : uv.config.legend.inactive_color);
+	d3.select(ctx).select('text').style('fill', disabled ? null : uv.config.legend.inactive_color);
 	d3.select(ctx).attr('disabled', disabled ? 'false' : 'true');
 };

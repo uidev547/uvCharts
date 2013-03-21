@@ -1,4 +1,4 @@
-r3.config = {
+uv.config = {
 	graph : {
 		palette : 'Brink',
 		background : 'white',
@@ -9,7 +9,11 @@ r3.config = {
 	meta : {
 		position : '.r3_div',
 		caption : 'Usage of browsers by the years',
-		subCaption : 'Among major vendors'
+		subcaption : 'Among major vendors',
+		hlabel : 'Horizontal Axis Label',
+		vlabel : 'Vertical Axis Label',
+		hsublabel : 'h sublabel',
+		vsublabel : 'v sublabel'
 	},
 
 	dimension : {
@@ -25,7 +29,7 @@ r3.config = {
 	},
 
 	frame : {
-		bgcolor : '#fff'
+		bgcolor : 'white'
 	},
 
 	axis : {
@@ -36,11 +40,7 @@ r3.config = {
 		strokecolor : '#000',
 		fontfamily : 'Arial',
 		fontsize : '14',
-		fontweight : 'bold',
-		hlabel : 'Horizontal Axis Label',
-		vlabel : 'Vertical Axis Label',
-		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel'
+		fontweight : 'bold'
 	},
 
 	label : {
@@ -59,7 +59,7 @@ r3.config = {
 		fontfamily : 'Arial',
 		fontsize : '10',
 		fontweight : 'bold',
-		textcolor : 'black'
+		textcolor : '#000'
 	},
 
 	line : {

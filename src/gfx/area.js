@@ -1,9 +1,9 @@
-r3.AreaGraph = function (graphdef, config) {
+uv.AreaGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.areagroups = [];
-	self.dataset = r3.util.getDataArray(self.graphdef);
+	self.dataset = uv.util.getDataArray(self.graphdef);
 
 	var areagroup, areapath, areafunc, idx, len,
 		domainData = self.graphdef.dataset[self.graphdef.categories[0]];
@@ -21,16 +21,16 @@ r3.AreaGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.AreaGraph.prototype = r3.util.extend(r3.Graph);
+uv.AreaGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.AreaGraph.prototype.setDefaults = function (graphdef, config) {
+uv.AreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };
 
-r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
+uv.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 	var self = this,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 		
 	self.axes.ver.scale.rangePoints([0, self.height()]);
 
@@ -68,9 +68,9 @@ r3.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 				.style('fill', 'white');
 };
 
-r3.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
+uv.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
 	var self = this,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 	
 	self.axes.hor.scale.rangePoints([0, self.width()]);
 

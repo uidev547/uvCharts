@@ -1,4 +1,4 @@
-r3.Table = function () {
+uv.Table = function () {
 	this.caption = undefined;
 	this.position = undefined;
 	this.graphdef = undefined;
@@ -9,7 +9,7 @@ r3.Table = function () {
 	this.bodyrows = {};
 };
 
-r3.Table.prototype.init = function (graphdef, config) {
+uv.Table.prototype.init = function (graphdef, config) {
 	this.graphdef = graphdef;
 	this.config = $.extend(true, {}, config);
 	this.position = this.config.meta.pos || 'body';
@@ -20,6 +20,6 @@ r3.Table.prototype.init = function (graphdef, config) {
 	this.footer = this.table.append('tfoot').attr('class', this.config.table.footerclass);
 };
 
-r3.Table.prototype.finalize = function () {
+uv.Table.prototype.finalize = function () {
 	//console.log(this);
 };

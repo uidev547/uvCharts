@@ -1,9 +1,9 @@
-r3.LineGraph = function (graphdef, config) {
+uv.LineGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.linegroups = {};
-	self.dataset = r3.util.getDataArray(self.graphdef);
+	self.dataset = uv.util.getDataArray(self.graphdef);
 
 	var linegroup, linepath, linefunc, idx, len = self.categories.length,
 		domainData = self.labels;
@@ -25,24 +25,24 @@ r3.LineGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.LineGraph.prototype = r3.util.extend(r3.Graph);
+uv.LineGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.LineGraph.prototype.setDefaults = function (graphdef, config) {
+uv.LineGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	config.scale.ordinality = 0;
 	return this;
 };
 
-r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
+uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	var self = this,
 		axes = self.axes,
 		config = self.config,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
 				.y(function (d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand() / 2; })
-				.interpolate(r3.config.line.interpolation);
+				.interpolate(uv.config.line.interpolation);
 
 	linegroup.path.append('path')
 				.classed('cr_' + self.categories[idx], true)
@@ -51,8 +51,8 @@ r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
 				.style('stroke-opacity', 0.01)
-				.on('mouseover', r3.effects.line.mouseover(self,idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self,idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 				.transition()
 					.duration(3 * self.config.effects.duration)
 					.delay(2 * idx * self.config.effects.duration)
@@ -68,8 +68,8 @@ r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
 				.style('stroke', color)
-				.on('mouseover', r3.effects.line.mouseover(self, idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self, idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 					.append('svg:title')
 					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
@@ -91,16 +91,16 @@ r3.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	return this;
 };
 
-r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
+uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 	var self = this,
 		axes = self.axes,
 		config = self.config,
-		color = r3.util.getColorBand(self.config, idx);
+		color = uv.util.getColorBand(self.config, idx);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })
 				.y(function (d) { return axes.ver.scale(d.value); })
-				.interpolate(r3.config.line.interpolation);
+				.interpolate(uv.config.line.interpolation);
 
 	linegroup.path.append('path')
 				.attr('d', linegroup.func)
@@ -109,8 +109,8 @@ r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
 				.style('stroke-opacity', 0.01)
-				.on('mouseover', r3.effects.line.mouseover(self, idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self, idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 				.transition()
 					.duration(self.config.effects.duration)
 					.delay(2 * idx * self.config.effects.duration)
@@ -126,8 +126,8 @@ r3.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
 				.style('stroke', color)
-				.on('mouseover', r3.effects.line.mouseover(self, idx))
-				.on('mouseout', r3.effects.line.mouseout(self, idx, color))
+				.on('mouseover', uv.effects.line.mouseover(self, idx))
+				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 					.append('svg:title')
 					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	

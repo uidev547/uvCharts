@@ -3,9 +3,9 @@
  * @param {Object} graphdef Definition of the graph being rendered
  * @param {Object} config   Configuration of the graph being rendered
  */
-r3.BarGraph = function (graphdef, config) {
+uv.BarGraph = function (graphdef, config) {
 	var self = this;
-	r3.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.bargroups = {};
 
@@ -21,16 +21,16 @@ r3.BarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-r3.BarGraph.prototype = r3.util.extend(r3.Graph);
+uv.BarGraph.prototype = uv.util.extend(uv.Graph);
 
-r3.BarGraph.prototype.setDefaults = function (graphdef, config) {
+uv.BarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };
 
-r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
+uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	var self = this,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
@@ -44,8 +44,8 @@ r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
 		.style('stroke', self.config.bar.strokecolor)
 		.style('fill', color)
-		.on('mouseover', r3.effects.bar.mouseover(self, idx))
-		.on('mouseout', r3.effects.bar.mouseout(self, idx))
+		.on('mouseover', uv.effects.bar.mouseover(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
@@ -73,9 +73,9 @@ r3.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-r3.BarGraph.prototype.drawVerticalBars = function (idx) {
+uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 	var self = this,
-		color = r3.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
@@ -89,8 +89,8 @@ r3.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', r3.effects.bar.mouseover(self, idx))
-			.on('mouseout', r3.effects.bar.mouseout(self, idx))
+			.on('mouseover', uv.effects.bar.mouseover(self, idx))
+			.on('mouseout', uv.effects.bar.mouseout(self, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
