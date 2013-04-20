@@ -55,3 +55,14 @@ uv.constants.name = {
 			footerclass : 'r3_footer'
 	}
 };
+
+uv.constants.classes = {
+	uv : 'uv',
+	pos : 'uv-div',
+	frame : 'uv-frame',
+	panel : 'uv-panel',
+	bg : 'uv-bg',
+	framebg : 'uv-frame-bg',
+	horaxis : 'uv-hor-axis',
+	veraxis : 'uv-ver-axis'
+};

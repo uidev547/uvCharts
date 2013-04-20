@@ -5,7 +5,7 @@
 var uv = {};
 
 /**
- * uv.Graph is an abstract class of sorts which serves as the base for all other graphs.
+ * uv.Graph is an abstract class of sorts which serves as the base for all other graphs. Instances of it wouldnt be anything except bare bones needed to create a chart.
  * id					- unique id corresponding to the graph, created using current timestamp
  * graphdef		- definition of the graph, containing data on which the visualization is built
  * config			- configuration of the graph, affecting the visual styling of the graph
@@ -91,8 +91,8 @@ uv.Graph.prototype.setFrame = function () {
 		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
-	self.frame.attr('id', uv.constants.name.frame + '_' + self.id)
-		.classed(uv.constants.name.frame, true)
+	self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
+		.classed(uv.constants.classes.frame, true)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
 
@@ -101,8 +101,7 @@ uv.Graph.prototype.setFrame = function () {
 		.attr('height', self.height() + self.top() + self.bottom())
 		.style('fill', self.config.frame.bgcolor);
 
-	self.$ = $('svg#' + uv.constants.name.frame + '_' + self.id);
-
+	//self.$ = $('svg#' + uv.constants.name.frame + '_' + self.id);
 	return this;
 };
 
@@ -116,8 +115,8 @@ uv.Graph.prototype.setPanel = function () {
 		self.panel = self.frame.append('g');
 	}
 
-	self.panel.attr('id', uv.constants.name.panel + '_' + self.id)
-		.classed(uv.constants.name.panel, true)
+	self.panel.attr('id', uv.constants.classes.panel + '-' + self.id)
+		.classed(uv.constants.classes.panel, true)
 		.attr('transform', 'translate(' + self.left() + ',' + self.top() + ')');
 
 	return this;
@@ -430,7 +429,11 @@ uv.Graph.prototype.finalize = function (isLoggable) {
 		.drawVerticalAxis()
 		.setLegend();
 	
-	if (isLoggable) { console.log(self); }
+	//Log Graph object if flag set to truthy value
+	if (isLoggable) { 
+		console.log(self); 
+	}
+	
 	return this;
 };
 
