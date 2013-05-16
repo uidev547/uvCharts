@@ -1,6 +1,6 @@
 uv.DonutGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).init(graphdef, config);
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
 	self.radius = Math.min(self.height(), self.width()) * 2 / 5;
 	self.center = {
@@ -44,3 +44,8 @@ uv.DonutGraph = function (graphdef, config) {
 };
 
 uv.DonutGraph.prototype = uv.util.extend(uv.Graph);
+
+uv.DonutGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = false;
+	return this;
+};
