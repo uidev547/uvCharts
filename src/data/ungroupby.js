@@ -1,4 +1,4 @@
-r3.data.prototype.ungroupBy = function () {
+uv.data.prototype.ungroupBy = function () {
 	this.dataset.data = jQuery.extend(true, [], this.Dataset);
 	var columns = jQuery.extend(true, [], this.dimensions), i, length;
 	
@@ -11,7 +11,7 @@ r3.data.prototype.ungroupBy = function () {
 	this.groupby(columns);
 }; 
 
-r3.data.prototype.ungroupby = function (columns) {
+uv.data.prototype.ungroupby = function (columns) {
 	if(!(columns instanceof Array)) {
 		if(this.Dimensions[columns] === false) {
 			this.Dimensions[columns] = true;

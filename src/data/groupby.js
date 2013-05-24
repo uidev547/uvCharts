@@ -1,4 +1,4 @@
-r3.data.prototype.groupBy = function (dataset, column) {
+uv.data.prototype.groupBy = function (dataset, column) {
 	if(!dataset) return;
 
 	if(dataset.data === undefined) {
@@ -20,7 +20,7 @@ r3.data.prototype.groupBy = function (dataset, column) {
 	}
 };
 
-r3.data.prototype.groupby = function (columns) {
+uv.data.prototype.groupby = function (columns) {
 	if(!(columns instanceof Array)) {
 		if(this.Dimensions[columns] === true) {
 			this.Dimensions[columns] = false; 

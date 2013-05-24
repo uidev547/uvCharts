@@ -6,7 +6,7 @@ var uv = {};
 
 /**
  * uv.Graph is an abstract class of sorts which serves as the base for all other graphs. Instances of it wouldnt be anything except bare bones needed to create a chart.
- * id					- unique id corresponding to the graph, created using current timestamp
+ * id					- unique id corresponding to the graph, created using current timestamp {#TODO: needs improved logic}
  * graphdef		- definition of the graph, containing data on which the visualization is built
  * config			- configuration of the graph, affecting the visual styling of the graph
  * frame			- <svg> element acting as the parent graph container
@@ -44,6 +44,8 @@ uv.Graph = function () {
  * @param  {Object} graphdef Definition of the graph, take a look at constants.js for complete documentation
  * @param  {Object} config   Configuration of the graph, take a look at config.js for complete documentation
  * @return {Object}          The graph object itself, to support method chaining
+ *
+ * #TODO: Remove dependency on jQuery/$
  */
 uv.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
@@ -62,7 +64,7 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setVerticalAxis()
 		.setEffectsObject();
 		
-	return this;
+	return self;
 };
 
 /**
@@ -96,12 +98,11 @@ uv.Graph.prototype.setFrame = function () {
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom());
 
-	self.frame.append('rect').classed('r3_frame_bg', true)
+	self.frame.append('rect').classed(uv.constants.classes.framebg, true)
 		.attr('width', self.width() + self.left() + self.right())
 		.attr('height', self.height() + self.top() + self.bottom())
 		.style('fill', self.config.frame.bgcolor);
 
-	//self.$ = $('svg#' + uv.constants.name.frame + '_' + self.id);
 	return this;
 };
 
@@ -130,7 +131,7 @@ uv.Graph.prototype.setPanel = function () {
 uv.Graph.prototype.setBackground = function (color) {
 	var self = this;
 	if (!self.bg) {
-		self.bg = self.panel.append('rect').attr('class', uv.constants.name.background)
+		self.bg = self.panel.append('rect').attr('class', uv.constants.classes.bg)
 						.attr('height', self.height())
 						.attr('width', self.width());
 	}
@@ -145,9 +146,9 @@ uv.Graph.prototype.setBackground = function (color) {
  */
 uv.Graph.prototype.setCaption = function () {
 	var self = this;
-	self.caption = self.panel.append('g').attr('class', 'r3_caption');
+	self.caption = self.panel.append('g').attr('class', uv.constants.classes.caption);
 	
-	self.caption.append('text').attr('class', 'r3_captiontext')
+	self.caption.append('text').attr('class', uv.constants.classes.captiontext)
 		.text(self.config.meta.caption)
 		.attr('y', -self.config.margin.top / 2)
 		.attr('x', self.config.dimension.width / 2)
@@ -170,9 +171,9 @@ uv.Graph.prototype.setCaption = function () {
  */
 uv.Graph.prototype.setSubCaption = function () {
 	var self = this;
-	self.subCaption = self.panel.append('g').attr('class', 'r3_subCaption');
+	self.subCaption = self.panel.append('g').attr('class', uv.constants.classes.subcaption);
 	
-	self.subCaption.append('text').attr('class', 'r3_subcaptiontext')
+	self.subCaption.append('text').attr('class', uv.constants.classes.subcaptiontext)
 		.text(self.config.meta.subcaption)
 		.attr('y', -self.config.margin.top / 2 + 1*self.config.caption.fontsize)
 		.attr('x', self.config.dimension.width / 2)
@@ -206,7 +207,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (!self.axes.hor.group) {
-		self.axes.hor.group = self.panel.append('g').attr('class', uv.constants.name.horaxis)
+		self.axes.hor.group = self.panel.append('g').attr('class', uv.constants.classes.horaxis)
 									.attr('transform', 'translate(0,' + self.height() + ')')
 									.style('sharp-rendering','crispEdges');
 	}
@@ -245,7 +246,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 	var self = this;
 	var graphdef = self.graphdef;
 	if (!self.axes.ver.group) {
-		self.axes.ver.group = self.panel.append('g').attr('class', uv.constants.name.veraxis)
+		self.axes.ver.group = self.panel.append('g').attr('class', uv.constants.classes.veraxis)
 															.style('sharp-rendering','crispEdges');
 	}
 
@@ -282,7 +283,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 uv.Graph.prototype.setEffectsObject = function () {
 	var self = this;
 	for (var i = 0; i < self.categories.length ; i++) {
-		self.effects[self.categories[i]] = {};
+		self.effects[self.categories[i].replace(' ','_','gim')] = {};
 	}
 	return self;
 };
@@ -303,7 +304,7 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
 	self.axes.hor.line = self.panel.append('line')
-								.attr('class', uv.constants.name.horaxis)
+								.attr('class', uv.constants.classes.horaxis)
 								.attr('y1', self.height())
 								.attr('y2', self.height())
 								.attr('x1', '0')
@@ -341,6 +342,7 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 uv.Graph.prototype.drawVerticalAxis = function () {
 	var self = this;
 	self.axes.ver.axis = self.axes.ver.group.append('g')
+								.classed(uv.constants.classes.axes, true)
 								.style('font-family', self.config.label.fontfamily)
 								.style('font-size', self.config.label.fontsize)
 								.style('font-weight', self.config.label.fontweight)
@@ -350,7 +352,7 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
 	self.axes.ver.line = self.panel.append('line')
-								.attr('class', uv.constants.name.veraxis)
+								.attr('class', uv.constants.classes.veraxis)
 								.attr('y1', 0)
 								.attr('y2', self.height())
 								.style('stroke', self.config.axis.strokecolor);
@@ -358,14 +360,14 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 	self.axes.ver.label = self.axes.ver.group.append('g')
 								.attr('transform', 'translate(' + -4*self.config.margin.left/5 + ',' + self.height()/2 + ')rotate(270)');
 								
-	self.axes.ver.label.append('text').attr('class','r3_axeslabel')
+	self.axes.ver.label.append('text').attr('class', uv.constants.classes.axeslabel)
 								.attr('text-anchor', 'middle')
 								.classed('cal', true)
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize)
 								.text(self.config.meta.vlabel);
 
-	self.axes.ver.label.append('text').attr('class', 'r3_axessublabel')
+	self.axes.ver.label.append('text').attr('class', uv.constants.classes.axessublabel)
 								.attr('text-anchor', 'middle')
 								.attr('y', +self.config.axis.fontsize)
 								.classed('casl', true)
@@ -383,7 +385,7 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 uv.Graph.prototype.setLegend = function () {
 	var self = this;
 
-	var legendgroup = self.panel.append('g').attr('class', 'r3_legend')
+	var legendgroup = self.panel.append('g').attr('class', uv.constants.classes.legend)
 						.attr('transform', 'translate(' + self.width() + ',' + 10 + ')');
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
@@ -400,13 +402,13 @@ uv.Graph.prototype.setLegend = function () {
 							uv.effects.legend.click(i, this, self);
 						});
 
-	self.legends.append('rect').attr('class', 'r3_legendsign')
+	self.legends.append('rect').attr('class', uv.constants.classes.legendsign)
 				.attr('height', self.config.legend.symbolsize)
 				.attr('width', self.config.legend.symbolsize)
 				.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 				.style('stroke', 'none');
 
-	self.legends.append('text').attr('class', 'r3_legendtext')
+	self.legends.append('text').attr('class', uv.constants.classes.legendlabel)
 				.text(function (d, i) { return self.categories[i]; })
 				.attr('dx', self.config.legend.textmargin)
 				.attr('dy', '.71em')
@@ -430,9 +432,9 @@ uv.Graph.prototype.finalize = function (isLoggable) {
 		.setLegend();
 	
 	//Log Graph object if flag set to truthy value
-	if (isLoggable) { 
+	// if (isLoggable) { 
 		console.log(self); 
-	}
+	// }
 	
 	return this;
 };
@@ -477,14 +479,14 @@ uv.Graph.prototype.removePanel = function () {
 };
 
 uv.Graph.prototype.removeHorAxis = function () {
-	this.panel.selectAll('g.' + uv.constants.name.horaxis + " > *").remove();
-	this.panel.selectAll('line.' + uv.constants.name.horaxis).remove();
+	this.panel.selectAll('g.' + uv.constants.classes.horaxis + " > *").remove();
+	this.panel.selectAll('line.' + uv.constants.classes.horaxis).remove();
 	return this;
 };
 
 uv.Graph.prototype.removeVerAxis = function () {
-	this.panel.selectAll('g.' + uv.constants.name.veraxis + " > *").remove();
-	this.panel.selectAll('line.' + uv.constants.name.veraxis).remove();
+	this.panel.selectAll('g.' + uv.constants.classes.veraxis + " > *").remove();
+	this.panel.selectAll('line.' + uv.constants.classes.veraxis).remove();
 	return this;
 };
 
@@ -591,9 +593,9 @@ uv.Graph.prototype.max = function (stepup) {
 /* Additional Graph functions */
 uv.Graph.prototype.toggleGraphGroup = function (i) {
 	var self = this, category = self.categories[i],
-			state = self.frame.select('g.cge_' + category).style('display'),
+			state = self.frame.select('g.cge_' + category.replace(' ','_', 'gim')).style('display'),
 			color = uv.util.getColorBand(self.config, i);
 
-	self.frame.selectAll('g.cge_' + category).style('display', (state === 'none')? null : 'none');
+	self.frame.selectAll('g.cge_' + category.replace(' ', '_', 'gim')).style('display', (state === 'none')? null : 'none');
 	return this;
 };

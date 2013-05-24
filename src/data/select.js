@@ -1,4 +1,4 @@
-r3.data.prototype.Select = function (dataset, columns) {
+uv.data.prototype.Select = function (dataset, columns) {
 	if(!dataset) return;
 
 	if(dataset.data === undefined) {
@@ -16,6 +16,6 @@ r3.data.prototype.Select = function (dataset, columns) {
 	}
 };
 
-r3.data.prototype.select = function (columns) {
+uv.data.prototype.select = function (columns) {
 	this.Select(this.dataset, columns);
 };

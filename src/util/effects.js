@@ -3,7 +3,7 @@ uv.effects = {};
 uv.effects.bar = {};
 uv.effects.bar.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx].replace(' ', '_', 'gim');
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + category)
@@ -23,7 +23,7 @@ uv.effects.bar.mouseover = function (graph, idx) {
 
 uv.effects.bar.mouseout = function (graph, idx, color) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx].replace(' ', '_', 'gim');
 		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
@@ -44,7 +44,7 @@ uv.effects.bar.mouseout = function (graph, idx, color) {
 uv.effects.area = {};
 uv.effects.area.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx].replace(' ', '_', 'gim');
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_' + category).select('path.area_'+category)
@@ -58,7 +58,7 @@ uv.effects.area.mouseover = function (graph, idx) {
 
 uv.effects.area.mouseout = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx].replace(' ', '_', 'gim');
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_'+category).select('path.area_'+category)
@@ -70,10 +70,11 @@ uv.effects.area.mouseout = function (graph, idx) {
 	return effect;
 };
 
+
 uv.effects.line = {};
 uv.effects.line.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx].replace(' ', '_', 'gim');
 
 	var effect = function () {
 		graph.frame.selectAll('.cge_' + category).selectAll('circle')
@@ -97,7 +98,7 @@ uv.effects.line.mouseover = function (graph, idx) {
 
 uv.effects.line.mouseout = function (graph, idx, color) {
 	var config = graph.config,
-		category = graph.categories[idx],
+		category = graph.categories[idx].replace(' ', '_', 'gim'),
 		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {

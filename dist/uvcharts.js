@@ -432,9 +432,9 @@ uv.Graph.prototype.finalize = function (isLoggable) {
 		.setLegend();
 	
 	//Log Graph object if flag set to truthy value
-	if (isLoggable) { 
+	// if (isLoggable) { 
 		console.log(self); 
-	}
+	// }
 	
 	return this;
 };

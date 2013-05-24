@@ -1,11 +1,11 @@
-r3.data.prototype.graph = function (graphtype) {
+uv.data.prototype.graph = function (graphtype) {
 	if( this.measures.length > 0 && this.category ) {
 		var path = [];
 		this.plot(this.dataset, path, graphtype);
 	};
 };
 
-r3.data.prototype.plot = function (dataset, path, graphtype) {
+uv.data.prototype.plot = function (dataset, path, graphtype) {
 	
 	if (dataset && dataset.data && dataset.data.length > 0) {
 		var graphdef = { 'categories' : [], 'dataset' : undefined }
@@ -30,9 +30,11 @@ r3.data.prototype.plot = function (dataset, path, graphtype) {
 		graphdef.dataset = dataset.plotData;
 		
 		graphdef.stepup = false; graphdef.orientation = 'ver'; graphdef.pos = 'body';
-		r3.util.transposeData(graphdef);
-		d3.select('#r3_div').append('div').text(path.join(' || ')); d3.select('#r3_div').append('hr');
-		var plotgraph = new r3[graphtype](graphdef);
+		uv.util.transposeData(graphdef);
+		d3.select('#r3_div').append('div').text(path.join(' || ')); 
+		d3.select('#r3_div').append('hr');
+		var plotgraph = uv.chart(graphtype, graphdef, {});
+		console.log(plotgraph);
 		
 		delete dataset.plotData;
 		delete graphdef;		

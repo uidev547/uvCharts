@@ -1,4 +1,4 @@
-r3.data = function (dataset) {
+uv.data = function (dataset) {
 	this.Dataset = dataset;
 	this.Columns = {};
 	this.Dimensions = {};
@@ -11,11 +11,11 @@ r3.data = function (dataset) {
 	this.dataset = {data : undefined };
 };
 
-r3.util.isNumber = function (n) {
+uv.util.isNumber = function (n) {
 	return !isNaN(n);
 };
 
-r3.data.prototype.fetch = function () {
+uv.data.prototype.fetch = function () {
 	var property;
 	this.dataset.data = jQuery.extend(true, [], this.Dataset);
 
@@ -23,7 +23,7 @@ r3.data.prototype.fetch = function () {
 		for (property in this.dataset.data[0]) {
 			this.Columns[property] = true;
 
-			if (r3.util.isNumber(this.dataset.data[0][property])) {
+			if (uv.util.isNumber(this.dataset.data[0][property])) {
 				this.Measures[property] = true;
 			} else {
 				this.Dimensions[property] = true;
@@ -40,7 +40,7 @@ r3.data.prototype.fetch = function () {
 	}
 };
 
-r3.data.prototype.log = function () {
+uv.data.prototype.log = function () {
 /*	console.log(this.Columns);
 	console.log(this.Dimensions);
 	console.log(this.Measures);

@@ -1,7 +1,7 @@
 uv.constants = {};
 
 uv.constants.graphdef = {
-	categories : ['IE', 'Chrome', 'Firefox', 'Opera', 'Safari'],
+	categories : ['IE', 'Chrome', 'Opera', 'Safari'],
 	dataset : {
 		'IE' : [
 			{name: '2001', value: 60 },
@@ -62,7 +62,17 @@ uv.constants.classes = {
 	frame : 'uv-frame',
 	panel : 'uv-panel',
 	bg : 'uv-bg',
+	axes : 'uv-axes',
+	legend : 'uv-legend',
 	framebg : 'uv-frame-bg',
 	horaxis : 'uv-hor-axis',
-	veraxis : 'uv-ver-axis'
+	veraxis : 'uv-ver-axis',
+	caption : 'uv-caption',
+	captiontext : 'uv-caption-text',
+	subcaption : 'uv-subcaption',
+	subcaptiontext : 'uv-subcaption-text',
+	axeslabel : 'uv-axes-label',
+	axessublabel : 'uv-axes-sub-label',
+	legendsign : 'uv-legend-sign',
+	legendlabel : 'uv-legend-label'
 };
