@@ -51,8 +51,7 @@ uv.config = {
 	},
 
 	scale : {
-		ordinality : 0.2,
-		type : 'quantize'
+		ordinality : 0.2
 	},
 
 	bar : {

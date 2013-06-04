@@ -213,13 +213,10 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 	}
 
 	if (self.config.graph.orientation === 'Horizontal') {
-		self.axes.hor.scale	= d3.scale[self.config.scale.type]()
+		self.axes.hor.scale	= d3.scale.linear()
 								.domain([0, self.max()])
-								.range([0, self.width()]);
-
-		if (self.axes.hor.scale.nice) {
-			self.axes.hor.scale.nice();
-		}
+								.range([0, self.width()])
+								.nice();
 		
 		self.axes.hor.func = d3.svg.axis()
 								.scale(self.axes.hor.scale)
@@ -254,13 +251,10 @@ uv.Graph.prototype.setVerticalAxis = function () {
 	}
 
 	if (self.config.graph.orientation === 'Vertical') {
-		self.axes.ver.scale	= d3.scale[self.config.scale.type]()
+		self.axes.ver.scale	= d3.scale.linear()
 								.domain([self.max(), 0])
-								.range([0, self.height()]);
-
-		if (self.axes.ver.scale.nice) {
-			self.axes.ver.scale.nice();
-		}
+								.range([0, self.height()])
+								.nice();
 		
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
