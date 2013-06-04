@@ -1,41 +1,20 @@
-## Chart3r
---------------------
-Chart3r is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. Chart3r contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together. 
+##R3vis
+r3vis is [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz") written using [http://mbostock.github.com/d3/](http://mbostock.github.com/d3/ "D3").
 
-The modules themselves are:
+#####IMPLEMENTED FEATURES
+- Capable of rendering data in these forms of charts 
+	- Bar Graphs { Normal, Stacked, Step Up }
+	- Area Graphs { Normal, Stacked }
+	- Donut Graphs { Donut, Pie }
+	- Line Graphs
+	- Tables in horizontal and vertical direction wherever applicable.
 
-- uvCharts
-- uvData
+- Configuration based approach to render various elements in the graph.
+	- Color Palettes
+	- Hover colors
+	- Transition durations and many more ....
 
-### uvCharts
-uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. uvCharts will itself be available  with 2 options, with or without the interface. Charts supported at the current moment are:
-
-- Bar Charts
-	+ Normal Bar Chart
-	+ Stacked Bar Chart
-	+ Step Up Bar Chart
-
-- Area Charts
-	+ Normal Area Chart
-	+ Stacked Area Chart
-
-- Donut Charts
-	+ Pie Chart
-	+ Normal Chart
-
-- Line Chart
-
-All charts can be shown either in horizontal or vertical orientation.
-
-#### Features
-- Easy to learn and use
-- Configurable
-- Cool transitions and effects
-
-### To be implemented
-- uvCharts interface to configure and modify the chart in real time (under development)
-
-### uvData
-uvData is a JavaScript based data manipulation library which acts on a ist of JSON Object (A list of Tuples). It is still work in progress and can be used to do complex operations on data.
-
-Together with uvCharts, it will provide enough options to play around with data and visualize it in whichever way you would like to have it.
+#####TODO
+- Chart3r functions to manipulate graphs on the fly
+- Chart3r Interface
+- Transition features
