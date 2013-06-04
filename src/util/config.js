@@ -51,6 +51,7 @@ uv.config = {
 	},
 
 	scale : {
+		type : 'linear',
 		ordinality : 0.2
 	},
 
