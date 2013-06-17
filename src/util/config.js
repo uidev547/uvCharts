@@ -23,7 +23,7 @@ uv.config = {
 
 	margin : {
 		top : 50,
-		bottom : 90,
+		bottom : 150,
 		left : 100,
 		right : 100
 	},
@@ -114,12 +114,14 @@ uv.config = {
 	},
 
 	legend : {
+		position : 'bottom',
 		fontfamily : 'Arial',
 		fontsize : '11',
 		fontweight : 'normal',
 		textmargin : 15,
 		symbolsize : 10,
-		inactive_color : '#DDD'
+		inactive_color : '#DDD',
+		legendstart : 0,
 	},
 
 	effects : {
