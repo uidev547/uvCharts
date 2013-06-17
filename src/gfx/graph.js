@@ -62,7 +62,7 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setEffectsObject();
+		.setEffectsObject();	
 		
 	return self;
 };
@@ -313,7 +313,7 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 	
 	self.axes.hor.label = self.axes.hor.group.append('g')
 														.classed('r3_axeslabelgroup', true)
-														.attr('transform', 'translate(' + self.width()/2 + ',' + (self.config.margin.bottom/2 + 1*self.config.label.fontsize) + ')');
+														.attr('transform', 'translate(' + self.width()/2 + ',' + (1*self.config.margin.bottom/4 + 1*self.config.label.fontsize) + ')');
 								
 	self.axes.hor.label.append('text')
 								.attr('display','block')
@@ -386,10 +386,30 @@ uv.Graph.prototype.setLegend = function () {
 	var self = this;
 
 	var legendgroup = self.panel.append('g').attr('class', uv.constants.classes.legend)
-						.attr('transform', 'translate(' + self.width() + ',' + 10 + ')');
+						.attr('transform', function(d, i){
+							if(self.config.legend.position == 'right'){
+								return 'translate(' + self.width() + ', 10)';
+							}else if(self.config.legend.position == 'bottom'){
+								var pos =  self.height() + self.config.margin.bottom/2 + Number(self.config.axis.fontsize);
+								return 'translate(0, ' + pos +  ')';
+							}
+						});
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
-						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
+						.attr('transform', function (d, i) { 
+							if(self.config.legend.position == 'right'){
+								return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
+							}else if(self.config.legend.position == 'bottom'){
+								var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
+								var vPos = 20*self.config.legend.legendstart;
+								if(hPos >= self.config.dimension.width){
+									self.config.legend.legendstart = self.config.legend.legendstart + 1;
+									hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
+									vPos = 20*self.config.legend.legendstart;
+								}
+								return 'translate(' + hPos + ',' + vPos + ')'; 
+							}
+						})
 						.attr('class', function (d, i) { return 'cl_' + self.categories[i]; })
 						.attr('disabled', 'false')
 						.on('mouseover', function (d, i) {
