@@ -41,6 +41,50 @@ uv.constants.graphdef = {
 	}
 };
 
+uv.constants.waterfallGraphdef = {
+        categories : ['data'],
+        dataset : {
+            'data' : [
+                {
+                    "name": "2005 Actual",
+                    "value": 90
+                },
+                {
+                    "name": "Price",
+                    "value": 15
+                },
+                {
+                    "name": "Volume",
+                    "value": 21
+                },
+                {
+                    "name": "Fixes",
+                    "value": -37
+                },
+                {
+                    "name": "Taxation",
+                    "value": -43
+                },
+                {
+                    "name": "Escalation",
+                    "value": -40
+                },
+                {
+                    "name": "Mix",
+                    "value": 46
+                },
+                {
+                    "name": "Market Effect",
+                    "value": 91
+                },
+                {
+                    "name": "Partners",
+                    "value": 61
+                }
+            ]
+        }
+    };
+
 uv.constants.name = {
 	pos : 'r3_div',
 	frame : 'r3_frame',

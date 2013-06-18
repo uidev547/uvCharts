@@ -1,10 +1,9 @@
 /**
-/**
- * A normal 2d bar chart capable of being rendered in horizontal and vertical manner
+ * A waterfall chart capable of being rendered in horizontal and vertical manner
  * @param {Object} graphdef Definition of the graph being rendered
  * @param {Object} config   Configuration of the graph being rendered
  */
-uv.BarGraph = function (graphdef, config) {
+uv.WaterfallGraph = function (graphdef, config) {
 	var self = this;
 	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
@@ -13,44 +12,45 @@ uv.BarGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels);
 
 	var idx, length = self.categories.length, category;
-	for (idx = 0; idx < length; idx = idx + 1) {
-		category = self.categories[idx];
-		self.bargroups[category] = self.panel.append('g').attr('class', 'r3_bargroup').classed('cg_' + category, true);
-		self['draw' + self.config.graph.orientation + 'Bars'](idx);
-	}
+	
+	category = self.categories[0];
+	self.bargroups[category] = self.panel.append('g').classed('cg_' + category, true);
+	self['draw' + self.config.graph.orientation + 'Bars'](0);
 
 	self.finalize();
 };
 
-uv.BarGraph.prototype = uv.util.extend(uv.Graph);
+uv.WaterfallGraph.prototype = uv.util.extend(uv.Graph);
 
-uv.BarGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = false;
+uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = 'waterfall'; 
 	return this;
 };
 
-uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
-	var self = this,
-		color = uv.util.getColorBand(this.config, idx),
-		len = self.categories.length;
-	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-				.append('g').attr('class', 'cge_' + self.categories[idx].replace(' ', '_', 'gim'));
-	
+uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
+	var self = this, len = self.categories.length;
+		color = uv.util.getColorBand(self.config, idx),
+		bargroup = self.bargroups[self.categories[idx]];
+	var	csum = 0, tsum =0;
+
+	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
 	bars.append('rect')
-		.attr('class', self.id + '_' + self.categories[idx])
-		.classed('cr_' + self.categories[idx], true)
-		.attr('height', self.axes.ver.scale.rangeBand() / len)
-		.attr('x', 0)
+		.attr('height', (self.axes.ver.scale.rangeBand() / len)-2)
+		.attr('width', 0)
+		.attr('x', function (d, i) { 
+			var value = (d.value < 0) ? csum + d.value : csum; 
+			csum += d.value;
+			return self.axes.hor.scale(value); })
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
-		.style('stroke', self.config.bar.strokecolor)
+		.classed('cr_' + self.categories[idx], true)
+		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', uv.effects.bar.mouseover(self, idx))
-		.on('mouseout', uv.effects.bar.mouseout(self, idx))
+		.on('mouseout', uv.effects.bar.mouseout(self, idx, color))
 		.transition()
 			.duration(self.config.effects.duration)
-			.delay(function (d, i) { return i * self.config.effects.duration; })
-			.attr('width', function (d) { return self.axes.hor.scale(d.value); });
+			.delay(idx * self.config.effects.duration)
+			.attr('width', function (d) { return  self.axes.hor.scale(Math.abs(d.value)); });
 
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
@@ -65,19 +65,24 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.text(function(d) { return String(d.value); })
 		.transition()
 			.duration(self.config.effects.duration)
-			.delay(function (d, i) { return i * self.config.effects.duration; })
-			.attr('x', function (d) { return self.axes.hor.scale(d.value); });
+			.delay(idx * self.config.effects.duration)
+			.attr('x', function (d, i) { 
+				var value = d.value < 0 ? tsum : tsum + d.value; 
+				tsum += d.value;
+				return self.axes.hor.scale(value); 
+			});
 	
 	bars.append('svg:title')
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
-	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
+	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
 
-uv.BarGraph.prototype.drawVerticalBars = function (idx) {
+uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) { 
 	var self = this,
-		color = uv.util.getColorBand(this.config, idx),
+		color = uv.util.getColorBand(this.config, idx), 
 		len = self.categories.length;
+	var csum =0, tsum = 0;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 			.append('g').attr('class', 'cge_' + self.categories[idx].replace(' ', '_', 'gim'));
@@ -88,15 +93,20 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('height', 0)
 			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
-			.attr('y', 0)
+			.attr('y', function(d) { 
+				var value = (d.value < 0) ? csum + d.value : csum;
+				csum += d.value;
+				return self.height() - self.axes.ver.scale(value);
+			})
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
 			.on('mouseover', uv.effects.bar.mouseover(self, idx))
 			.on('mouseout', uv.effects.bar.mouseout(self, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
-				.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); })
-				.attr('width', self.axes.hor.scale.rangeBand() / len);
+				.attr('height', function (d) {	return self.height() - self.axes.ver.scale(Math.abs(d.value)); })
+				.attr('width', (self.axes.hor.scale.rangeBand() / len)-2);
+	
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 			.attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
@@ -113,7 +123,10 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
-				.attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
+				.attr('y', function (d) {
+					tsum += d.value;
+					var value = d.value < 0 ? tsum - d.value : tsum;
+					return -(self.height() - self.axes.ver.scale(value)) - 10; });
 	
 	bars.append('svg:title')
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
