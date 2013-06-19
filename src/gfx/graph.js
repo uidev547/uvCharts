@@ -611,6 +611,9 @@ uv.Graph.prototype.max = function (stepup) {
 	} else if (stepup === 'percent') {
 		this.config.graph.max = 100;
 		return this;
+	}  else if (stepup === 'waterfall') {
+		this.config.graph.max = uv.util.getWaterfallMaxValue(this.graphdef);
+		return this;
 	}
 
 	return this.config.graph.max;

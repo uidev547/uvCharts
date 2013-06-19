@@ -29,6 +29,21 @@ uv.util.getStepMaxValue = function (graphdef) {
 	return d3.max(sumMap);
 };
 
+uv.util.getWaterfallMaxValue = function(graphdef) {
+	var sumMap = graphdef.categories.map(function() {return 0;});
+	graphdef.categories.map(function (d, i) {
+		var localMax = 0;
+		graphdef.dataset[d].map(function(d) {
+			localMax += d.value;
+			if(sumMap[i] < localMax) {
+				sumMap[i] = localMax;
+			}
+		});
+	});
+
+	return d3.max(sumMap);
+};
+
 uv.util.getSumUpArray = function (graphdef) {
 	var sumMap = graphdef.dataset[graphdef.categories[0]].map(function () {return 0; });
 	graphdef.categories.map(function (d) {
