@@ -62,7 +62,7 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setEffectsObject();
+		.setEffectsObject();	
 		
 	return self;
 };
@@ -213,10 +213,13 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 	}
 
 	if (self.config.graph.orientation === 'Horizontal') {
-		self.axes.hor.scale	= d3.scale.linear()
-								.domain([0, self.max()])
-								.range([0, self.width()])
-								.nice();
+		self.axes.hor.scale	= d3.scale[self.config.scale.type]()
+								.domain([self.config.scale.type === 'log' ? 1: 0, self.max()])
+								.range([0, self.width()]);
+
+		if (self.axes.hor.scale.nice) {
+			self.axes.hor.scale.nice();
+		}
 		
 		self.axes.hor.func = d3.svg.axis()
 								.scale(self.axes.hor.scale)
@@ -251,10 +254,13 @@ uv.Graph.prototype.setVerticalAxis = function () {
 	}
 
 	if (self.config.graph.orientation === 'Vertical') {
-		self.axes.ver.scale	= d3.scale.linear()
-								.domain([self.max(), 0])
+		self.axes.ver.scale	= d3.scale[self.config.scale.type]()
+								.domain([self.max(), self.config.scale.type === 'log' ? 1 : 0])
 								.range([0, self.height()])
-								.nice();
+		
+		if (self.axes.ver.scale.nice) {
+			self.axes.ver.scale.nice();
+		}
 		
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
@@ -313,7 +319,7 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 	
 	self.axes.hor.label = self.axes.hor.group.append('g')
 														.classed('r3_axeslabelgroup', true)
-														.attr('transform', 'translate(' + self.width()/2 + ',' + (self.config.margin.bottom/2 + 1*self.config.label.fontsize) + ')');
+														.attr('transform', 'translate(' + self.width()/2 + ',' + (1*self.config.margin.bottom/4 + 1*self.config.label.fontsize) + ')');
 								
 	self.axes.hor.label.append('text')
 								.attr('display','block')
@@ -386,10 +392,30 @@ uv.Graph.prototype.setLegend = function () {
 	var self = this;
 
 	var legendgroup = self.panel.append('g').attr('class', uv.constants.classes.legend)
-						.attr('transform', 'translate(' + self.width() + ',' + 10 + ')');
+						.attr('transform', function(d, i){
+							if(self.config.legend.position == 'right'){
+								return 'translate(' + self.width() + ', 10)';
+							}else if(self.config.legend.position == 'bottom'){
+								var pos =  self.height() + self.config.margin.bottom/2 + Number(self.config.axis.fontsize);
+								return 'translate(0, ' + pos +  ')';
+							}
+						});
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
-						.attr('transform', function (d, i) { return 'translate(10,' + 10 * (2 * i - 1) + ')'; })
+						.attr('transform', function (d, i) { 
+							if(self.config.legend.position == 'right'){
+								return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
+							}else if(self.config.legend.position == 'bottom'){
+								var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
+								var vPos = 20*self.config.legend.legendstart;
+								if(hPos >= self.config.dimension.width){
+									self.config.legend.legendstart = self.config.legend.legendstart + 1;
+									hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
+									vPos = 20*self.config.legend.legendstart;
+								}
+								return 'translate(' + hPos + ',' + vPos + ')'; 
+							}
+						})
 						.attr('class', function (d, i) { return 'cl_' + self.categories[i]; })
 						.attr('disabled', 'false')
 						.on('mouseover', function (d, i) {
@@ -585,6 +611,9 @@ uv.Graph.prototype.max = function (stepup) {
 	} else if (stepup === 'percent') {
 		this.config.graph.max = 100;
 		return this;
+	}  else if (stepup === 'waterfall') {
+		this.config.graph.max = uv.util.getWaterfallMaxValue(this.graphdef);
+		return this;
 	}
 
 	return this.config.graph.max;
@@ -624,6 +653,21 @@ uv.util.getStepMaxValue = function (graphdef) {
 	graphdef.categories.map(function (d) {
 		graphdef.dataset[d].map(function (d, i) {
 			sumMap[i] += d.value;
+		});
+	});
+
+	return d3.max(sumMap);
+};
+
+uv.util.getWaterfallMaxValue = function(graphdef) {
+	var sumMap = graphdef.categories.map(function() {return 0;});
+	graphdef.categories.map(function (d, i) {
+		var localMax = 0;
+		graphdef.dataset[d].map(function(d) {
+			localMax += d.value;
+			if(sumMap[i] < localMax) {
+				sumMap[i] = localMax;
+			}
 		});
 	});
 
@@ -705,6 +749,7 @@ uv.util.getColorBand = function (config, index) {
 	var len = uv.palette[config.graph.palette].length;
 	return uv.palette[config.graph.palette][index % len];
 };
+
 uv.config = {
 	graph : {
 		palette : 'Brink',
@@ -730,7 +775,7 @@ uv.config = {
 
 	margin : {
 		top : 50,
-		bottom : 90,
+		bottom : 150,
 		left : 100,
 		right : 100
 	},
@@ -758,6 +803,7 @@ uv.config = {
 	},
 
 	scale : {
+		type : 'linear',
 		ordinality : 0.2
 	},
 
@@ -820,12 +866,14 @@ uv.config = {
 	},
 
 	legend : {
+		position : 'bottom',
 		fontfamily : 'Arial',
 		fontsize : '11',
 		fontweight : 'normal',
 		textmargin : 15,
 		symbolsize : 10,
-		inactive_color : '#DDD'
+		inactive_color : '#DDD',
+		legendstart : 0,
 	},
 
 	effects : {
@@ -879,6 +927,50 @@ uv.constants.graphdef = {
 	}
 };
 
+uv.constants.waterfallGraphdef = {
+        categories : ['data'],
+        dataset : {
+            'data' : [
+                {
+                    "name": "2005 Actual",
+                    "value": 90
+                },
+                {
+                    "name": "Price",
+                    "value": 15
+                },
+                {
+                    "name": "Volume",
+                    "value": 21
+                },
+                {
+                    "name": "Fixes",
+                    "value": -37
+                },
+                {
+                    "name": "Taxation",
+                    "value": -43
+                },
+                {
+                    "name": "Escalation",
+                    "value": -40
+                },
+                {
+                    "name": "Mix",
+                    "value": 46
+                },
+                {
+                    "name": "Market Effect",
+                    "value": 91
+                },
+                {
+                    "name": "Partners",
+                    "value": 61
+                }
+            ]
+        }
+    };
+
 uv.constants.name = {
 	pos : 'r3_div',
 	frame : 'r3_frame',
@@ -931,6 +1023,7 @@ uv.addChart('PercentBar','PercentBarGraph');
 uv.addChart('PercentArea','PercentAreaGraph');
 uv.addChart('Pie','PieGraph');
 uv.addChart('Donut','DonutGraph');
+uv.addChart('Waterfall','WaterfallGraph');
 
 uv.chart = function (type, graphdef, config) {
   if (uv.types[type] !== undefined) {
@@ -1372,6 +1465,7 @@ uv.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
 				.attr('r', 3.5)
 				.style('fill', 'white');
 };
+/**
 /**
  * A normal 2d bar chart capable of being rendered in horizontal and vertical manner
  * @param {Object} graphdef Definition of the graph being rendered
@@ -2118,7 +2212,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
-			.attr('width', function (d) { return axes.hor.scale(d.value); });
+			.attr('width', function (d,i) { return axes.hor.scale(csum[i]) - axes.hor.scale(csum[i]-d.value); });
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -2164,7 +2258,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
-			.attr('height', function (d) { return height - axes.ver.scale(d.value); });
+			.attr('height', function (d,i) { return -(axes.ver.scale(-csum[i]) - axes.ver.scale(-csum[i]-d.value)); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
@@ -2233,7 +2327,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
-			.attr('width', function (d) { return self.axes.hor.scale(d.value); });
+			.attr('width', function (d, i) { return self.axes.hor.scale(csum[i]) - self.axes.hor.scale(csum[i]-d.value); });
 
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
@@ -2260,7 +2354,10 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
-		bargroup = self.bargroups[self.categories[idx]];
+		bargroup = self.bargroups[self.categories[idx]],
+		scaledSum = 0;
+
+
 
 	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
 	bars.append('rect')
@@ -2276,7 +2373,9 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
-			.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); });
+			.attr('height', function (d, i) { 
+				return -(self.axes.ver.scale(-csum[i]) - self.axes.ver.scale(-csum[i]-d.value)); 
+			});
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })

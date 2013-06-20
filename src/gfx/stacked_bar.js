@@ -49,7 +49,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
-			.attr('width', function (d) { return axes.hor.scale(d.value); });
+			.attr('width', function (d,i) { return axes.hor.scale(csum[i]) - axes.hor.scale(csum[i]-d.value); });
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -95,7 +95,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
-			.attr('height', function (d) { return height - axes.ver.scale(d.value); });
+			.attr('height', function (d,i) { return -(axes.ver.scale(-csum[i]) - axes.ver.scale(-csum[i]-d.value)); });
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })

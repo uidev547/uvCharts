@@ -214,7 +214,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 
 	if (self.config.graph.orientation === 'Horizontal') {
 		self.axes.hor.scale	= d3.scale[self.config.scale.type]()
-								.domain([0, self.max()])
+								.domain([self.config.scale.type === 'log' ? 1: 0, self.max()])
 								.range([0, self.width()]);
 
 		if (self.axes.hor.scale.nice) {
@@ -255,7 +255,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 
 	if (self.config.graph.orientation === 'Vertical') {
 		self.axes.ver.scale	= d3.scale[self.config.scale.type]()
-								.domain([self.max(), 0])
+								.domain([self.max(), self.config.scale.type === 'log' ? 1 : 0])
 								.range([0, self.height()])
 		
 		if (self.axes.ver.scale.nice) {
