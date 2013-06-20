@@ -44,7 +44,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
-			.attr('width', function (d) { return self.axes.hor.scale(d.value); });
+			.attr('width', function (d, i) { return self.axes.hor.scale(csum[i]) - self.axes.hor.scale(csum[i]-d.value); });
 
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
@@ -71,7 +71,10 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
-		bargroup = self.bargroups[self.categories[idx]];
+		bargroup = self.bargroups[self.categories[idx]],
+		scaledSum = 0;
+
+
 
 	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
 	bars.append('rect')
@@ -87,7 +90,9 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
-			.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); });
+			.attr('height', function (d, i) { 
+				return -(self.axes.ver.scale(-csum[i]) - self.axes.ver.scale(-csum[i]-d.value)); 
+			});
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
