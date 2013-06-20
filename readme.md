@@ -1,6 +1,5 @@
-## Chart3r
---------------------
-Chart3r is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. Chart3r contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together. 
+## UberViz
+UberViz is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. Chart3r contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together. 
 
 The modules themselves are:
 
