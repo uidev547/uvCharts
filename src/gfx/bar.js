@@ -15,7 +15,7 @@ uv.BarGraph = function (graphdef, config) {
 	var idx, length = self.categories.length, category;
 	for (idx = 0; idx < length; idx = idx + 1) {
 		category = self.categories[idx];
-		self.bargroups[category] = self.panel.append('g').attr('class', 'r3_bargroup').classed('cg_' + category, true);
+		self.bargroups[category] = self.panel.append('g').attr('class', 'r3_bargroup').classed('cg_' + uv.util.formatClassName(category), true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx);
 	}
 
@@ -35,11 +35,11 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-				.append('g').attr('class', 'cge_' + self.categories[idx].replace(' ', '_', 'gim'));
+				.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
 	
 	bars.append('rect')
-		.attr('class', self.id + '_' + self.categories[idx])
-		.classed('cr_' + self.categories[idx], true)
+		.attr('class', self.id + '_' + uv.util.formatClassName(self.categories[idx]))
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
@@ -57,7 +57,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
@@ -80,11 +80,11 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-			.append('g').attr('class', 'cge_' + self.categories[idx].replace(' ', '_', 'gim'));
+			.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
 	
 	bars.append('rect')
-			.attr('class', self.id + '_' + self.categories[idx])
-			.classed('cr_' + self.categories[idx], true)
+			.attr('class', self.id + '_' + uv.util.formatClassName(self.categories[idx]))
+			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 			.attr('height', 0)
 			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
@@ -104,7 +104,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.classed('cr_' + self.categories[idx], true)
+			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 			.style('fill', 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)

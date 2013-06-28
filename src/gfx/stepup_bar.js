@@ -11,7 +11,7 @@ uv.StepUpBarGraph = function (graphdef, config) {
 	self.axes[this.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(this.labels);
 
 	for (idx = 0; idx < length; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = this.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
+		self.bargroups[self.categories[idx]] = this.panel.append('g').attr('class', 'cg_' + uv.util.formatClassName(self.categories[idx]));
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
@@ -30,13 +30,13 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
+	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
 	bars.append('rect')
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
 		.attr('x', function (d, i) { var value = self.axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', uv.effects.bar.mouseover(self, idx))
@@ -51,7 +51,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
@@ -76,13 +76,13 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 
 
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
+	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
 	bars.append('rect')
 		.attr('height', 0)
 		.attr('width', self.axes.hor.scale.rangeBand() / len)
 		.attr('x', function (d) { return self.axes.hor.scale(d.name); })
 		.attr('y', function (d, i) { var value = self.axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', uv.effects.bar.mouseover(self, idx))
@@ -99,7 +99,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('y', -self.height() - 10)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
