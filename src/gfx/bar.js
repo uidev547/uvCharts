@@ -45,12 +45,15 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
 		.style('stroke', self.config.bar.strokecolor)
 		.style('fill', color)
-		.on('mouseover', uv.effects.bar.mouseover(self, idx))
-		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
-			.attr('width', function (d) { return self.axes.hor.scale(d.value); });
+			.attr('width', function (d) { return self.axes.hor.scale(d.value); })
+			.each("end", function (d,i){
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+			});
+
 
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
@@ -90,13 +93,16 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
 			.attr('y', 0)
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', uv.effects.bar.mouseover(self, idx))
-			.on('mouseout', uv.effects.bar.mouseout(self, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
 				.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); })
-				.attr('width', self.axes.hor.scale.rangeBand() / len);
+				.attr('width', self.axes.hor.scale.rangeBand() / len)
+				.each("end", function (d,i){
+					d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
+					d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+				});
+
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 			.attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
