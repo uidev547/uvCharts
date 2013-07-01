@@ -289,7 +289,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 uv.Graph.prototype.setEffectsObject = function () {
 	var self = this;
 	for (var i = 0; i < self.categories.length ; i++) {
-		self.effects[self.categories[i].replace(' ','_','gim')] = {};
+		self.effects[self.categories[i]] = {};
 	}
 	return self;
 };
@@ -622,9 +622,9 @@ uv.Graph.prototype.max = function (stepup) {
 /* Additional Graph functions */
 uv.Graph.prototype.toggleGraphGroup = function (i) {
 	var self = this, category = self.categories[i],
-			state = self.frame.select('g.cge_' + category.replace(' ','_', 'gim')).style('display'),
+			state = self.frame.select('g.cge_' + uv.util.formatClassName(category)).style('display'),
 			color = uv.util.getColorBand(self.config, i);
 
-	self.frame.selectAll('g.cge_' + category.replace(' ', '_', 'gim')).style('display', (state === 'none')? null : 'none');
+	self.frame.selectAll('g.cge_' + uv.util.formatClassName(category)).style('display', (state === 'none')? null : 'none');
 	return this;
 };
