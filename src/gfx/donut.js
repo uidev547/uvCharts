@@ -17,7 +17,7 @@ uv.DonutGraph = function (graphdef, config) {
 	self.panel.data(data);
 	self.arcs = self.panel.selectAll('g.arc')
 					.data(layout).enter()
-					.append('g').attr('class', 'r_arc_' + self.category)
+					.append('g').attr('class', 'r_arc_' + uv.util.formatClassName(self.category))
 					.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
 
 	self.arcs.append('path')

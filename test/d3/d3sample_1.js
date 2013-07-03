@@ -47,8 +47,8 @@ init = function() {
 
     waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
     waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
-    waterfallTest = uv.chart('Waterfall', graphdef, verConfig);
-    waterfallTest = uv.chart('Waterfall', tgraphdef, horConfig);
+    //waterfallTest = uv.chart('Waterfall', graphdef, verConfig);
+    //waterfallTest = uv.chart('Waterfall', tgraphdef, horConfig);
 	
 	tableHorTest = new uv.TableGraph(graphdef, horConfig);
 	ttableHorTest = new uv.TableGraph(tgraphdef, horConfig);

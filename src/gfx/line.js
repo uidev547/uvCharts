@@ -11,8 +11,8 @@ uv.LineGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0; idx < len; idx = idx + 1) {
-		linepath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx])
-												.append('g').attr('class', 'cge_' + self.categories[idx]).datum(self.dataset[idx]);
+		linepath = self.panel.append('g').attr('class', 'cg_' + uv.util.formatClassName(self.categories[idx]))
+												.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx])).datum(self.dataset[idx]);
 		linegroup = {
 			path: linepath,
 			func: undefined
@@ -45,7 +45,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.interpolate(uv.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.classed('cr_' + self.categories[idx], true)
+				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 				.attr('d', linegroup.func)
 				.style('fill', 'none')
 				.style('stroke', color)
@@ -61,7 +61,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	linegroup.path.selectAll('circle')
 				.data(self.dataset[idx])
 				.enter().append('circle')
-				.classed('cr_' + self.categories[idx], true)
+				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
@@ -81,7 +81,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.attr('dx', 10)
 				.attr('dy', '.35em')
 				.attr('text-anchor', 'start')
-				.classed('cr_' + self.categories[idx], true)
+				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
@@ -104,7 +104,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 
 	linegroup.path.append('path')
 				.attr('d', linegroup.func)
-				.classed('cr_' + self.categories[idx], true)
+				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', 'none')
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
@@ -122,7 +122,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
-				.classed('cr_' + self.categories[idx], true)
+				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
 				.style('stroke', color)
@@ -139,7 +139,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.attr('dx', 0)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'middle')
-				.classed('cr_' + self.categories[idx], true)
+				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)

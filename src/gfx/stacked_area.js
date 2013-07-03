@@ -8,7 +8,7 @@ uv.StackedAreaGraph = function (graphdef, config) {
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels.map(function (d) { return d; }));
 	self.areagroup = self.panel.append('g').selectAll('g')
-											.data(stacklayout).enter().append('g').attr('class', function (d, i) { return 'cge_' + self.categories[i]; });
+											.data(stacklayout).enter().append('g').attr('class', function (d, i) { return 'cge_' + uv.util.formatClassName(self.categories[i]); });
 	self['draw' + self.config.graph.orientation + 'Area']();
 
 	self.finalize();
@@ -34,7 +34,7 @@ uv.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	}
 
 	self.areagroup.append('path')
-			.attr('class', function (d, i) { return 'area_' + categories[i]; })
+			.attr('class', function (d, i) { return 'area_' + uv.util.formatClassName(categories[i]); })
 			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
@@ -46,7 +46,7 @@ uv.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 		.on('mouseout',  function (d,i) { self.effects[categories[i]].mouseout(); });
 
 	self.areagroup.append('path')
-		.attr('class', function (d, i) { return 'line_' + categories[i]; })
+		.attr('class', function (d, i) { return 'line_' + uv.util.formatClassName(categories[i]); })
 		.style('stroke', 'white')
 		.style('fill', 'none')
 		.style('stroke-width', 2)
@@ -75,7 +75,7 @@ uv.StackedAreaGraph.prototype.drawVerticalArea = function () {
 	}
 
 	self.areagroup.append('path')
-			.attr('class', function (d, i) { return 'area_' + categories[i]; })
+			.attr('class', function (d, i) { return 'area_' + uv.util.formatClassName(categories[i]); })
 			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
@@ -88,7 +88,7 @@ uv.StackedAreaGraph.prototype.drawVerticalArea = function () {
 
 
 	self.areagroup.append('path')
-			.attr('class', function (d, i) { return 'line_' + categories[i]; })
+			.attr('class', function (d, i) { return 'line_' + uv.util.formatClassName(categories[i]); })
 			.style('stroke', 'white')
 			.style('fill', 'none')
 			.style('stroke-width', 2)

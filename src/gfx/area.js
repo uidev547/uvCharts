@@ -11,8 +11,8 @@ uv.AreaGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData.map(function (d) { return d.name; }));
 
 	for (idx = 0, len = self.dataset.length; idx < len; idx = idx + 1) {
-		areapath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx])
-												.append('g').attr('class', 'cge_' + self.categories[idx]).datum(self.dataset[idx]);
+		areapath = self.panel.append('g').attr('class', 'cg_' + uv.util.formatClassName(self.categories[idx]))
+												.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx])).datum(self.dataset[idx]);
 		areagroup = { path: areapath, linefunc: undefined, areafunc: undefined, line: undefined, area: undefined };
 		self['draw' + self.config.graph.orientation + 'Area'](areagroup, idx);
 		self.areagroups.push(areagroup);

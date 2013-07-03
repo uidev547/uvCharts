@@ -12,7 +12,7 @@ uv.StackedBarGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cge_' + self.categories[idx]);
+		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
@@ -34,14 +34,14 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		bargroup = this.bargroups[this.categories[idx]];
 	
 	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]])
-				.enter().append('g').attr('class', 'cge_' + this.categories[idx]);
+				.enter().append('g').attr('class', 'cge_' + uv.util.formatClassName(this.categories[idx]));
 	
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
 		.attr('width', 0)
 		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', uv.effects.bar.mouseover(self, idx))
@@ -56,7 +56,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dx', 0)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
@@ -80,14 +80,14 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		bargroup = this.bargroups[this.categories[idx]];
 	
 	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]])
-				.enter().append('g').attr('class', 'r3_stackedbar_' + this.categories[idx]);
+				.enter().append('g').attr('class', 'r3_stackedbar_' + uv.util.formatClassName(this.categories[idx]));
 	
 	bars.append('rect')
 		.attr('height', 0)
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name); })
 		.attr('y', function (d, i) { var value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.on('mouseover', uv.effects.bar.mouseover(self, idx))
@@ -102,7 +102,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('y', -height + 5)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
-		.classed('cr_' + self.categories[idx], true)
+		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)

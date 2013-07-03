@@ -3,15 +3,15 @@ uv.effects = {};
 uv.effects.bar = {};
 uv.effects.bar.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx].replace(' ', '_', 'gim');
+		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('rect.cr_' + category)
+		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('stroke', config.effects.strokecolor);
 	
-		graph.frame.selectAll('text.cr_' + category)
+		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor)
 				.style('opacity', 1);
@@ -23,16 +23,16 @@ uv.effects.bar.mouseover = function (graph, idx) {
 
 uv.effects.bar.mouseout = function (graph, idx, color) {
 	var config = graph.config,
-		category = graph.categories[idx].replace(' ', '_', 'gim');
+		category = graph.categories[idx];
 		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
-		graph.frame.selectAll('rect.cr_' + category)
+		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('stroke', 'none');
 	
-		graph.frame.selectAll('text.cr_' + category)
+		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
 	};
@@ -44,10 +44,10 @@ uv.effects.bar.mouseout = function (graph, idx, color) {
 uv.effects.area = {};
 uv.effects.area.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx].replace(' ', '_', 'gim');
+		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_' + category).select('path.area_'+category)
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).select('path.area_'+  uv.util.formatClassName(category))
 		.transition().duration(config.effects.hover)
 		.style('fill',config.effects.hovercolor);
 	};
@@ -58,10 +58,10 @@ uv.effects.area.mouseover = function (graph, idx) {
 
 uv.effects.area.mouseout = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx].replace(' ', '_', 'gim');
+		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_'+category).select('path.area_'+category)
+		graph.frame.selectAll('.cge_'+ uv.util.formatClassName(category)).select('path.area_'+ uv.util.formatClassName(category))
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
@@ -74,20 +74,20 @@ uv.effects.area.mouseout = function (graph, idx) {
 uv.effects.line = {};
 uv.effects.line.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx].replace(' ', '_', 'gim');
+		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_' + category).selectAll('circle')
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('fill-opacity', 1)
 				.style('stroke', config.effects.hovercolor);
 
-		graph.frame.selectAll('.cge_' + category).select('path')
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).select('path')
 			.transition().duration(config.effects.hover)
 				.style('stroke', config.effects.hovercolor);
 
-		graph.frame.selectAll('.cge_' + category).selectAll('text')
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor);
 	};
@@ -98,21 +98,21 @@ uv.effects.line.mouseover = function (graph, idx) {
 
 uv.effects.line.mouseout = function (graph, idx, color) {
 	var config = graph.config,
-		category = graph.categories[idx].replace(' ', '_', 'gim'),
+		category = graph.categories[idx],
 		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_' + category).selectAll('circle')
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
 				.style('stroke', color);
 
-		graph.frame.selectAll('.cge_' + category).select('path')
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).select('path')
 			.transition().duration(config.effects.hover)
 				.style('stroke', color);
 
-		graph.frame.selectAll('.cge_' + category).selectAll('text')
+		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
 

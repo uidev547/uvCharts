@@ -119,3 +119,14 @@ uv.util.getColorBand = function (config, index) {
 	var len = uv.palette[config.graph.palette].length;
 	return uv.palette[config.graph.palette][index % len];
 };
+
+/**
+ * This function finds regular expressions other than Alphabets, Numbers,
+ * "_" and "-" and replaces it with "_".
+ * @param  {string} name The string which needs to be formatted
+ * @return {string}      Returns the formatted String 
+ */
+uv.util.formatClassName = function(name){
+	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-");
+	return returnName;
+}
