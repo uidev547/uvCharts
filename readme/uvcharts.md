@@ -5,22 +5,24 @@ A JavaScript charting library built on top of d3.js to let people build visualis
 uv.chart(chartType, graphdef, config); 
 ```
 
-> ### Output
->> The API call returns a uvChart object which exposes certain aspects of the graph as d3 selections which can be used by the user to add functionality if necessary.
+### Output
+The API call returns a uvChart object which exposes certain aspects of the graph as d3 selections which can be used by the user to add functionality if necessary.
 
-> ### Params
->> **chartType** : String
->>> Charttype defines the type of chart that should be drawn to represent the data provided as the parameter.
+### Params
+**chartType** : String
 
->>> More about supported charttypes can be found [here](http://www.github.com/todo).
+Charttype defines the type of chart that should be drawn to represent the data provided as the parameter.
 
->> **Graphdef** : Object
->>> This parameter defines the data that is being visually represented in the chart.
->>> It consists of 2 key-value pairs.
+More about supported charttypes can be found [here](http://www.github.com/todo).
 
->>>  A list of *categories* and a object containing the *dataset*. Graphdef example: 
+**Graphdef** : Object
 
->>> 	{
+This parameter defines the data that is being visually represented in the chart.
+It consists of 2 key-value pairs.
+
+A list of *categories* and a object containing the *dataset*. Graphdef example: 
+
+ 	{
 		categories: ['Apples', 'Oranges', 'Mangoes', 'Strawberries'],
 		dataset : {
 			'Apples' : [
@@ -50,9 +52,10 @@ uv.chart(chartType, graphdef, config);
 		}
 	}
 
->>> More about graphdef can be found [here](http://www.github.com/todo).
+More about graphdef can be found [here](http://www.github.com/todo).
 
->> ** Config ** : Object
->>> This parameter defines the configuration of the graph ranging from the margins, backgrounds, line widths, fonts, text placement .... lets say everything you can think of.
+** Config ** : Object
 
->>> More about configuration can be found [here](http://www.github.com/todo).
+This parameter defines the configuration of the graph ranging from the margins, backgrounds, line widths, fonts, text placement .... lets say everything you can think of.
+
+More about configuration can be found [here](http://www.github.com/todo).
