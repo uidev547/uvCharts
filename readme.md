@@ -7,7 +7,11 @@ The modules themselves are:
 - uvData
 
 ### uvCharts
-uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. uvCharts will itself be available with 2 options, with (planned, development yet to begin) or without the interface. Charts supported at the current moment are:
+uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. uvCharts will itself be available with 2 options, with (planned, development yet to begin) or without the interface. 
+
+To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/hashd/uv/wiki/uvCharts) page.
+
+Charts supported at the current moment are:
 
 - Bar Charts
 	+ Normal Bar Chart
@@ -28,7 +32,6 @@ uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github
 
 All charts can be shown either in horizontal or vertical orientation.
 
-To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/hashd/uv/wiki/uvCharts) page.
 
 #### Features
 - Easy to learn and use
