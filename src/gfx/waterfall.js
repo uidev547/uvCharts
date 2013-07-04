@@ -45,12 +45,14 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', uv.effects.bar.mouseover(self, idx))
-		.on('mouseout', uv.effects.bar.mouseout(self, idx, color))
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
-			.attr('width', function (d) { return  self.axes.hor.scale(Math.abs(d.value)); });
+			.attr('width', function (d) { return  self.axes.hor.scale(Math.abs(d.value)); })
+			.call(uv.util.endAll, function (d,i){
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
+			});
 
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
@@ -99,13 +101,15 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 				return self.height() - self.axes.ver.scale(value);
 			})
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
-			.on('mouseover', uv.effects.bar.mouseover(self, idx))
-			.on('mouseout', uv.effects.bar.mouseout(self, idx))
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
 				.attr('height', function (d) {	return self.height() - self.axes.ver.scale(Math.abs(d.value)); })
-				.attr('width', (self.axes.hor.scale.rangeBand() / len)-2);
+				.attr('width', (self.axes.hor.scale.rangeBand() / len)-2)
+				.call(uv.util.endAll, function (d,i){
+					d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
+					d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
+				});
 	
 	
 	bars.append('text').attr('transform','scale(1,-1)')

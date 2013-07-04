@@ -130,3 +130,21 @@ uv.util.formatClassName = function(name){
 	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-");
 	return returnName;
 }
+
+/**
+ * This function waits till the end of the transition and then call the callback
+ * function which is passed as an argument
+ * @param  {transition}   transition It's the current transition
+ * @param  {Function} callback   function which is called at the end of
+ *                               transition
+ */
+uv.util.endAll = function (transition, callback){
+	var n = 0; 
+    transition 
+        .each(function() { ++n; }) 
+        .each("end", function() { 
+        	if (!--n) {
+        		callback.apply(this, arguments);
+        	}
+         }); 
+}

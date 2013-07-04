@@ -51,12 +51,16 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
 				.style('stroke-opacity', 0.01)
-				.on('mouseover', uv.effects.line.mouseover(self,idx))
-				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 				.transition()
 					.duration(3 * self.config.effects.duration)
 					.delay(2 * idx * self.config.effects.duration)
-					.style('stroke-opacity', 1);
+					.style('stroke-opacity', 1)
+					.call(uv.util.endAll, function (d,i){
+						d3.select(this.parentNode.parentNode).selectAll('path').on('mouseover', uv.effects.line.mouseover(self, idx));
+						d3.select(this.parentNode.parentNode).selectAll('path').on('mouseout', uv.effects.line.mouseout(self, idx));
+						d3.select(this.parentNode.parentNode).selectAll('circle').on('mouseover', uv.effects.line.mouseover(self, idx));
+						d3.select(this.parentNode.parentNode).selectAll('circle').on('mouseout', uv.effects.line.mouseout(self, idx));
+					});
 
 	linegroup.path.selectAll('circle')
 				.data(self.dataset[idx])
@@ -68,8 +72,6 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
 				.style('stroke', color)
-				.on('mouseover', uv.effects.line.mouseover(self, idx))
-				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 					.append('svg:title')
 					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
@@ -109,12 +111,16 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
 				.style('stroke-opacity', 0.01)
-				.on('mouseover', uv.effects.line.mouseover(self, idx))
-				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 				.transition()
 					.duration(self.config.effects.duration)
 					.delay(2 * idx * self.config.effects.duration)
-					.style('stroke-opacity', 1);
+					.style('stroke-opacity', 1)
+					.call(uv.util.endAll, function (d,i){
+						d3.select(this.parentNode.parentNode).selectAll('path').on('mouseover', uv.effects.line.mouseover(self, idx));
+						d3.select(this.parentNode.parentNode).selectAll('path').on('mouseout', uv.effects.line.mouseout(self, idx));
+						d3.select(this.parentNode.parentNode).selectAll('circle').on('mouseover', uv.effects.line.mouseover(self, idx));
+						d3.select(this.parentNode.parentNode).selectAll('circle').on('mouseout', uv.effects.line.mouseout(self, idx));
+					});
 
 	linegroup.path.selectAll('circle')
 				.data(self.dataset[idx])
@@ -126,8 +132,6 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
 				.style('stroke', color)
-				.on('mouseover', uv.effects.line.mouseover(self, idx))
-				.on('mouseout', uv.effects.line.mouseout(self, idx, color))
 					.append('svg:title')
 					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
 	
