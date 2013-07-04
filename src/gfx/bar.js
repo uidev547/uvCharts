@@ -95,7 +95,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.style('stroke', self.config.bar.strokecolor).style('fill', color)
 			.transition()
 				.duration(self.config.effects.duration)
-				.delay(self.config.effects.duration)
+				.delay(idx * self.config.effects.duration)
 				.attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); })
 				.attr('width', self.axes.hor.scale.rangeBand() / len)
 				.call(uv.util.endAll, function (d,i){
