@@ -54,4 +54,5 @@ init = function() {
 	ttableHorTest = new uv.TableGraph(tgraphdef, horConfig);
 	tableVerTest = new uv.TableGraph(graphdef, verConfig);
 	tableVerTest = new uv.TableGraph(tgraphdef, verConfig);
+	
 };

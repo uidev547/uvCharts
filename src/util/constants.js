@@ -85,27 +85,12 @@ uv.constants.waterfallGraphdef = {
         }
     };
 
-uv.constants.name = {
-	pos : 'r3_div',
-	frame : 'r3_frame',
-	panel : 'r3_panel',
-	background : 'r3_bg',
-	horaxis : 'r3_horaxis',
-	veraxis : 'r3_veraxis',
-	table : {
-			tableclass : 'r3_table',
-			headerclass : 'r3_header',
-			bodyclass : 'r3_body',
-			footerclass : 'r3_footer'
-	}
-};
-
 uv.constants.classes = {
 	uv : 'uv',
 	pos : 'uv-div',
 	frame : 'uv-frame',
 	panel : 'uv-panel',
-	bg : 'uv-bg',
+	bg : 'uv-chart-bg',
 	axes : 'uv-axes',
 	legend : 'uv-legend',
 	framebg : 'uv-frame-bg',
@@ -115,8 +100,17 @@ uv.constants.classes = {
 	captiontext : 'uv-caption-text',
 	subcaption : 'uv-subcaption',
 	subcaptiontext : 'uv-subcaption-text',
+	axeslabelgroup : 'uv-axes-lable-group',
 	axeslabel : 'uv-axes-label',
 	axessublabel : 'uv-axes-sub-label',
 	legendsign : 'uv-legend-sign',
-	legendlabel : 'uv-legend-label'
+	legendlabel : 'uv-legend-label',
+	hoverbg : 'uv-hover-bg',
+
+	arc : 'uv-arc-',
+	areapath : 'uv-areapath-',
+	linepath :'uv-linepath-',
+	area : 'uv-area-',
+	line : 'uv-line-',
+	dot : 'uv-dot'
 };

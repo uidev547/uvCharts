@@ -7,7 +7,7 @@ uv.config = {
 	},
 
 	meta : {
-		position : '.r3_div',
+		position : '.uv_div',
 		caption : 'Usage of browsers by the years',
 		subcaption : 'Among major vendors',
 		hlabel : 'Horizontal Axis Label',

@@ -12,7 +12,7 @@ uv.StackedBarGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = self.panel.append('g').attr('class', 'cge_' + self.categories[idx]);
+		self.bargroups[self.categories[idx]] = self.panel.append('g').classed('cg-' + self.categories[idx], true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
@@ -34,7 +34,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		bargroup = this.bargroups[this.categories[idx]];
 	
 	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]])
-				.enter().append('g').attr('class', 'cge_' + this.categories[idx]);
+				.enter().append('g').classed('cge-' + this.categories[idx], true);
 	
 	bars.append('rect')
 		.attr('height', axes.ver.scale.rangeBand())
@@ -80,7 +80,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		bargroup = this.bargroups[this.categories[idx]];
 	
 	bars = bargroup.selectAll('g').data(this.graphdef.dataset[this.categories[idx]])
-				.enter().append('g').attr('class', 'r3_stackedbar_' + this.categories[idx]);
+				.enter().append('g').classed('cge-' + this.categories[idx], true);
 	
 	bars.append('rect')
 		.attr('height', 0)

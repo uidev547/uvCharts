@@ -11,8 +11,8 @@ uv.LineGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0; idx < len; idx = idx + 1) {
-		linepath = self.panel.append('g').attr('class', 'cg_' + self.categories[idx])
-												.append('g').attr('class', 'cge_' + self.categories[idx]).datum(self.dataset[idx]);
+		linepath = self.panel.append('g').classed('cg-' + self.categories[idx], true)
+												.append('g').classed('cge-' + self.categories[idx], true).datum(self.dataset[idx]);
 		linegroup = {
 			path: linepath,
 			func: undefined

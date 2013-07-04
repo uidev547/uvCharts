@@ -14,8 +14,8 @@ uv.PercentBarGraph = function (graphdef, config) {
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
 		color = uv.util.getColorBand(self.config, idx);
 
-		bargroup = self.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
-		bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
+		bargroup = self.panel.append('g').classed('cg-' + self.categories[idx], true);
+		bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + self.categories[idx], true);
 
 		self['draw' + uv.util.getPascalCasedName(self.config.graph.orientation) + 'Bars'](bars, csum, tsum, idx);
 

@@ -8,7 +8,13 @@ uv.StackedAreaGraph = function (graphdef, config) {
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels.map(function (d) { return d; }));
 	self.areagroup = self.panel.append('g').selectAll('g')
-											.data(stacklayout).enter().append('g').attr('class', function (d, i) { return 'cge_' + self.categories[i]; });
+											.data(stacklayout).enter().append('g').attr('class', function (d, i) {
+												if( !d3.select(this).attr('class')) {
+													return 'cge-' + self.categories[i];
+												}
+												return d3.select(this).attr('class') + ('cge-' + self.categories[i]);
+											});
+	
 	self['draw' + self.config.graph.orientation + 'Area']();
 
 	self.finalize();
@@ -34,7 +40,12 @@ uv.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 	}
 
 	self.areagroup.append('path')
-			.attr('class', function (d, i) { return 'area_' + categories[i]; })
+			.attr('class', function (d, i) {
+				if( !d3.select(this).attr('class')) {
+					return uv.constants.classes.area + categories[i];
+				}
+				return d3.select(this).attr('class') + (uv.constants.classes.area + categories[i]);
+			})
 			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.y(function (d) { return axes.ver.scale(d.x) + axes.ver.scale.rangeBand() / 2; })
@@ -46,7 +57,12 @@ uv.StackedAreaGraph.prototype.drawHorizontalArea = function () {
 		.on('mouseout',  function (d,i) { self.effects[categories[i]].mouseout(); });
 
 	self.areagroup.append('path')
-		.attr('class', function (d, i) { return 'line_' + categories[i]; })
+		.attr('class', function (d, i) {
+			if( !d3.select(this).attr('class')) {
+				return uv.constants.classes.line + categories[i];
+			}
+			return d3.select(this).attr('class') + (uv.constants.classes.line+ categories[i]); 
+		})
 		.style('stroke', 'white')
 		.style('fill', 'none')
 		.style('stroke-width', 2)
@@ -66,16 +82,18 @@ uv.StackedAreaGraph.prototype.drawVerticalArea = function () {
 	
 	axes.hor.scale.rangePoints([0, self.width()]);
 
-	self.areagroup.append('path')
-			.attr('class', 'r3_area');
-
 	for(var i = 0; i < categories.length; i = i + 1){
 		uv.effects.area.mouseover(self, i);
-		uv.effects.area.mouseout(self,i);
+		uv.effects.area.mouseout(self, i);
 	}
 
 	self.areagroup.append('path')
-			.attr('class', function (d, i) { return 'area_' + categories[i]; })
+			.attr('class', function (d, i) {
+				if( !d3.select(this).attr('class')) {
+					return uv.constants.classes.area + categories[i];
+				}
+				return d3.select(this).attr('class') + (uv.constants.classes.area + categories[i]); 
+			})
 			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
 				.x(function (d) { return axes.hor.scale(d.x) + axes.hor.scale.rangeBand() / 2; })
@@ -88,7 +106,12 @@ uv.StackedAreaGraph.prototype.drawVerticalArea = function () {
 
 
 	self.areagroup.append('path')
-			.attr('class', function (d, i) { return 'line_' + categories[i]; })
+			.attr('class', function (d, i) {
+				if( !d3.select(this).attr('class')) {
+					return uv.constants.classes.line + categories[i];
+				}
+				return d3.select(this).attr('class') + (uv.constants.classes.line + categories[i]);
+			})
 			.style('stroke', 'white')
 			.style('fill', 'none')
 			.style('stroke-width', 2)

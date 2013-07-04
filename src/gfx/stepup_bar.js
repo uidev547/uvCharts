@@ -11,7 +11,7 @@ uv.StepUpBarGraph = function (graphdef, config) {
 	self.axes[this.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(this.labels);
 
 	for (idx = 0; idx < length; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = this.panel.append('g').attr('class', 'cg_' + self.categories[idx]);
+		self.bargroups[self.categories[idx]] = this.panel.append('g').classed('cg-' + self.categories[idx], true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
@@ -30,7 +30,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
+	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + self.categories[idx], true);
 	bars.append('rect')
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
@@ -76,7 +76,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 
 
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').attr('class', 'cge_' + self.categories[idx]);
+	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + self.categories[idx], true);
 	bars.append('rect')
 		.attr('height', 0)
 		.attr('width', self.axes.hor.scale.rangeBand() / len)

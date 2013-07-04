@@ -1,8 +1,8 @@
-r3.data.prototype.merge = function () {
+uv.data.prototype.merge = function () {
 	
 };
 
-r3.data.prototype.ungroupBy = function (dataset, column, depth, level) {
+uv.data.prototype.ungroupBy = function (dataset, column, depth, level) {
 	if( dataset === undefined )
 		return;
 	
@@ -21,7 +21,7 @@ r3.data.prototype.ungroupBy = function (dataset, column, depth, level) {
 	}
 }
 
-r3.data.prototype.ungroupby = function (columns) {
+uv.data.prototype.ungroupby = function (columns) {
 	if(!(columns instanceof Array)) {
 		if(this._dimensions[columns] === false) {
 			this._dimensions[columns] = true;
