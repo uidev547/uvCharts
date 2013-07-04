@@ -54,7 +54,7 @@ A list of *categories* and a object containing the *dataset*. Graphdef example:
 
 More about graphdef can be found [here](http://www.github.com/todo).
 
-** Config ** : Object
+**Config** : Object
 
 This parameter defines the configuration of the graph ranging from the margins, backgrounds, line widths, fonts, text placement .... lets say everything you can think of.
 

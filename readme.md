@@ -1,5 +1,5 @@
-## UberViz
-UberViz is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. Chart3r contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together. 
+## uv
+uv is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. uv currently contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together. 
 
 The modules themselves are:
 
@@ -7,7 +7,7 @@ The modules themselves are:
 - uvData
 
 ### uvCharts
-uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. uvCharts will itself be available  with 2 options, with or without the interface. Charts supported at the current moment are:
+uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. uvCharts will itself be available with 2 options, with (planned, development yet to begin) or without the interface. Charts supported at the current moment are:
 
 - Bar Charts
 	+ Normal Bar Chart
@@ -24,7 +24,11 @@ uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github
 
 - Line Chart
 
+- Waterfall Chart
+
 All charts can be shown either in horizontal or vertical orientation.
+
+To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/hashd/uv/wiki/uvCharts) page.
 
 #### Features
 - Easy to learn and use
