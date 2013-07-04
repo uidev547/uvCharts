@@ -44,12 +44,15 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', uv.effects.bar.mouseover(self, idx))
-		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
-			.attr('width', function (d,i) { return axes.hor.scale(csum[i]) - axes.hor.scale(csum[i]-d.value); });
+			.attr('width', function (d,i) { return axes.hor.scale(csum[i]) - axes.hor.scale(csum[i]-d.value); })
+			.each("end", function (d,i){
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+			});
+
 
 	bars.append('text')
 		.attr('y', function(d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand()/2; })
@@ -90,12 +93,15 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
-		.on('mouseover', uv.effects.bar.mouseover(self, idx))
-		.on('mouseout', uv.effects.bar.mouseout(self, idx))
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
-			.attr('height', function (d,i) { return -(axes.ver.scale(-csum[i]) - axes.ver.scale(-csum[i]-d.value)); });
+			.attr('height', function (d,i) { return -(axes.ver.scale(-csum[i]) - axes.ver.scale(-csum[i]-d.value)); })
+			.each("end", function (d,i){
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+			});
+
 	
 	bars.append('text').attr('transform','scale(1,-1)')
 		.attr('x', function(d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand()/2; })
