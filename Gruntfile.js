@@ -20,52 +20,27 @@ module.exports = function(grunt) {
       },
 
       style : {
-      	src : ['src/css/uv.css'],
-				dest : 'dist/uv.css'
+        src : ['src/css/uv.css'],
+        dest : 'dist/uv.css'
       }
     },
-    
    
     watch: {
       scripts: {
-        files: ['src/gfx/*.js','src/util/*.js'],
-        tasks: ['build_gfx','concat:style'],
+        files: ['src/gfx/*.js','src/util/*.js','src/css/*.css'],
+        tasks: ['build_gfx'],
         options: {
         interrupt: true,
         },
       },
     },
     
-    jshint: {
-      options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        browser: true
-      },
-
-      globals: {
-        jQuery: true
-      },
-
-    },
-    
-    uglify: {}
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
   grunt.registerTask('default', ['concat']);
-  grunt.registerTask('build_gfx', ['jshint','concat:gfx']);
+  grunt.registerTask('build_gfx', ['concat']);
 };
