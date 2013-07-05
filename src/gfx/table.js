@@ -14,10 +14,10 @@ uv.Table.prototype.init = function (graphdef, config) {
 	this.config = $.extend(true, {}, config);
 	this.position = this.config.meta.pos || 'body';
 
-	this.table = d3.select(this.position).append('table').attr('class', this.config.table.tableclass);
-	this.header = this.table.append('thead').attr('class', this.config.table.headerclass);
-	this.body = this.table.append('tbody').attr('class', this.config.table.bodyclass);
-	this.footer = this.table.append('tfoot').attr('class', this.config.table.footerclass);
+	this.table = d3.select(this.position).append('table').classed(this.config.table.tableclass, true);
+	this.header = this.table.append('thead').classed(this.config.table.headerclass, true);
+	this.body = this.table.append('tbody').classed(this.config.table.bodyclass, true);
+	this.footer = this.table.append('tfoot').classed(this.config.table.footerclass, true);
 };
 
 uv.Table.prototype.finalize = function () {

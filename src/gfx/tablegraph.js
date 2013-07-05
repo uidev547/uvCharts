@@ -25,7 +25,10 @@ uv.TableGraph.prototype.setHorTable = function () {
 
 	this.bodyrows.selectAll('td').data(function (d, i) { return tableData[i]; })
 					.enter().append('td')
-					.attr('class', function (d, i) { return (i === 0) ? 'chart3rtablelabel' : 'chart3rtabledata'; })
+					.attr('class', function (d, i) {
+						var classNameString = (i === 0) ? 'chart3rtablelabel' : 'chart3rtabledata';
+						return d3.select(this).attr('class') + classNameString;
+					})
 					.text(function (d) {return d; });
 };
 
@@ -46,6 +49,9 @@ uv.TableGraph.prototype.setVerTable = function () {
 			for (i = 0, len = dataset[d].length; i < len; i = i + 1) { arr.push(dataset[d][i].value); }
 			return arr;
 		}).enter().append('td')
-			.attr('class', function (d, i) { return (i === 0) ? 'chart3rtablelabel' : 'chart3rtabledata'; })
+			.attr('class', function (d, i) {
+				var classNameString = (i === 0) ? 'chart3rtablelabel' : 'chart3rtabledata';
+				return d3.select(this).attr('class') + classNameString;
+			})
 			.text(function (d) {return d; });
 };

@@ -45,13 +45,14 @@ init = function() {
 	donutTest = uv.chart('Donut', graphdef, horConfig);
 	pieTest = uv.chart('Pie', graphdef, horConfig);
 
-    waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
-    waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
-    //waterfallTest = uv.chart('Waterfall', graphdef, verConfig);
-    //waterfallTest = uv.chart('Waterfall', tgraphdef, horConfig);
+  waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
+  waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
+  //waterfallTest = uv.chart('Waterfall', graphdef, verConfig);
+  //waterfallTest = uv.chart('Waterfall', tgraphdef, horConfig);
 	
-	tableHorTest = new uv.TableGraph(graphdef, horConfig);
+/*	tableHorTest = new uv.TableGraph(graphdef, horConfig);
 	ttableHorTest = new uv.TableGraph(tgraphdef, horConfig);
 	tableVerTest = new uv.TableGraph(graphdef, verConfig);
-	tableVerTest = new uv.TableGraph(tgraphdef, verConfig);
+	tableVerTest = new uv.TableGraph(tgraphdef, verConfig);*/
+	
 };

@@ -11,8 +11,8 @@ uv.AreaGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData.map(function (d) { return d.name; }));
 
 	for (idx = 0, len = self.dataset.length; idx < len; idx = idx + 1) {
-		areapath = self.panel.append('g').attr('class', 'cg_' + uv.util.formatClassName(self.categories[idx]))
-												.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx])).datum(self.dataset[idx]);
+		areapath = self.panel.append('g').classed('cg-' + uv.util.formatClassName(self.categories[idx]), true)
+												.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true).datum(self.dataset[idx]);
 		areagroup = { path: areapath, linefunc: undefined, areafunc: undefined, line: undefined, area: undefined };
 		self['draw' + self.config.graph.orientation + 'Area'](areagroup, idx);
 		self.areagroups.push(areagroup);
@@ -46,22 +46,22 @@ uv.AreaGraph.prototype.drawHorizontalArea = function (areagroup, idx) {
 				.interpolate(self.config.area.interpolation);
 
 	areagroup.area = areagroup.path.append('svg:path')
-				.attr('class', 'areapath_' + idx)
+				.classed(uv.constants.classes.areapath + idx, true)
 				.attr('d', areagroup.areafunc)
 				.style('opacity', self.config.area.opacity)
 				.style('-moz-opacity', self.config.area.opacity)
 				.style('fill', color);
 
 	areagroup.line = areagroup.path.append('svg:path')
-				.attr('class', 'linepath_' + idx)
+				.classed(uv.constants.classes.linepath + idx, true)
 				.attr('d', areagroup.linefunc)
 				.style('stroke', 'white')
 				.style('fill', 'none');
 
-	areagroup.path.selectAll('.dot')
+	areagroup.path.selectAll('.' + uv.constants.classes.dot)
 				.data(self.dataset[idx])
 				.enter().append('circle')
-				.attr('class', 'dot')
+				.classed(uv.constants.classes.dot, true)
 				.attr('cx', areagroup.linefunc.x())
 				.attr('cy', areagroup.linefunc.y())
 				.attr('r', 3.5)
@@ -86,22 +86,22 @@ uv.AreaGraph.prototype.drawVerticalArea = function (areagroup, idx) {
 				.interpolate(self.config.area.interpolation);
 
 	areagroup.area = areagroup.path.append('svg:path')
-				.attr('class', 'areapath_' + idx)
+				.classed(uv.constants.classes.areapath + idx, true)
 				.attr('d', areagroup.areafunc)
 				.style('opacity', self.config.area.opacity)
 				.style('-moz-opacity', self.config.area.opacity)
 				.style('fill', color);
 
 	areagroup.line = areagroup.path.append('svg:path')
-				.attr('class', 'linepath_' + idx)
+				.classed(uv.constants.classes.linepath + idx, true)
 				.attr('d', areagroup.linefunc)
 				.style('stroke', 'white')
 				.style('fill', 'none');
 
-	areagroup.path.selectAll('.dot')
+	areagroup.path.selectAll('.' + uv.constants.classes.dot)
 				.data(self.dataset[idx])
 				.enter().append('circle')
-				.attr('class', 'dot')
+				.classed(uv.constants.classes.dot, true)
 				.attr('cx', areagroup.linefunc.x())
 				.attr('cy', areagroup.linefunc.y())
 				.attr('r', 3.5)

@@ -15,7 +15,7 @@ uv.BarGraph = function (graphdef, config) {
 	var idx, length = self.categories.length, category;
 	for (idx = 0; idx < length; idx = idx + 1) {
 		category = self.categories[idx];
-		self.bargroups[category] = self.panel.append('g').attr('class', 'r3_bargroup').classed('cg_' + uv.util.formatClassName(category), true);
+		self.bargroups[category] = self.panel.append('g').classed('cg-' + uv.util.formatClassName(category), true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx);
 	}
 
@@ -35,10 +35,10 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-				.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
+				.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
-		.attr('class', self.id + '_' + uv.util.formatClassName(self.categories[idx]))
+		.classed(uv.util.formatClassName(self.categories[idx]), true)
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
@@ -83,10 +83,10 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 		len = self.categories.length;
 	
 	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-			.append('g').attr('class', 'cge_' + uv.util.formatClassName(self.categories[idx]));
+			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
-			.attr('class', self.id + '_' + uv.util.formatClassName(self.categories[idx]))
+			.classed(uv.util.formatClassName(self.categories[idx]), true)
 			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
 			.attr('height', 0)
 			.attr('width', 0)

@@ -47,7 +47,7 @@ uv.effects.area.mouseover = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).select('path.area_'+  uv.util.formatClassName(category))
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).select('path.' + uv.constants.classes.area + uv.util.formatClassName(category))
 		.transition().duration(config.effects.hover)
 		.style('fill',config.effects.hovercolor);
 	};
@@ -61,7 +61,8 @@ uv.effects.area.mouseout = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_'+ uv.util.formatClassName(category)).select('path.area_'+ uv.util.formatClassName(category))
+		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category))
+		graph.frame.selectAll('.cge-'+category).select('path.' + uv.constants.classes.area +category)
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
@@ -77,17 +78,17 @@ uv.effects.line.mouseover = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('circle')
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('fill-opacity', 1)
 				.style('stroke', config.effects.hovercolor);
 
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).select('path')
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).select('path')
 			.transition().duration(config.effects.hover)
 				.style('stroke', config.effects.hovercolor);
 
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('text')
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.textcolor);
 	};
@@ -102,17 +103,17 @@ uv.effects.line.mouseout = function (graph, idx, color) {
 		color = color || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('circle')
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('circle')
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
 				.style('stroke', color);
 
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).select('path')
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).select('path')
 			.transition().duration(config.effects.hover)
 				.style('stroke', color);
 
-		graph.frame.selectAll('.cge_' + uv.util.formatClassName(category)).selectAll('text')
+		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
 			.transition().duration(config.effects.hover)
 				.style('fill', 'none');
 
@@ -124,7 +125,7 @@ uv.effects.line.mouseout = function (graph, idx, color) {
 uv.effects.caption = {};
 uv.effects.caption.mouseover = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + uv.constants.name.background)
+		d3.select(this.parentNode.parentNode).select('.' + uv.constants.classes.hoverbg)
 			.transition().duration(config.effects.duration)
 				.style('fill', config.caption.hovercolor);
 	};
@@ -132,7 +133,7 @@ uv.effects.caption.mouseover = function (config) {
 
 uv.effects.caption.mouseout = function (config) {
 	return function () {
-		d3.select(this.parentNode.parentNode).select('.' + uv.constants.name.background)
+		d3.select(this.parentNode.parentNode).select('.' + uv.constants.classes.hoverbg)
 			.transition().duration(config.effects.duration)
 				.style('fill', config.graph.background);
 	};

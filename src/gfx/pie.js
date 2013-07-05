@@ -17,7 +17,7 @@ uv.PieGraph = function (graphdef, config) {
 	self.panel.data(data);
 	self.arcs = self.panel.selectAll('g.arc')
 					.data(layout).enter()
-					.append('g').attr('class', 'r3_arc' + uv.util.formatClassName(self.category))
+					.append('g').classed(uv.constants.classes.arc + uv.util.formatClassName(self.category), true)
 					.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
 
 	self.arcs.append('path')
