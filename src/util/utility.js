@@ -127,7 +127,7 @@ uv.util.getColorBand = function (config, index) {
  * @return {string}      Returns the formatted String 
  */
 uv.util.formatClassName = function(name){
-	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-");
+	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-").toLowerCase();
 	return returnName;
 }
 
