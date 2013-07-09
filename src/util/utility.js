@@ -148,3 +148,21 @@ uv.util.endAll = function (transition, callback){
         	}
          }); 
 }
+
+/**
+ * This function returns all class names of the element including new class name.
+ * Useful in cases where we need to avoid over-writting of classes.
+ * @param  {} self this referring to svgElement
+ * @param  {String} name new class name to be added
+ * @return {String}      All class names as string.
+ */
+uv.util.getClassName = function(self, name) {
+	var formattedName = uv.util.formatClassName(name)
+	if( !d3.select(self).attr('class')) {
+		return formattedName;
+	}
+	if(d3.select(self).attr('class').split(' ').indexOf(formattedName) == -1) {
+		return d3.select(self).attr('class');
+	}
+	return d3.select(self).attr('class') + " " + formattedName;
+}

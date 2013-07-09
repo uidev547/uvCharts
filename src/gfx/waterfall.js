@@ -42,7 +42,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 			csum += d.value;
 			return self.axes.hor.scale(value); })
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.transition()
@@ -59,7 +59,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
@@ -90,7 +90,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.attr('height', 0)
 			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
@@ -117,7 +117,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.style('fill', 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)

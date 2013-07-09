@@ -17,10 +17,7 @@ uv.PercentAreaGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 	self.areagroup = self.panel.selectAll('g.areagroup').data(stacklayout).enter().append('g')
 								.attr('class', function (d,i) {
-									if( !d3.select(this).attr('class')) {
-										return 'cge-' + uv.util.formatClassName(self.categories[i]);
-									}
-									return d3.select(this).attr('class') + ('cge-' + uv.util.formatClassName(self.categories[i])); 
+									return uv.util.getClassName(this, 'cge-' + self.categories[i]);
 								});
 
 	self['draw' + self.config.graph.orientation + 'Area']();
@@ -50,10 +47,7 @@ uv.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) {
-				if( !d3.select(this).attr('class')) {
-					return uv.constants.classes.area + uv.util.formatClassName(categories[i]);
-				}
-				return  d3.select(this).attr('class') + (uv.constants.classes.area + uv.util.formatClassName(categories[i])); 
+				return uv.util.getClassName(this, uv.constants.classes.area + uv.util.formatClassName(categories[i]));
 			})
 			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
@@ -67,10 +61,7 @@ uv.PercentAreaGraph.prototype.drawHorizontalArea = function () {
 
 	self.areagroup.append('path')
 		.attr('class', function (d, i) {
-			if( !d3.select(this).attr('class')) {
-				return uv.constants.classes.line + uv.util.formatClassName(categories[i]);	
-			}
-			return d3.select(this).attr('class') + (uv.constants.classes.line + uv.util.formatClassName(categories[i])); 
+			return uv.util.getClassName(this, uv.constants.classes.line + uv.util.formatClassName(categories[i]));
 		})
 		.style('stroke', 'white')
 		.style('fill', 'none')
@@ -97,10 +88,7 @@ uv.PercentAreaGraph.prototype.drawVerticalArea = function () {
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) {
-				if( !d3.select(this).attr('class')) {
-					return uv.constants.classes.area + uv.util.formatClassName(categories[i]);
-				}
-				return d3.select(this).attr('class') + (uv.constants.classes.area + uv.util.formatClassName(categories[i])); 
+				return uv.util.getClassName(this, uv.constants.classes.area + uv.util.formatClassName(categories[i]));
 			})
 			.style('fill', function (d, i) { return uv.util.getColorBand(config, i); })
 			.attr('d', d3.svg.area()
@@ -114,10 +102,7 @@ uv.PercentAreaGraph.prototype.drawVerticalArea = function () {
 
 	self.areagroup.append('path')
 			.attr('class', function (d, i) {
-				if( !d3.select(this).attr('class')) {
-					return uv.constants.classes.line + uv.util.formatClassName(categories[i]);
-				}
-				return d3.select(this).attr('class') + (uv.constants.classes.line + uv.util.formatClassName(categories[i])); 
+				return uv.util.getClassName(this, uv.constants.classes.line + uv.util.formatClassName(categories[i]));
 			})
 			.style('stroke', 'white')
 			.style('fill', 'none')

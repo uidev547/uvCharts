@@ -39,7 +39,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	
 	bars.append('rect')
 		.classed(uv.util.formatClassName(self.categories[idx]), true)
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
@@ -54,13 +54,12 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
 			});
 
-
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
@@ -71,6 +70,8 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 			.delay(function (d, i) { return i * self.config.effects.duration; })
 			.attr('x', function (d) { return self.axes.hor.scale(d.value); });
 	
+
+
 	bars.append('svg:title')
 		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
 	
@@ -87,7 +88,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 	
 	bars.append('rect')
 			.classed(uv.util.formatClassName(self.categories[idx]), true)
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.attr('height', 0)
 			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
@@ -110,7 +111,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.style('fill', 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)

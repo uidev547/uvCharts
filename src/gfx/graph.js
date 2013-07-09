@@ -417,10 +417,7 @@ uv.Graph.prototype.setLegend = function () {
 							}
 						})
 						.attr('class', function (d, i) {
-							if( !d3.select(this).attr('class')) {
-								return 'cl_' + self.categories[i];
-							}
-							return d3.select(this).attr('class') + ('cl_' + self.categories[i]);
+							return uv.util.getClassName(this, 'cl-' + self.categories[i]);
 						})
 						.attr('disabled', 'false')
 						.on('mouseover', function (d, i) {
