@@ -64,6 +64,7 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setVerticalAxis()
 		.setEffectsObject();	
 		
+	console.log(self.exportHTML().toString());
 	return self;
 };
 
@@ -636,4 +637,10 @@ uv.Graph.prototype.toggleGraphGroup = function (i) {
 
 	self.frame.selectAll('g.cge-' + uv.util.formatClassName(category)).style('display', (state === 'none')? null : 'none');
 	return this;
+};
+
+
+uv.Graph.prototype.exportHTML = function (){
+	var self = this;
+	return self.frame.node();
 };

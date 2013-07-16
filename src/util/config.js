@@ -47,7 +47,8 @@ uv.config = {
 		fontfamily : 'Arial',
 		fontsize : '11',
 		fontweight : 'normal',
-		strokecolor : '#000'
+		strokecolor : '#000',
+		showlabel : true
 	},
 
 	scale : {
@@ -129,6 +130,7 @@ uv.config = {
 		strokecolor : 'none',
 		textcolor : 'black',
 		duration : 800,
-		hover : 400
+		hover : 400,
+		showhovertext : false
 	}
 };

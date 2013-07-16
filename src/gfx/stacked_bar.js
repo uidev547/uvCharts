@@ -49,8 +49,8 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 			.delay(idx * uv.config.effects.duration)
 			.attr('width', function (d,i) { return axes.hor.scale(csum[i]) - axes.hor.scale(csum[i]-d.value); })
 			.each("end", function (d,i){
-				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 
 
@@ -60,7 +60,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
@@ -98,8 +98,8 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 			.delay(idx * uv.config.effects.duration)
 			.attr('height', function (d,i) { return -(axes.ver.scale(-csum[i]) - axes.ver.scale(-csum[i]-d.value)); })
 			.each("end", function (d,i){
-				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 
 	
@@ -109,7 +109,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)

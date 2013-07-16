@@ -11,7 +11,7 @@ uv.BarGraph = function (graphdef, config) {
 	self.bargroups = {};
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels);
-
+	
 	var idx, length = self.categories.length, category;
 	for (idx = 0; idx < length; idx = idx + 1) {
 		category = self.categories[idx];
@@ -61,7 +61,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -111,7 +111,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-			.style('fill', 'none')
+			.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)
