@@ -85,33 +85,35 @@ uv.Graph.prototype.setDimensions = function () {
 };
 
 uv.Graph.prototype.setDownloadOptions = function(){
-	var self = this;
-	self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
-	self.download.append('text').classed(uv.constants.classes.download, true)
-	.text(self.config.meta.downloadLabel)
-	.attr('y', -self.config.margin.top / 2)
-	.attr('x', self.config.dimension.width-25)
-	.attr('text-anchor', self.config.caption.textanchor)
-	.style('font-family', self.config.caption.fontfamily)
-	.style('font-size', '12')
-	.style('cursor', self.config.caption.cursor)
-	.style('stroke', self.config.caption.stroke)
-	.style('text-decoration', 'underline')
-	.on('mouseover',function(){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('color','#0000FF');	
-	    })
-	.on('mouseout',function(){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('color','#8D8D8D');
-	    })
-	.on('click', function (){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('display','none');
-		uv.util.svgToPng(self, function(){
-				dnldBtn.style('display',null);
+	if(uv.util.isDownloadSupported()){
+		var self = this;
+		self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
+		self.download.append('text').classed(uv.constants.classes.download, true)
+		.text(self.config.meta.downloadLabel)
+		.attr('y', -self.config.margin.top / 2)
+		.attr('x', self.config.dimension.width-25)
+		.attr('text-anchor', self.config.caption.textanchor)
+		.style('font-family', self.config.caption.fontfamily)
+		.style('font-size', '12')
+		.style('cursor', self.config.caption.cursor)
+		.style('stroke', self.config.caption.stroke)
+		.style('text-decoration', 'underline')
+		.on('mouseover',function(){
+			var dnldBtn = d3.select(this);
+			dnldBtn.style('color','#0000FF');	
+		    })
+		.on('mouseout',function(){
+			var dnldBtn = d3.select(this);
+			dnldBtn.style('color','#8D8D8D');
+		    })
+		.on('click', function (){
+			var dnldBtn = d3.select(this);
+			dnldBtn.style('display','none');
+			uv.util.svgToPng(self, function(){
+					dnldBtn.style('display',null);
+				});
 			});
-		});
+	}
 };
 
 

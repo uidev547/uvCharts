@@ -132,18 +132,28 @@ uv.util.formatClassName = function(name){
 }
 
 uv.util.svgToPng = function(downloadElmtRef, callback){
-	var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
+	if(this.isCanvasSupported()){
+		var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
+		var canvas = document.createElement('canvas');
+		var ctx = canvas.getContext("2d");
+		canvas.setAttribute('width',d3.select(downloadElmtRef.frame.node()).attr('width'));
+		canvas.setAttribute('height',d3.select(downloadElmtRef.frame.node()).attr('height'));
+		ctx.drawSvg(svgContent);	
+		canvas.toBlob(function(blob) {
+		    saveAs(
+			      blob, "png_download"+Math.ceil(Math.random()*100000)+".png"
+		    );
+		}, "image/png");
+		callback.call();
+	}else{
+		alert('this feature is not supported in this version of browser');
+	}
+}
+
+uv.util.isDownloadSupported = function(){
 	var canvas = document.createElement('canvas');
 	var ctx = canvas.getContext("2d");
-	canvas.setAttribute('width',$(svgContent).attr('width'));
-	canvas.setAttribute('height',$(svgContent).attr('height'));
-	ctx.drawSvg(svgContent);	
-	canvas.toBlob(function(blob) {
-	    saveAs(
-		      blob, "png_download"+Math.ceil(Math.random()*100000)+".png"
-	    );
-	}, "image/png");
-	callback.call();
+	return typeof(ctx.drawSvg) == 'function' && typeof(canvas.toBlob) == 'function';
 }
 
 uv.util.isCanvasSupported = function (){
