@@ -1,12 +1,3 @@
-.r3_legend g:hover {
-	cursor : pointer;
-	fill : red;
-}
-
-.r3_frame {
-	margin : 5px;
-}
-
-.r3_horaxis, .r3_veraxis {
-  shape-rendering: crispEdges;
+.svg-container {
+    display : inline-block;    
 }

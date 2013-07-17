@@ -13,7 +13,10 @@ uv.config = {
 		hlabel : 'Horizontal Axis Label',
 		vlabel : 'Vertical Axis Label',
 		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel'
+		vsublabel : 'v sublabel',
+		downloadLabel: 'download',
+		isDownload : true
+		
 	},
 
 	dimension : {
@@ -101,7 +104,9 @@ uv.config = {
 		fontvariant : 'small-caps',
 		textdecoration : 'none',
 		hovercolor : 'dimgrey',
-		textanchor : 'middle'
+		textanchor : 'middle',
+		cursor : 'pointer',
+		stroke : 'blue'
 	},
 
 	subCaption : {
