@@ -15,6 +15,7 @@ uv.addChart('PercentArea','PercentAreaGraph');
 uv.addChart('Pie','PieGraph');
 uv.addChart('Donut','DonutGraph');
 uv.addChart('Waterfall','WaterfallGraph');
+uv.addChart('PolarArea','PolarAreaGraph')
 
 uv.chart = function (type, graphdef, config) {
   if (uv.types[type] !== undefined) {

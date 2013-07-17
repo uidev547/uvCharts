@@ -44,6 +44,7 @@ init = function() {
 	
 	donutTest = uv.chart('Donut', graphdef, horConfig);
 	pieTest = uv.chart('Pie', graphdef, horConfig);
+	polarAreaTest = uv.chart('PolarArea', graphdef, horConfig);
 
   waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
   waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
