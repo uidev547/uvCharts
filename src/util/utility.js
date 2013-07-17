@@ -1,15 +1,27 @@
 uv.util = {};
 
+/**
+ * Utility method to extend prototype for JavaScript classes, to act like inheritance
+ * @param  {Class} f Original class which is being extended
+ * @return {Prototype}   Prototype containing the functions from the super class
+ */
 uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
 };
 
+/**
+ * Utility method to return a unique identification id
+ * @return {number} Timestamp in ms is returned as a unique id
+ */
 uv.util.getUniqueId = function () {
 	return new Date().getTime();
 };
 
+/**
+ * 
+ */
 uv.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {
@@ -129,7 +141,7 @@ uv.util.getColorBand = function (config, index) {
 uv.util.formatClassName = function(name){
 	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-");
 	return returnName;
-}
+};
 
 /**
  * This function waits till the end of the transition and then call the callback
@@ -140,11 +152,11 @@ uv.util.formatClassName = function(name){
  */
 uv.util.endAll = function (transition, callback){
 	var n = 0; 
-    transition 
-        .each(function() { ++n; }) 
-        .each("end", function() { 
-        	if (!--n) {
-        		callback.apply(this, arguments);
-        	}
-         }); 
-}
+  
+  transition.each(function() { ++n; }) 
+    .each("end", function() { 
+      if (!--n) {
+        callback.apply(this, arguments);
+       }
+    }); 
+};
