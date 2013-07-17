@@ -112,5 +112,7 @@ uv.constants.classes = {
 	linepath :'uv-linepath-',
 	area : 'uv-area-',
 	line : 'uv-line-',
-	dot : 'uv-dot'
+	dot : 'uv-dot',
+	
+	download : 'download-options'
 };
