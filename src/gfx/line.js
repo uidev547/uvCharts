@@ -18,7 +18,7 @@ uv.LineGraph = function (graphdef, config) {
 			func: undefined
 		};
 
-		self['draw' + self.config.graph.orientation + 'Lines'](linegroup, idx, color);
+		self['draw' + self.config.graph.orientation + 'Lines'](linegroup, idx);
 		self.linegroups[self.categories[idx]] = linegroup;
 	}
 

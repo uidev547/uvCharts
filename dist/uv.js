@@ -62,8 +62,7 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setEffectsObject()
-		.setDownloadOptions();	
+		.setEffectsObject();	
 		
 	return self;
 };
@@ -84,34 +83,6 @@ uv.Graph.prototype.setDimensions = function () {
 	return this;
 };
 
-uv.Graph.prototype.setDownloadOptions = function(){
-	var self = this;
-	self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
-	//var svgContent = d3.select('svg');
-	self.download.append('text').classed(uv.constants.classes.download, true)
-	.text(self.config.meta.downloadLabel)
-	.attr('y', -self.config.margin.top / 2)
-	.attr('x', self.config.dimension.width-25)
-	.attr('text-anchor', self.config.caption.textanchor)
-	.style('font-family', self.config.caption.fontfamily)
-	.style('font-size', '12')
-	//.style('font-weight', self.config.caption.fontweight)
-	//.style('font-variant', self.config.caption.fontvariant)
-	.style('cursor', self.config.caption.cursor)
-	.style('stroke', self.config.caption.stroke)
-	.style('text-decoration', 'underline')
-	.on('mouseover',function(){ uv.effects.caption.mouseover(self.config)})
-	.on('mouseout',function(){ uv.effects.caption.mouseout(self.config)} )
-	.on('click', function (){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('display','none');
-		uv.util.svgToPng(self, function(){
-				dnldBtn.style('display',null);
-			});
-		});
-};
-
-
 /**
  * Sets the main <svg> element which contains rest of the graph elements
  * @return {Object}				The graph object itself, to support method chaining
@@ -119,7 +90,7 @@ uv.Graph.prototype.setDownloadOptions = function(){
 uv.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (!self.frame) {
-		self.frame = d3.select(self.position() || 'body').append('div').style('display','inline-block').append('svg');
+		self.frame = d3.select(self.position() || 'body').append('svg');
 	}
 
 	self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
@@ -639,14 +610,6 @@ uv.Graph.prototype.subCaption = function(subCaption){
 	return this.config.meta.caption;
 };
 
-uv.Graph.prototype.isDownload = function(isDownload){
-	if(isDownload){
-		this.config.meta.isDownload = isDownload;
-		return this;
-	}
-	return this.config.meta.isDownload;
-};
-
 uv.Graph.prototype.max = function (stepup) {
 	if (stepup === true) {
 		this.config.graph.max = uv.util.getStepMaxValue(this.graphdef);
@@ -676,16 +639,28 @@ uv.Graph.prototype.toggleGraphGroup = function (i) {
 };
 uv.util = {};
 
+/**
+ * Utility method to extend prototype for JavaScript classes, to act like inheritance
+ * @param  {Class} f Original class which is being extended
+ * @return {Prototype}   Prototype containing the functions from the super class
+ */
 uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
 };
 
+/**
+ * Utility method to return a unique identification id
+ * @return {number} Timestamp in ms is returned as a unique id
+ */
 uv.util.getUniqueId = function () {
 	return new Date().getTime();
 };
 
+/**
+ * 
+ */
 uv.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {
@@ -807,25 +782,6 @@ uv.util.formatClassName = function(name){
 	return returnName;
 }
 
-uv.util.svgToPng = function(downloadElmtRef, callback){
-	var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
-	var canvas = document.createElement('canvas');
-	var ctx = canvas.getContext("2d");
-	canvas.setAttribute('width',$(svgContent).attr('width'));
-	canvas.setAttribute('height',$(svgContent).attr('height'));
-	ctx.drawSvg(svgContent);	
-	canvas.toBlob(function(blob) {
-	    saveAs(
-		      blob, "png_download"+Math.ceil(Math.random()*100000)+".png"
-	    );
-	}, "image/png");
-	callback.call();
-}
-
-uv.util.isCanvasSupported = function (){
-  var elem = document.createElement('canvas');
-  return !!(elem.getContext && elem.getContext('2d'));
-}
 /**
  * This function waits till the end of the transition and then call the callback
  * function which is passed as an argument
@@ -859,10 +815,7 @@ uv.config = {
 		hlabel : 'Horizontal Axis Label',
 		vlabel : 'Vertical Axis Label',
 		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel',
-		downloadLabel: 'download',
-		isDownload : true
-		
+		vsublabel : 'v sublabel'
 	},
 
 	dimension : {
@@ -950,9 +903,7 @@ uv.config = {
 		fontvariant : 'small-caps',
 		textdecoration : 'none',
 		hovercolor : 'dimgrey',
-		textanchor : 'middle',
-		cursor : 'pointer',
-		stroke : 'blue'
+		textanchor : 'middle'
 	},
 
 	subCaption : {
@@ -1097,9 +1048,7 @@ uv.constants.classes = {
 	linepath :'uv-linepath-',
 	area : 'uv-area-',
 	line : 'uv-line-',
-	dot : 'uv-dot',
-	
-	download : 'download-options'
+	dot : 'uv-dot'
 };
 uv.types = {};
 
@@ -1118,6 +1067,7 @@ uv.addChart('PercentArea','PercentAreaGraph');
 uv.addChart('Pie','PieGraph');
 uv.addChart('Donut','DonutGraph');
 uv.addChart('Waterfall','WaterfallGraph');
+uv.addChart('PolarArea','PolarAreaGraph')
 
 uv.chart = function (type, graphdef, config) {
   if (uv.types[type] !== undefined) {
@@ -2192,6 +2142,61 @@ uv.PieGraph = function (graphdef, config) {
 uv.PieGraph.prototype = uv.util.extend(uv.Graph);
 
 uv.PieGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = false;
+	return this;
+};
+uv.PolarAreaGraph = function (graphdef, config) {
+	var self = this;
+
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+
+	self.maxRadius = Math.min(self.height(), self.width()) * 2/5;
+	self.center = {
+		x : self.width() / 2,
+		y : self.height() / 2
+	};
+
+	self.category = self.categories[0];
+
+	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
+		layout = d3.layout.pie(),
+		arcfuncs = data[0].map( function (d, i) {
+			return d3.svg.arc().innerRadius(0)
+					.outerRadius((d * self.maxRadius) / self.max());
+		});
+
+	self.panel.data(data);
+	self.arcs = self.panel.selectAll('g.arc')
+									.data(layout).enter()
+									.append('g').classed(uv.constants.classes.arc + uv.util.formatClassName(self.category), true)
+									.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
+
+	self.arcs.append('path')
+		.attr('d', arcfuncs[0]) /*function (d, i) {
+			arcfuncs[i](d, i);
+		})*/
+		.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i);})
+		.style('stroke', self.config.pie.strokecolor)
+		.style('stroke-width', self.config.pie.strokewidth);
+
+	self.arcs.append('text')
+			.attr('transform', function (d, i) { return 'translate(' + arcfuncs[i].centroid(d) + ')'; })
+			.attr('dy', '.35em')
+			.attr('text-anchor', 'middle')
+			.style('fill', self.config.pie.fontfill)
+			.style('font-family', self.config.pie.fontfamily)
+			.style('font-size', self.config.pie.fontsize)
+			.style('font-weight', self.config.pie.fontweight)
+			.style('font-variant', self.config.pie.fontvariant)
+			.text(function (d) { return String(d.value); });
+	
+	self.arcs.append('svg:title')
+		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
+};
+
+uv.PolarAreaGraph.prototype = uv.util.extend(uv.Graph);
+
+uv.PolarAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };

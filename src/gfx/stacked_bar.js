@@ -33,7 +33,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		config = this.config,
 		bargroup = this.bargroups[this.categories[idx]];
 	
-	bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
+	var bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
 				.enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -82,7 +82,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		config = this.config,
 		bargroup = this.bargroups[self.categories[idx]];
 	
-	bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
+	var bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
 				.enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')

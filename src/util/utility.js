@@ -1,15 +1,27 @@
 uv.util = {};
 
+/**
+ * Utility method to extend prototype for JavaScript classes, to act like inheritance
+ * @param  {Class} f Original class which is being extended
+ * @return {Prototype}   Prototype containing the functions from the super class
+ */
 uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
 };
 
+/**
+ * Utility method to return a unique identification id
+ * @return {number} Timestamp in ms is returned as a unique id
+ */
 uv.util.getUniqueId = function () {
 	return new Date().getTime();
 };
 
+/**
+ * 
+ */
 uv.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {
@@ -51,7 +63,7 @@ uv.util.getSumUpArray = function (graphdef) {
 			sumMap[i] += d.value;
 		});
 	});
-	
+
 	return sumMap;
 };
 
@@ -129,27 +141,28 @@ uv.util.getColorBand = function (config, index) {
 uv.util.formatClassName = function(name){
 	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-").toLowerCase();
 	return returnName;
-}
+};
 
-uv.util.svgToPng = function(downloadElmtRef, callback){
-	var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
-	var canvas = document.createElement('canvas');
-	var ctx = canvas.getContext("2d");
-	canvas.setAttribute('width',$(svgContent).attr('width'));
-	canvas.setAttribute('height',$(svgContent).attr('height'));
-	ctx.drawSvg(svgContent);	
+uv.util.svgToPng = function(graph, callback){
+	var svgContent = d3.select(graph.frame.node().parentNode).html(),
+			canvas = document.createElement('canvas'),
+			ctx = canvas.getContext("2d"),
+			width = graph.width() + graph.left() + graph.right(),
+			height = graph.width() + graph.top() + graph.bottom();
+
+	canvas.setAttribute('width', width);
+	canvas.setAttribute('height', height);
+	ctx.drawSvg(svgContent);
 	canvas.toBlob(function(blob) {
-	    saveAs(
-		      blob, "png_download"+Math.ceil(Math.random()*100000)+".png"
-	    );
+		saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
 	}, "image/png");
 	callback.call();
-}
+};
 
 uv.util.isCanvasSupported = function (){
   var elem = document.createElement('canvas');
   return !!(elem.getContext && elem.getContext('2d'));
-}
+};
 /**
  * This function waits till the end of the transition and then call the callback
  * function which is passed as an argument
@@ -159,11 +172,9 @@ uv.util.isCanvasSupported = function (){
  */
 uv.util.endAll = function (transition, callback){
 	var n = 0; 
-    transition 
-        .each(function() { ++n; }) 
-        .each("end", function() { 
-        	if (!--n) {
-        		callback.apply(this, arguments);
-        	}
-         }); 
-}
+	transition.each(function() { ++n; }).each("end", function() {
+    if (!--n) {
+      callback.apply(this, arguments);
+    }
+  });
+};

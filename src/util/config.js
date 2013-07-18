@@ -125,7 +125,7 @@ uv.config = {
 		fontweight : 'normal',
 		textmargin : 15,
 		symbolsize : 10,
-		inactive_color : '#DDD',
+		inactivecolor : '#DDD',
 		legendstart : 0,
 	},
 

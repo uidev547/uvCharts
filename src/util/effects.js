@@ -19,15 +19,15 @@ uv.effects.bar.mouseover = function (graph, idx) {
 		}
 	};
 
-	graph.effects[category]['mouseover'] = effect;
+	graph.effects[category].mouseover = effect;
 	return effect;
 };
 
-uv.effects.bar.mouseout = function (graph, idx, color) {
+uv.effects.bar.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
 		category = graph.categories[idx],
 		barColor = uv.util.getColorBand(graph.config, idx),
-		textColor = color || uv.util.getColorBand(graph.config, idx);
+		textColor = defColor || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
@@ -40,7 +40,7 @@ uv.effects.bar.mouseout = function (graph, idx, color) {
 				.style('fill', graph.config.label.showlabel ? textColor : 'none');
 	};
 
-	graph.effects[category]['mouseout'] = effect;
+	graph.effects[category].mouseout = effect;
 	return effect;
 };
 
@@ -55,7 +55,7 @@ uv.effects.area.mouseover = function (graph, idx) {
 		.style('fill',config.effects.hovercolor);
 	};
 
-	graph.effects[category]['mouseover'] = effect;
+	graph.effects[category].mouseover = effect;
 	return effect;
 };
 
@@ -64,13 +64,13 @@ uv.effects.area.mouseout = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category))
+		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category));
 		graph.frame.selectAll('.cge-'+category).select('path.' + uv.constants.classes.area +category)
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
-	
-	graph.effects[category]['mouseout'] = effect;
+
+	graph.effects[category].mouseout = effect;
 	return effect;
 };
 
@@ -97,15 +97,15 @@ uv.effects.line.mouseover = function (graph, idx) {
 					.style('fill', config.effects.textcolor);
 		}
 	};
-	graph.effects[category]['mouseover'] = effect;
+	graph.effects[category].mouseover = effect;
 
 	return effect;
 };
 
-uv.effects.line.mouseout = function (graph, idx, color) {
+uv.effects.line.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
 		category = graph.categories[idx],
-		color = color || uv.util.getColorBand(graph.config, idx);
+		color = defColor || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('circle')
@@ -123,7 +123,7 @@ uv.effects.line.mouseout = function (graph, idx, color) {
 				.style('fill', graph.config.label.showlabel ? color : 'none');
 
 	};	
-	graph.effects[category]['mouseout'] = effect;
+	graph.effects[category].mouseout = effect;
 	return effect;
 };
 
@@ -200,7 +200,7 @@ uv.effects.legend.mouseout = function (self, idx) {
 uv.effects.legend.click = function (i, ctx, graph) {
 	var disabled = (d3.select(ctx).attr('disabled') === 'false') ? false : true;
 	graph.toggleGraphGroup(i);
-	d3.select(ctx).select('rect').style('fill', disabled ? uv.util.getColorBand(graph.config, i) : uv.config.legend.inactive_color);
-	d3.select(ctx).select('text').style('fill', disabled ? null : uv.config.legend.inactive_color);
+	d3.select(ctx).select('rect').style('fill', disabled ? uv.util.getColorBand(graph.config, i) : uv.config.legend.inactivecolor);
+	d3.select(ctx).select('text').style('fill', disabled ? null : uv.config.legend.inactivecolor);
 	d3.select(ctx).attr('disabled', disabled ? 'false' : 'true');
 };

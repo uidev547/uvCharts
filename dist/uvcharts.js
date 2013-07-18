@@ -62,7 +62,8 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setEffectsObject();	
+		.setEffectsObject()
+		.setDownloadOptions();	
 		
 	return self;
 };
@@ -84,13 +85,48 @@ uv.Graph.prototype.setDimensions = function () {
 };
 
 /**
+ * This function downloads the graph in png format.
+ * 
+ */
+uv.Graph.prototype.setDownloadOptions = function(){
+	var self = this;
+	self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
+	self.download.append('text').classed(uv.constants.classes.download, true)
+	.text(uv.constants.downloads.downloadLabel)
+	.attr('y', -self.config.margin.top / 2)
+	.attr('x', self.config.dimension.width-25)
+	.attr('text-anchor', self.config.caption.textanchor)
+	.style('font-family', self.config.caption.fontfamily)
+	.style('font-size', '12')
+	.style('cursor', self.config.caption.cursor)
+	.style('stroke', self.config.caption.stroke)
+	.style('text-decoration', 'underline')
+	.on('mouseover',function(){
+		var dnldBtn = d3.select(this);
+		dnldBtn.style('color','#0000FF');	
+	})
+	.on('mouseout',function(){
+		var dnldBtn = d3.select(this);
+		dnldBtn.style('color','#8D8D8D');
+	})
+	.on('click', function (){
+		var dnldBtn = d3.select(this);
+		dnldBtn.style('display','none');
+		uv.util.svgToPng(self, function(){
+				dnldBtn.style('display',null);
+			});
+		});
+};
+
+
+/**
  * Sets the main <svg> element which contains rest of the graph elements
  * @return {Object}				The graph object itself, to support method chaining
  */
 uv.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (!self.frame) {
-		self.frame = d3.select(self.position() || 'body').append('svg');
+		self.frame = d3.select(self.position() || 'body').append('div').style('display','inline-block').append('svg');
 	}
 
 	self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
@@ -256,7 +292,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 	if (self.config.graph.orientation === 'Vertical') {
 		self.axes.ver.scale	= d3.scale[self.config.scale.type]()
 								.domain([self.max(), self.config.scale.type === 'log' ? 1 : 0])
-								.range([0, self.height()])
+								.range([0, self.height()]);
 		
 		if (self.axes.ver.scale.nice) {
 			self.axes.ver.scale.nice();
@@ -393,9 +429,9 @@ uv.Graph.prototype.setLegend = function () {
 
 	var legendgroup = self.panel.append('g').classed(uv.constants.classes.legend, true)
 						.attr('transform', function(d, i){
-							if(self.config.legend.position == 'right'){
+							if(self.config.legend.position === 'right'){
 								return 'translate(' + self.width() + ', 10)';
-							}else if(self.config.legend.position == 'bottom'){
+							}else if(self.config.legend.position === 'bottom'){
 								var pos =  self.height() + self.config.margin.bottom/2 + Number(self.config.axis.fontsize);
 								return 'translate(0, ' + pos +  ')';
 							}
@@ -403,9 +439,9 @@ uv.Graph.prototype.setLegend = function () {
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
 						.attr('transform', function (d, i) { 
-							if(self.config.legend.position == 'right'){
+							if(self.config.legend.position === 'right'){
 								return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
-							}else if(self.config.legend.position == 'bottom'){
+							}else if(self.config.legend.position === 'bottom'){
 								var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
 								var vPos = 20*self.config.legend.legendstart;
 								if(hPos >= self.config.dimension.width){
@@ -610,6 +646,14 @@ uv.Graph.prototype.subCaption = function(subCaption){
 	return this.config.meta.caption;
 };
 
+uv.Graph.prototype.isDownload = function(isDownload){
+	if(isDownload){
+		this.config.meta.isDownload = isDownload;
+		return this;
+	}
+	return this.config.meta.isDownload;
+};
+
 uv.Graph.prototype.max = function (stepup) {
 	if (stepup === true) {
 		this.config.graph.max = uv.util.getStepMaxValue(this.graphdef);
@@ -637,18 +681,31 @@ uv.Graph.prototype.toggleGraphGroup = function (i) {
 	self.frame.selectAll('g.cge-' + uv.util.formatClassName(category)).style('display', (state === 'none')? null : 'none');
 	return this;
 };
+
 uv.util = {};
 
+/**
+ * Utility method to extend prototype for JavaScript classes, to act like inheritance
+ * @param  {Class} f Original class which is being extended
+ * @return {Prototype}   Prototype containing the functions from the super class
+ */
 uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
 };
 
+/**
+ * Utility method to return a unique identification id
+ * @return {number} Timestamp in ms is returned as a unique id
+ */
 uv.util.getUniqueId = function () {
 	return new Date().getTime();
 };
 
+/**
+ * 
+ */
 uv.util.getMaxValue = function (graphdef) {
 	return d3.max(graphdef.categories.map(function (d) {
 		return d3.max(graphdef.dataset[d].map(function (d) {
@@ -690,7 +747,7 @@ uv.util.getSumUpArray = function (graphdef) {
 			sumMap[i] += d.value;
 		});
 	});
-	
+
 	return sumMap;
 };
 
@@ -766,10 +823,30 @@ uv.util.getColorBand = function (config, index) {
  * @return {string}      Returns the formatted String 
  */
 uv.util.formatClassName = function(name){
-	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-");
+	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-").toLowerCase();
 	return returnName;
-}
+};
 
+uv.util.svgToPng = function(graph, callback){
+	var svgContent = d3.select(graph.frame.node().parentNode).html(),
+			canvas = document.createElement('canvas'),
+			ctx = canvas.getContext("2d"),
+			width = graph.width() + graph.left() + graph.right(),
+			height = graph.width() + graph.top() + graph.bottom();
+
+	canvas.setAttribute('width', width);
+	canvas.setAttribute('height', height);
+	ctx.drawSvg(svgContent);
+	canvas.toBlob(function(blob) {
+		saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
+	}, "image/png");
+	callback.call();
+};
+
+uv.util.isCanvasSupported = function (){
+  var elem = document.createElement('canvas');
+  return !!(elem.getContext && elem.getContext('2d'));
+};
 /**
  * This function waits till the end of the transition and then call the callback
  * function which is passed as an argument
@@ -779,19 +856,17 @@ uv.util.formatClassName = function(name){
  */
 uv.util.endAll = function (transition, callback){
 	var n = 0; 
-    transition 
-        .each(function() { ++n; }) 
-        .each("end", function() { 
-        	if (!--n) {
-        		callback.apply(this, arguments);
-        	}
-         }); 
-}
+	transition.each(function() { ++n; }).each("end", function() {
+    if (!--n) {
+      callback.apply(this, arguments);
+    }
+  });
+};
 
 uv.config = {
 	graph : {
 		palette : 'Brink',
-		background : 'white',
+		background : '#FFFFFF',
 		orientation : 'Horizontal',
 		max : 0
 	},
@@ -803,7 +878,9 @@ uv.config = {
 		hlabel : 'Horizontal Axis Label',
 		vlabel : 'Vertical Axis Label',
 		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel'
+		vsublabel : 'v sublabel',
+		isDownload : true
+		
 	},
 
 	dimension : {
@@ -819,7 +896,7 @@ uv.config = {
 	},
 
 	frame : {
-		bgcolor : 'white'
+		bgcolor : '#FFFFFF'
 	},
 
 	axis : {
@@ -827,7 +904,7 @@ uv.config = {
 		subticks : 2,
 		padding : 5,
 		minor : -10,
-		strokecolor : '#000',
+		strokecolor : '#000000',
 		fontfamily : 'Arial',
 		fontsize : '14',
 		fontweight : 'bold'
@@ -837,7 +914,8 @@ uv.config = {
 		fontfamily : 'Arial',
 		fontsize : '11',
 		fontweight : 'normal',
-		strokecolor : '#000'
+		strokecolor : '#000000',
+		showlabel : false
 	},
 
 	scale : {
@@ -868,7 +946,7 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : 'white',
+		fontfill : '#FFFFFF',
 		strokecolor : 'none',
 		strokewidth : 2
 	},
@@ -878,7 +956,7 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : 'white',
+		fontfill : '#FFFFF',
 		factor : 0.4,
 		strokecolor : 'none',
 		strokewidth : 2
@@ -890,8 +968,10 @@ uv.config = {
 		fontweight : 'bold',
 		fontvariant : 'small-caps',
 		textdecoration : 'none',
-		hovercolor : 'dimgrey',
-		textanchor : 'middle'
+		hovercolor : '#696969',
+		textanchor : 'middle',
+		cursor : 'pointer',
+		stroke : '#0000FF'
 	},
 
 	subCaption : {
@@ -910,16 +990,17 @@ uv.config = {
 		fontweight : 'normal',
 		textmargin : 15,
 		symbolsize : 10,
-		inactive_color : '#DDD',
+		inactivecolor : '#DDD',
 		legendstart : 0,
 	},
 
 	effects : {
-		hovercolor : 'red',
+		hovercolor : '#FF0000',
 		strokecolor : 'none',
-		textcolor : 'black',
+		textcolor : '#000000',
 		duration : 800,
-		hover : 400
+		hover : 400,
+		showhovertext : false
 	}
 };
 uv.constants = {};
@@ -1036,7 +1117,13 @@ uv.constants.classes = {
 	linepath :'uv-linepath-',
 	area : 'uv-area-',
 	line : 'uv-line-',
-	dot : 'uv-dot'
+	dot : 'uv-dot',
+	
+	download : 'download-options'
+};
+
+uv.constants.downloads = {
+	downloadLabel: 'Download',
 };
 uv.types = {};
 
@@ -1055,6 +1142,7 @@ uv.addChart('PercentArea','PercentAreaGraph');
 uv.addChart('Pie','PieGraph');
 uv.addChart('Donut','DonutGraph');
 uv.addChart('Waterfall','WaterfallGraph');
+uv.addChart('PolarArea','PolarAreaGraph');
 
 uv.chart = function (type, graphdef, config) {
   if (uv.types[type] !== undefined) {
@@ -1074,33 +1162,36 @@ uv.effects.bar.mouseover = function (graph, idx) {
 				.style('fill', config.effects.hovercolor)
 				.style('stroke', config.effects.strokecolor);
 	
-		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
-			.transition().duration(config.effects.hover)
-				.style('fill', config.effects.textcolor)
-				.style('opacity', 1);
+		if(config.effects.showhovertext){
+			graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
+				.transition().duration(config.effects.hover)
+					.style('fill', config.effects.textcolor)
+					.style('opacity', 1);
+		}
 	};
 
-	graph.effects[category]['mouseover'] = effect;
+	graph.effects[category].mouseover = effect;
 	return effect;
 };
 
-uv.effects.bar.mouseout = function (graph, idx, color) {
+uv.effects.bar.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
-		category = graph.categories[idx];
-		color = color || uv.util.getColorBand(graph.config, idx);
+		category = graph.categories[idx],
+		barColor = uv.util.getColorBand(graph.config, idx),
+		textColor = defColor || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
-				.style('fill', color)
+				.style('fill', barColor)
 				.style('stroke', 'none');
 	
 		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
-				.style('fill', 'none');
+				.style('fill', graph.config.label.showlabel ? textColor : 'none');
 	};
 
-	graph.effects[category]['mouseout'] = effect;
+	graph.effects[category].mouseout = effect;
 	return effect;
 };
 
@@ -1115,7 +1206,7 @@ uv.effects.area.mouseover = function (graph, idx) {
 		.style('fill',config.effects.hovercolor);
 	};
 
-	graph.effects[category]['mouseover'] = effect;
+	graph.effects[category].mouseover = effect;
 	return effect;
 };
 
@@ -1124,13 +1215,13 @@ uv.effects.area.mouseout = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category))
+		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category));
 		graph.frame.selectAll('.cge-'+category).select('path.' + uv.constants.classes.area +category)
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
-	
-	graph.effects[category]['mouseout'] = effect;
+
+	graph.effects[category].mouseout = effect;
 	return effect;
 };
 
@@ -1151,19 +1242,21 @@ uv.effects.line.mouseover = function (graph, idx) {
 			.transition().duration(config.effects.hover)
 				.style('stroke', config.effects.hovercolor);
 
-		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
-			.transition().duration(config.effects.hover)
-				.style('fill', config.effects.textcolor);
+		if(config.effects.showhovertext){
+			graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
+				.transition().duration(config.effects.hover)
+					.style('fill', config.effects.textcolor);
+		}
 	};
-	graph.effects[category]['mouseover'] = effect;
+	graph.effects[category].mouseover = effect;
 
 	return effect;
 };
 
-uv.effects.line.mouseout = function (graph, idx, color) {
+uv.effects.line.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
 		category = graph.categories[idx],
-		color = color || uv.util.getColorBand(graph.config, idx);
+		color = defColor || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('circle')
@@ -1178,10 +1271,10 @@ uv.effects.line.mouseout = function (graph, idx, color) {
 
 		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
 			.transition().duration(config.effects.hover)
-				.style('fill', 'none');
+				.style('fill', graph.config.label.showlabel ? color : 'none');
 
 	};	
-	graph.effects[category]['mouseout'] = effect;
+	graph.effects[category].mouseout = effect;
 	return effect;
 };
 
@@ -1258,8 +1351,8 @@ uv.effects.legend.mouseout = function (self, idx) {
 uv.effects.legend.click = function (i, ctx, graph) {
 	var disabled = (d3.select(ctx).attr('disabled') === 'false') ? false : true;
 	graph.toggleGraphGroup(i);
-	d3.select(ctx).select('rect').style('fill', disabled ? uv.util.getColorBand(graph.config, i) : uv.config.legend.inactive_color);
-	d3.select(ctx).select('text').style('fill', disabled ? null : uv.config.legend.inactive_color);
+	d3.select(ctx).select('rect').style('fill', disabled ? uv.util.getColorBand(graph.config, i) : uv.config.legend.inactivecolor);
+	d3.select(ctx).select('text').style('fill', disabled ? null : uv.config.legend.inactivecolor);
 	d3.select(ctx).attr('disabled', disabled ? 'false' : 'true');
 };
 
@@ -1302,10 +1395,10 @@ uv.Test = function () {
 		'years' : ['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010'],
 		'users' : ['infants', 'kids', 'teens', 'middleage', 'oldage'],
 		'mood' : ['happy', 'sad', 'excited', 'surprised', 'none', 'angry']
-	}
+	};
 
 	self.init();
-}
+};
 
 
 uv.Test.prototype.init = function () {
@@ -1318,14 +1411,14 @@ uv.Test.prototype.init = function () {
 
 	self.categorySet = uv.Test.getRandomSet(self.categoryData[category], nCategories);
 	self.labelSet = uv.Test.getRandomSet(self.labelData[label], nLabels);
-}
+};
 
 uv.Test.getRandomSet = function (array, num) {
 	var self = this;
 	var numbers = [], set = [], selected = 0;
-	while (selected != num) {
+	while (selected !== num) {
 		var number = uv.Test.getRandomInteger(0, array.length);
-		if (numbers.indexOf(number) == -1) {
+		if (numbers.indexOf(number) === -1) {
 			set.push(array[number]);
 			numbers.push(number);
 			selected += 1;
@@ -1333,7 +1426,7 @@ uv.Test.getRandomSet = function (array, num) {
 	}
 
 	return set;
-}
+};
 
 uv.Test.prototype.getGraphDef = function () {
 	var self = this;
@@ -1343,7 +1436,7 @@ uv.Test.prototype.getGraphDef = function () {
 
 	console.log(graphdef);
 	return graphdef;
-}
+};
 
 uv.Test.prototype.getDataset = function () {
 	var self = this;
@@ -1357,29 +1450,29 @@ uv.Test.prototype.getDataset = function () {
 	}
 
 	return dataset;
-}
+};
 
 uv.Test.getDataElement = function (label) {
 	var self = this, dataElement = {};
 	dataElement.name = label;
 	dataElement.value = uv.Test.getRandomInteger(1, 1000);
 	return dataElement;
-}
+};
 
 uv.Test.getRandomValue = function (min, max) {
 	return (Math.random() * (max - min + 1)) + min;
-}
+};
 
 uv.Test.getRandomDataset = function (num, min, max) {
 	var self = this, data = [];
 	for (var i = 0; i < num; i++) {
 		data.push(uv.Test.getRandomValue(min, max));
 	}
-}
+};
 
 uv.Test.getRandomInteger = function (min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
 uv.Test.getRandomIntegers = function (num, min, max) {
 	var self = this, data = [];
@@ -1387,7 +1480,7 @@ uv.Test.getRandomIntegers = function (num, min, max) {
 		data.push(uv.Test.getRandomInteger(min, max));
 	}
 	return data;
-}
+};
 uv.AreaGraph = function (graphdef, config) {
 	var self = this;
 	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
@@ -1510,7 +1603,7 @@ uv.BarGraph = function (graphdef, config) {
 	self.bargroups = {};
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels);
-
+	
 	var idx, length = self.categories.length, category;
 	for (idx = 0; idx < length; idx = idx + 1) {
 		category = self.categories[idx];
@@ -1533,7 +1626,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 				.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -1560,7 +1653,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -1581,7 +1674,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -1610,7 +1703,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-			.style('fill', 'none')
+			.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)
@@ -1659,7 +1752,7 @@ uv.DonutGraph = function (graphdef, config) {
 			.attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.style('fill', self.config.donut.fontfill)
+			.style('fill', self.config.label.showlabel ? self.config.donut.fontfill : 'none')
 			.style('font-family', self.config.donut.fontfamily)
 			.style('font-size', self.config.donut.fontsize)
 			.style('font-weight', self.config.donut.fontweight)
@@ -1696,7 +1789,7 @@ uv.LineGraph = function (graphdef, config) {
 			func: undefined
 		};
 
-		self['draw' + self.config.graph.orientation + 'Lines'](linegroup, idx, color);
+		self['draw' + self.config.graph.orientation + 'Lines'](linegroup, idx);
 		self.linegroups[self.categories[idx]] = linegroup;
 	}
 
@@ -1762,7 +1855,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.attr('dy', '.35em')
 				.attr('text-anchor', 'start')
 				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-				.style('fill', 'none')
+				.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
@@ -1822,7 +1915,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'middle')
 				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-				.style('fill', 'none')
+				.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
@@ -1834,7 +1927,7 @@ uv.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
 	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
-	stacklayout = d3.layout.stack().offset('zero')(
+	var stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
 			return graphdef.dataset[d].map(function (d) {
 				return {x: d.name, y: +d.value};
@@ -2018,8 +2111,8 @@ uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
 			.delay(idx * uv.config.effects.duration)
 			.attr('width', function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.value, sumMap[i]));})
 			.call(uv.util.endAll, function (d,i){
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 
 
@@ -2029,7 +2122,7 @@ uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
@@ -2061,8 +2154,8 @@ uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
 			.delay(idx * uv.config.effects.duration)
 			.attr('height', function (d, i) { return height - axes.ver.scale(uv.util.getPercentage(d.value, sumMap[i])); })
 			.call(uv.util.endAll, function (d,i){
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 	
 	bars.append('text').attr('transform','scale(1,-1)')
@@ -2071,7 +2164,7 @@ uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
@@ -2115,7 +2208,7 @@ uv.PieGraph = function (graphdef, config) {
 			.attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.style('fill', self.config.pie.fontfill)
+			.style('fill', self.config.label.showlabel ? self.config.donut.fontfill : 'none')
 			.style('font-family', self.config.pie.fontfamily)
 			.style('font-size', self.config.pie.fontsize)
 			.style('font-weight', self.config.pie.fontweight)
@@ -2129,6 +2222,61 @@ uv.PieGraph = function (graphdef, config) {
 uv.PieGraph.prototype = uv.util.extend(uv.Graph);
 
 uv.PieGraph.prototype.setDefaults = function (graphdef, config) {
+	graphdef.stepup = false;
+	return this;
+};
+uv.PolarAreaGraph = function (graphdef, config) {
+	var self = this;
+
+	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+
+	self.maxRadius = Math.min(self.height(), self.width()) * 2/5;
+	self.center = {
+		x : self.width() / 2,
+		y : self.height() / 2
+	};
+
+	self.category = self.categories[0];
+
+	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
+		layout = d3.layout.pie(),
+		arcfuncs = data[0].map( function (d, i) {
+			return d3.svg.arc().innerRadius(0)
+					.outerRadius((d * self.maxRadius) / self.max());
+		});
+
+	self.panel.data(data);
+	self.arcs = self.panel.selectAll('g.arc')
+									.data(layout).enter()
+									.append('g').classed(uv.constants.classes.arc + uv.util.formatClassName(self.category), true)
+									.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
+
+	self.arcs.append('path')
+		.attr('d', arcfuncs[0]) /*function (d, i) {
+			arcfuncs[i](d, i);
+		})*/
+		.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i);})
+		.style('stroke', self.config.pie.strokecolor)
+		.style('stroke-width', self.config.pie.strokewidth);
+
+	self.arcs.append('text')
+			.attr('transform', function (d, i) { return 'translate(' + arcfuncs[i].centroid(d) + ')'; })
+			.attr('dy', '.35em')
+			.attr('text-anchor', 'middle')
+			.style('fill', self.config.pie.fontfill)
+			.style('font-family', self.config.pie.fontfamily)
+			.style('font-size', self.config.pie.fontsize)
+			.style('font-weight', self.config.pie.fontweight)
+			.style('font-variant', self.config.pie.fontvariant)
+			.text(function (d) { return String(d.value); });
+	
+	self.arcs.append('svg:title')
+		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
+};
+
+uv.PolarAreaGraph.prototype = uv.util.extend(uv.Graph);
+
+uv.PolarAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
 	return this;
 };
@@ -2292,7 +2440,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		config = this.config,
 		bargroup = this.bargroups[this.categories[idx]];
 	
-	bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
+	var bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
 				.enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -2308,8 +2456,8 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 			.delay(idx * uv.config.effects.duration)
 			.attr('width', function (d,i) { return axes.hor.scale(csum[i]) - axes.hor.scale(csum[i]-d.value); })
 			.each("end", function (d,i){
-				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 
 
@@ -2319,7 +2467,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
@@ -2341,7 +2489,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		config = this.config,
 		bargroup = this.bargroups[self.categories[idx]];
 	
-	bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
+	var bars = bargroup.selectAll('g').data(this.graphdef.dataset[self.categories[idx]])
 				.enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -2357,8 +2505,8 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 			.delay(idx * uv.config.effects.duration)
 			.attr('height', function (d,i) { return -(axes.ver.scale(-csum[i]) - axes.ver.scale(-csum[i]-d.value)); })
 			.each("end", function (d,i){
-				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 
 	
@@ -2368,7 +2516,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
@@ -2411,11 +2559,11 @@ uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
-	var self = this, len = self.categories.length;
+	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	bars.append('rect')
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
@@ -2439,7 +2587,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -2461,7 +2609,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		bargroup = self.bargroups[self.categories[idx]],
 		scaledSum = 0;
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 
 	bars.append('rect')
 		.attr('height', 0)
@@ -2488,7 +2636,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -2533,12 +2681,12 @@ uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
-	var self = this, len = self.categories.length;
+	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 	var	csum = 0, tsum =0;
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	bars.append('rect')
 		.attr('height', (self.axes.ver.scale.rangeBand() / len)-2)
 		.attr('width', 0)
@@ -2565,7 +2713,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -2591,7 +2739,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 		len = self.categories.length;
 	var csum =0, tsum = 0;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -2623,7 +2771,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
-			.style('fill', 'none')
+			.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)

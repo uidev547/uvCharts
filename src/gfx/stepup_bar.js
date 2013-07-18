@@ -26,11 +26,11 @@ uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
-	var self = this, len = self.categories.length;
+	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	bars.append('rect')
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
@@ -76,7 +76,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		bargroup = self.bargroups[self.categories[idx]],
 		scaledSum = 0;
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 
 	bars.append('rect')
 		.attr('height', 0)

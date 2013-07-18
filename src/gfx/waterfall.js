@@ -28,12 +28,12 @@ uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
-	var self = this, len = self.categories.length;
+	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 	var	csum = 0, tsum =0;
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	bars.append('rect')
 		.attr('height', (self.axes.ver.scale.rangeBand() / len)-2)
 		.attr('width', 0)
@@ -86,7 +86,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 		len = self.categories.length;
 	var csum =0, tsum = 0;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')

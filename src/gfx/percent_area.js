@@ -2,7 +2,7 @@ uv.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
 	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
 
-	stacklayout = d3.layout.stack().offset('zero')(
+	var stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
 			return graphdef.dataset[d].map(function (d) {
 				return {x: d.name, y: +d.value};
