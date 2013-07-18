@@ -62,7 +62,8 @@ module.exports = function(grunt) {
           jQuery: true,
           d3: true,
           console: true,
-          $ : true
+          $ : true,
+          saveAs: true
         },
       },
       uses_defaults: ['lib/*.js'],

@@ -11,10 +11,12 @@ uv.effects.bar.mouseover = function (graph, idx) {
 				.style('fill', config.effects.hovercolor)
 				.style('stroke', config.effects.strokecolor);
 	
-		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
-			.transition().duration(config.effects.hover)
-				.style('fill', config.effects.textcolor)
-				.style('opacity', 1);
+		if(config.effects.showhovertext){
+			graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
+				.transition().duration(config.effects.hover)
+					.style('fill', config.effects.textcolor)
+					.style('opacity', 1);
+		}
 	};
 
 	graph.effects[category].mouseover = effect;
@@ -24,17 +26,18 @@ uv.effects.bar.mouseover = function (graph, idx) {
 uv.effects.bar.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
 		category = graph.categories[idx],
-		color = defColor || uv.util.getColorBand(graph.config, idx);
+		barColor = uv.util.getColorBand(graph.config, idx),
+		textColor = defColor || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
-				.style('fill', color)
+				.style('fill', barColor)
 				.style('stroke', 'none');
 	
 		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
-				.style('fill', 'none');
+				.style('fill', graph.config.label.showlabel ? textColor : 'none');
 	};
 
 	graph.effects[category].mouseout = effect;
@@ -66,7 +69,7 @@ uv.effects.area.mouseout = function (graph, idx) {
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
-	
+
 	graph.effects[category].mouseout = effect;
 	return effect;
 };
@@ -88,9 +91,11 @@ uv.effects.line.mouseover = function (graph, idx) {
 			.transition().duration(config.effects.hover)
 				.style('stroke', config.effects.hovercolor);
 
-		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
-			.transition().duration(config.effects.hover)
-				.style('fill', config.effects.textcolor);
+		if(config.effects.showhovertext){
+			graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
+				.transition().duration(config.effects.hover)
+					.style('fill', config.effects.textcolor);
+		}
 	};
 	graph.effects[category].mouseover = effect;
 
@@ -115,7 +120,7 @@ uv.effects.line.mouseout = function (graph, idx, defColor) {
 
 		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).selectAll('text')
 			.transition().duration(config.effects.hover)
-				.style('fill', 'none');
+				.style('fill', graph.config.label.showlabel ? color : 'none');
 
 	};	
 	graph.effects[category].mouseout = effect;
