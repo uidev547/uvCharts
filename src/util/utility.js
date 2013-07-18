@@ -127,10 +127,29 @@ uv.util.getColorBand = function (config, index) {
  * @return {string}      Returns the formatted String 
  */
 uv.util.formatClassName = function(name){
-	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-");
+	var returnName = name.trim().replace(/[^A-Za-z0-9_\-]/g,"-").toLowerCase();
 	return returnName;
 }
 
+uv.util.svgToPng = function(downloadElmtRef, callback){
+	var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext("2d");
+	canvas.setAttribute('width',$(svgContent).attr('width'));
+	canvas.setAttribute('height',$(svgContent).attr('height'));
+	ctx.drawSvg(svgContent);	
+	canvas.toBlob(function(blob) {
+	    saveAs(
+		      blob, "png_download"+Math.ceil(Math.random()*100000)+".png"
+	    );
+	}, "image/png");
+	callback.call();
+}
+
+uv.util.isCanvasSupported = function (){
+  var elem = document.createElement('canvas');
+  return !!(elem.getContext && elem.getContext('2d'));
+}
 /**
  * This function waits till the end of the transition and then call the callback
  * function which is passed as an argument
