@@ -34,7 +34,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 				.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -82,7 +82,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 		color = uv.util.getColorBand(this.config, idx),
 		len = self.categories.length;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')

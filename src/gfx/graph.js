@@ -256,7 +256,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 	if (self.config.graph.orientation === 'Vertical') {
 		self.axes.ver.scale	= d3.scale[self.config.scale.type]()
 								.domain([self.max(), self.config.scale.type === 'log' ? 1 : 0])
-								.range([0, self.height()])
+								.range([0, self.height()]);
 		
 		if (self.axes.ver.scale.nice) {
 			self.axes.ver.scale.nice();
@@ -393,9 +393,9 @@ uv.Graph.prototype.setLegend = function () {
 
 	var legendgroup = self.panel.append('g').classed(uv.constants.classes.legend, true)
 						.attr('transform', function(d, i){
-							if(self.config.legend.position == 'right'){
+							if(self.config.legend.position === 'right'){
 								return 'translate(' + self.width() + ', 10)';
-							}else if(self.config.legend.position == 'bottom'){
+							}else if(self.config.legend.position === 'bottom'){
 								var pos =  self.height() + self.config.margin.bottom/2 + Number(self.config.axis.fontsize);
 								return 'translate(0, ' + pos +  ')';
 							}
@@ -403,9 +403,9 @@ uv.Graph.prototype.setLegend = function () {
 
 	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
 						.attr('transform', function (d, i) { 
-							if(self.config.legend.position == 'right'){
+							if(self.config.legend.position === 'right'){
 								return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
-							}else if(self.config.legend.position == 'bottom'){
+							}else if(self.config.legend.position === 'bottom'){
 								var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
 								var vPos = 20*self.config.legend.legendstart;
 								if(hPos >= self.config.dimension.width){
