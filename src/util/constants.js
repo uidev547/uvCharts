@@ -116,3 +116,7 @@ uv.constants.classes = {
 	
 	download : 'download-options'
 };
+
+uv.constants.downloads = {
+	downloadLabel: 'Download',
+};
