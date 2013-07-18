@@ -28,7 +28,48 @@ module.exports = function(grunt) {
         files: ['src/gfx/*.js','src/util/*.js','src/css/*.css'],
         tasks: ['concat'],
         options: {
-        interrupt: true,
+          interrupt: true,
+        }
+      }
+    },
+
+    uglify : {
+      options : {
+        mangle : true
+      },
+
+      gfx : {
+        files : {
+          'build/uvcharts.min.js' : ['<%= concat.gfx.dest %>']
+        }
+      }
+    },
+
+    jshint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        eqnull: true,
+        browser: true,
+        camelcase : true,
+        //indent: 2,
+        latedef : true,
+        newcap : true,
+        undef : true,
+        //trailing : true,
+        //unused : true,
+        globals: {
+          jQuery: true,
+          d3: true,
+          console: true,
+          $ : true
+        },
+      },
+      uses_defaults: ['lib/*.js'],
+      
+      gfx: {
+        files: {
+          src: ['<%= concat.gfx.dest %>']
         }
       }
     },
@@ -46,10 +87,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Default task.
-  grunt.registerTask('default', ['concat']);
+  grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['build_gfx']);
-  grunt.registerTask('build_gfx', ['concat:gfx']);
+  grunt.registerTask('build_gfx', ['concat:gfx', 'uglify:gfx', 'jshint:gfx']);
   grunt.registerTask('release', ['build_gfx','copy:release']);
 };
