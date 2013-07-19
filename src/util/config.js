@@ -1,7 +1,7 @@
 uv.config = {
 	graph : {
 		palette : 'Brink',
-		background : 'white',
+		background : '#FFFFFF',
 		orientation : 'Horizontal',
 		max : 0
 	},
@@ -13,7 +13,9 @@ uv.config = {
 		hlabel : 'Horizontal Axis Label',
 		vlabel : 'Vertical Axis Label',
 		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel'
+		vsublabel : 'v sublabel',
+		isDownload : true
+		
 	},
 
 	dimension : {
@@ -29,7 +31,7 @@ uv.config = {
 	},
 
 	frame : {
-		bgcolor : 'white'
+		bgcolor : '#FFFFFF'
 	},
 
 	axis : {
@@ -37,7 +39,7 @@ uv.config = {
 		subticks : 2,
 		padding : 5,
 		minor : -10,
-		strokecolor : '#000',
+		strokecolor : '#000000',
 		fontfamily : 'Arial',
 		fontsize : '14',
 		fontweight : 'bold'
@@ -47,7 +49,8 @@ uv.config = {
 		fontfamily : 'Arial',
 		fontsize : '11',
 		fontweight : 'normal',
-		strokecolor : '#000'
+		strokecolor : '#000000',
+		showlabel : false
 	},
 
 	scale : {
@@ -78,7 +81,7 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : 'white',
+		fontfill : '#FFFFFF',
 		strokecolor : 'none',
 		strokewidth : 2
 	},
@@ -88,7 +91,7 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : 'white',
+		fontfill : '#FFFFF',
 		factor : 0.4,
 		strokecolor : 'none',
 		strokewidth : 2
@@ -100,8 +103,10 @@ uv.config = {
 		fontweight : 'bold',
 		fontvariant : 'small-caps',
 		textdecoration : 'none',
-		hovercolor : 'dimgrey',
-		textanchor : 'middle'
+		hovercolor : '#696969',
+		textanchor : 'middle',
+		cursor : 'pointer',
+		stroke : '#0000FF'
 	},
 
 	subCaption : {
@@ -120,15 +125,16 @@ uv.config = {
 		fontweight : 'normal',
 		textmargin : 15,
 		symbolsize : 10,
-		inactive_color : '#DDD',
+		inactivecolor : '#DDD',
 		legendstart : 0,
 	},
 
 	effects : {
-		hovercolor : 'red',
+		hovercolor : '#FF0000',
 		strokecolor : 'none',
-		textcolor : 'black',
+		textcolor : '#000000',
 		duration : 800,
-		hover : 400
+		hover : 400,
+		showhovertext : false
 	}
 };

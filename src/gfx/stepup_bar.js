@@ -26,11 +26,11 @@ uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
-	var self = this, len = self.categories.length;
+	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	bars.append('rect')
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('width', 0)
@@ -54,7 +54,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -76,7 +76,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		bargroup = self.bargroups[self.categories[idx]],
 		scaledSum = 0;
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 
 	bars.append('rect')
 		.attr('height', 0)
@@ -103,7 +103,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)

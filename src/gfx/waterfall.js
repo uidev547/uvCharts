@@ -28,12 +28,12 @@ uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
 };
 
 uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
-	var self = this, len = self.categories.length;
+	var self = this, len = self.categories.length,
 		color = uv.util.getColorBand(self.config, idx),
 		bargroup = self.bargroups[self.categories[idx]];
 	var	csum = 0, tsum =0;
 
-	bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+	var bars = bargroup.selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter().append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	bars.append('rect')
 		.attr('height', (self.axes.ver.scale.rangeBand() / len)-2)
 		.attr('width', 0)
@@ -60,7 +60,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
 		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
@@ -86,7 +86,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 		len = self.categories.length;
 	var csum =0, tsum = 0;
 	
-	bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
+	var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
@@ -118,7 +118,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-			.style('fill', 'none')
+			.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)

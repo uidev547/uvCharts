@@ -14,10 +14,10 @@ uv.Test = function () {
 		'years' : ['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010'],
 		'users' : ['infants', 'kids', 'teens', 'middleage', 'oldage'],
 		'mood' : ['happy', 'sad', 'excited', 'surprised', 'none', 'angry']
-	}
+	};
 
 	self.init();
-}
+};
 
 
 uv.Test.prototype.init = function () {
@@ -30,14 +30,14 @@ uv.Test.prototype.init = function () {
 
 	self.categorySet = uv.Test.getRandomSet(self.categoryData[category], nCategories);
 	self.labelSet = uv.Test.getRandomSet(self.labelData[label], nLabels);
-}
+};
 
 uv.Test.getRandomSet = function (array, num) {
 	var self = this;
 	var numbers = [], set = [], selected = 0;
-	while (selected != num) {
+	while (selected !== num) {
 		var number = uv.Test.getRandomInteger(0, array.length);
-		if (numbers.indexOf(number) == -1) {
+		if (numbers.indexOf(number) === -1) {
 			set.push(array[number]);
 			numbers.push(number);
 			selected += 1;
@@ -45,7 +45,7 @@ uv.Test.getRandomSet = function (array, num) {
 	}
 
 	return set;
-}
+};
 
 uv.Test.prototype.getGraphDef = function () {
 	var self = this;
@@ -55,7 +55,7 @@ uv.Test.prototype.getGraphDef = function () {
 
 	console.log(graphdef);
 	return graphdef;
-}
+};
 
 uv.Test.prototype.getDataset = function () {
 	var self = this;
@@ -69,29 +69,29 @@ uv.Test.prototype.getDataset = function () {
 	}
 
 	return dataset;
-}
+};
 
 uv.Test.getDataElement = function (label) {
 	var self = this, dataElement = {};
 	dataElement.name = label;
 	dataElement.value = uv.Test.getRandomInteger(1, 1000);
 	return dataElement;
-}
+};
 
 uv.Test.getRandomValue = function (min, max) {
 	return (Math.random() * (max - min + 1)) + min;
-}
+};
 
 uv.Test.getRandomDataset = function (num, min, max) {
 	var self = this, data = [];
 	for (var i = 0; i < num; i++) {
 		data.push(uv.Test.getRandomValue(min, max));
 	}
-}
+};
 
 uv.Test.getRandomInteger = function (min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
 uv.Test.getRandomIntegers = function (num, min, max) {
 	var self = this, data = [];
@@ -99,4 +99,4 @@ uv.Test.getRandomIntegers = function (num, min, max) {
 		data.push(uv.Test.getRandomInteger(min, max));
 	}
 	return data;
-}
+};

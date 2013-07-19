@@ -8,10 +8,10 @@ init = function() {
 	verConfig.graph.orientation = 'Vertical';
 	uv.util.transposeData(tgraphdef);
 
-    barHorTest = uv.chart('Bar', graphdef, horConfig);
-    tbarHorTest = uv.chart('Bar', tgraphdef, horConfig);
-    barVerTest = uv.chart('Bar', graphdef, verConfig);
-    tbarVerTest = uv.chart('Bar', tgraphdef, horConfig);
+	barHorTest = uv.chart('Bar', graphdef, horConfig);
+	tbarHorTest = uv.chart('Bar', tgraphdef, horConfig);
+	barVerTest = uv.chart('Bar', graphdef, verConfig);
+	tbarVerTest = uv.chart('Bar', tgraphdef, horConfig);
 
 	stepUpBarHorTest = uv.chart('StepUpBar', graphdef, horConfig);
 	tstepUpBarHorTest = uv.chart('StepUpBar', tgraphdef, horConfig);
@@ -44,6 +44,7 @@ init = function() {
 	
 	donutTest = uv.chart('Donut', graphdef, horConfig);
 	pieTest = uv.chart('Pie', graphdef, horConfig);
+	polarAreaTest = uv.chart('PolarArea', graphdef, horConfig);
 
   waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
   waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);

@@ -56,8 +56,8 @@ uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
 			.delay(idx * uv.config.effects.duration)
 			.attr('width', function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.value, sumMap[i]));})
 			.call(uv.util.endAll, function (d,i){
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 
 
@@ -67,7 +67,7 @@ uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
 		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
@@ -99,8 +99,8 @@ uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
 			.delay(idx * uv.config.effects.duration)
 			.attr('height', function (d, i) { return height - axes.ver.scale(uv.util.getPercentage(d.value, sumMap[i])); })
 			.call(uv.util.endAll, function (d,i){
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
-				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
+				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
 			});
 	
 	bars.append('text').attr('transform','scale(1,-1)')
@@ -109,7 +109,7 @@ uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
 		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-		.style('fill', 'none')
+		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', this.config.bar.fontfamily)
 		.style('font-size', this.config.bar.fontsize)
 		.style('font-weight', this.config.bar.fontweight)
