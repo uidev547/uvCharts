@@ -58,14 +58,14 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLableValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return self.axes.hor.scale(tsum[i]); });
 			
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLableValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -107,14 +107,14 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLableValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*self.height() - self.axes.ver.scale(tsum[i])) - 10; });
 			
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLableValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + 2 * self.height() + ') scale(1,-1)');
 };

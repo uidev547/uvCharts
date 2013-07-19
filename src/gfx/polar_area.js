@@ -41,10 +41,10 @@ uv.PolarAreaGraph = function (graphdef, config) {
 			.style('font-size', self.config.pie.fontsize)
 			.style('font-weight', self.config.pie.fontweight)
 			.style('font-variant', self.config.pie.fontvariant)
-			.text(function (d) { return String(d.value); });
+			.text(function (d) { return uv.util.getLableValue(self, d); });
 	
 	self.arcs.append('svg:title')
-		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
+		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLableValue(self, d);});
 };
 
 uv.PolarAreaGraph.prototype = uv.util.extend(uv.Graph);
