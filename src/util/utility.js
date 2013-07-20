@@ -134,7 +134,7 @@ uv.util.getColorBand = function (config, index) {
 
 /**
  * This function finds regular expressions other than Alphabets, Numbers,
- * "_" and "-" and replaces it with "_".
+ * "_" and "-" and replaces it with "-".
  * @param  {string} name The string which needs to be formatted
  * @return {string}      Returns the formatted String 
  */
@@ -197,4 +197,16 @@ uv.util.getClassName = function(self, name) {
 		return d3.select(self).attr('class');
 	}
 	return d3.select(self).attr('class') + " " + formattedName;
+};
+
+/**
+ * Returns specified value of given data object if integer, else returns formatted value considering precision.
+ * @param  self 
+ * @param  {Number} d    data object
+ * @return {Strinig}     value with precision
+ */
+uv.util.getLabelValue = function(self, d) {
+	// if(typeof d.value !== 'number') return null;
+	var val = (d.value%1 === 0) ? d.value : d.value.toFixed(self.config.label.precision);
+	return String(val);
 };

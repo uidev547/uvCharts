@@ -88,7 +88,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
-				.text(function(d) { return String(d.value); });
+				.text(function(d) { return uv.util.getLabelValue(self, d); });
 	
 	return this;
 };
@@ -148,7 +148,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
-				.text(function(d) { return String(d.value); });
+				.text(function(d) { return uv.util.getLabelValue(self, d); });
 
 	return this;
 };

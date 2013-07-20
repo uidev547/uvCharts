@@ -64,7 +64,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLabelValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
@@ -73,7 +73,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 
 
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -116,14 +116,14 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)
-			.text(function(d) { return String(d.value); })
+			.text(function(d) { return uv.util.getLabelValue(self, d); })
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
 				.attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
