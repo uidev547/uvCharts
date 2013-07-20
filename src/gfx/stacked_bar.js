@@ -64,14 +64,14 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
-		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? uv.util.getLableValue(self, d) : null; })
+		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? uv.util.getLabelValue(self, d) : null; })
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLableValue(self, d);});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 };
 
 uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
@@ -113,14 +113,14 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
-		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? uv.util.getLableValue(self, d) : null; })
+		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? uv.util.getLabelValue(self, d) : null; })
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLableValue(self, d);});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(0,' + 2 * this.height() + ') scale(1,-1)');
 };

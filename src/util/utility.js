@@ -205,7 +205,7 @@ uv.util.getClassName = function(self, name) {
  * @param  {Number} d    data object
  * @return {Strinig}     value with precision
  */
-uv.util.getLableValue = function(self, d) {
+uv.util.getLabelValue = function(self, d) {
 	// if(typeof d.value !== 'number') return null;
 	var val = (d.value%1 === 0) ? d.value : d.value.toFixed(self.config.label.precision);
 	return String(val);
