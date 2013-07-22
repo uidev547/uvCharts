@@ -6,13 +6,13 @@ uv.effects.bar.mouseover = function (graph, idx) {
 		category = graph.categories[idx];
 
 	var effect = function () {
-		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
+		graph.frame.selectAll('rect.cr-' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', config.effects.hovercolor)
 				.style('stroke', config.effects.strokecolor);
 	
 		if(config.effects.showhovertext){
-			graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
+			graph.frame.selectAll('text.cr-' + uv.util.formatClassName(category))
 				.transition().duration(config.effects.hover)
 					.style('fill', config.effects.textcolor)
 					.style('opacity', 1);
@@ -30,12 +30,12 @@ uv.effects.bar.mouseout = function (graph, idx, defColor) {
 		textColor = defColor || uv.util.getColorBand(graph.config, idx);
 
 	var effect = function () {
-		graph.frame.selectAll('rect.cr_' + uv.util.formatClassName(category))
+		graph.frame.selectAll('rect.cr-' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', barColor)
 				.style('stroke', 'none');
 	
-		graph.frame.selectAll('text.cr_' + uv.util.formatClassName(category))
+		graph.frame.selectAll('text.cr-' + uv.util.formatClassName(category))
 			.transition().duration(config.effects.hover)
 				.style('fill', graph.config.label.showlabel ? textColor : 'none');
 	};

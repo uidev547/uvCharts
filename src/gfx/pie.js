@@ -37,10 +37,10 @@ uv.PieGraph = function (graphdef, config) {
 			.style('font-size', self.config.pie.fontsize)
 			.style('font-weight', self.config.pie.fontweight)
 			.style('font-variant', self.config.pie.fontvariant)
-			.text(function (d) { return String(d.value); });
+			.text(function (d) { return uv.util.getLabelValue(self, d); });
 	
 	self.arcs.append('svg:title')
-		.text(function (d, i) { return self.labels[i] + ' : ' + d.value;});
+		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
 };
 
 uv.PieGraph.prototype = uv.util.extend(uv.Graph);

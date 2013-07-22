@@ -134,7 +134,7 @@ uv.util.getColorBand = function (config, index) {
 
 /**
  * This function finds regular expressions other than Alphabets, Numbers,
- * "_" and "-" and replaces it with "_".
+ * "_" and "-" and replaces it with "-".
  * @param  {string} name The string which needs to be formatted
  * @return {string}      Returns the formatted String 
  */
@@ -171,10 +171,42 @@ uv.util.isCanvasSupported = function (){
  *                               transition
  */
 uv.util.endAll = function (transition, callback){
-	var n = 0; 
-	transition.each(function() { ++n; }).each("end", function() {
-    if (!--n) {
-      callback.apply(this, arguments);
-    }
-  });
+    var n = 0;
+    transition 
+        .each(function() { ++n; }) 
+        .each("end", function() { 
+            if (!--n) {
+                callback.apply(this, arguments);
+            }
+         });
+};
+
+/**
+ * This function returns all class names of the element including new class name.
+ * Useful in cases where we need to avoid over-writting of classes.
+ * @param  {} self this referring to svgElement
+ * @param  {String} name new class name to be added
+ * @return {String}      All class names as string.
+ */
+uv.util.getClassName = function(self, name) {
+	var formattedName = uv.util.formatClassName(name);
+	if( !d3.select(self).attr('class')) {
+		return formattedName;
+	}
+	if(d3.select(self).attr('class').split(' ').indexOf(formattedName) === -1) {
+		return d3.select(self).attr('class');
+	}
+	return d3.select(self).attr('class') + " " + formattedName;
+};
+
+/**
+ * Returns specified value of given data object if integer, else returns formatted value considering precision.
+ * @param  self 
+ * @param  {Number} d    data object
+ * @return {Strinig}     value with precision
+ */
+uv.util.getLabelValue = function(self, d) {
+	// if(typeof d.value !== 'number') return null;
+	var val = (d.value%1 === 0) ? d.value : d.value.toFixed(self.config.label.precision);
+	return String(val);
 };

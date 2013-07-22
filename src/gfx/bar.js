@@ -39,7 +39,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 	
 	bars.append('rect')
 		.classed(uv.util.formatClassName(self.categories[idx]), true)
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.attr('height', self.axes.ver.scale.rangeBand() / len)
 		.attr('x', 0)
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
@@ -54,25 +54,26 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 				d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
 			});
 
-
 	bars.append('text')
 		.attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLabelValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(function (d, i) { return i * self.config.effects.duration; })
 			.attr('x', function (d) { return self.axes.hor.scale(d.value); });
 	
+
+
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -87,7 +88,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 	
 	bars.append('rect')
 			.classed(uv.util.formatClassName(self.categories[idx]), true)
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.attr('height', 0)
 			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
@@ -110,19 +111,19 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)
-			.text(function(d) { return String(d.value); })
+			.text(function(d) { return uv.util.getLabelValue(self, d); })
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
 				.attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
