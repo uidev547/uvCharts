@@ -15,7 +15,6 @@ uv.config = {
 		hsublabel : 'h sublabel',
 		vsublabel : 'v sublabel',
 		isDownload : true
-		
 	},
 
 	dimension : {

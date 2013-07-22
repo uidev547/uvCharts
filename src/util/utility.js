@@ -5,7 +5,7 @@ uv.util = {};
  * @param  {Class} f Original class which is being extended
  * @return {Prototype}   Prototype containing the functions from the super class
  */
-uv.util.extend = function (f) {
+uv.util.inherits = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
@@ -171,10 +171,68 @@ uv.util.isCanvasSupported = function (){
  *                               transition
  */
 uv.util.endAll = function (transition, callback){
-	var n = 0; 
+	var n = 0;
 	transition.each(function() { ++n; }).each("end", function() {
     if (!--n) {
       callback.apply(this, arguments);
     }
   });
+};
+
+uv.util.cloneArray = function (array, isDeepClone) {
+	var clone = [], length = array.length;
+	for (var i = 0; i < length; i++) {
+		var value = array[i], clonedValue;
+
+		if (isDeepClone) {
+			if (Array.isArray(value)) {
+				clonedValue = uv.util.cloneArray(value, isDeepClone);
+			} else if (typeof value === 'object') {
+				clonedValue = uv.util.cloneObject(value, isDeepClone);
+			} else {
+				clonedValue = value;
+			}
+		} else {
+			clonedValue = value;
+		}
+
+		clone[i] = clonedValue;
+	}
+
+	return clone;
+};
+
+uv.util.cloneObject = function (object, isDeepClone) {
+	var clone = {}, key;
+	for (key in object) {
+		var value = object[key], clonedValue;
+
+		if (isDeepClone) {
+			if (Array.isArray(value)) {
+				clonedValue = uv.util.cloneArray(value, isDeepClone);
+			} else if (typeof value === 'object') {
+				clonedValue = uv.util.cloneObject(value, isDeepClone);
+			} else {
+				clonedValue = value;
+			}
+		} else {
+			clonedValue = value;
+		}
+
+		clone[key] = clonedValue;
+	}
+
+	return clone;
+};
+
+uv.util.extend = function (defaults, subj, isDeepClone) {
+	var obj = uv.util.cloneObject(defaults, isDeepClone),
+			key;
+
+	for (key in subj) {
+		var value = subj[key], extValue;
+
+		if (isDeepClone) {}
+	}
+
 };
