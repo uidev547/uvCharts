@@ -3,7 +3,7 @@ init = function() {
 	var verConfig = $.extend(true, {}, uv.config);
 	var graphdef = $.extend(true, {}, uv.constants.graphdef);
 	var tgraphdef = $.extend(true, {}, uv.constants.graphdef);
-    var waterfallGraphdef = $.extend(true, {}, uv.constants.waterfallGraphdef);
+  var waterfallGraphdef = $.extend(true, {}, uv.constants.waterfallGraphdef);
 	
 	verConfig.graph.orientation = 'Vertical';
 	uv.util.transposeData(tgraphdef);
