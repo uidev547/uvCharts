@@ -62,8 +62,10 @@ uv.Graph.prototype.init = function (graphdef, config) {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setEffectsObject()
-		.setDownloadOptions();	
+		.setEffectsObject();
+	if(uv.config.meta.isDownload){
+		self.setDownloadOptions();
+	}	
 		
 	return self;
 };
