@@ -260,7 +260,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 		self.axes.hor.func = d3.svg.axis()
 								.scale(self.axes.hor.scale)
 								.ticks(self.config.axis.ticks)
-								.tickSize(-self.width(), self.config.axis.minor, 0)
+								.tickSize(-self.height(), self.config.axis.minor, 0)
 								.tickPadding(self.config.axis.padding)
 								.tickSubdivide(self.config.axis.subticks)
 								.orient('bottom');
@@ -307,7 +307,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 								.orient('left');
 	} else {
 		self.axes.ver.scale = d3.scale.ordinal()
-								.rangeRoundBands([0, self.width()], self.config.scale.ordinality);
+								.rangeRoundBands([0, self.height()], self.config.scale.ordinality);
 		
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
