@@ -42,7 +42,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 			csum += d.value;
 			return self.axes.hor.scale(value); })
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.transition()
@@ -59,12 +59,12 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLabelValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
@@ -75,7 +75,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 			});
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -90,7 +90,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 			.append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
 	
 	bars.append('rect')
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.attr('height', 0)
 			.attr('width', 0)
 			.attr('x', function (d) {return self.axes.hor.scale(d.name); })
@@ -117,12 +117,12 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 			.attr('dx', 0)
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
-			.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+			.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 			.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 			.style('font-family', self.config.bar.fontfamily)
 			.style('font-size', self.config.bar.fontsize)
 			.style('font-weight', self.config.bar.fontweight)
-			.text(function(d) { return String(d.value); })
+			.text(function(d) { return uv.util.getLabelValue(self, d); })
 			.transition()
 				.duration(self.config.effects.duration)
 				.delay(idx * self.config.effects.duration)
@@ -132,7 +132,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 					return -(self.height() - self.axes.ver.scale(value)) - 10; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };

@@ -5,7 +5,7 @@ uv.util = {};
  * @param  {Class} f Original class which is being extended
  * @return {Prototype}   Prototype containing the functions from the super class
  */
-uv.util.inherits = function (f) {
+uv.util.extend = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
@@ -134,7 +134,7 @@ uv.util.getColorBand = function (config, index) {
 
 /**
  * This function finds regular expressions other than Alphabets, Numbers,
- * "_" and "-" and replaces it with "_".
+ * "_" and "-" and replaces it with "-".
  * @param  {string} name The string which needs to be formatted
  * @return {string}      Returns the formatted String 
  */
@@ -179,6 +179,37 @@ uv.util.endAll = function (transition, callback){
   });
 };
 
+/**
+ * This function returns all class names of the element including new class name.
+ * Useful in cases where we need to avoid over-writting of classes.
+ * @param  {} self this referring to svgElement
+ * @param  {String} name new class name to be added
+ * @return {String}      All class names as string.
+ */
+uv.util.getClassName = function(self, name) {
+	var formattedName = uv.util.formatClassName(name);
+	if( !d3.select(self).attr('class')) {
+		return formattedName;
+	}
+	if(d3.select(self).attr('class').split(' ').indexOf(formattedName) === -1) {
+		return d3.select(self).attr('class');
+	}
+	return d3.select(self).attr('class') + " " + formattedName;
+};
+
+/**
+ * Returns specified value of given data object if integer, else returns formatted value considering precision.
+ * @param  self 
+ * @param  {Number} d    data object
+ * @return {Strinig}     value with precision
+ */
+uv.util.getLabelValue = function(self, d) {
+	// if(typeof d.value !== 'number') return null;
+	var val = (d.value%1 === 0) ? d.value : d.value.toFixed(self.config.label.precision);
+	return String(val);
+};
+
+/*
 uv.util.cloneArray = function (array, isDeepClone) {
 	var clone = [], length = array.length;
 	for (var i = 0; i < length; i++) {
@@ -232,7 +263,8 @@ uv.util.extend = function (defaults, subj, isDeepClone) {
 	for (key in subj) {
 		var value = subj[key], extValue;
 
-		if (isDeepClone) {}
-	}
+		if (isDeepClone) {
 
-};
+		}
+	}
+};*/

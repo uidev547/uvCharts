@@ -49,7 +49,8 @@ uv.config = {
 		fontsize : '11',
 		fontweight : 'normal',
 		strokecolor : '#000000',
-		showlabel : false
+		showlabel : false,
+		precision : 2
 	},
 
 	scale : {

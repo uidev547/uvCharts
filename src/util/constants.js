@@ -100,7 +100,7 @@ uv.constants.classes = {
 	captiontext : 'uv-caption-text',
 	subcaption : 'uv-subcaption',
 	subcaptiontext : 'uv-subcaption-text',
-	axeslabelgroup : 'uv-axes-lable-group',
+	axeslabelgroup : 'uv-axes-label-group',
 	axeslabel : 'uv-axes-label',
 	axessublabel : 'uv-axes-sub-label',
 	legendsign : 'uv-legend-sign',

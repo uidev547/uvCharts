@@ -45,7 +45,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.interpolate(uv.config.line.interpolation);
 
 	linegroup.path.append('path')
-				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.attr('d', linegroup.func)
 				.style('fill', 'none')
 				.style('stroke', color)
@@ -65,7 +65,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 	linegroup.path.selectAll('circle')
 				.data(self.dataset[idx])
 				.enter().append('circle')
-				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
@@ -83,12 +83,12 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.attr('dx', 10)
 				.attr('dy', '.35em')
 				.attr('text-anchor', 'start')
-				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
-				.text(function(d) { return String(d.value); });
+				.text(function(d) { return uv.util.getLabelValue(self, d); });
 	
 	return this;
 };
@@ -106,7 +106,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 
 	linegroup.path.append('path')
 				.attr('d', linegroup.func)
-				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', 'none')
 				.style('stroke', color)
 				.style('stroke-width', 1.5)
@@ -128,7 +128,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.attr('cx', linegroup.func.x())
 				.attr('cy', linegroup.func.y())
 				.attr('r', 3.5)
-				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
 				.style('stroke', color)
@@ -143,12 +143,12 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.attr('dx', 0)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'middle')
-				.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 				.style('font-family', self.config.bar.fontfamily)
 				.style('font-size', self.config.bar.fontsize)
 				.style('font-weight', self.config.bar.fontweight)
-				.text(function(d) { return String(d.value); });
+				.text(function(d) { return uv.util.getLabelValue(self, d); });
 
 	return this;
 };

@@ -266,7 +266,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 								.orient('bottom');
 	} else {
 		self.axes.hor.scale = d3.scale.ordinal()
-								.rangeRoundBands([0, self.height()], self.config.scale.ordinality);
+								.rangeRoundBands([0, self.width()], self.config.scale.ordinality);
 		
 		self.axes.hor.func = d3.svg.axis()
 								.scale(self.axes.hor.scale)
@@ -307,7 +307,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 								.orient('left');
 	} else {
 		self.axes.ver.scale = d3.scale.ordinal()
-								.rangeRoundBands([0, self.width()], self.config.scale.ordinality);
+								.rangeRoundBands([0, self.height()], self.config.scale.ordinality);
 		
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
@@ -453,10 +453,7 @@ uv.Graph.prototype.setLegend = function () {
 							}
 						})
 						.attr('class', function (d, i) {
-							if( !d3.select(this).attr('class')) {
-								return 'cl_' + self.categories[i];
-							}
-							return d3.select(this).attr('class') + ('cl_' + self.categories[i]);
+							return uv.util.getClassName(this, 'cl-' + self.categories[i]);
 						})
 						.attr('disabled', 'false')
 						.on('mouseover', function (d, i) {

@@ -36,7 +36,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('width', 0)
 		.attr('x', function (d, i) { var value = self.axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return self.axes.ver.scale(d.name); })
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.transition()
@@ -53,19 +53,19 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dx', 4)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'start')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLabelValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return self.axes.hor.scale(tsum[i]); });
 			
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -83,7 +83,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('width', self.axes.hor.scale.rangeBand() / len)
 		.attr('x', function (d) { return self.axes.hor.scale(d.name); })
 		.attr('y', function (d, i) { var value = self.axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.transition()
@@ -102,19 +102,19 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('y', -self.height() - 10)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
 		.style('font-family', self.config.bar.fontfamily)
 		.style('font-size', self.config.bar.fontsize)
 		.style('font-weight', self.config.bar.fontweight)
-		.text(function(d) { return String(d.value); })
+		.text(function(d) { return uv.util.getLabelValue(self, d); })
 		.transition()
 			.duration(self.config.effects.duration)
 			.delay(idx * self.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*self.height() - self.axes.ver.scale(tsum[i])) - 10; });
 			
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + 2 * self.height() + ') scale(1,-1)');
 };

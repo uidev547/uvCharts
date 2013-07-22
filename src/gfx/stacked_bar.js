@@ -41,7 +41,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('width', 0)
 		.attr('x', function (d, i) { var value = axes.hor.scale(csum[i]); csum[i] += d.value; return value; })
 		.attr('y', function (d) {return axes.ver.scale(d.name); })
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.transition()
@@ -59,19 +59,19 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 		.attr('dx', 0)
 		.attr('dy', '.35em')
 		.attr('text-anchor', 'end')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
-		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? String(d.value) : null; })
+		.text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? uv.util.getLabelValue(self, d) : null; })
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 };
 
 uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
@@ -90,7 +90,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('width', axes.hor.scale.rangeBand())
 		.attr('x', function (d) { return axes.hor.scale(d.name); })
 		.attr('y', function (d, i) { var value = axes.ver.scale(csum[i]); csum[i] -= d.value; return value; })
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('stroke', 'none')
 		.style('fill', color)
 		.transition()
@@ -108,19 +108,19 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 		.attr('y', -height + 5)
 		.attr('dy', '.71em')
 		.attr('text-anchor', 'middle')
-		.classed('cr_' + uv.util.formatClassName(self.categories[idx]), true)
+		.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 		.style('fill', self.config.label.showlabel ? self.config.effects.textcolor : 'none')
 		.style('font-family', config.bar.fontfamily)
 		.style('font-size', config.bar.fontsize)
 		.style('font-weight', config.bar.fontweight)
-		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? String(d.value) : null; })
+		.text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? uv.util.getLabelValue(self, d) : null; })
 		.transition()
 			.duration(uv.config.effects.duration)
 			.delay(idx * uv.config.effects.duration)
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + d.value;});
+		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
 	
 	bargroup.attr('transform', 'translate(0,' + 2 * this.height() + ') scale(1,-1)');
 };
