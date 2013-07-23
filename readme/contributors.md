@@ -1,5 +1,7 @@
-Here are the comprehensive list of contributors to the project
+### Contributors
 
-Lead Developer - Kiran Danduprolu [hashd]
-Developer - Sanjay Pavan [sanjaypavan]
-Mentor - Satyaprakash Buddhavarapu [trulite]
+- Kiran Danduprolu (hashd)
+- Sanjay Pavan C (sanjaypavan)
+- Madhur Shrimal (shrimalmadhur)
+- Priyanka Dudani (priyankadudani)
+- Krishnam Raj Goud (ksnov)
