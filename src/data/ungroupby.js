@@ -1,6 +1,6 @@
 uv.data.prototype.ungroupBy = function () {
-	this.dataset.data = jQuery.extend(true, [], this.Dataset);
-	var columns = jQuery.extend(true, [], this.dimensions), i, length;
+	this.dataset.data = uv.util.clone([], this.Dataset);
+	var columns = uv.util.clone([], this.dimensions), i, length;
 	
 	this.dimensions = [];
 	

@@ -209,6 +209,51 @@ uv.util.getLabelValue = function(self, d) {
 	return String(val);
 };
 
+uv.util._deepClone = function(target, src) {
+    var key;
+    if (Array.isArray(src)) {
+           for(key in src) {
+            if(src.hasOwnProperty(key)) {
+               if(target === undefined) {
+                    target = [];
+               }
+               target[key] = uv.util._deepClone(target[key], src[key]);
+            }
+        }
+    } else if(typeof src === 'object') {
+        for(key in src) {
+            if(src.hasOwnProperty(key)) {
+               if(target === undefined) {
+                    target = {};
+               }
+               target[key] = uv.util._deepClone(target[key], src[key]);
+            }
+        }
+    } else {
+        target = src;
+    }
+    return target;
+};
+
+
+/**
+ * Copies properies of all the arguments to the first argument.
+ * @param  {Object} target
+ * @param  {Object} argument1
+ * @param  {Object} argumentN
+ * @return target object 
+ */
+uv.util.clone = function() {
+    for(var i=1; i<arguments.length; i++) {
+        for(var key in arguments[i]) {
+            if(arguments[i].hasOwnProperty(key)) {
+                arguments[0][key] = uv.util._deepClone(arguments[0][key], arguments[i][key]);
+            }
+        }
+    }
+    return arguments[0];
+};
+
 /*
 uv.util.cloneArray = function (array, isDeepClone) {
 	var clone = [], length = array.length;
