@@ -17,7 +17,7 @@ uv.util.isNumber = function (n) {
 
 uv.data.prototype.fetch = function () {
 	var property;
-	this.dataset.data = jQuery.extend(true, [], this.Dataset);
+	this.dataset.data = uv.util.extend([], this.Dataset);
 
 	if (this.dataset.data.length > 0) {
 		for (property in this.dataset.data[0]) {

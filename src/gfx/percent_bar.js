@@ -28,7 +28,7 @@ uv.PercentBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.PercentBarGraph.prototype = uv.util.extend(uv.Graph);
+uv.PercentBarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.PercentBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'percent';

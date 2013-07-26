@@ -20,7 +20,7 @@ uv.WaterfallGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.WaterfallGraph.prototype = uv.util.extend(uv.Graph);
+uv.WaterfallGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'waterfall'; 

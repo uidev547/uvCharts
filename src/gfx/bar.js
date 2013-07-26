@@ -22,7 +22,7 @@ uv.BarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.BarGraph.prototype = uv.util.extend(uv.Graph);
+uv.BarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.BarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;

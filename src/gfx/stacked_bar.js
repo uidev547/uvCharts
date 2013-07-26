@@ -19,7 +19,7 @@ uv.StackedBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.StackedBarGraph.prototype = uv.util.extend(uv.Graph);
+uv.StackedBarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.StackedBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;

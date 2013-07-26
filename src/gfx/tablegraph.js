@@ -11,7 +11,7 @@ uv.TableGraph = function (graphdef, config) {
 	this.finalize();
 };
 
-uv.TableGraph.prototype = uv.util.extend(uv.Table);
+uv.TableGraph.prototype = uv.util.inherits(uv.Table);
 
 uv.TableGraph.prototype.setHorTable = function () {
 	var categories = this.graphdef.categories, tableData = uv.util.getTabularArray(this.graphdef);

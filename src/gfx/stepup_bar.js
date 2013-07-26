@@ -18,7 +18,7 @@ uv.StepUpBarGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.StepUpBarGraph.prototype = uv.util.extend(uv.Graph);
+uv.StepUpBarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = true;

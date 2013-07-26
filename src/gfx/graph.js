@@ -44,13 +44,11 @@ uv.Graph = function () {
  * @param  {Object} graphdef Definition of the graph, take a look at constants.js for complete documentation
  * @param  {Object} config   Configuration of the graph, take a look at config.js for complete documentation
  * @return {Object}          The graph object itself, to support method chaining
- *
- * #TODO: Remove dependency on jQuery/$
  */
 uv.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
-	self.config = $.extend(true, {}, uv.config, config);
+	self.config = uv.util.extend({}, uv.config, config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || 'body')
 		.setDimensions()

@@ -21,7 +21,7 @@ uv.AreaGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.AreaGraph.prototype = uv.util.extend(uv.Graph);
+uv.AreaGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.AreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
