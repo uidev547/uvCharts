@@ -11,7 +11,7 @@ uv.Table = function () {
 
 uv.Table.prototype.init = function (graphdef, config) {
 	this.graphdef = graphdef;
-	this.config = uv.util.clone({}, config);
+	this.config = uv.util.extend({}, config);
 	this.position = this.config.meta.pos || 'body';
 
 	this.table = d3.select(this.position).append('table').classed(this.config.table.tableclass, true);

@@ -43,7 +43,7 @@ uv.PieGraph = function (graphdef, config) {
 		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
 };
 
-uv.PieGraph.prototype = uv.util.extend(uv.Graph);
+uv.PieGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.PieGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;

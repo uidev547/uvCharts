@@ -25,7 +25,7 @@ uv.LineGraph = function (graphdef, config) {
 	self.finalize();
 };
 
-uv.LineGraph.prototype = uv.util.extend(uv.Graph);
+uv.LineGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.LineGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;

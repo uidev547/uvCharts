@@ -43,7 +43,7 @@ uv.DonutGraph = function (graphdef, config) {
 		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
 };
 
-uv.DonutGraph.prototype = uv.util.extend(uv.Graph);
+uv.DonutGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.DonutGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;

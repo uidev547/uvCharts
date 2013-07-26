@@ -5,7 +5,7 @@ uv.util = {};
  * @param  {Class} f Original class which is being extended
  * @return {Prototype}   Prototype containing the functions from the super class
  */
-uv.util.extend = function (f) {
+uv.util.inherits = function (f) {
 	function G() {}
 	G.prototype = f.prototype || f;
 	return new G();
@@ -210,21 +210,11 @@ uv.util.getLabelValue = function(self, d) {
 };
 
 uv.util._deepClone = function(target, src) {
-    var key;
-    if (Array.isArray(src)) {
-           for(key in src) {
+    if(typeof src === 'object') {
+        for(var key in src) {
             if(src.hasOwnProperty(key)) {
                if(target === undefined) {
-                    target = [];
-               }
-               target[key] = uv.util._deepClone(target[key], src[key]);
-            }
-        }
-    } else if(typeof src === 'object') {
-        for(key in src) {
-            if(src.hasOwnProperty(key)) {
-               if(target === undefined) {
-                    target = {};
+                    target = Array.isArray(src) ? [] : {};
                }
                target[key] = uv.util._deepClone(target[key], src[key]);
             }
@@ -237,13 +227,16 @@ uv.util._deepClone = function(target, src) {
 
 
 /**
- * Copies properies of all the arguments to the first argument.
+ * Extends properies of rest of the arguments to the first argument.
  * @param  {Object} target
  * @param  {Object} argument1
  * @param  {Object} argumentN
  * @return target object 
  */
-uv.util.clone = function() {
+uv.util.extend = function() {
+	if(arguments[0] === undefined || arguments[0] === null) {
+		return arguments[0];
+	}
     for(var i=1; i<arguments.length; i++) {
         for(var key in arguments[i]) {
             if(arguments[i].hasOwnProperty(key)) {
@@ -253,63 +246,3 @@ uv.util.clone = function() {
     }
     return arguments[0];
 };
-
-/*
-uv.util.cloneArray = function (array, isDeepClone) {
-	var clone = [], length = array.length;
-	for (var i = 0; i < length; i++) {
-		var value = array[i], clonedValue;
-
-		if (isDeepClone) {
-			if (Array.isArray(value)) {
-				clonedValue = uv.util.cloneArray(value, isDeepClone);
-			} else if (typeof value === 'object') {
-				clonedValue = uv.util.cloneObject(value, isDeepClone);
-			} else {
-				clonedValue = value;
-			}
-		} else {
-			clonedValue = value;
-		}
-
-		clone[i] = clonedValue;
-	}
-
-	return clone;
-};
-
-uv.util.cloneObject = function (object, isDeepClone) {
-	var clone = {}, key;
-	for (key in object) {
-		var value = object[key], clonedValue;
-
-		if (isDeepClone) {
-			if (Array.isArray(value)) {
-				clonedValue = uv.util.cloneArray(value, isDeepClone);
-			} else if (typeof value === 'object') {
-				clonedValue = uv.util.cloneObject(value, isDeepClone);
-			} else {
-				clonedValue = value;
-			}
-		} else {
-			clonedValue = value;
-		}
-
-		clone[key] = clonedValue;
-	}
-
-	return clone;
-};
-
-uv.util.extend = function (defaults, subj, isDeepClone) {
-	var obj = uv.util.cloneObject(defaults, isDeepClone),
-			key;
-
-	for (key in subj) {
-		var value = subj[key], extValue;
-
-		if (isDeepClone) {
-
-		}
-	}
-};*/

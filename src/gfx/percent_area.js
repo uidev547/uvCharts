@@ -25,7 +25,7 @@ uv.PercentAreaGraph = function (graphdef, config) {
 	self.finalize(true);
 };
 
-uv.PercentAreaGraph.prototype = uv.util.extend(uv.Graph);
+uv.PercentAreaGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'percent';

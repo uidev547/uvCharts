@@ -48,7 +48,7 @@ uv.Graph = function () {
 uv.Graph.prototype.init = function (graphdef, config) {
 	var self = this;
 	self.graphdef = graphdef;
-	self.config = uv.util.clone({}, uv.config, config);
+	self.config = uv.util.extend({}, uv.config, config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || 'body')
 		.setDimensions()
