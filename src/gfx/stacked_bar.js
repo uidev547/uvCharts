@@ -1,6 +1,6 @@
 uv.StackedBarGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.bargroups = {};
 
@@ -21,8 +21,9 @@ uv.StackedBarGraph = function (graphdef, config) {
 
 uv.StackedBarGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.StackedBarGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = true;
+uv.StackedBarGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = true;
 	return this;
 };
 

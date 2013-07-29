@@ -1,6 +1,6 @@
 uv.AreaGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.areagroups = [];
 	self.dataset = uv.util.getDataArray(self.graphdef);
@@ -23,8 +23,9 @@ uv.AreaGraph = function (graphdef, config) {
 
 uv.AreaGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.AreaGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = false;
+uv.AreaGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = false;
 	return this;
 };
 

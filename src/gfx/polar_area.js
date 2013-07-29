@@ -1,7 +1,7 @@
 uv.PolarAreaGraph = function (graphdef, config) {
 	var self = this;
 
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.maxRadius = Math.min(self.height(), self.width()) * 2/5;
 	self.center = {
@@ -49,7 +49,8 @@ uv.PolarAreaGraph = function (graphdef, config) {
 
 uv.PolarAreaGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.PolarAreaGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = false;
+uv.PolarAreaGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = false;
 	return this;
 };
