@@ -1,6 +1,6 @@
 uv.StackedAreaGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self, graphdef).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	var stacklayout = d3.layout.stack().offset(self.config.area.offset)(self.categories.map(function (d) {
 			return graphdef.dataset[d].map(function (d) { return {x: d.name, y: +d.value}; });
@@ -19,8 +19,9 @@ uv.StackedAreaGraph = function (graphdef, config) {
 
 uv.StackedAreaGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.StackedAreaGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = true;
+uv.StackedAreaGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = true;
 	return this;
 };
 

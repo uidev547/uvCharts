@@ -1,6 +1,6 @@
 uv.PercentBarGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.bargroups = [];
 
@@ -30,9 +30,10 @@ uv.PercentBarGraph = function (graphdef, config) {
 
 uv.PercentBarGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.PercentBarGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = 'percent';
-	config.scale.ordinality = 0;
+uv.PercentBarGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = 'percent';
+	self.config.scale.ordinality = 0;
 	return this;
 };
 

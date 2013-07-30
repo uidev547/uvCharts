@@ -1,6 +1,6 @@
 uv.StepUpBarGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	this.bargroups = {};
 
@@ -20,8 +20,9 @@ uv.StepUpBarGraph = function (graphdef, config) {
 
 uv.StepUpBarGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.StepUpBarGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = true;
+uv.StepUpBarGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = true;
 	return this;
 };
 
