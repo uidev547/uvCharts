@@ -3,7 +3,8 @@ uv.config = {
 		palette : 'Brink',
 		background : '#FFFFFF',
 		orientation : 'Horizontal',
-		max : 0
+		max : 0,
+		custompalette : []
 	},
 
 	meta : {
@@ -14,7 +15,7 @@ uv.config = {
 		vlabel : 'Vertical Axis Label',
 		hsublabel : 'h sublabel',
 		vsublabel : 'v sublabel',
-		isDownload : true
+		isDownloadable : true
 	},
 
 	dimension : {
@@ -49,7 +50,7 @@ uv.config = {
 		fontsize : '11',
 		fontweight : 'normal',
 		strokecolor : '#000000',
-		showlabel : false,
+		showlabel : true,
 		precision : 2
 	},
 
@@ -127,6 +128,7 @@ uv.config = {
 		symbolsize : 10,
 		inactivecolor : '#DDD',
 		legendstart : 0,
+		legendtype : 'categories'
 	},
 
 	effects : {

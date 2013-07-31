@@ -7,7 +7,7 @@ uv.PieGraph = function (graphdef, config) {
 		x : self.width() / 2,
 		y : self.height() / 2
 	};
-	
+
 	self.category = graphdef.categories[0];
 
 	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
@@ -18,6 +18,9 @@ uv.PieGraph = function (graphdef, config) {
 	self.arcs = self.panel.selectAll('g.arc')
 					.data(layout).enter()
 					.append('g').classed(uv.constants.classes.arc + uv.util.formatClassName(self.category), true)
+					.attr('class', function (d, i){
+						return uv.util.getClassName(this, 'cge-' + self.labels[i]);
+					})
 					.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
 
 	self.arcs.append('path')
@@ -25,8 +28,8 @@ uv.PieGraph = function (graphdef, config) {
 			.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i); })
 			.style('stroke', self.config.pie.strokecolor)
 			.style('stroke-width', self.config.pie.strokewidth)
-		.on('mouseover', uv.effects.pie.mouseover(self.center, arcfunc, self.config))
-		.on('mouseout', uv.effects.pie.mouseout(self.center, self.config));
+		.on('mouseover', uv.effects.pie.mouseover(self, self.center, arcfunc, self.config))
+		.on('mouseout', uv.effects.pie.mouseout(self, self.center, self.config));
 
 	self.arcs.append('text')
 			.attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
@@ -38,7 +41,7 @@ uv.PieGraph = function (graphdef, config) {
 			.style('font-weight', self.config.pie.fontweight)
 			.style('font-variant', self.config.pie.fontvariant)
 			.text(function (d) { return uv.util.getLabelValue(self, d); });
-	
+
 	self.arcs.append('svg:title')
 		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
 };
@@ -47,5 +50,6 @@ uv.PieGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.PieGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = false;
+	config.legend.legendtype = "label";
 	return this;
 };

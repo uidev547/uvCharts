@@ -167,34 +167,43 @@ uv.effects.donut.mouseout = function (center, config) {
 };
 
 uv.effects.pie = {};
-uv.effects.pie.mouseover = function (center, arcfunc, config, d) {
-	return function (d) {
+uv.effects.pie.mouseover = function (graph ,center, arcfunc, config) {
+	var effect =  function (d, i) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
 				y : arcfunc.centroid(d)[1] / 5
 			};
-
 		d3.select(this.parentNode)
 			.transition().duration(config.effects.duration)
 				.attr('transform', 'translate(' + (center.x + dev.x) + ',' + (center.y + dev.y) + ')');
 	};
+	return effect;
 };
 
-uv.effects.pie.mouseout = function (center, config) {
-	return function () {
+uv.effects.pie.mouseout = function (graph, center, config) {
+	var effect =  function () {
 		d3.select(this.parentNode)
 			.transition().duration(config.effects.duration)
 				.attr('transform', 'translate(' + center.x + ',' + center.y + ')');
 	};
+	return effect;
 };
 
 uv.effects.legend = {};
 uv.effects.legend.mouseover = function (self, idx) {
-	return self.effects.group[self.categories[idx]].mouseover;
+	if(self.config.legend.legendtype === 'categories'){
+		return self.effects.group[self.categories[idx]].mouseover;
+	}else{
+		return self.effects.group[self.labels[idx]].mouseover;
+	}
 };
 
 uv.effects.legend.mouseout = function (self, idx) {
-	return self.effects.group[self.categories[idx]].mouseout;
+	if(self.config.legend.legendtype === 'categories'){
+		return self.effects.group[self.categories[idx]].mouseout;
+	}else{
+		return self.effects.group[self.labels[idx]].mouseout;
+	}
 };
 
 uv.effects.legend.click = function (i, ctx, graph) {

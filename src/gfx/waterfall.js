@@ -24,6 +24,7 @@ uv.WaterfallGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
 	graphdef.stepup = 'waterfall'; 
+	config.legend.legendtype = 'categories';
 	return this;
 };
 
