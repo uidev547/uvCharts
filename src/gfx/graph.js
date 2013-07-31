@@ -18,7 +18,7 @@ var uv = {};
  * axes				- object containing axes related stuff: group, func, scale, axis, line, label
  *
  */
-uv.Graph = function () {
+uv.Graph = function (graphdef, config) {
 	var self = this;
 	self.id = uv.util.getUniqueId();
 	self.graphdef = null;
@@ -36,6 +36,8 @@ uv.Graph = function () {
 	self.labels = null;
 	self.categories = null;
 
+	self.graphdef = graphdef;
+	self.config = uv.util.extend({}, uv.config, config);
 	return this;
 };
 
@@ -47,10 +49,8 @@ uv.Graph = function () {
  *
  * #TODO: Remove dependency on jQuery/$
  */
-uv.Graph.prototype.init = function (graphdef, config) {
+uv.Graph.prototype.init = function () {
 	var self = this;
-	self.graphdef = graphdef;
-	self.config = $.extend(true, {}, uv.config, config);
 	self.max(self.graphdef.stepup)
 		.position(self.config.meta.position || 'body')
 		.setDimensions()

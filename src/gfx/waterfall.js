@@ -5,7 +5,7 @@
  */
 uv.WaterfallGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.bargroups = {};
 
@@ -22,9 +22,9 @@ uv.WaterfallGraph = function (graphdef, config) {
 
 uv.WaterfallGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.WaterfallGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = 'waterfall'; 
-	config.legend.legendtype = 'categories';
+uv.WaterfallGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = 'waterfall';
 	return this;
 };
 

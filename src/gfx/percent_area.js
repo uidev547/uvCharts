@@ -1,6 +1,6 @@
 uv.PercentAreaGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	var stacklayout = d3.layout.stack().offset('zero')(
 		self.categories.map(function (d) {
@@ -27,8 +27,9 @@ uv.PercentAreaGraph = function (graphdef, config) {
 
 uv.PercentAreaGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.PercentAreaGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = 'percent';
+uv.PercentAreaGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = 'percent';
 	return this;
 };
 

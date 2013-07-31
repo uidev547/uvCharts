@@ -1,17 +1,16 @@
 init = function() {
-	var horConfig = $.extend(true, {}, uv.config);
-	var verConfig = $.extend(true, {}, uv.config);
-	var graphdef = $.extend(true, {}, uv.constants.graphdef);
-	var tgraphdef = $.extend(true, {}, uv.constants.graphdef);
-  var waterfallGraphdef = $.extend(true, {}, uv.constants.waterfallGraphdef);
+	var horConfig = {};
+	var verConfig = {graph : {orientation : 'Vertical'}};
+	var graphdef =  sample.graphdef;
+	var tgraphdef = sample.graphdef;
+	var waterfallGraphdef = sample.waterfallGraphdef;
 	
-	verConfig.graph.orientation = 'Vertical';
 	uv.util.transposeData(tgraphdef);
 
 	barHorTest = uv.chart('Bar', graphdef, horConfig);
 	tbarHorTest = uv.chart('Bar', tgraphdef, horConfig);
 	barVerTest = uv.chart('Bar', graphdef, verConfig);
-	tbarVerTest = uv.chart('Bar', tgraphdef, horConfig);
+	tbarVerTest = uv.chart('Bar', tgraphdef, verConfig);
 
 	stepUpBarHorTest = uv.chart('StepUpBar', graphdef, horConfig);
 	tstepUpBarHorTest = uv.chart('StepUpBar', tgraphdef, horConfig);
@@ -48,12 +47,5 @@ init = function() {
 
   waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
   waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
-  //waterfallTest = uv.chart('Waterfall', graphdef, verConfig);
-  //waterfallTest = uv.chart('Waterfall', tgraphdef, horConfig);
-	
-/*	tableHorTest = new uv.TableGraph(graphdef, horConfig);
-	ttableHorTest = new uv.TableGraph(tgraphdef, horConfig);
-	tableVerTest = new uv.TableGraph(graphdef, verConfig);
-	tableVerTest = new uv.TableGraph(tgraphdef, verConfig);*/
 	
 };

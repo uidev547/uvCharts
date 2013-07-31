@@ -1,7 +1,6 @@
 init = function() {
-	var horConfig = $.extend(true, {}, uv.config);
-	var verConfig = $.extend(true, {}, uv.config);
-	verConfig.graph.orientation = 'Vertical';
+	var horConfig = {};
+	var verConfig = {graph : {orientation : 'Vertical'}};
 
 	barHorTest = uv.chart('Bar', new uv.Test().getGraphDef(), horConfig);
 	tbarHorTest = uv.chart('Bar', new uv.Test().getGraphDef(), horConfig);

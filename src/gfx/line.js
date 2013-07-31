@@ -1,6 +1,6 @@
 uv.LineGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.linegroups = {};
 	self.dataset = uv.util.getDataArray(self.graphdef);
@@ -27,9 +27,10 @@ uv.LineGraph = function (graphdef, config) {
 
 uv.LineGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.LineGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = false;
-	config.scale.ordinality = 0;
+uv.LineGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = false;
+	self.config.scale.ordinality = 0;
 	return this;
 };
 

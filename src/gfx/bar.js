@@ -6,7 +6,7 @@
  */
 uv.BarGraph = function (graphdef, config) {
 	var self = this;
-	uv.Graph.call(self).setDefaults(graphdef, config).init(graphdef, config);
+	uv.Graph.call(self, graphdef, config).setDefaults().init();
 
 	self.bargroups = {};
 
@@ -24,8 +24,9 @@ uv.BarGraph = function (graphdef, config) {
 
 uv.BarGraph.prototype = uv.util.inherits(uv.Graph);
 
-uv.BarGraph.prototype.setDefaults = function (graphdef, config) {
-	graphdef.stepup = false;
+uv.BarGraph.prototype.setDefaults = function () {
+	var self = this;
+	self.graphdef.stepup = false;
 	return this;
 };
 
