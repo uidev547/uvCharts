@@ -46,6 +46,8 @@ uv.Graph = function (graphdef, config) {
  * @param  {Object} graphdef Definition of the graph, take a look at constants.js for complete documentation
  * @param  {Object} config   Configuration of the graph, take a look at config.js for complete documentation
  * @return {Object}          The graph object itself, to support method chaining
+ *
+ * #TODO: Remove dependency on jQuery/$
  */
 uv.Graph.prototype.init = function () {
 	var self = this;
@@ -60,8 +62,10 @@ uv.Graph.prototype.init = function () {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
+		.setLegend()
 		.setEffectsObject();
-	if(uv.config.meta.isDownload){
+
+	if(self.config.meta.isDownloadable){
 		self.setDownloadOptions();
 	}	
 		
@@ -324,8 +328,9 @@ uv.Graph.prototype.setVerticalAxis = function () {
  */
 uv.Graph.prototype.setEffectsObject = function () {
 	var self = this;
-	for (var i = 0; i < self.categories.length ; i++) {
-		self.effects[self.categories[i]] = {};
+	var effectArray = (self.config.legend.legendtype === 'categories') ? self.categories : self.labels;
+	for (var i = 0; i < effectArray.length ; i++) {
+		self.effects[effectArray[i]] = {};
 	}
 	return self;
 };
@@ -437,38 +442,44 @@ uv.Graph.prototype.setLegend = function () {
 							}
 						});
 
-	self.legends = legendgroup.selectAll('g').data(self.categories).enter().append('g')
-						.attr('transform', function (d, i) { 
-							if(self.config.legend.position === 'right'){
-								return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
-							}else if(self.config.legend.position === 'bottom'){
-								var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
-								var vPos = 20*self.config.legend.legendstart;
-								if(hPos >= self.config.dimension.width){
-									self.config.legend.legendstart = self.config.legend.legendstart + 1;
-									hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
-									vPos = 20*self.config.legend.legendstart;
-								}
-								return 'translate(' + hPos + ',' + vPos + ')'; 
-							}
-						})
-						.attr('class', function (d, i) {
-							return uv.util.getClassName(this, 'cl-' + self.categories[i]);
-						})
-						.attr('disabled', 'false')
-						.on('mouseover', function (d, i) {
-							if (self.effects[d].mouseover && typeof self.effects[d].mouseover === 'function') {
-								self.effects[d].mouseover();
-							}
-						})
-						.on('mouseout', function (d, i) {
-							if (self.effects[d].mouseout && typeof self.effects[d].mouseout === 'function') {
-								self.effects[d].mouseout();
-							}
-						})
-						.on('click', function (d, i) {
-							uv.effects.legend.click(i, this, self);
-						});
+	self.legends = legendgroup.selectAll('g').data(
+		(self.config.legend.legendtype === 'categories') ? self.categories:self.labels
+	);
+	
+
+	self.legends.enter().append('g')
+			.attr('transform', function (d, i) { 
+				if(self.config.legend.position === 'right'){
+					return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
+				}else if(self.config.legend.position === 'bottom'){
+					var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
+					var vPos = 20*self.config.legend.legendstart;
+					if(hPos >= self.config.dimension.width){
+						self.config.legend.legendstart = self.config.legend.legendstart + 1;
+						hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
+						vPos = 20*self.config.legend.legendstart;
+					}
+					return 'translate(' + hPos + ',' + vPos + ')'; 
+				}
+			})
+			.attr('class', function (d, i) {
+				var className = (self.config.legend.legendtype === 'categories') ? self.categories[i]:self.labels[i];
+				return uv.util.getClassName(this, 'cl-' + className);
+			})
+			.attr('disabled', 'false')
+			.on('mouseover', function (d, i) {
+				if (self.effects[d].mouseover && typeof self.effects[d].mouseover === 'function') {
+					self.effects[d].mouseover();
+				}
+			})
+			.on('mouseout', function (d, i) {
+				if (self.effects[d].mouseout && typeof self.effects[d].mouseout === 'function') {
+					self.effects[d].mouseout();
+				}
+			})
+			.on('click', function (d, i) {
+				uv.effects.legend.click(i, this, self);
+			});
 
 	self.legends.append('rect').classed(uv.constants.classes.legendsign, true)
 				.attr('height', self.config.legend.symbolsize)
@@ -477,7 +488,7 @@ uv.Graph.prototype.setLegend = function () {
 				.style('stroke', 'none');
 
 	self.legends.append('text').classed(uv.constants.classes.legendlabel, true)
-				.text(function (d, i) { return self.categories[i]; })
+				.text(function (d, i) { return (self.config.legend.legendtype === 'categories') ? self.categories[i]:self.labels[i]; })
 				.attr('dx', self.config.legend.textmargin)
 				.attr('dy', '.71em')
 				.attr('text-anchor', 'start')
@@ -496,8 +507,8 @@ uv.Graph.prototype.setLegend = function () {
 uv.Graph.prototype.finalize = function (isLoggable) {
 	var self = this;
 	self.drawHorizontalAxis()
-		.drawVerticalAxis()
-		.setLegend();
+		.drawVerticalAxis();
+	//	.setLegend();
 	
 	//Log Graph object if flag set to truthy value
 	// if (isLoggable) { 
