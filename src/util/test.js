@@ -1,3 +1,5 @@
+var uv = uv || {};
+
 uv.Test = function () {
 	var self = this;
 

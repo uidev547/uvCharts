@@ -6,15 +6,20 @@ module.exports = function(grunt) {
           
     concat: {
       dist: {
-        src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/util/test.js', 'src/gfx/area.js', 'src/gfx/bar.js',
+        src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js',
               'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/polar_area.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js', 'src/gfx/waterfall.js', 
               'src/gfx/table.js', 'src/gfx/tablegraph.js'],
         dest: 'build/uv.js'
       },
       
       gfx : {
-        src: ['src/module/module_begin.js','src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/util/test.js', 'src/gfx/area.js', 'src/gfx/bar.js', 'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/polar_area.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js',  'src/gfx/waterfall.js', 'src/gfx/table.js', 'src/gfx/tablegraph.js','src/module/module_end.js'],
+        src: ['src/module/module_begin.js','src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js', 'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/polar_area.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js',  'src/gfx/waterfall.js', 'src/gfx/table.js', 'src/gfx/tablegraph.js','src/module/module_end.js'],
         dest: 'build/uvcharts.js'
+      },
+
+      test : {
+        src : ['src/util/test.js'],
+        dest : 'build/lvTest.js'
       }
     },
    
@@ -71,7 +76,7 @@ module.exports = function(grunt) {
     copy : {
       release : {
         files : [  
-          { expand: 'true', cwd: 'build/', src : ['**'], dest : 'dist/' }
+          { expand: 'true', cwd: 'build/', src : ['uv*'], dest : 'dist/' }
         ]
       }
     }
@@ -86,7 +91,8 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['build_gfx']);
+  grunt.registerTask('build', ['build_gfx', 'build_tst']);
   grunt.registerTask('build_gfx', ['concat:gfx', 'uglify:gfx', 'jshint:gfx']);
+  grunt.registerTask('build_tst', ['concat:test'])
   grunt.registerTask('release', ['build_gfx','copy:release']);
 };
