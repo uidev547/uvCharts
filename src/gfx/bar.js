@@ -11,11 +11,11 @@ uv.BarGraph = function (graphdef, config) {
 	self.bargroups = {};
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels);
-	
+
 	var idx, length = self.categories.length, category;
 	for (idx = 0; idx < length; idx = idx + 1) {
 		category = self.categories[idx];
-		self.bargroups[category] = self.panel.append('g').classed('cg-' + uv.util.formatClassName(category), true);
+		self.bargroups[category] = self.chart.append('g').classed('cg-' + uv.util.formatClassName(category), true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx);
 	}
 

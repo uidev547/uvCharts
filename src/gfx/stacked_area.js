@@ -7,7 +7,7 @@ uv.StackedAreaGraph = function (graphdef, config) {
 	}));
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(self.labels.map(function (d) { return d; }));
-	self.areagroup = self.panel.append('g').selectAll('g')
+	self.areagroup = self.chart.append('g').selectAll('g')
 											.data(stacklayout).enter().append('g').attr('class', function (d, i) {
 												return uv.util.getClassName(this, 'cge-' + self.categories[i]);
 											});

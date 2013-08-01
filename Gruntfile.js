@@ -17,8 +17,11 @@ module.exports = function(grunt) {
         dest: 'build/uvcharts.js'
       },
 
-      style : {         src : ['src/css/uv.css'],         dest : 'build/uv.css'
-}     },
+      style : {
+        src : ['src/css/uv.css'],
+        dest : 'build/uv.css'
+      }
+    },
    
     watch: {
       scripts: {

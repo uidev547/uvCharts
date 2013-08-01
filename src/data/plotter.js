@@ -31,8 +31,8 @@ uv.data.prototype.plot = function (dataset, path, graphtype) {
 		
 		graphdef.stepup = false; graphdef.orientation = 'ver'; graphdef.pos = 'body';
 		uv.util.transposeData(graphdef);
-		d3.select('#uv_div').append('div').text(path.join(' || ')); 
-		d3.select('#uv_div').append('hr');
+		d3.select('#uv-div').append('div').text(path.join(' || ')); 
+		d3.select('#uv-div').append('hr');
 		var plotgraph = uv.chart(graphtype, graphdef, {});
 		console.log(plotgraph);
 		
