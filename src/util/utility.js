@@ -88,8 +88,8 @@ uv.util.getTabularArray = function (graphdef) {
 	return table;
 };
 
-uv.util.getLabelArray = function (graphdef) {
-	return graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
+uv.util.getLabelArray = function (graphdef, idx) {
+	return graphdef.dataset[graphdef.categories[idx ? idx : 0]].map(function (d) { return d.name; });
 };
 
 uv.util.getCategoryArray = function (graphdef) {
@@ -128,8 +128,14 @@ uv.util.getPascalCasedName = function (name) {
 };
 
 uv.util.getColorBand = function (config, index) {
-	var len = uv.palette[config.graph.palette].length;
-	return uv.palette[config.graph.palette][index % len];
+	var len = 0;
+	if(config.graph.custompalette.length !== 0){
+		len = config.graph.custompalette.length;
+		return config.graph.custompalette[index % len];
+	}else{
+		len = uv.palette[config.graph.palette].length;
+		return uv.palette[config.graph.palette][index % len];
+	}
 };
 
 /**
@@ -191,7 +197,7 @@ uv.util.getClassName = function(self, name) {
 	if( !d3.select(self).attr('class')) {
 		return formattedName;
 	}
-	if(d3.select(self).attr('class').split(' ').indexOf(formattedName) === -1) {
+	if(d3.select(self).attr('class').split(' ').indexOf(formattedName) !== -1) {
 		return d3.select(self).attr('class');
 	}
 	return d3.select(self).attr('class') + " " + formattedName;
@@ -211,13 +217,18 @@ uv.util.getLabelValue = function(self, d) {
 
 uv.util._deepClone = function(target, src) {
     if(typeof src === 'object') {
+        var isEmpty = true;
         for(var key in src) {
+            isEmpty = false;
             if(src.hasOwnProperty(key)) {
                if(target === undefined) {
                     target = Array.isArray(src) ? [] : {};
                }
                target[key] = uv.util._deepClone(target[key], src[key]);
             }
+        }
+        if(isEmpty){
+            target = Array.isArray(src) ? [] : {};
         }
     } else {
         target = src;
