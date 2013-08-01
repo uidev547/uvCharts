@@ -9,14 +9,14 @@ uv.config = {
 	},
 
 	meta : {
-		position : '.uv-div',
-		caption : 'Usage of browsers by the years',
-		subcaption : 'Among major vendors',
-		hlabel : 'Horizontal Axis Label',
-		vlabel : 'Vertical Axis Label',
-		hsublabel : 'h sublabel',
-		vsublabel : 'v sublabel',
-		isDownloadable : true
+		position : '#uv-div',
+		caption : '',
+		subcaption : '',
+		hlabel : '',
+		vlabel : '',
+		hsublabel : '',
+		vsublabel : '',
+		isDownloadable : false
 	},
 
 	dimension : {
