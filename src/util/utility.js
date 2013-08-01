@@ -217,13 +217,18 @@ uv.util.getLabelValue = function(self, d) {
 
 uv.util._deepClone = function(target, src) {
     if(typeof src === 'object') {
+        var isEmpty = true;
         for(var key in src) {
+            isEmpty = false;
             if(src.hasOwnProperty(key)) {
                if(target === undefined) {
                     target = Array.isArray(src) ? [] : {};
                }
                target[key] = uv.util._deepClone(target[key], src[key]);
             }
+        }
+        if(isEmpty){
+            target = Array.isArray(src) ? [] : {};
         }
     } else {
         target = src;

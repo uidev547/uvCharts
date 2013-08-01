@@ -51,5 +51,6 @@ uv.PieGraph.prototype = uv.util.inherits(uv.Graph);
 uv.PieGraph.prototype.setDefaults = function () {
 	var self = this;
 	self.graphdef.stepup = false;
+	self.config.legend.legendtype = 'labels';
 	return this;
 };
