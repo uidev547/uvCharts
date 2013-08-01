@@ -26,6 +26,7 @@ uv.Graph = function (graphdef, config) {
 
 	self.frame = null;
 	self.panel = null;
+	self.chart = null;
 	self.bg = null;
 	self.effects = {};
 	self.axes = {
@@ -67,8 +68,7 @@ uv.Graph.prototype.init = function () {
 
 	if(self.config.meta.isDownloadable){
 		self.setDownloadOptions();
-	}	
-		
+	}
 	return self;
 };
 
@@ -175,8 +175,10 @@ uv.Graph.prototype.setBackground = function (color) {
 						.attr('height', self.height())
 						.attr('width', self.width());
 	}
-
 	self.bg.style('fill', color || self.config.graph.background);
+
+	self.chart = self.panel.append('g').classed(uv.constants.classes.chart, true)
+					.style('opacity', self.config.graph.opacity);
 	return this;
 };
 
@@ -261,6 +263,9 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 			self.axes.hor.scale.nice();
 		}
 		
+		if(!self.config.axis.showsubticks){
+			self.config.axis.subticks = 0;
+		}
 		self.axes.hor.func = d3.svg.axis()
 								.scale(self.axes.hor.scale)
 								.ticks(self.config.axis.ticks)
@@ -302,6 +307,9 @@ uv.Graph.prototype.setVerticalAxis = function () {
 			self.axes.ver.scale.nice();
 		}
 		
+		if(!self.config.axis.showsubticks){
+			self.config.axis.subticks = 0;
+		}
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
 								.ticks(self.config.axis.ticks)
@@ -347,7 +355,9 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.hor.func);
 
-	self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
+	if(self.config.axis.showticks) {
+		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);	
+	}
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
 	self.axes.hor.line = self.panel.append('line')
@@ -395,7 +405,9 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.ver.func);
 
-	self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
+	if(self.config.axis.showticks) {
+		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
+	}
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
 	self.axes.ver.line = self.panel.append('line')

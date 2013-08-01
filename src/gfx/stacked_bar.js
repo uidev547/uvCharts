@@ -12,7 +12,7 @@ uv.StackedBarGraph = function (graphdef, config) {
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
 
 	for (idx = 0, len = self.categories.length; idx < len; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = self.panel.append('g').classed('cg-' + uv.util.formatClassName(self.categories[idx]), true);
+		self.bargroups[self.categories[idx]] = self.chart.append('g').classed('cg-' + uv.util.formatClassName(self.categories[idx]), true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 

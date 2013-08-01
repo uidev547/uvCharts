@@ -15,7 +15,7 @@ uv.PercentAreaGraph = function (graphdef, config) {
 		categories = self.categories;
 
 	self.axes[self.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(domainData);
-	self.areagroup = self.panel.selectAll('g.areagroup').data(stacklayout).enter().append('g')
+	self.areagroup = self.chart.selectAll('g.areagroup').data(stacklayout).enter().append('g')
 								.attr('class', function (d,i) {
 									return uv.util.getClassName(this, 'cge-' + self.categories[i]);
 								});

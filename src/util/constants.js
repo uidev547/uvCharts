@@ -6,6 +6,7 @@ uv.constants.classes = {
 	frame : 'uv-frame',
 	panel : 'uv-panel',
 	bg : 'uv-chart-bg',
+	chart : 'uv-chart',
 	axes : 'uv-axes',
 	legend : 'uv-legend',
 	framebg : 'uv-frame-bg',
@@ -33,5 +34,5 @@ uv.constants.classes = {
 };
 
 uv.constants.downloads = {
-	downloadLabel: 'Download',
+	downloadLabel: 'Download'
 };

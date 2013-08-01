@@ -212,7 +212,7 @@ uv.util.getClassName = function(self, name) {
 uv.util.getLabelValue = function(self, d) {
 	// if(typeof d.value !== 'number') return null;
 	var val = (d.value%1 === 0) ? d.value : d.value.toFixed(self.config.label.precision);
-	return String(val);
+	return self.config.label.prefix + String(val) + self.config.label.suffix;
 };
 
 uv.util._deepClone = function(target, src) {

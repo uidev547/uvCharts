@@ -14,7 +14,7 @@ uv.WaterfallGraph = function (graphdef, config) {
 	var idx, length = self.categories.length, category;
 	
 	category = self.categories[0];
-	self.bargroups[category] = self.panel.append('g').classed('cg-' + uv.util.formatClassName(category), true);
+	self.bargroups[category] = self.chart.append('g').classed('cg-' + uv.util.formatClassName(category), true);
 	self['draw' + self.config.graph.orientation + 'Bars'](0);
 
 	self.finalize();

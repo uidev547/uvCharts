@@ -4,11 +4,12 @@ uv.config = {
 		background : '#FFFFFF',
 		orientation : 'Horizontal',
 		max : 0,
-		custompalette : []
+		custompalette : [],
+		opacity : 1
 	},
 
 	meta : {
-		position : '.uv_div',
+		position : '.uv-div',
 		caption : 'Usage of browsers by the years',
 		subcaption : 'Among major vendors',
 		hlabel : 'Horizontal Axis Label',
@@ -42,7 +43,9 @@ uv.config = {
 		strokecolor : '#000000',
 		fontfamily : 'Arial',
 		fontsize : '14',
-		fontweight : 'bold'
+		fontweight : 'bold',
+		showticks : true,
+		showsubticks : true
 	},
 
 	label : {
@@ -51,7 +54,9 @@ uv.config = {
 		fontweight : 'normal',
 		strokecolor : '#000000',
 		showlabel : true,
-		precision : 2
+		precision : 2,
+		prefix : '',
+		suffix : ''
 	},
 
 	scale : {

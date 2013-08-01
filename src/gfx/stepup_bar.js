@@ -11,7 +11,7 @@ uv.StepUpBarGraph = function (graphdef, config) {
 	self.axes[this.config.graph.orientation === 'Horizontal' ? 'ver' : 'hor'].scale.domain(this.labels);
 
 	for (idx = 0; idx < length; idx = idx + 1) {
-		self.bargroups[self.categories[idx]] = this.panel.append('g').classed('cg-' + uv.util.formatClassName(self.categories[idx]), true);
+		self.bargroups[self.categories[idx]] = this.chart.append('g').classed('cg-' + uv.util.formatClassName(self.categories[idx]), true);
 		self['draw' + self.config.graph.orientation + 'Bars'](idx, csum, tsum);
 	}
 
