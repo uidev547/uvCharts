@@ -4,8 +4,27 @@ init = function() {
 	var graphdef =  sample.graphdef;
 	var tgraphdef = sample.graphdef;
 	var waterfallGraphdef = sample.waterfallGraphdef;
+
+	function transposeData(graphdef) {
+		var dataset = {}, i, j, length, jlength,
+			name, label, value, categories = graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
+
+		for (i = 0, length = categories.length; i < length; i = i + 1) { dataset[categories[i]] = []; }
+
+		for (i = 0, length = graphdef.categories.length; i < length; i = i + 1) {
+			name = graphdef.categories[i];
+			for (j = 0, jlength = graphdef.dataset[name].length; j < jlength; j = j + 1) {
+				label = graphdef.dataset[name][j].name;
+				value = graphdef.dataset[name][j].value;
+				dataset[label].push({ 'name' : name, 'value' : value });
+			}
+		}
+
+		graphdef.categories = categories;
+		graphdef.dataset = dataset;
+	};
 	
-	uv.util.transposeData(tgraphdef);
+	transposeData(tgraphdef);
 
 	barHorTest = uv.chart('Bar', graphdef, horConfig);
 	tbarHorTest = uv.chart('Bar', tgraphdef, horConfig);
