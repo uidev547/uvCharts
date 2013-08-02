@@ -1,9 +1,10 @@
 init = function() {
 	var horConfig = {};
 	var verConfig = {graph : {orientation : 'Vertical'}};
-	var graphdef =  sample.graphdef;
-	var tgraphdef = sample.graphdef;
-	var waterfallGraphdef = sample.waterfallGraphdef;
+
+	var graphdef = new sample.Graphdef();
+	var tgraphdef = new sample.Graphdef();
+	var waterfallGraphdef = new sample.WaterfallGraphdef();
 
 	function transposeData(graphdef) {
 		var dataset = {}, i, j, length, jlength,
@@ -64,7 +65,7 @@ init = function() {
 	pieTest = uv.chart('Pie', graphdef, horConfig);
 	polarAreaTest = uv.chart('PolarArea', graphdef, horConfig);
 
-  waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
-  waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
-	
+	waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
+	waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
+
 };
