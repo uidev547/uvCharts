@@ -1,8 +1,8 @@
 var sample = {};
 
-sample.graphdef = {
-	categories : ['IE', 'Chrome', 'Opera', 'Safari'],
-	dataset : {
+sample.Graphdef = function(){
+	this.categories = ['IE', 'Chrome', 'Opera', 'Safari'];
+	this.dataset = {
 		'IE' : [
 			{name: '2001', value: 60 },
 			{name: '2002', value: 70 },
@@ -38,12 +38,13 @@ sample.graphdef = {
 			{name: '2004', value: 90},
 			{name: '2005', value: 40}
 		]
-	}
+	};
+	return this;
 };
 
-sample.waterfallGraphdef = {
-        categories : ['data'],
-        dataset : {
+sample.WaterfallGraphdef = function() {
+	this.categories = ['data'];
+	this.dataset = {
             'data' : [
                 {
                     "name": "2005 Actual",
@@ -83,4 +84,5 @@ sample.waterfallGraphdef = {
                 }
             ]
         }
-    };
+    return this;
+};
