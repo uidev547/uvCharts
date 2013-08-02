@@ -1,35 +1,3 @@
-# uv
-uv is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. uv currently contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together.
-The modules themselves are:
-
-- uvCharts
-- uvData (under development)
-
-## uvCharts
-uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/imaginea/uvCharts/wiki/uvCharts) page.
-
-Charts supported at the current moment are:
-
-+ Normal Bar Chart
-+ Stacked Bar Chart
-+ Step Up Bar Chart
-+ Percent Bar Chart
-+ Normal Area Chart
-+ Stacked Area Chart
-+ Percent Area Chart
-+ Pie Chart
-+ Donut Chart
-+ Line Chart
-+ Waterfall Chart
-+ Polar Area chart
-
-All charts can be shown either in horizontal or vertical orientation except for Pie, Donut, Polar Area.
-
-#### Features
-- Easy to learn and use
-- Configurable
-- Cool transitions and effects
-
 ##uvCharts Quick Start Guide
 This guide is to help you begin using uvCharts to build charts on the web. uvCharts uses d3.js and SVG/HTML5 to build charts henceforth IE8 and below aren't supported.
 
@@ -190,20 +158,3 @@ var chart = uv.chart ('Bar', graphdef, {
 The graph definition defines whether the chart is multiseries or single series based on the no.of elements in the categories array and thus has a uniform representation throughout.
 
 We hope the tutorial was helpful enough to get you to begin using uvCharts.
-
-
-### To be implemented
-- uvCharts interface to configure and modify the chart in real time (under development)
-
-## uvData
-uvData is a JavaScript based data manipulation library which acts on a ist of JSON Object (A list of Tuples). It is still work in progress and can be used to do complex operations on data.
-
-Together with uvCharts, it will provide enough options to play around with data and visualize it in whichever way you would like to have it.
-
-## Contributors
-
-- Kiran Danduprolu (hashd)
-- Sanjay Pavan (sanjaypavan)
-- Priyanka Dudani (priyankadudani)
-- Madhur Shrimal (shrimalmadhur)
-- Krishnamraj Goud (ksnov)
