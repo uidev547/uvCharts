@@ -40,6 +40,8 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 		config = self.config,
 		color = uv.util.getColorBand(self.config, idx);
 
+	self.axes.ver.scale.rangePoints([0, self.height()]);
+
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.value); })
 				.y(function (d) { return axes.ver.scale(d.name) + axes.ver.scale.rangeBand() / 2; })
@@ -99,6 +101,8 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 		axes = self.axes,
 		config = self.config,
 		color = uv.util.getColorBand(self.config, idx);
+
+	self.axes.hor.scale.rangePoints([0, self.width()]);
 
 	linegroup.func = d3.svg.line()
 				.x(function (d) { return axes.hor.scale(d.name) + axes.hor.scale.rangeBand() / 2; })

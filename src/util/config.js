@@ -45,7 +45,8 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'bold',
 		showticks : true,
-		showsubticks : true
+		showsubticks : true,
+		showtext : true
 	},
 
 	label : {
