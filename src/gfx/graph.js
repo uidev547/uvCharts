@@ -273,14 +273,21 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 								.tickPadding(self.config.axis.padding)
 								.tickSubdivide(self.config.axis.subticks)
 								.orient('bottom');
+		
 	} else {
 		self.axes.hor.scale = d3.scale.ordinal()
 								.rangeRoundBands([0, self.width()], self.config.scale.ordinality);
-		
+
 		self.axes.hor.func = d3.svg.axis()
 								.scale(self.axes.hor.scale)
 								.tickPadding(self.config.axis.padding)
 								.orient('bottom');
+		if(!self.config.axis.showtext) {
+			self.axes.hor.func.tickSize(0);
+		}
+	}
+	if(!self.config.axis.showtext) {
+			self.axes.hor.func.tickFormat(function (d) { return ''; });
 	}
 
 	return this;
@@ -317,6 +324,8 @@ uv.Graph.prototype.setVerticalAxis = function () {
 								.tickPadding(self.config.axis.padding)
 								.tickSubdivide(self.config.axis.subticks)
 								.orient('left');
+
+
 	} else {
 		self.axes.ver.scale = d3.scale.ordinal()
 								.rangeRoundBands([0, self.height()], self.config.scale.ordinality);
@@ -325,6 +334,12 @@ uv.Graph.prototype.setVerticalAxis = function () {
 								.scale(self.axes.ver.scale)
 								.tickPadding(self.config.axis.padding)
 								.orient('left');
+		if(!self.config.axis.showtext){
+			self.axes.ver.func.tickSize(0);
+		}
+	}
+	if(!self.config.axis.showtext) {
+		self.axes.ver.func.tickFormat(function (d) { return ''; });
 	}
 
 	return this;
