@@ -23,12 +23,14 @@ Charts supported at the current moment are:
 + Waterfall Chart
 + Polar Area chart
 
-All charts can be shown either in horizontal or vertical orientation except for Pie, Donut, Polar Area.
+All charts can be rendered either in horizontal or vertical orientation except for Pie, Donut, Polar Area.
 
 #### Features
-- Easy to learn and use
-- Configurable
+- Easy to learn and use (Single Function API)
+- 12 charts supported already, with more to come
+- Configurable (about 100 ways already)
 - Cool transitions and effects
+- Power of d3 exposed in the form of d3 selections in the resultant uvCharts object 
 
 ##uvCharts Quick Start Guide
 This guide is to help you begin using uvCharts to build charts on the web. uvCharts uses d3.js and SVG/HTML5 to build charts henceforth IE8 and below aren't supported.
@@ -47,7 +49,7 @@ Keeping simplicity as our first priority, we've ensured that we build a single f
 
 	 var chartObject = uv.chart(chartType, graphDefinition, optionalConfiguration);
 
-Lets get started and start with a simple example, lets say we want to plot no.of users using a certain product for the past 5 years. We need to now represent this data in a form which uvCharts understands. **Graph definition** which uvCharts understands is a simple JSON object with 2 key value pairs.
+Lets get started with a simple example. Lets say we want to plot no.of users using a certain product for the past 5 years. We need to now represent this data in some form which uvCharts understands. **Graph definition** which uvCharts understands is a simple JSON object with 2 key value pairs.
 
 ```
 {
@@ -90,7 +92,7 @@ That is a nice dataset we have there for uvCharts. Lets go ahead and plot this i
 
 	var chart = uv.chart('Bar', graphdef);
 
-Thats it, your chart is ready. The chart is by default placed in a DOM element with id 'uv-div' and this can be overridden (more on it later).
+That's it, your chart is ready. The chart is by default placed in a DOM element with id 'uv-div' and this can be overridden (more on it later).
 
 Here is the interesting part, no matter which chart you want to represent your data in, the graph definition doesn't change. So if you want to represent the data in the form of a line chart.
 
@@ -101,11 +103,11 @@ More:
 	var chart = uv.chart('Area', graphdef);
 	var chart = uv.chart('StackedBar', graphdef);
 
-The same applies for all 12 chart types that we support at the current moment.
+The same applies for all 12 chart types that we currently support.
 
 Now you're wondering where do you get to customize the chart in the 100 ways we claim you can. Well, the uv.chart function takes in a 3rd optional parameter, **Configuration** which overrides the default configuration thus letting you build your own unique charts.
 
-If you've noticed the chart created above doesn't have captions and axis labels, thus looks like a dumb representation of some random data. Lets add them rightaway:
+If you've noticed the chart created above, it doesn't have captions and axis labels, thus looks like a dumb representation of some random data. Lets go ahead and add them right away:
 
 ```
 var chart = uv.chart ('Bar', graphdef, {
@@ -119,8 +121,7 @@ var chart = uv.chart ('Bar', graphdef, {
 })
 
 ```
-
-You can read more about the configuration options, there defaults, ranges, definitions here.
+A bit more clear, isn't it now. You can read more about the configuration options, there defaults, ranges, definitions here.
 
 Wait a second, we've a lot more open source projects at Imaginea, lets compare their usage with uvCharts across the same years.
 
@@ -196,9 +197,9 @@ We hope the tutorial was helpful enough to get you to begin using uvCharts.
 - uvCharts interface to configure and modify the chart in real time (under development)
 
 ## uvData
-uvData is a JavaScript based data manipulation library which acts on a ist of JSON Object (A list of Tuples). It is still work in progress and can be used to do complex operations on data.
+uvData is a JavaScript based data manipulation library which acts on a ist of JSON Object (a list of tuples). It is still work in progress and can be used to do complex operations on data.
 
-Together with uvCharts, it will provide enough options to play around with data and visualize it in whichever way you would like to have it.
+Together with uvCharts, it will provide enough options to play around with data and visualize it in whichever way you want to see it.
 
 ## Contributors
 
