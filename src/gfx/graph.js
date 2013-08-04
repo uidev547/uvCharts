@@ -105,7 +105,7 @@ uv.Graph.prototype.setDownloadOptions = function () {
 		.style('font-family', self.config.caption.fontfamily)
 		.style('font-size', '12')
 		.style('cursor', self.config.caption.cursor)
-		.style('stroke', self.config.caption.stroke)
+		.style('stroke', self.config.caption.strokecolor)
 		.style('text-decoration', 'underline')
 		.on('mouseover', function() {
 			var dnldBtn = d3.select(this);
