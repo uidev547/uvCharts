@@ -1,14 +1,15 @@
-Almost all settings related to the graph being rendered are modify-able using the config object which is one of the parameters used in building your graph.
+Almost all styles/settings related to the chart being rendered is modify-able using the 3rd optional parameter **optionalConfiguration**.
 
 The configuration itself is split into different groups based on which part of the graph they affect. Here is a overview of each of them:
 
 ## graph
 
 |Property		|Value Type		|Default|		Description|
-|---------------|:-------------:|:-----:|-------------------|
-|**palette**    |```string```	|*'Plain'*|Defines the color palette used while rendering the graph. Color palettes are predefined, ability to add custom color palettes is coming soon.|
+|--------------:|:-------------:|:-----:|-------------------|
+|**palette**    |```string```	|*'Brink'*|Defines the color palette used while rendering the graph. Color palettes are predefined. Custom colors can be set using custompalette property|
 |**background** |```#color```	| *#fff*|Defines the background color of the graph|
 |**orientation**|```string```|*'Horizontal'*|Defines the orientation of the graph rendered.|
+|**custompalette**|```array```| No Default | an array of color code/string which are used sequentially for the corresponding category/series|
 
 #### palette (```string```)
 Defines the color palette used while rendering the graph. Color palettes are predefined, ability to add custom color palettes is coming soon.

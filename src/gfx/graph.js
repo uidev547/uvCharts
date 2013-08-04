@@ -1,5 +1,5 @@
 /**
- * uv is the namespace, which holds everything else related to the library
+ * uv is the local namespace within the anonymous function, which holds everything else related to the library
  * @type {Object}
  */
 var uv = {};
@@ -69,6 +69,7 @@ uv.Graph.prototype.init = function () {
 	if(self.config.meta.isDownloadable){
 		self.setDownloadOptions();
 	}
+	
 	return self;
 };
 
@@ -92,32 +93,33 @@ uv.Graph.prototype.setDimensions = function () {
  * This function downloads the graph in png format.
  * 
  */
-uv.Graph.prototype.setDownloadOptions = function(){
+uv.Graph.prototype.setDownloadOptions = function () {
 	var self = this;
 	self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
+	
 	self.download.append('text').classed(uv.constants.classes.download, true)
-	.text(uv.constants.downloads.downloadLabel)
-	.attr('y', -self.config.margin.top / 2)
-	.attr('x', self.config.dimension.width-25)
-	.attr('text-anchor', self.config.caption.textanchor)
-	.style('font-family', self.config.caption.fontfamily)
-	.style('font-size', '12')
-	.style('cursor', self.config.caption.cursor)
-	.style('stroke', self.config.caption.stroke)
-	.style('text-decoration', 'underline')
-	.on('mouseover',function(){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('color','#0000FF');	
-	})
-	.on('mouseout',function(){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('color','#8D8D8D');
-	})
-	.on('click', function (){
-		var dnldBtn = d3.select(this);
-		dnldBtn.style('display','none');
-		uv.util.svgToPng(self, function(){
-				dnldBtn.style('display',null);
+		.text(uv.constants.downloads.downloadLabel)
+		.attr('y', -self.config.margin.top / 2)
+		.attr('x', self.config.dimension.width-25)
+		.attr('text-anchor', self.config.caption.textanchor)
+		.style('font-family', self.config.caption.fontfamily)
+		.style('font-size', '12')
+		.style('cursor', self.config.caption.cursor)
+		.style('stroke', self.config.caption.strokecolor)
+		.style('text-decoration', 'underline')
+		.on('mouseover', function() {
+			var dnldBtn = d3.select(this);
+			dnldBtn.style('color','#0000FF');
+		})
+		.on('mouseout', function() {
+			var dnldBtn = d3.select(this);
+			dnldBtn.style('color','#8D8D8D');
+		})
+		.on('click', function () {
+			var dnldBtn = d3.select(this);
+			dnldBtn.style('display','none');
+			uv.util.svgToPng(self, function() {
+					dnldBtn.style('display',null);
 			});
 		});
 };
@@ -672,8 +674,8 @@ uv.Graph.prototype.caption = function (caption) {
 	return this.config.meta.caption;
 };
 
-uv.Graph.prototype.subCaption = function(subCaption){
-	if(subCaption){
+uv.Graph.prototype.subCaption = function (subCaption) {
+	if (subCaption) {
 		this.config.meta.subCaption = subCaption;
 		return this;
 	}
@@ -681,11 +683,12 @@ uv.Graph.prototype.subCaption = function(subCaption){
 	return this.config.meta.caption;
 };
 
-uv.Graph.prototype.isDownload = function(isDownload){
-	if(isDownload){
+uv.Graph.prototype.isDownloadable = function (isDownload) {
+	if (isDownload) {
 		this.config.meta.isDownload = isDownload;
 		return this;
 	}
+
 	return this.config.meta.isDownload;
 };
 

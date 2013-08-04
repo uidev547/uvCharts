@@ -111,9 +111,9 @@ uv.config = {
 		fontvariant : 'small-caps',
 		textdecoration : 'none',
 		hovercolor : '#696969',
+		strokecolor : '#0000FF',
 		textanchor : 'middle',
-		cursor : 'pointer',
-		stroke : '#0000FF'
+		cursor : 'pointer'
 	},
 
 	subCaption : {
