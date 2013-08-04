@@ -6,7 +6,7 @@ The modules themselves are:
 - uvData (under development)
 
 ## uvCharts
-uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/imaginea/uvCharts/wiki/uvCharts) page.
+uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/imaginea/uvCharts/wiki/Home) page.
 
 Charts supported at the current moment are:
 
