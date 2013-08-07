@@ -63,11 +63,13 @@ uv.Graph.prototype.init = function () {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setLegend()
 		.setEffectsObject();
 
 	if(self.config.meta.isDownloadable){
 		self.setDownloadOptions();
+	}
+	if(self.config.legend.showlegends){
+		self.setLegend();
 	}
 	
 	return self;

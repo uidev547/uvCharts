@@ -134,7 +134,8 @@ uv.config = {
 		symbolsize : 10,
 		inactivecolor : '#DDD',
 		legendstart : 0,
-		legendtype : 'categories'
+		legendtype : 'categories',
+		showlegends: true,
 	},
 
 	effects : {
