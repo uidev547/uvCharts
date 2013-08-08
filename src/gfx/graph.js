@@ -96,11 +96,11 @@ uv.Graph.prototype.setDimensions = function () {
  * 
  */
 uv.Graph.prototype.setDownloadOptions = function () {
-	var self = this;
-	self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
-	
-	self.download.append('text').classed(uv.constants.classes.download, true)
-		.text(uv.constants.downloads.downloadLabel)
+	if (uv.util.isDownloadSupported()) {
+		var self = this;
+		self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
+		self.download.append('text').classed(uv.constants.classes.download, true)
+		.text(self.config.meta.downloadLabel)
 		.attr('y', -self.config.margin.top / 2)
 		.attr('x', self.config.dimension.width-25)
 		.attr('text-anchor', self.config.caption.textanchor)
@@ -124,6 +124,7 @@ uv.Graph.prototype.setDownloadOptions = function () {
 					dnldBtn.style('display',null);
 			});
 		});
+	}
 };
 
 
