@@ -265,3 +265,24 @@ uv.util.extend = function() {
     }
     return arguments[0];
 };
+
+/**
+ * This method returns tool tip text value if config option ‘show tooltiptext’ is true else returns empty string.
+ * The text is as per the format specified using %c, %l, %v for category, label and values respectively.
+ * Default format is - ‘%c [%l] : %v’ 
+ * @param   self     
+ * @param  {String} category
+ * @param  {String} label
+ * @param  {String} value
+ * @return {[String]}  tool tip text with specified format.
+ */
+uv.util.getTooltipText = function(self, category, label, value) {
+	if(!self.config.tooltip.show) {
+		return '';
+	}
+	var format = self.config.tooltip.format;
+	if(format === '') {
+		return category + ' [' + label + '] : ' + uv.util.getLabelValue(value);
+	}
+	return format.replace(/%c/gi, category).replace(/%l/gi, label).replace(/%v/gi, uv.util.getLabelValue(self, value));
+};

@@ -74,7 +74,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 
 
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -124,7 +124,8 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 				.attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
+		
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
