@@ -158,18 +158,18 @@ uv.util.svgToPng = function (downloadElmtRef, callback) {
 		canvas.setAttribute('height',d3.select(downloadElmtRef.frame.node()).attr('height'));
 		ctx.drawSvg(svgContent);	
 		canvas.toBlob(function(blob) {
-		    saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
+			saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
 		}, "image/png");
 		callback.call();
 	} else {
-		alert('this feature is not supported in this version of browser');
+		console.log('this feature is not supported in this version of browser');
 	}
 };
 
 uv.util.isDownloadSupported = function() {
 	var canvas = document.createElement('canvas');
 	var ctx = canvas.getContext("2d");
-	return typeof(ctx.drawSvg) == 'function' && typeof(canvas.toBlob) == 'function';
+	return typeof(ctx.drawSvg) === 'function' && typeof(canvas.toBlob) === 'function';
 };
 
 uv.util.isCanvasSupported = function () {

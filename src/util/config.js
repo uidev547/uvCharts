@@ -16,7 +16,8 @@ uv.config = {
 		vlabel : '',
 		hsublabel : '',
 		vsublabel : '',
-		isDownloadable : false
+		isDownloadable : false,
+		downloadLabel : 'Download'
 	},
 
 	dimension : {
