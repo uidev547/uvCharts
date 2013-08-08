@@ -1,7 +1,7 @@
 uv.config = {
 	graph : {
 		palette : 'Brink',
-		background : '#FFFFFF',
+		bgcolor : '#FFFFFF',
 		orientation : 'Horizontal',
 		max : 0,
 		custompalette : [],
@@ -58,6 +58,11 @@ uv.config = {
 		precision : 2,
 		prefix : '',
 		suffix : ''
+	},
+
+	tooltip : {
+		show : true,
+		format : '%c [%l] : %v'
 	},
 
 	scale : {

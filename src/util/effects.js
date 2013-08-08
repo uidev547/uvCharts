@@ -140,7 +140,7 @@ uv.effects.caption.mouseout = function (config) {
 	return function () {
 		d3.select(this.parentNode.parentNode).select('.' + uv.constants.classes.hoverbg)
 			.transition().duration(config.effects.duration)
-				.style('fill', config.graph.background);
+				.style('fill', config.graph.bgcolor);
 	};
 };
 

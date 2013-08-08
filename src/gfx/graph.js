@@ -177,7 +177,7 @@ uv.Graph.prototype.setBackground = function (color) {
 						.attr('height', self.height())
 						.attr('width', self.width());
 	}
-	self.bg.style('fill', color || self.config.graph.background);
+	self.bg.style('fill', color || self.config.graph.bgcolor);
 
 	self.chart = self.panel.append('g').classed(uv.constants.classes.chart, true)
 					.style('opacity', self.config.graph.opacity);

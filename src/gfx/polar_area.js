@@ -44,7 +44,7 @@ uv.PolarAreaGraph = function (graphdef, config) {
 			.text(function (d) { return uv.util.getLabelValue(self, d); });
 	
 	self.arcs.append('svg:title')
-		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
+		.text(function (d, i) { return uv.util.getTooltipText(self, self.category, self.labels[i], d);});
 };
 
 uv.PolarAreaGraph.prototype = uv.util.inherits(uv.Graph);
