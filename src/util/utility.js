@@ -149,26 +149,34 @@ uv.util.formatClassName = function(name){
 	return returnName;
 };
 
-uv.util.svgToPng = function(graph, callback){
-	var svgContent = d3.select(graph.frame.node().parentNode).html(),
-			canvas = document.createElement('canvas'),
-			ctx = canvas.getContext("2d"),
-			width = graph.width() + graph.left() + graph.right(),
-			height = graph.width() + graph.top() + graph.bottom();
-
-	canvas.setAttribute('width', width);
-	canvas.setAttribute('height', height);
-	ctx.drawSvg(svgContent);
-	canvas.toBlob(function(blob) {
-		saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
-	}, "image/png");
-	callback.call();
+uv.util.svgToPng = function (downloadElmtRef, callback) {
+	if (this.isCanvasSupported()) {
+		var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
+		var canvas = document.createElement('canvas');
+		var ctx = canvas.getContext("2d");
+		canvas.setAttribute('width',d3.select(downloadElmtRef.frame.node()).attr('width'));
+		canvas.setAttribute('height',d3.select(downloadElmtRef.frame.node()).attr('height'));
+		ctx.drawSvg(svgContent);	
+		canvas.toBlob(function(blob) {
+			saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
+		}, "image/png");
+		callback.call();
+	} else {
+		console.log('this feature is not supported in this version of browser');
+	}
 };
 
-uv.util.isCanvasSupported = function (){
+uv.util.isDownloadSupported = function() {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext("2d");
+	return typeof(ctx.drawSvg) === 'function' && typeof(canvas.toBlob) === 'function';
+};
+
+uv.util.isCanvasSupported = function () {
   var elem = document.createElement('canvas');
   return !!(elem.getContext && elem.getContext('2d'));
 };
+
 /**
  * This function waits till the end of the transition and then call the callback
  * function which is passed as an argument

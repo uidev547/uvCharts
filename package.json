@@ -1,5 +1,5 @@
 {
-  "name": "uv",
+  "name": "uvCharts",
   "version": "0.1.0",
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",

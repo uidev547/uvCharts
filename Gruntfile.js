@@ -3,8 +3,13 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-          
+    pkg: grunt.file.readJSON('package.json'),      
+	ban: grunt.file.readJSON('banner.json'),      
     concat: {
+    	options : {
+    		banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.licence %>*/\n'
+      },
+      
       dist: {
         src: ['src/gfx/graph.js', 'src/util/utility.js', 'src/util/config.js', 'src/util/constants.js', 'src/util/register.js', 'src/util/effects.js', 'src/util/palette.js', 'src/gfx/area.js', 'src/gfx/bar.js',
               'src/gfx/donut.js', 'src/gfx/line.js', 'src/gfx/percent_area.js', 'src/gfx/percent_bar.js', 'src/gfx/pie.js', 'src/gfx/polar_area.js', 'src/gfx/stacked_area.js', 'src/gfx/stacked_bar.js', 'src/gfx/stepup_bar.js', 'src/gfx/waterfall.js', 
@@ -35,7 +40,8 @@ module.exports = function(grunt) {
 
     uglify : {
       options : {
-        mangle : true
+        mangle : true,
+		    banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.licence %>*/\n'
       },
 
       gfx : {
