@@ -3,7 +3,8 @@ uv.effects = {};
 uv.effects.bar = {};
 uv.effects.bar.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx],
+		label = graph.labels[idx];
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr-' + uv.util.formatClassName(category))
@@ -19,7 +20,11 @@ uv.effects.bar.mouseover = function (graph, idx) {
 		}
 	};
 
-	graph.effects[category].mouseover = effect;
+	if(config.legend.legendtype === 'categories'){
+		graph.effects[category].mouseover = effect;
+	}else{
+		graph.effects[label].mouseover = effect;
+	}
 	return effect;
 };
 
@@ -27,7 +32,8 @@ uv.effects.bar.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
 		category = graph.categories[idx],
 		barColor = uv.util.getColorBand(graph.config, idx),
-		textColor = defColor || uv.util.getColorBand(graph.config, idx);
+		textColor = defColor || uv.util.getColorBand(graph.config, idx),
+		label = graph.labels[idx];
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr-' + uv.util.formatClassName(category))
@@ -40,7 +46,11 @@ uv.effects.bar.mouseout = function (graph, idx, defColor) {
 				.style('fill', graph.config.label.showlabel ? textColor : 'none');
 	};
 
-	graph.effects[category].mouseout = effect;
+	if(config.legend.legendtype === 'categories'){
+		graph.effects[category].mouseout = effect;
+	}else{
+		graph.effects[label].mouseout = effect;
+	}
 	return effect;
 };
 
@@ -65,7 +75,7 @@ uv.effects.area.mouseout = function (graph, idx) {
 
 	var effect = function () {
 		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category));
-		graph.frame.selectAll('.cge-'+category).select('path.' + uv.constants.classes.area +category)
+		graph.frame.selectAll('.cge-'+uv.util.formatClassName(category)).select('path.' + uv.constants.classes.area +uv.util.formatClassName(category))
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
@@ -168,7 +178,7 @@ uv.effects.donut.mouseout = function (center, config) {
 
 uv.effects.pie = {};
 uv.effects.pie.mouseover = function (graph ,center, arcfunc, config) {
-	var effect =  function (d, i) {
+	var effect =  function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
 				y : arcfunc.centroid(d)[1] / 5
