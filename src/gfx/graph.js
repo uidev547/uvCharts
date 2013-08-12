@@ -135,7 +135,9 @@ uv.Graph.prototype.setDownloadOptions = function () {
 uv.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (!self.frame) {
-		self.frame = d3.select(self.position() || 'body').append('div').style('display','inline-block').append('svg');
+		self.frame = d3.select(self.position() || 'body').append('div')
+			.classed(uv.constants.classes.chartdiv, true)
+			.style('display','inline-block').append('svg');
 	}
 
 	self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
