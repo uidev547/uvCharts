@@ -122,7 +122,7 @@ uv.effects.line.mouseout = function (graph, idx, defColor) {
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
-				.style('stroke', color);
+				.style('stroke', '#fff');
 
 		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).select('path')
 			.transition().duration(config.effects.hover)

@@ -47,7 +47,8 @@ uv.config = {
 		fontweight : 'bold',
 		showticks : true,
 		showsubticks : true,
-		showtext : true
+		showtext : true,
+		opacity: 0.1
 	},
 
 	label : {
@@ -95,8 +96,8 @@ uv.config = {
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
 		fontfill : '#FFFFFF',
-		strokecolor : 'none',
-		strokewidth : 2
+		strokecolor : '#FFFFFF',
+		strokewidth : 1
 	},
 	
 	donut : {
@@ -104,10 +105,10 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : '#FFFFF',
+		fontfill : '#000',
 		factor : 0.4,
-		strokecolor : 'none',
-		strokewidth : 2
+		strokecolor : '#FFFFFF',
+		strokewidth : 1
 	},
 	
 	caption : {

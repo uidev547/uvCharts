@@ -74,7 +74,7 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.attr('r', 3.5)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
-				.style('stroke', color)
+				.style('stroke', '#fff')
 					.append('svg:title')
 					.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 
@@ -137,7 +137,7 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
-				.style('stroke', color)
+				.style('stroke', '#fff')
 					.append('svg:title')
 					.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
