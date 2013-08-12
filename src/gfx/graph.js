@@ -376,7 +376,7 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 								.call(self.axes.hor.func);
 
 	if(self.config.axis.showticks) {
-		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);	
+		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor).style('opacity', 0.1);
 	}
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
@@ -426,7 +426,7 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 								.call(self.axes.ver.func);
 
 	if(self.config.axis.showticks) {
-		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
+		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor).style('opacity', 0.1);
 	}
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
