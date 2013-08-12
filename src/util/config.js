@@ -47,7 +47,8 @@ uv.config = {
 		fontweight : 'bold',
 		showticks : true,
 		showsubticks : true,
-		showtext : true
+		showtext : true,
+		opacity: 0.1
 	},
 
 	label : {

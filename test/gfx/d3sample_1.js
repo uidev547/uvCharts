@@ -1,6 +1,6 @@
 init = function() {
 	var horConfig = {};
-	var verConfig = { meta : {isDownloadable : true}, graph : {orientation : 'Vertical'}};
+	var verConfig = { graph : {orientation : 'Vertical'}};
 
 	var graphdef = new sample.Graphdef();
 	var tgraphdef = new sample.Graphdef();

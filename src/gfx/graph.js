@@ -287,10 +287,12 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 								.scale(self.axes.hor.scale)
 								.tickPadding(self.config.axis.padding)
 								.orient('bottom');
+
 		if(!self.config.axis.showtext) {
 			self.axes.hor.func.tickSize(0);
 		}
 	}
+
 	if(!self.config.axis.showtext) {
 			self.axes.hor.func.tickFormat(function (d) { return ''; });
 	}
@@ -339,6 +341,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 								.scale(self.axes.ver.scale)
 								.tickPadding(self.config.axis.padding)
 								.orient('left');
+
 		if(!self.config.axis.showtext){
 			self.axes.ver.func.tickSize(0);
 		}
@@ -375,8 +378,9 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.hor.func);
 
-	if(self.config.axis.showticks) {
-		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor).style('opacity', 0.1);
+	if (self.config.axis.showticks) {
+		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor)
+								.style('opacity', self.config.axis.opacity);
 	}
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
@@ -425,8 +429,9 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.ver.func);
 
-	if(self.config.axis.showticks) {
-		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor).style('opacity', 0.1);
+	if (self.config.axis.showticks) {
+		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor)
+								.style('opacity', self.config.axis.opacity);
 	}
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
