@@ -22,15 +22,14 @@ uv.constants.classes = {
 	legendsign : 'uv-legend-sign',
 	legendlabel : 'uv-legend-label',
 	hoverbg : 'uv-hover-bg',
-
 	arc : 'uv-arc-',
 	areapath : 'uv-areapath-',
 	linepath :'uv-linepath-',
 	area : 'uv-area-',
 	line : 'uv-line-',
 	dot : 'uv-dot',
-	
-	download : 'download-options'
+	chartdiv : 'uv-chart-div',
+	download : 'uv-download-options'
 };
 
 uv.constants.downloads = {
