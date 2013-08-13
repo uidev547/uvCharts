@@ -132,5 +132,44 @@ var details = {
 		properties : [
 			{ name : 'interpolation', type : 'String', default : '"linear"', range: '"linear"|"basis"|"cardinal"|"monotone"', desc : 'Read more <a target="_blank" href="https://github.com/mbostock/d3/wiki/SVG-Shapes#wiki-line_interpolate">here</a>'},
 		]
+	},
+
+	area : {
+		id : 'config-area',
+		desc : 'All properties specifically affecting Area, Stacked Area and Percent Area go in this group.',
+		properties : [
+			{ name : 'interpolation', type : 'String', default : '"linear"', range: '"linear"|"basis"|"cardinal"|"monotone"', desc : 'Read more <a target="_blank" href="https://github.com/mbostock/d3/wiki/SVG-Shapes#wiki-line_interpolate">here</a>'},
+			{ name : 'opacity', type : "Decimal", default : "0.2", range: '0-1', desc : 'Opacity in the case of simple Area chart'},
+			{ name : 'offset', type : 'String', default : "'zero'", range: '"zero"|"wiggle"|"silhoutte"|"expand"', desc : 'Read more <a href="https://github.com/mbostock/d3/wiki/Stack-Layout#wiki-offset">here</a>'},
+		]
+	},
+
+	pie : {
+		id : 'config-pie',
+		desc : 'All properties specific to Pie Chart go in this group',
+		properties : [
+			{ name : 'fontfamily', type : 'String', default : '"Arial"', range: uvcs.fcode, desc : 'Font used to display measure on the chart'},
+			{ name : 'fontsize', type : "Size", default : "14", range: '0 or above', desc : 'Font size of the font used to display measure'},
+			{ name : 'fontweight', type : 'String', default : 'normal', range: 'normal|bold', desc : 'Font weight'},
+			{ name : 'fontvariant', type : 'String', default : 'small-caps', range: 'normal|small-caps', desc : 'Font variant used on the text'},
+			{ name : 'fontfill', type : uvcs.color, default : "#000000", range: uvcs.ccode, desc : 'Text color on the measure'},
+			{ name : 'strokecolor', type : uvcs.color, default : "#ffffff", range: uvcs.ccode, desc : 'Stroke color of each arc in the pie chart'},
+			{ name : 'strokewidth', type : 'Number', default : '1', range: '0 or above', desc : 'Stroke width on each arc'}
+		]
+	},
+
+	donut : {
+		id : 'config-donut',
+		desc : 'All properties specific to Donut Chart go in this group',
+		properties : [
+			{ name : 'fontfamily', type : 'String', default : '"Arial"', range: uvcs.fcode, desc : 'Font used to display measure on the chart'},
+			{ name : 'fontsize', type : "Size", default : "14", range: '0 or above', desc : 'Font size of the font used to display measure'},
+			{ name : 'fontweight', type : 'String', default : 'normal', range: 'normal|bold', desc : 'Font weight'},
+			{ name : 'fontvariant', type : 'String', default : 'small-caps', range: 'normal|small-caps', desc : 'Font variant used on the text'},
+			{ name : 'fontfill', type : uvcs.color, default : "#000000", range: uvcs.ccode, desc : 'Text color on the measure'},
+			{ name : 'strokecolor', type : uvcs.color, default : "#ffffff", range: uvcs.ccode, desc : 'Stroke color of each arc in the donut chart'},
+			{ name : 'strokewidth', type : 'Number', default : '1', range: '0 or above', desc : 'Stroke width on each arc'},
+			{ name : 'factor', type : "Decimal", default : "0.4", range: '0-1', desc : 'Radius of the cropped part in terms of the bigger pie.'}
+		]
 	}
 };
