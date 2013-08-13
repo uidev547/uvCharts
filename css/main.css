@@ -34,8 +34,8 @@ a {
 	top: 0;
 	left: 0;
 	background-color: fff;
-	border-bottom: 0px solid #ff9053;
-	box-shadow: 0px 3px 3px #bbb;
+	border-bottom: 1px solid #ff5c00;
+	box-shadow: 0px 3px 2px #FFE4D5;
 	z-index: 100;
 }
 
@@ -525,7 +525,7 @@ a:hover.slidesjs-stop {
 .contact-content {
 	font-family: 'PT Sans';
 	display: inline-block;
-	font-size: 13px;
+	font-size: 12px;
 	width: 150px;
 	vertical-align: middle;
 }
