@@ -89,7 +89,7 @@ $( function () {
 				elmt = $(elmtId);
 
 		var top = elmt.position().top;
-		window.scrollTo(0, +top );
+		$('html, body').animate({ scrollTop: top }, 'slow');
 	});
 
 	// $footerLinks.off('mouseenter').on('mouseenter', function (e) {

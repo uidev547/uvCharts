@@ -33,9 +33,9 @@ a {
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color: fff;
-	border-bottom: 0px solid #ff9053;
-	box-shadow: 0px 3px 3px #bbb;
+	background-color: #fff;
+	border-bottom: 0px solid #ff5c00;
+	box-shadow: 0px 3px 2px #dddddd;
 	z-index: 100;
 }
 
@@ -201,6 +201,17 @@ button.download:hover {
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
 	-ms-transform: rotateY(180deg);
+	-o-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+
+.feature-box:before {
+	width: 720px;
+	margin: 0 auto;
+	height: 10px;
+	content: '';
+	border-top: 1px solid #ddd;
+	display: block;
 }
 
 .feature-box > div{
@@ -505,14 +516,13 @@ a:hover.slidesjs-stop {
 
 .contact-header {
 	display: inline-block;
-	font-size: 13px;
+	font-size: 14px;
 	font-family: 'Cabin Condensed';
 	width: 80px;
-	text-transform: uppercase;
 }
 
 .contact-content {
-	font-family: 'PT Sans';
+	font-family: 'Cabin Condensed';
 	display: inline-block;
 	font-size: 13px;
 	width: 150px;
