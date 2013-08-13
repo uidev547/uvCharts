@@ -2,3 +2,7 @@ node_modules/*
 components/*
 build/*
 .DS_Store
+src/
+test/
+dist/
+readme/
