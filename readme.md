@@ -208,3 +208,8 @@ Together with uvCharts, it will provide enough options to play around with data 
 - Priyanka Dudani (priyankadudani)
 - Madhur Shrimal (shrimalmadhur)
 - Krishnamraj Goud (ksnov)
+
+## Designers
+
+- Paridhi Verma (paridhiv)
+- Kiran Kumar G
