@@ -2,3 +2,6 @@ node_modules/*
 components/*
 build/*
 .DS_Store
+css/
+js/
+images/
