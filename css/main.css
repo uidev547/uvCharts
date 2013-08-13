@@ -201,6 +201,17 @@ button.download:hover {
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
 	-ms-transform: rotateY(180deg);
+	-o-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+
+.feature-box:before {
+	width: 720px;
+	margin: 0 auto;
+	height: 10px;
+	content: '';
+	border-top: 1px solid #ddd;
+	display: block;
 }
 
 .feature-box > div{
