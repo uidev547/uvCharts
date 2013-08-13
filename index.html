@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>uvCharts by Imaginea</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>uvCharts</h1>
+        <h2>JavaScript based charting library built on top of d3js</h2>
+        <a href="https://github.com/Imaginea/uvCharts" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="uv" class="anchor" href="#uv"><span class="octicon octicon-link"></span></a>uv</h1>
+
+<p>uv is a project inspired by <a href="https://github.com/Imaginea/AuroraViz" title="AuroraViz">AuroraViz</a>, another Imaginea Open Source initiative. uv currently contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together.
+The modules themselves are:</p>
+
+<ul>
+<li>uvCharts</li>
+<li>uvData (under development)</li>
+</ul><h2>
+<a name="uvcharts" class="anchor" href="#uvcharts"><span class="octicon octicon-link"></span></a>uvCharts</h2>
+
+<p>uvCharts is a JavaScript charting library which uses <a href="http://mbostock.github.com/d3/" title="d3">d3</a> underneath to build most of the basic charts. To learn more about uvCharts and how to use it, read the <a href="http://www.github.com/imaginea/uvCharts/wiki/uvCharts">wiki</a> page.</p>
+
+<p>Charts supported at the current moment are:</p>
+
+<ul>
+<li>Normal Bar Chart</li>
+<li>Stacked Bar Chart</li>
+<li>Step Up Bar Chart</li>
+<li>Percent Bar Chart</li>
+<li>Normal Area Chart</li>
+<li>Stacked Area Chart</li>
+<li>Percent Area Chart</li>
+<li>Pie Chart</li>
+<li>Donut Chart</li>
+<li>Line Chart</li>
+<li>Waterfall Chart</li>
+<li>Polar Area chart</li>
+</ul><p>All charts can be shown either in horizontal or vertical orientation except for Pie, Donut, Polar Area.</p>
+
+<h4>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>Easy to learn and use</li>
+<li>Configurable</li>
+<li>Cool transitions and effects</li>
+</ul><h2>
+<a name="uvcharts-quick-start-guide" class="anchor" href="#uvcharts-quick-start-guide"><span class="octicon octicon-link"></span></a>uvCharts Quick Start Guide</h2>
+
+<p>This guide is to help you begin using uvCharts to build charts on the web. uvCharts uses d3.js and SVG/HTML5 to build charts henceforth IE8 and below aren't supported.</p>
+
+<h3>
+<a name="adding-the-library-to-your-page" class="anchor" href="#adding-the-library-to-your-page"><span class="octicon octicon-link"></span></a>Adding the library to your page</h3>
+
+<p>d3.js being the only dependency for uvCharts, has to be included along with your other scripts before harnessing the power of uvCharts on your webpages. d3.js is available on cdn henceforth you can directly include it using the following code in your webpage.</p>
+
+<pre><code>&lt;script type="text/javascript" src-"http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Download the latest version of uvCharts (either minified or unminified) from <code>http://www.github.com/imaginea/uvCharts/dist</code> and include it too in your webpage.</p>
+
+<pre><code>&lt;script type="text/javascript" src=path/to/uvCharts.js&gt;&lt;/script&gt;
+</code></pre>
+
+<h3>
+<a name="using-the-library" class="anchor" href="#using-the-library"><span class="octicon octicon-link"></span></a>Using the library</h3>
+
+<p>Keeping simplicity as our first priority, we've ensured that we build a single function API which adheres to all your charting requirements.</p>
+
+<pre><code> var chartObject = uv.chart(chartType, graphDefinition, optionalConfiguration);
+</code></pre>
+
+<p>Lets get started and start with a simple example, lets say we want to plot no.of users using a certain product for the past 5 years. We need to now represent this data in a form which uvCharts understands. <strong>Graph definition</strong> which uvCharts understands is a simple JSON object with 2 key value pairs.</p>
+
+<pre><code>{
+    categories: [],
+    dataset : {
+
+    }
+}
+</code></pre>
+
+<p>Since we want to just plot data corresponding to one product, say 'uvCharts' itself, the categories array consists of 1 element.</p>
+
+<pre><code>{
+    categories: ['uvCharts'],
+    dataset : {
+
+    }
+}
+</code></pre>
+
+<p>But we haven't provided the data corresponding to this category yet and that is where the dataset part comes in. Lets set some data for uvCharts so we can plot it.</p>
+
+<pre><code>var graphdef = {
+    categories : ['uvCharts'],
+    dataset : {
+        'uvCharts' : [
+            { name : '2009', value : 32 },
+            { name : '2010', value : 60 },
+            { name : '2011', value : 97 },
+            { name : '2012', value : 560 },
+            { name : '2013', value : 999 }
+        ]
+    }
+}
+</code></pre>
+
+<p>That is a nice dataset we have there for uvCharts. Lets go ahead and plot this in a DOM element using the uvCharts library. All you need to do is call the uv.chart function from within the JavaScript runtime in your page.</p>
+
+<pre><code>var chart = uv.chart('Bar', graphdef);
+</code></pre>
+
+<p>Thats it, your chart is ready. The chart is by default placed in a DOM element with id 'uv-div' and this can be overridden (more on it later).</p>
+
+<p>Here is the interesting part, no matter which chart you want to represent your data in, the graph definition doesn't change. So if you want to represent the data in the form of a line chart.</p>
+
+<pre><code>var chart = uv.chart('Line', graphdef);
+</code></pre>
+
+<p>More:</p>
+
+<pre><code>var chart = uv.chart('Area', graphdef);
+var chart = uv.chart('StackedBar', graphdef);
+</code></pre>
+
+<p>The same applies for all 12 chart types that we support at the current moment.</p>
+
+<p>Now you're wondering where do you get to customize the chart in the 100 ways we claim you can. Well, the uv.chart function takes in a 3rd optional parameter, <strong>Configuration</strong> which overrides the default configuration thus letting you build your own unique charts.</p>
+
+<p>If you've noticed the chart created above doesn't have captions and axis labels, thus looks like a dumb representation of some random data. Lets add them rightaway:</p>
+
+<pre><code>var chart = uv.chart ('Bar', graphdef, {
+    meta : {
+        caption : 'Usage over years',
+        subcaption : 'among Imaginea OS products',
+        hlabel : 'Years',
+        vlabel : 'Number of users',
+        vsublabel : 'in thousands'
+    }
+})
+
+</code></pre>
+
+<p>You can read more about the configuration options, there defaults, ranges, definitions here.</p>
+
+<p>Wait a second, we've a lot more open source projects at Imaginea, lets compare their usage with uvCharts across the same years.</p>
+
+<pre><code>var graphdef = {
+    categories : ['uvCharts', 'matisse', 'bot-bot', 'SocialByWay'],
+    dataset : {
+        'uvCharts' : [
+            { name : '2009', value : 32 },
+            { name : '2010', value : 60 },
+            { name : '2011', value : 97 },
+            { name : '2012', value : 560 },
+            { name : '2013', value : 999 }
+        ],
+
+        'matisse' : [
+            { name : '2009', value : 58 },
+            { name : '2010', value : 75 },
+            { name : '2011', value : 90 },
+            { name : '2012', value : 740 },
+            { name : '2013', value : 890 }      
+        ],
+
+        'bot-bot' : [
+            { name : '2009', value : 43 },
+            { name : '2010', value : 88 },
+            { name : '2011', value : 100 },
+            { name : '2012', value : 420 },
+            { name : '2013', value : 769 }  
+        ],
+
+        'SocialByWay' : [
+            { name : '2009', value : 88 },
+            { name : '2010', value : 120 },
+            { name : '2011', value : 157 },
+            { name : '2012', value : 450 },
+            { name : '2013', value : 1024 } 
+        ],
+
+        'WaveMaker' : [
+            { name : '2009', value : 32 },
+            { name : '2010', value : 60 },
+            { name : '2011', value : 97 },
+            { name : '2012', value : 560 },
+            { name : '2013', value : 999 }  
+        ]
+    }
+}
+</code></pre>
+
+<p>Notice that the graphdef has 4 categories in the categories array but data for 5 categories in the dataset. The series corresponding to WaveMaker isn't rendered as it is not part of the <em>categories</em> array. The <em>categories</em> array not only defines which series are drawn in the chart, but also the order in which the series are drawn.</p>
+
+<p>Lets plot this multiseries bar chart on our webpage,</p>
+
+<pre><code>var chart = uv.chart ('Bar', graphdef, {
+    meta : {
+        caption : 'Usage over years',
+        subcaption : 'among Imaginea OS products',
+        hlabel : 'Years',
+        vlabel : 'Number of users',
+        vsublabel : 'in thousands'
+    }
+})
+
+</code></pre>
+
+<p>The graph definition defines whether the chart is multiseries or single series based on the no.of elements in the categories array and thus has a uniform representation throughout.</p>
+
+<p>We hope the tutorial was helpful enough to get you to begin using uvCharts.</p>
+
+<h3>
+<a name="to-be-implemented" class="anchor" href="#to-be-implemented"><span class="octicon octicon-link"></span></a>To be implemented</h3>
+
+<ul>
+<li>uvCharts interface to configure and modify the chart in real time (under development)</li>
+</ul><h2>
+<a name="uvdata" class="anchor" href="#uvdata"><span class="octicon octicon-link"></span></a>uvData</h2>
+
+<p>uvData is a JavaScript based data manipulation library which acts on a ist of JSON Object (A list of Tuples). It is still work in progress and can be used to do complex operations on data.</p>
+
+<p>Together with uvCharts, it will provide enough options to play around with data and visualize it in whichever way you would like to have it.</p>
+
+<h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+<ul>
+<li>Kiran Danduprolu (hashd)</li>
+<li>Sanjay Pavan (sanjaypavan)</li>
+<li>Priyanka Dudani (priyankadudani)</li>
+<li>Madhur Shrimal (shrimalmadhur)</li>
+<li>Krishnamraj Goud (ksnov)</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Imaginea/uvCharts/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Imaginea/uvCharts/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Imaginea/uvCharts"></a> is maintained by <a href="https://github.com/Imaginea">Imaginea</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
