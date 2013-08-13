@@ -4,7 +4,8 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),      
-	ban: grunt.file.readJSON('banner.json'),      
+    ban: grunt.file.readJSON('banner.json'),      
+    
     concat: {
     	options : {
     		banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.licence %>*/\n'
@@ -79,10 +80,22 @@ module.exports = function(grunt) {
       }
     },
 
+    compress : {
+      lib : {
+        options : {
+          archive : 'build/uvcharts.zip'
+        },
+
+        files : [
+          { expand: 'true', cwd: 'build/', src : ['uvcharts*'], dest : 'dist/' }
+        ]
+      }
+    },
+
     copy : {
       release : {
-        files : [  
-          { expand: 'true', cwd: 'build/', src : ['uv*'], dest : 'dist/' }
+        files : [
+          { expand: 'true', cwd: 'build/', src : ['uvcharts*'], dest : 'dist/' }
         ]
       }
     }
@@ -94,11 +107,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   // Default task.
   grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['build_gfx', 'build_tst']);
   grunt.registerTask('build_gfx', ['concat:gfx', 'uglify:gfx', 'jshint:gfx']);
   grunt.registerTask('build_tst', ['concat:test'])
-  grunt.registerTask('release', ['build_gfx','copy:release']);
+  grunt.registerTask('release', ['build_gfx', 'compress', 'copy:release']);
 };
