@@ -1,6 +1,6 @@
 uv.config = {
 	graph : {
-		palette : 'Brink',
+		palette : 'Default',
 		bgcolor : '#FFFFFF',
 		orientation : 'Horizontal',
 		max : 0,
