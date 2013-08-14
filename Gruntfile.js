@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     
     concat: {
     	options : {
-    		banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.licence %>\n*/\n'
+    		banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.license %>\n*/\n'
       },
       
       dist: {
@@ -41,8 +41,7 @@ module.exports = function(grunt) {
 
     uglify : {
       options : {
-        mangle : true,
-		    banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.licence %>*/\n'
+        mangle : true
       },
 
       gfx : {
