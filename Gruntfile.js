@@ -41,8 +41,7 @@ module.exports = function(grunt) {
 
     uglify : {
       options : {
-        mangle : true,
-		    banner: '/*! \n<%= pkg.name %> <%= pkg.version %><%= ban.copyright %> <%= ban.licence %>*/\n'
+        mangle : true
       },
 
       gfx : {
