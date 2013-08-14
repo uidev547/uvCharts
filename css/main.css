@@ -34,7 +34,7 @@ a {
 	top: 0;
 	left: 0;
 	background-color: #fff;
-	border-bottom: 0px solid #ff5c00;
+	border-bottom: 1px solid #dadada;
 	box-shadow: 0px 3px 2px #dddddd;
 	z-index: 100;
 }
@@ -96,14 +96,7 @@ button.download {
 	color: #fff;
 	border: 1px solid #FF7F08;
 	border-radius: 2px;
-	background: #ffa84c; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ffa84c 0%, #FF5C00 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#FF5C00)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ffa84c 0%,#FF5C00 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ffa84c 0%,#FF5C00 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ffa84c 0%,#FF5C00 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ffa84c 0%,#FF5C00 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa84c', endColorstr='#FF5C00',GradientType=0 ); /* IE6-9 */
+	background: #ff5c00;
 	
 }
 
@@ -210,7 +203,7 @@ button.download:hover {
 	margin: 0 auto;
 	height: 10px;
 	content: '';
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dadada;
 	display: block;
 }
 
