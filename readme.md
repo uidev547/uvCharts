@@ -1,10 +1,3 @@
-# uv
-uv is a project inspired by [AuroraViz](https://github.com/Imaginea/AuroraViz "AuroraViz"), another Imaginea Open Source initiative. uv currently contains 2 modules which can be used independently of the other and will be a web application which forges the 2 modules together.
-The modules themselves are:
-
-- uvCharts
-- uvData (under development)
-
 ## uvCharts
 uvCharts is a JavaScript charting library which uses [d3](http://mbostock.github.com/d3/ "d3") underneath to build most of the basic charts. To learn more about uvCharts and how to use it, read the [wiki](http://www.github.com/imaginea/uvCharts/wiki/Home) page.
 
@@ -191,7 +184,6 @@ var chart = uv.chart ('Bar', graphdef, {
 The graph definition defines whether the chart is multiseries or single series based on the no.of elements in the categories array and thus has a uniform representation throughout.
 
 We hope the tutorial was helpful enough to get you to begin using uvCharts.
-
 
 ### To be implemented
 - uvCharts interface to configure and modify the chart in real time (under development)
