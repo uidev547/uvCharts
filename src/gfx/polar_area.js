@@ -12,11 +12,10 @@ uv.PolarAreaGraph = function (graphdef, config) {
 	self.category = self.categories[0];
 
 	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
-		layout = d3.layout.pie(),
-		arcfuncs = data[0].map( function (d, i) {
-			return d3.svg.arc().innerRadius(0)
-					.outerRadius((d * self.maxRadius) / self.max());
-		});
+		dataMap = data[0].map(function(d,i){ return d; }),
+		layout = d3.layout.pie().value(function(d){return self.max()/ data[0].length; }),
+		arcfuncs = d3.svg.arc().innerRadius(0)
+						.outerRadius(function(d,i){return ((dataMap[i] * self.maxRadius) / self.max());});
 
 	self.chart.data(data);
 	self.arcs = self.chart.selectAll('g.arc')
@@ -25,15 +24,13 @@ uv.PolarAreaGraph = function (graphdef, config) {
 									.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
 
 	self.arcs.append('path')
-		.attr('d', arcfuncs[0]) /*function (d, i) {
-			arcfuncs[i](d, i);
-		})*/
+		.attr('d', arcfuncs)
 		.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i);})
 		.style('stroke', self.config.pie.strokecolor)
 		.style('stroke-width', self.config.pie.strokewidth);
 
-	self.arcs.append('text')
-			.attr('transform', function (d, i) { return 'translate(' + arcfuncs[i].centroid(d) + ')'; })
+	/*self.arcs.append('text')
+			.attr('transform', function (d, i) { return 'translate(' + arcfuncs.centroid(d) + ')'; })
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.style('fill', self.config.pie.fontfill)
@@ -41,10 +38,12 @@ uv.PolarAreaGraph = function (graphdef, config) {
 			.style('font-size', self.config.pie.fontsize)
 			.style('font-weight', self.config.pie.fontweight)
 			.style('font-variant', self.config.pie.fontvariant)
-			.text(function (d) { return uv.util.getLabelValue(self, d); });
+			.text(function (d) { return uv.util.getLabelValue(self, d); }); */
 	
 	self.arcs.append('svg:title')
 		.text(function (d, i) { return uv.util.getTooltipText(self, self.category, self.labels[i], d);});
+
+	//Draw circles .
 };
 
 uv.PolarAreaGraph.prototype = uv.util.inherits(uv.Graph);
