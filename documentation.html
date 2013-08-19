@@ -1,0 +1,382 @@
+<html>
+	<head>
+		<title>uvCharts</title>
+		<meta charset='utf8' />
+		<link rel="icon" type="image/png" href="images/uvCharts_monochrome.png" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/doc.css" />
+		<link href='http://fonts.googleapis.com/css?family=Cabin+Condensed' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="w header attop">
+			<div class="c">
+				<div class="lf logo">
+						<!-- <span>uv</span>
+						<span>Charts</span> -->
+						<a href="index.html">
+							<img height="52px" width="" src="images/uvCharts_logo.png"></img>
+						</a>
+				</div>
+				<div class="nav rf">
+					<ul style="list-style:none;padding-top: 2px;display: inline-block;">
+						<li>
+							<a href="index.html#features">Features</a>
+						</li><li>
+							<a href="documentation.html">Documentation</a>
+						</li>
+					</ul>
+					<a href="https://raw.github.com/Imaginea/uvCharts/master/dist/uvcharts.zip"><button class="download">Download</button></a>
+				</div>
+				<a href="https://github.com/imaginea/uvCharts"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+			</div>
+
+		</div>
+		<div class="w documentation">
+			<div class="c relative">
+
+				<!-- <div class="title">
+					<div class="main-version" style="font-size:24px; padding-left: 18px;">Documentation Version: 1.0.0</div>
+				</div> -->
+				<div class="doc-menu">
+					<div class="doc-nav-group">
+						<div class="doc-nav-header">
+							<a href="#API">API</a>
+						</div>
+					</div>
+					
+					<div class="doc-nav-group">
+						<div class="doc-nav-header">
+							<a href="#charts">Chart Types</a>
+						</div>
+					</div>
+					
+					<div class="doc-nav-group">
+						<div class="doc-nav-header">
+							<a href="#graphdef">Graph Definition</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#graphdef-categories">categories</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#graphdef-dataset">dataset</a>
+						</div>
+					</div>
+					
+					<div class="doc-nav-group">
+						<div class="doc-nav-header">
+							<a href="#configuration">Configuration</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-graph">graph</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-meta">meta</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-dimension">dimension</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-margin">margin</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-frame">frame</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-axis">axis</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-label">label</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-scale">scale</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-tooltip">tooltip</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-caption">caption</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-subCaption">subCaption</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-legend">legend</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-effects">effects</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-bar">bar</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-line">line</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-area">area</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-pie">pie</a>
+						</div>
+						<div class="doc-nav-link">
+							<a href="#config-donut">donut</a>
+						</div>
+					</div>
+				</div>
+				<div class="doc-content">
+					
+					<div id="introduction" class="doc-group">
+						<div class="group-content">
+							<div class="group-title">Introduction</div>
+							<div class="group-desc">uvCharts is a JavaScript based charting library built using the famous d3.js library. uvCharts lets you skip all the tough learning and coding part involved with d3.js and yet build simple, robust, completely customisable charts on any page on the web with utmost ease.
+
+							<p>
+							You'll have to include both d3.js and uvCharts on any webpage where you wish to use the library.</p>
+							<div class="code-ex"> 
+<pre>&lt;script type="text/javascript" src="<strong>$PATH_TO_D3JS</strong>"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="<strong>$PATH_TO_UVCHARTS</strong>"&gt;&lt;/script&gt;
+</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div id="API" class="doc-group">
+						<div class="group-content">
+							<div class="group-title">API</div>
+							<div class="group-desc">
+							We started off wanting to make it easier for people to harness the power of d3.js and at the end, we've managed to build something really amazing, a single function API for all your charting needs. In the lighter sense, We call it the one function to rule them all (charts, we mean).
+								<div class="code-ex">var chartObject = <strong>uv.chart(<strong>chartType</strong>, <strong>graphDefinition</strong>, <strong>optionalConfiguration</strong>)</strong></div>
+								
+								The function returns a uvChart object which exposes d3 selections so more adventurous users can harness the power of d3 even after the chart is created.
+							</div>
+						</div>
+					</div>
+					
+					<div id="charts" class="doc-group">
+						<div class="group-content">
+							<div class="group-title">Chart Types</div>
+							<div class="group-desc">
+								<p>A charting library is only as strong as the no.of Charts it supports and we currently support 12 with definite expansion plans on this front.</p>
+								<p>The first parameter of uv.chart is Charttype which defines the type of chart rendered by uvCharts. You'll have to pass in a chart type string as mentioned in the table below based on which type of chart you prefer to see your data in.</p>
+								<table class="charttypes">
+									<thead>
+										<tr><th>Chart Type</th><th>Key String</th></tr>
+									</thead>
+									<tbody>
+										<tr><td>Bar Chart</td><td>'Bar'</td></tr>
+										<tr><td>Line Chart</td><td>'Line'</td></tr>
+										<tr><td>Area Chart</td><td>'Area'</td></tr>
+										<tr><td>Stacked Bar Chart</td><td>'StackedBar'</td></tr>
+										<tr><td>Stacked Area Chart</td><td>'StackedArea'</td></tr>
+										<tr><td>Pie Chart</td><td>'Pie'</td></tr>
+										<tr><td>Percent Bar Chart</td><td>'PercentBar'</td></tr>
+										<tr><td>Percent Area Chart</td><td>'PercentArea'</td></tr>
+										<tr><td>Donut Chart</td><td>'Donut'</td></tr>
+										<tr><td>Step Up Bar Chart</td><td>'StepUpBar'</td></tr>
+										<tr><td>Polar Area Chart</td><td>'PolarArea'</td></tr>
+										<tr><td>Waterfall Chart</td><td>'Waterfall'</td></tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<div id="graphdef" class="doc-group">
+						<div class="group-content">
+							<div class="group-title">Graph Definition</div>
+							<div class="group-desc">
+							The second parameter to our function is <strong>Graph Definition</strong>, which is a representation of the data which uvCharts can comprehend. Its a simple JSON object with 2 name-value pairs, categories and dataset.
+							
+								<div class="code-ex"> 
+<pre>var graphdef = <strong>{
+	categories : [],
+	dataset : {}
+}</strong>
+</pre>
+								</div>
+								
+								<div id="graphdef-categories" class="doc-subgroup">
+									<div class="subgroup-title">Categories:</div>
+									<div class="subgroup-desc">
+										<p>Categories is an array of strings, each representing a series of data. Categories not only defines which series of data among the dataset is rendered in the final chart but also the order in which it is rendered.</p>
+										<p>A single element category array will define a single series chart whereas any number more than that will lead to a multiseries chart except in the case of Pie, Donut, Polar Area in which only the first Category will be rendered in the final chart.</p>
+										<div class="code-ex"> 
+<pre>var graphdef = {
+	<strong>categories : ['uvCharts', 'Matisse', 'SocialByWay'],</strong>
+	dataset : {}
+}
+</pre>
+									</div>
+								</div>
+								
+								<div id="graphdef-dataset" class="doc-subgroup">
+									<div class="subgroup-title">Dataset:</div>
+									<div class="subgroup-desc">
+										<p>Dataset is the details of the data corresponding to each series mentioned in the categories array. There can be data for other series too, those are simply ignored by the uvCharts library.</p>
+										<p>A dataset per category is an array of Objects. Each object containing 2 key-value pairs: <strong>name</strong>, the label corresponding to that data element and <strong>value</strong>, the measure itself.</p>
+										<div class="code-ex"> 
+<pre>var graphdef = {
+	categories : ['uvCharts', 'Matisse', 'SocialByWay'],
+<strong>	dataset : {
+		'uvCharts' : [
+			{ name : '2008', value: 15},
+			{ name : '2009', value: 28},
+			{ name : '2010', value: 42},
+			{ name : '2011', value: 88},
+			{ name : '2012', value: 100},
+			{ name : '2013', value: 143}
+		],
+		'Matisse' : [
+			{ name : '2008', value: 15},
+			{ name : '2009', value: 28},
+			{ name : '2010', value: 42},
+			{ name : '2011', value: 88},
+			{ name : '2012', value: 100},
+			{ name : '2013', value: 143}
+		],	
+		'SocialByWay' : [
+			{ name : '2008', value: 15},
+			{ name : '2009', value: 28},
+			{ name : '2010', value: 42},
+			{ name : '2011', value: 88},
+			{ name : '2012', value: 100},
+			{ name : '2013', value: 143}
+		]
+	}</strong>
+}
+</pre>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="configuration" class="doc-group">
+				<div class="group-content">
+					<div class="group-title">Configuration</div>
+					<div class="group-desc">
+						<p> The third parameter, Configuration, is optional yet an important parameter because inside it lies the entire ability to customise the chart from the colors used to the font size, styles, padding and more.</p>
+						<p>Configuration is a plain JavaScript object with group-like sub-objects which segregate the various configurable properties.</p>
+						<p>The structure of a configuration is like:</p>
+<div class="code-ex">
+<pre>var config = <strong>{
+	groupname1 : {
+		property1 : value1,
+		property2 : value2,
+		property3 : value3
+	},
+	
+	groupname2 : {
+		property4 : value4,
+		property5 : value5
+	}
+}</strong></pre>
+						</div>
+						<p>Group name and their corresponding properties follows: </p>
+						<div class="config-details">
+							<!-- <div class="config-group">
+								<div class="config-group-title">graph</div>
+								<div class="config-group-desc">
+									<p>All general properties related to the chart are put up in this group.</p>
+								</div>
+								<div class="config-group-content">
+									<div class="prop-group">
+										<div class="prop-group-title">palette</div>
+										<div class="prop-group-info">
+											<strong>Type:</strong> String | <strong>Default:</strong> 'Brink'
+										</div>
+										<div class="prop-group-desc">
+											<p>This defines the color palette/set of colors used to color the graph. There are a set of palettes to choose from within uvCharts. You can override it with your own palette using <strong>custompalette</strong></p>
+										</div>
+									</div>
+								</div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div></div></div>
+		<div class="scroll-float">
+			<a href="#" class="go-top"><img src="images/go-top-orange.png" style="width:50px;height50px;"></img></a>
+		</div>
+		<div class="w footer" style="font-family:sans-serif;">
+			<div class="c">
+				<div class="footer-links">
+					<div class="link-block">
+						<div class="block-header">Quick Links</div>
+						<div class="block-links">
+							<div class="block-link"><a href="index.html#features">Features</a></div>
+							<div class="block-link"><a href="index.html#charts">Charts</a></div>
+							<div class="block-link"><a href="documentation.html">Documentation</a></div>
+							<div class="block-link"><a target="_blank" href="https://github.com/Imaginea/uvCharts/wiki/guide">Tutorial</a></div>
+							<div class="block-link"><a target="_blank" href="https://github.com/Imaginea/uvCharts/blob/master/LICENSE">License and Terms</a></div>
+						</div>
+					</div>
+					<div class="link-block">
+						<div class="block-header">Get Involved</div>
+						<div class="block-links">
+							<div class="block-link"><a target="_blank" href="https://github.com/Imaginea/uvCharts">Github Repo</a></div>
+							<div class="block-link"><a target="_blank" href="https://github.com/Imaginea/uvCharts/blob/master/readme/developer_guide.md">Developer Guide</a></div>
+							<div class="block-link"><a target="_blank" href="https://github.com/Imaginea/uvCharts/issues">Git Issue Tracker</a></div>
+						</div>
+					</div>
+					<div class="link-block">
+						<div class="block-header">Other FOSS Projects</div>
+						<div class="block-links">
+							<div class="block-link"><a target="_blank" href="http://www.socialbyway.com/">SocialByWay</a></div>
+							<div class="block-link"><a target="_blank" href="http://www.thematisse.org/">Matisse</a></div>
+							<div class="block-link"><a target="_blank" href="http://imaginea.github.io/bot-bot/">Bot-Bot</a></div>
+							<div class="block-link"><a target="_blank" href="http://imaginea.github.com/mViewer">mViewer</a></div>
+							<div class="block-link"><a target="_blank" href="http://www.wavemaker.com/">WaveMaker</a></div>
+						</div>
+				</div>
+			</div>
+			<div class="contact-us">
+				<div class="contact-block">
+					<div class="block-header">Contact Us</div>
+					<div class="contact-details">
+						<div class="contact-detail">
+							<div class="contact-header">Email</div>
+							<div class="contact-content">opensource@imaginea.com</div>
+						</div>
+					</div>
+					<div class="contact-details">
+						<div class="contact-detail">
+							<div class="contact-header">GTalk</div>
+							<div class="contact-content">uvcharts@gmail.com</div>
+						</div>
+					</div>
+					<div class="contact-details">
+						<div class="contact-detail">
+							<div class="contact-header">Social</div>
+							<div class="contact-content">
+								<a href="http://www.facebook.com/uvCharts"><img src="images/facebook.png"></img></a>
+								<a href="https://plus.google.com/u/1/b/109823879880657842289"><img src="images/googleplus.png"></img></a>
+								<a href="http://www.twitter.com/uvCharts"><img src="images/twitter.png"></img></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="copyright">
+					<!-- <div class="follow-us" style="float:left;">
+						<a href="http://www.facebook.com/uvCharts"><img src="images/facebook.png"></img></a>
+						<a href="https://plus.google.com/u/1/b/109823879880657842289/109823879880657842289/about"><img src="images/googleplus.png"></img></a>
+						<a href="http://www.twitter.com/uvCharts"><img src="images/twitter.png"></img></a>
+					</div> -->
+					<div class="copyright-notice">
+						Copyright © 2013, <a href="http://www.pramati.com" style="text-decoration:none;">Pramati Technologies</a> Private Limited.
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
+		<script type="text/javascript" src="js/uvcharts.js"></script>
+		<script type="text/javascript" src="js/data/config_details.js"></script>
+		<script type="text/javascript" src="js/doc_init.js"></script>
+	</body>
+</html>

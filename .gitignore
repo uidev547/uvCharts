@@ -2,7 +2,7 @@ node_modules/*
 components/*
 build/*
 .DS_Store
-css/
-js/
-images/
-*.html
+src/
+test/
+dist/
+readme/
