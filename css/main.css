@@ -9,6 +9,11 @@ a {
 	-o-transition: color 200ms linear 0s,color 200ms linear 0s;
 	-ms-transition: color 200ms linear 0s,color 200ms linear 0s;
 	transition: color 200ms linear 0s,color 200ms linear 0s;
+	border:0;
+}
+
+a img{
+	border:0;
 }
 
 .w {
