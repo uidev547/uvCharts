@@ -14,8 +14,13 @@ uv.PolarAreaGraph = function (graphdef, config) {
 	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
 		dataMap = data[0].map(function(d,i){ return d; }),
 		layout = d3.layout.pie().value(function(d){return self.max()/ data[0].length; }),
+		tickRadius = [],
 		arcfuncs = d3.svg.arc().innerRadius(0)
 						.outerRadius(function(d,i){return ((dataMap[i] * self.maxRadius) / self.max());});
+
+	for (var i=1; i<=self.config.axis.ticks; i++) {
+		tickRadius[i] = (self.maxRadius/self.config.axis.ticks) * i;
+	}
 
 	self.chart.data(data);
 	self.arcs = self.chart.selectAll('g.arc')
@@ -43,7 +48,16 @@ uv.PolarAreaGraph = function (graphdef, config) {
 	self.arcs.append('svg:title')
 		.text(function (d, i) { return uv.util.getTooltipText(self, self.category, self.labels[i], d);});
 
-	//Draw circles .
+	self.chart.selectAll('.' + uv.constants.classes.circleticks)
+		.data(tickRadius)
+		.enter().append('svg:g').classed(uv.constants.classes.circleticks, true)
+		.append("svg:circle")
+		.attr("r", function (d, i) { return d; })
+		.style("stroke", self.config.axis.strokecolor)
+		.style("opacity", self.config.axis.opacity)
+		.style("fill", "none")
+		.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
+	
 };
 
 uv.PolarAreaGraph.prototype = uv.util.inherits(uv.Graph);

@@ -26,7 +26,7 @@ init = function() {
 	};
 	
 	transposeData(tgraphdef);
-/*
+
 	barHorTest = uv.chart('Bar', graphdef, horConfig);
 	tbarHorTest = uv.chart('Bar', tgraphdef, horConfig);
 	barVerTest = uv.chart('Bar', graphdef, verConfig);
@@ -60,7 +60,7 @@ init = function() {
 	
 	centbarHorTest = uv.chart('PercentBar', graphdef, verConfig);
 	centbarVerTest = uv.chart('PercentBar', graphdef, verConfig);
-*/	
+
 	donutTest = uv.chart('Donut', graphdef, horConfig);
 	pieTest = uv.chart('Pie', graphdef, horConfig);
 	polarAreaTest = uv.chart('PolarArea', graphdef, horConfig);

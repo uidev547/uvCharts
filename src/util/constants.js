@@ -29,6 +29,7 @@ uv.constants.classes = {
 	line : 'uv-line-',
 	dot : 'uv-dot',
 	chartdiv : 'uv-chart-div',
+	circleticks : 'circle-ticks',
 	download : 'uv-download-options'
 };
 
