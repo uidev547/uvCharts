@@ -60,7 +60,7 @@ init = function() {
 	
 	centbarHorTest = uv.chart('PercentBar', graphdef, verConfig);
 	centbarVerTest = uv.chart('PercentBar', graphdef, verConfig);
-	
+
 	donutTest = uv.chart('Donut', graphdef, horConfig);
 	pieTest = uv.chart('Pie', graphdef, horConfig);
 	polarAreaTest = uv.chart('PolarArea', graphdef, horConfig);
