@@ -10,8 +10,6 @@
 		<div class="w header attop">
 			<div class="c">
 				<div class="lf logo">
-						<!-- <span>uv</span>
-						<span>Charts</span> -->
 						<a href="index.html">
 							<img height="52px" src="images/uvCharts_logo.png"></img>
 						</a>
@@ -24,7 +22,9 @@
 							<a href="documentation.html">Documentation</a>
 						</li>
 					</ul>
-					<a href="https://raw.github.com/Imaginea/uvCharts/master/dist/uvcharts.zip"><button class="download">Download</button></a>
+					<a href="https://raw.github.com/Imaginea/uvCharts/master/dist/uvcharts.zip">
+						<button class="download">Download</button>
+					</a>
 				</div>
 				<a target='_blank' href="https://github.com/imaginea/uvCharts"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 				</div>
@@ -71,86 +71,73 @@
 			</div>
 		</div>
 
-		<div class="c feature-box" >
-			<div class="highlights">
-				<div style="display: none;">
-					<div class="highlight">
-						<div class="ht-image"><img src="http://www.placekitten.com/180/200"></img></div>
-						<div class="ht-header">Simple</div>
-						<div class="ht-summary">Keeping it simple for the end user has always been our primary objective, still is and will be as we keep growing. </div>
+		<div id="features" class="w box break-before">
+			<div class="c" style="text-align: center;">
+				<div class="box-title">Features</div>
+				<div class="feature-boxes">
+					<div class="feature-box box33">
+						<img src="images/simple.png"></img>
+						<div class="feature-title blue">Simple</div>
+						<ul class="features">
+							<li class="feature">Simple to learn and use</li>
+							<li class="feature">Robust and powerful</li>
+							<li class="feature">Uniform data representation</li>
+						</ul>
 					</div>
-					<div class="highlight">
-						<div class="ht-image"><img src="http://www.placekitten.com/180/200"></img></div>
-						<div class="ht-header">Customizable</div>
-						<div class="ht-summary">With more than 100 ways of customizing the chart, you can make each chart look distinctly unique and bring your data to life.</div>
+					<div class="feature-box box33">
+						<img src="images/customizable.png"></img>
+						<div class="feature-title grey">Customizable</div>
+						<ul class="features">
+							<li class="feature">100+ Configuration options</li>
+							<li class="feature">12 supported chart types</li>
+							<li class="feature">Support for multiple scales</li>
+						</ul>
 					</div>
-					<div class="highlight">
-						<div class="ht-image"><img src="http://www.placekitten.com/180/200"></img></div>
-						<div class="ht-header">Extensible</div>
-						<div class="ht-summary">Built using d3.js, uvChart objects expose individual elements as d3 selections so you can do a lot more with it.</div>
+					<div class="feature-box box33">
+						<img src="images/extensible.png"></img>
+						<div class="feature-title orange">Extensible</div>
+						<ul class="features">
+							<li class="feature">Harness the power of d3.js</li>
+							<li class="feature">Active development community</li>
+							<li class="feature">Clientside 'Save as PNG' ability</li>
+						</ul>
 					</div>
 				</div>
-			</div>
-
-			<div class="features" id="features" style="background-color:#fff;padding-top:4px;padding-left: 12px;">
-				<div>
-					<div style="font-size: 24px; padding: 10px 0; color: #1a99aa">Features</div>
-					<ul class="features-list" style="color: #555;margin:0;font-size:14px;padding-left: 18px;" >
-						<li>Simple to learn and use</li>
-						<li>Robust and powerful</li>
-						<li>Uniform data representation</li>
-						<li>12 supported chart types</li>
-						<li>Completely configurable</li>
-						<li>Support for multiple scales</li>
-						<li>Cool CSS3 transitions and effects</li>
-						<li>Clientside 'Save as PNG' ability</li>
-						<li>Lets you harness the power of d3.js later</li>
-						<li>Active development community</li>
-					</ul>
-					<div class="feature-request" style="font-size:13px;text-align:center;margin-top:18px;padding:8px;background-color:#666;color:#EEE">
+				<div class="feature-request" style="font-size:13px;text-align:center;padding:16px;color:#979797">
 						Want a new feature or found a bug, do raise a request/issue at <a target='_blank' href="http://www.github.com/imaginea/uvCharts/issues">Github Issue Tracker</a>
-					</div>
 				</div>
 			</div>
 		</div>
-		<div id="charts" class="c feature-box clearfix" style="padding: 16px 0;" >
-			<div class="highlights rf">
-				<div style="display: none;">
-					<div class="highlight">
-						<div class="ht-image"><img src="http://www.placekitten.com/180/200"></img></div>
-						<div class="ht-header">Simple</div>
-						<div class="ht-summary">Keeping it simple for the end user has always been our primary objective, still is and will be as we keep growing. </div>
-					</div>
-					<div class="highlight">
-						<div class="ht-image"><img src="http://www.placekitten.com/180/200"></img></div>
-						<div class="ht-header">Customizable</div>
-						<div class="ht-summary">With more than 100 ways of customizing the chart, you can make each chart look distinctly unique and bring your data to life.</div>
-					</div>
-					<div class="highlight">
-						<div class="ht-image"><img src="http://www.placekitten.com/180/200"></img></div>
-						<div class="ht-header">Extensible</div>
-						<div class="ht-summary">Built using d3.js, uvChart objects expose individual elements as d3 selections so you can do a lot more with it.</div>
-					</div>
-				</div>
-			</div>
 
-			<div class="features lf" style="background-color:#fff;padding-top:4px;padding-left: 12px;">
-				<div style="padding-left: 10px">
-					<div style="font-size: 24px; padding: 10px 0; color: #1a99aa">Supported Charts</div>
-					<ul class="features-list" style="color: #555;margin:0;font-size:14px;padding: 5px 18px;" >
-						<li>Bar chart</li>
-						<li>Line chart</li>
-						<li>Area chart</li>
-						<li>Pie chart</li>
-						<li>Stacked Area chart</li>
-						<li>Stacked Bar chart</li>
-						<li>Donut chart</li>
-						<li>Polar Area chart</li>
-						<li>Percent Bar chart</li>
-						<li>Percent Area chart</li>
-						<li>Step Up Bar chart</li>
-						<li>Waterfall chart</li>
-					</ul>
+		<div id="charts" class="w box break-before">
+			<div class="c" style="text-align: center;padding-bottom:18px;">
+				<div class="box-title">Charts</div>
+				<img class="chart-collage" style="display:block; margin: 0 auto;" src="images/banner.png" width="775px"></img>
+				<div class="charts-boxes">
+					<div class="charts-box box33">
+						<ul class="charts">
+							<li class="chart">Bar Chart</li>
+							<li class="chart">Stacked Bar Chart</li>
+							<li class="chart">Step Up Bar Chart</li>
+							<li class="chart">Percent Bar Chart</li>
+						</ul>
+					</div>
+					<div class="charts-box box33">
+						<ul class="charts">
+							<li class="chart">Area Chart</li>
+							<li class="chart">Stacked Area Chart</li>
+							<li class="chart">Percent Area Chart</li>
+							<li class="chart">Line Chart</li>
+						</ul>
+					</div>
+					<div class="chart-box box33">
+						<ul class="charts">
+							<li class="chart">Pie Chart</li>
+							<li class="chart">Donut Chart</li>
+							<li class="chart">Polar Area Chart</li>
+							<li class="chart">Waterfall Chart</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
