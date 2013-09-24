@@ -127,6 +127,7 @@ button.download:hover {
 }
 
 .graphs > div {
+	min-height: 500px;
 }
 
 .uv-graph-space > div{
@@ -529,7 +530,6 @@ a:hover.slidesjs-stop {
 }
 
 #features {
-	background: #F8F8F8;
 }
 
 .box-title {
@@ -542,9 +542,9 @@ a:hover.slidesjs-stop {
 
 .break-before:before {
 	content: '';
-	width: 60%;
+	width: 640px;
 	text-align: center;
-	border-top: 2px solid #ddd;
+	border-top: 1px solid #ddd;
 	display: block;
 	margin: 0 auto;
 }
@@ -601,4 +601,19 @@ ul.charts {
 	line-height: 1.6em;
 	color: #555;
 	margin: 5px 0;
+}
+
+#tutorial-note {
+	color: #ff5c00;
+	font-family: 'Cabin Condensed'
+}
+
+#tutorial-note a {
+	color: #1a99aa;
+}
+
+.chart-intro {
+	margin: 12px;
+	color: #555;
+	font-size: 15px;
 }
