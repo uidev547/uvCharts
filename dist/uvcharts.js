@@ -1,3 +1,14 @@
+/*! 
+uvCharts 1.0.0
+Copyright (c) 2013, Pramati Technologies Private Ltd 
+LICENSE
+---------------------------
+Permission is hereby granted, free of charge,to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 var uv = (function (){
 /**
  * uv is the local namespace within the anonymous function, which holds everything else related to the library
@@ -64,11 +75,13 @@ uv.Graph.prototype.init = function () {
 		.setMetadata()
 		.setHorizontalAxis()
 		.setVerticalAxis()
-		.setLegend()
 		.setEffectsObject();
 
 	if(self.config.meta.isDownloadable){
 		self.setDownloadOptions();
+	}
+	if(self.config.legend.showlegends){
+		self.setLegend();
 	}
 	
 	return self;
@@ -95,18 +108,18 @@ uv.Graph.prototype.setDimensions = function () {
  * 
  */
 uv.Graph.prototype.setDownloadOptions = function () {
-	var self = this;
-	self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
-	
-	self.download.append('text').classed(uv.constants.classes.download, true)
-		.text(uv.constants.downloads.downloadLabel)
+	if (uv.util.isDownloadSupported()) {
+		var self = this;
+		self.download = self.panel.append('g').classed(uv.constants.classes.download, true);
+		self.download.append('text').classed(uv.constants.classes.download, true)
+		.text(self.config.meta.downloadLabel)
 		.attr('y', -self.config.margin.top / 2)
 		.attr('x', self.config.dimension.width-25)
 		.attr('text-anchor', self.config.caption.textanchor)
 		.style('font-family', self.config.caption.fontfamily)
 		.style('font-size', '12')
 		.style('cursor', self.config.caption.cursor)
-		.style('stroke', self.config.caption.stroke)
+		.style('stroke', self.config.caption.strokecolor)
 		.style('text-decoration', 'underline')
 		.on('mouseover', function() {
 			var dnldBtn = d3.select(this);
@@ -123,6 +136,7 @@ uv.Graph.prototype.setDownloadOptions = function () {
 					dnldBtn.style('display',null);
 			});
 		});
+	}
 };
 
 
@@ -133,7 +147,9 @@ uv.Graph.prototype.setDownloadOptions = function () {
 uv.Graph.prototype.setFrame = function () {
 	var self = this;
 	if (!self.frame) {
-		self.frame = d3.select(self.position() || 'body').append('div').style('display','inline-block').append('svg');
+		self.frame = d3.select(self.position() || 'body').append('div')
+			.classed(uv.constants.classes.chartdiv, true)
+			.style('display','inline-block').append('svg');
 	}
 
 	self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
@@ -178,7 +194,7 @@ uv.Graph.prototype.setBackground = function (color) {
 						.attr('height', self.height())
 						.attr('width', self.width());
 	}
-	self.bg.style('fill', color || self.config.graph.background);
+	self.bg.style('fill', color || self.config.graph.bgcolor);
 
 	self.chart = self.panel.append('g').classed(uv.constants.classes.chart, true)
 					.style('opacity', self.config.graph.opacity);
@@ -285,10 +301,12 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 								.scale(self.axes.hor.scale)
 								.tickPadding(self.config.axis.padding)
 								.orient('bottom');
+
 		if(!self.config.axis.showtext) {
 			self.axes.hor.func.tickSize(0);
 		}
 	}
+
 	if(!self.config.axis.showtext) {
 			self.axes.hor.func.tickFormat(function (d) { return ''; });
 	}
@@ -337,6 +355,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 								.scale(self.axes.ver.scale)
 								.tickPadding(self.config.axis.padding)
 								.orient('left');
+
 		if(!self.config.axis.showtext){
 			self.axes.ver.func.tickSize(0);
 		}
@@ -373,8 +392,9 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.hor.func);
 
-	if(self.config.axis.showticks) {
-		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);	
+	if (self.config.axis.showticks) {
+		self.axes.hor.axis.selectAll('line').style('stroke', self.config.axis.strokecolor)
+								.style('opacity', self.config.axis.opacity);
 	}
 	self.axes.hor.axis.selectAll('path').style('fill','none');
 
@@ -423,8 +443,9 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 								.style('font-weight', self.config.label.fontweight)
 								.call(self.axes.ver.func);
 
-	if(self.config.axis.showticks) {
-		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor);
+	if (self.config.axis.showticks) {
+		self.axes.ver.axis.selectAll('line').style('stroke', self.config.axis.strokecolor)
+								.style('opacity', self.config.axis.opacity);
 	}
 	self.axes.ver.axis.selectAll('path').style('fill','none');
 
@@ -872,26 +893,34 @@ uv.util.formatClassName = function(name){
 	return returnName;
 };
 
-uv.util.svgToPng = function(graph, callback){
-	var svgContent = d3.select(graph.frame.node().parentNode).html(),
-			canvas = document.createElement('canvas'),
-			ctx = canvas.getContext("2d"),
-			width = graph.width() + graph.left() + graph.right(),
-			height = graph.width() + graph.top() + graph.bottom();
-
-	canvas.setAttribute('width', width);
-	canvas.setAttribute('height', height);
-	ctx.drawSvg(svgContent);
-	canvas.toBlob(function(blob) {
-		saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
-	}, "image/png");
-	callback.call();
+uv.util.svgToPng = function (downloadElmtRef, callback) {
+	if (this.isCanvasSupported()) {
+		var svgContent = d3.select(downloadElmtRef.frame.node().parentNode).html();
+		var canvas = document.createElement('canvas');
+		var ctx = canvas.getContext("2d");
+		canvas.setAttribute('width',d3.select(downloadElmtRef.frame.node()).attr('width'));
+		canvas.setAttribute('height',d3.select(downloadElmtRef.frame.node()).attr('height'));
+		ctx.drawSvg(svgContent);	
+		canvas.toBlob(function(blob) {
+			saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
+		}, "image/png");
+		callback.call();
+	} else {
+		console.log('this feature is not supported in this version of browser');
+	}
 };
 
-uv.util.isCanvasSupported = function (){
+uv.util.isDownloadSupported = function() {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext("2d");
+	return typeof(ctx.drawSvg) === 'function' && typeof(canvas.toBlob) === 'function';
+};
+
+uv.util.isCanvasSupported = function () {
   var elem = document.createElement('canvas');
   return !!(elem.getContext && elem.getContext('2d'));
 };
+
 /**
  * This function waits till the end of the transition and then call the callback
  * function which is passed as an argument
@@ -981,10 +1010,31 @@ uv.util.extend = function() {
     return arguments[0];
 };
 
+/**
+ * This method returns tool tip text value if config option ‘show tooltiptext’ is true else returns empty string.
+ * The text is as per the format specified using %c, %l, %v for category, label and values respectively.
+ * Default format is - ‘%c [%l] : %v’ 
+ * @param   self     
+ * @param  {String} category
+ * @param  {String} label
+ * @param  {String} value
+ * @return {[String]}  tool tip text with specified format.
+ */
+uv.util.getTooltipText = function(self, category, label, value) {
+	if(!self.config.tooltip.show) {
+		return '';
+	}
+	var format = self.config.tooltip.format;
+	if(format === '') {
+		return category + ' [' + label + '] : ' + uv.util.getLabelValue(value);
+	}
+	return format.replace(/%c/gi, category).replace(/%l/gi, label).replace(/%v/gi, uv.util.getLabelValue(self, value));
+};
+
 uv.config = {
 	graph : {
-		palette : 'Brink',
-		background : '#FFFFFF',
+		palette : 'Default',
+		bgcolor : '#FFFFFF',
 		orientation : 'Horizontal',
 		max : 0,
 		custompalette : [],
@@ -999,7 +1049,8 @@ uv.config = {
 		vlabel : '',
 		hsublabel : '',
 		vsublabel : '',
-		isDownloadable : false
+		isDownloadable : false,
+		downloadLabel : 'Download'
 	},
 
 	dimension : {
@@ -1029,7 +1080,8 @@ uv.config = {
 		fontweight : 'bold',
 		showticks : true,
 		showsubticks : true,
-		showtext : true
+		showtext : true,
+		opacity: 0.1
 	},
 
 	label : {
@@ -1041,6 +1093,11 @@ uv.config = {
 		precision : 2,
 		prefix : '',
 		suffix : ''
+	},
+
+	tooltip : {
+		show : true,
+		format : '%c [%l] : %v'
 	},
 
 	scale : {
@@ -1072,8 +1129,8 @@ uv.config = {
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
 		fontfill : '#FFFFFF',
-		strokecolor : 'none',
-		strokewidth : 2
+		strokecolor : '#FFFFFF',
+		strokewidth : 1
 	},
 	
 	donut : {
@@ -1081,10 +1138,10 @@ uv.config = {
 		fontsize : '14',
 		fontweight : 'normal',
 		fontvariant : 'small-caps',
-		fontfill : '#FFFFF',
+		fontfill : '#000',
 		factor : 0.4,
-		strokecolor : 'none',
-		strokewidth : 2
+		strokecolor : '#FFFFFF',
+		strokewidth : 1
 	},
 	
 	caption : {
@@ -1117,7 +1174,8 @@ uv.config = {
 		symbolsize : 10,
 		inactivecolor : '#DDD',
 		legendstart : 0,
-		legendtype : 'categories'
+		legendtype : 'categories',
+		showlegends: true,
 	},
 
 	effects : {
@@ -1153,15 +1211,15 @@ uv.constants.classes = {
 	legendsign : 'uv-legend-sign',
 	legendlabel : 'uv-legend-label',
 	hoverbg : 'uv-hover-bg',
-
 	arc : 'uv-arc-',
 	areapath : 'uv-areapath-',
 	linepath :'uv-linepath-',
 	area : 'uv-area-',
 	line : 'uv-line-',
 	dot : 'uv-dot',
-	
-	download : 'download-options'
+	chartdiv : 'uv-chart-div',
+	circleticks : 'circle-ticks',
+	download : 'uv-download-options'
 };
 
 uv.constants.downloads = {
@@ -1196,7 +1254,8 @@ uv.effects = {};
 uv.effects.bar = {};
 uv.effects.bar.mouseover = function (graph, idx) {
 	var config = graph.config,
-		category = graph.categories[idx];
+		category = graph.categories[idx],
+		label = graph.labels[idx];
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr-' + uv.util.formatClassName(category))
@@ -1212,7 +1271,11 @@ uv.effects.bar.mouseover = function (graph, idx) {
 		}
 	};
 
-	graph.effects[category].mouseover = effect;
+	if(config.legend.legendtype === 'categories'){
+		graph.effects[category].mouseover = effect;
+	}else{
+		graph.effects[label].mouseover = effect;
+	}
 	return effect;
 };
 
@@ -1220,7 +1283,8 @@ uv.effects.bar.mouseout = function (graph, idx, defColor) {
 	var config = graph.config,
 		category = graph.categories[idx],
 		barColor = uv.util.getColorBand(graph.config, idx),
-		textColor = defColor || uv.util.getColorBand(graph.config, idx);
+		textColor = defColor || uv.util.getColorBand(graph.config, idx),
+		label = graph.labels[idx];
 
 	var effect = function () {
 		graph.frame.selectAll('rect.cr-' + uv.util.formatClassName(category))
@@ -1233,7 +1297,11 @@ uv.effects.bar.mouseout = function (graph, idx, defColor) {
 				.style('fill', graph.config.label.showlabel ? textColor : 'none');
 	};
 
-	graph.effects[category].mouseout = effect;
+	if(config.legend.legendtype === 'categories'){
+		graph.effects[category].mouseout = effect;
+	}else{
+		graph.effects[label].mouseout = effect;
+	}
 	return effect;
 };
 
@@ -1258,7 +1326,7 @@ uv.effects.area.mouseout = function (graph, idx) {
 
 	var effect = function () {
 		graph.frame.selectAll('.cge-'+ uv.util.formatClassName(category)).select('path.'+ uv.constants.classes.area + uv.util.formatClassName(category));
-		graph.frame.selectAll('.cge-'+category).select('path.' + uv.constants.classes.area +category)
+		graph.frame.selectAll('.cge-'+uv.util.formatClassName(category)).select('path.' + uv.constants.classes.area +uv.util.formatClassName(category))
 		.transition().duration(config.effects.hover)
 		.style('fill',uv.util.getColorBand(config,idx));
 	};
@@ -1305,7 +1373,7 @@ uv.effects.line.mouseout = function (graph, idx, defColor) {
 			.transition().duration(config.effects.hover)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
-				.style('stroke', color);
+				.style('stroke', '#fff');
 
 		graph.frame.selectAll('.cge-' + uv.util.formatClassName(category)).select('path')
 			.transition().duration(config.effects.hover)
@@ -1333,7 +1401,7 @@ uv.effects.caption.mouseout = function (config) {
 	return function () {
 		d3.select(this.parentNode.parentNode).select('.' + uv.constants.classes.hoverbg)
 			.transition().duration(config.effects.duration)
-				.style('fill', config.graph.background);
+				.style('fill', config.graph.bgcolor);
 	};
 };
 
@@ -1361,7 +1429,7 @@ uv.effects.donut.mouseout = function (center, config) {
 
 uv.effects.pie = {};
 uv.effects.pie.mouseover = function (graph ,center, arcfunc, config) {
-	var effect =  function (d, i) {
+	var effect =  function (d) {
 		var dev = {
 				x : arcfunc.centroid(d)[0] / 5,
 				y : arcfunc.centroid(d)[1] / 5
@@ -1408,26 +1476,19 @@ uv.effects.legend.click = function (i, ctx, graph) {
 };
 
 uv.palette = {
-	'Plain' : [ '#1F77B4' ],
-	'Simple' : [ '#d42f3c', '#85b1e6', '#FD6D16', '#dfe617' ],
-	'RGB' : [ '#bb2211', '#2222bb', '#22aa22', '#9999aa', '#223322' ],
-	'Olive' : [ '#B4AF91', '#787746', '#40411E', '#32331D' ],
-	'Soil and Sky' : [ '#928174', '#AA9788', '#BDE4E9', '#A8E1E9', '#90D1DA' ],
-	'Candid' : [ '#EADEA1', '#808355', '#4E493D', '#3A301C', '#3F7696' ],
-	'Sulphide' : [ '#949993', '#615952', '#343640', '#A15026', '#C7B091' ],
-	'New Moon' : [ '#EEE6AB', '#C5BC8E', '#696758', '#45484B', '#36393B' ],
-	'Nature' : [ '#EEEFD8', '#BECD8A', '#73880A', '#CCCC33', '#E2EAA3' ],
-	'Earth' : [ '#862424', '#D8D1B4', '#B3AB8E', '#F1F0E9', '#353535' ],
-	'Sea' : [ '#334433', '#6699aa', '#88aaaa', '#aacccc', '#447799' ],
-	'Lemon' : [ '#eebb00', '#ddaa00', '#eecc00', '#ffee11' ],
-	'Water' : [ '#2266bb', '#3388dd', '#55aaee', '#bbddee', '#113355' ],
-	'Grass' : [ '#00AF64', '#36D729', '#61D7A4', '#007241' ],
-	'Hash' : [ 'tomato', 'yellowgreen', 'midnightblue', 'lightseagreen', 'gold'],
-	'Soft' : ['#f1b2e1', '#b1ddf3', '#ffde89', '#e3675c', '#c2d985'],
-	'Brink' : ['#01243b', '#5288d8', '#9da7b2', '#c5c5c5', '#71c42b'],
-	'Bright' : ['#ef597b', '#ff6d31', '#73b66b', '#ffcb18', '#29a2c6'],
-	'Lint' : ['#667b99', '#afbbd2', '#ccd5e6', '#e9eef6', '#ff6637']
+	'Default' : ['#7E6DA1', '#C2CF30', '#FF8900', '#FE2600', '#E3003F', '#8E1E5F', '#FE2AC2', '#CCF030', '#9900EC', '#3A1AA8', '#3932FE', '#3276FF', '#35B9F6', '#42BC6A', '#91E0CB'],
+	'Plain' : ['#B1EB68', '#B1B9B5', '#FFA16C', '#9B64E7', '#CEE113', '#2F9CFA', '#CA6877', '#EC3D8C', '#9CC66D', '#C73640', '#7D9532', '#B064DC' ],
+	'Android' : ['#33B5E5', '#AA66CC', '#99CC00', '#FFBB33', '#FF4444', '#0099CC', '#9933CC', '#669900', '#FF8800', '#CC0000'],
+	'Soft' : [ '#9ED8D2', '#FFD478', '#F16D9A', '#A8D59D', '#FDC180', '#F05133', '#EDED8A', '#F6A0A5', '#9F218B' ],
+	'Simple' : [ '#FF8181', '#FFB081', '#FFE081', '#EFFF81', '#BFFF81', '#90FF81', '#81FFA2', '#81FFD1', '#9681FF', '#C281FF', '#FF81DD' ],
+	'Egypt' : [ '#3A3E04','#784818','#FCFCA8','#C03C0C','#F0A830','#A8783C','#FCFCFC','#FCE460','#540C00','#C0C084','#3C303C','#1EA34A','#606C54','#F06048' ],
+	'Olive' : [ '#18240C','#3C6C18','#60A824','#90D824','#A8CC60','#789C60','#CCF030','#B4CCA8','#D8F078','#40190D','#E4F0CC' ],
+	'Candid' : [ '#AF5E14','#81400C','#E5785D','#FEBFBF','#A66363','#C7B752','#EFF1A7','#83ADB7','#528F98','#BCEDF5','#446B3D','#8BD96F','#E4FFB9' ],
+	'Sulphide' : [ '#594440','#0392A7','#FFC343','#E2492F','#007257','#B0BC4A','#2E5493','#7C2738','#FF538B','#A593A1','#EBBA86','#E2D9CA' ],
+	'Lint' : ['#A8A878','#F0D89C','#60909C','#242418','#E49C30','#54483C','#306090','#C06C00','#C0C0C0','#847854','#6C3C00','#9C3C3C','#183C60','#FCCC00','#840000','#FCFCFC']
 };
+
+
 
 
 uv.AreaGraph = function (graphdef, config) {
@@ -1616,7 +1677,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
 
 
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -1666,7 +1727,8 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 				.attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
+		
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
@@ -1712,7 +1774,8 @@ uv.DonutGraph = function (graphdef, config) {
 			.text(function (d) { return uv.util.getLabelValue(self, d); });
 		
 	self.arcs.append('svg:title')
-		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
+		.text(function (d, i) { return uv.util.getTooltipText(self, self.category, self.labels[i], d);});
+
 };
 
 uv.DonutGraph.prototype = uv.util.inherits(uv.Graph);
@@ -1798,9 +1861,10 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
 				.attr('r', 3.5)
 				.style('fill', color)
 				.style('fill-opacity', 0.6)
-				.style('stroke', color)
+				.style('stroke', '#fff')
 					.append('svg:title')
-					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
+					.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
+
 	
 	linegroup.path.selectAll('text')
 				.data(self.dataset[idx])
@@ -1860,9 +1924,9 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
 				.classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
 				.style('fill', color)
 				.style('fill-opacity', 0.2)
-				.style('stroke', color)
+				.style('stroke', '#fff')
 					.append('svg:title')
-					.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + ']: ' + d.value;});
+					.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	linegroup.path.selectAll('text')
 				.data(self.dataset[idx])
@@ -2164,7 +2228,8 @@ uv.PieGraph = function (graphdef, config) {
 			.text(function (d) { return uv.util.getLabelValue(self, d); });
 
 	self.arcs.append('svg:title')
-		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
+		.text(function (d, i) { return uv.util.getTooltipText(self, self.category, self.labels[i], d);});
+		
 };
 
 uv.PieGraph.prototype = uv.util.inherits(uv.Graph);
@@ -2189,11 +2254,15 @@ uv.PolarAreaGraph = function (graphdef, config) {
 	self.category = self.categories[0];
 
 	var data = uv.util.getCategoryData(self.graphdef, [self.category]),
-		layout = d3.layout.pie(),
-		arcfuncs = data[0].map( function (d, i) {
-			return d3.svg.arc().innerRadius(0)
-					.outerRadius((d * self.maxRadius) / self.max());
-		});
+		dataMap = data[0].map(function(d,i){ return d; }),
+		layout = d3.layout.pie().value(function(d){return self.max()/ data[0].length; }),
+		tickRadius = [],
+		arcfuncs = d3.svg.arc().innerRadius(0)
+						.outerRadius(function(d,i){return ((dataMap[i] * self.maxRadius) / self.max());});
+
+	for (var i=1; i<=self.config.axis.ticks; i++) {
+		tickRadius[i] = (self.maxRadius/self.config.axis.ticks) * i;
+	}
 
 	self.chart.data(data);
 	self.arcs = self.chart.selectAll('g.arc')
@@ -2202,15 +2271,13 @@ uv.PolarAreaGraph = function (graphdef, config) {
 									.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
 
 	self.arcs.append('path')
-		.attr('d', arcfuncs[0]) /*function (d, i) {
-			arcfuncs[i](d, i);
-		})*/
+		.attr('d', arcfuncs)
 		.style('fill', function (d, i) { return uv.util.getColorBand(self.config, i);})
 		.style('stroke', self.config.pie.strokecolor)
 		.style('stroke-width', self.config.pie.strokewidth);
 
-	self.arcs.append('text')
-			.attr('transform', function (d, i) { return 'translate(' + arcfuncs[i].centroid(d) + ')'; })
+	/*self.arcs.append('text')
+			.attr('transform', function (d, i) { return 'translate(' + arcfuncs.centroid(d) + ')'; })
 			.attr('dy', '.35em')
 			.attr('text-anchor', 'middle')
 			.style('fill', self.config.pie.fontfill)
@@ -2218,10 +2285,21 @@ uv.PolarAreaGraph = function (graphdef, config) {
 			.style('font-size', self.config.pie.fontsize)
 			.style('font-weight', self.config.pie.fontweight)
 			.style('font-variant', self.config.pie.fontvariant)
-			.text(function (d) { return uv.util.getLabelValue(self, d); });
+			.text(function (d) { return uv.util.getLabelValue(self, d); }); */
 	
 	self.arcs.append('svg:title')
-		.text(function (d, i) { return self.labels[i] + ' : ' + uv.util.getLabelValue(self, d);});
+		.text(function (d, i) { return uv.util.getTooltipText(self, self.category, self.labels[i], d);});
+
+	self.chart.selectAll('.' + uv.constants.classes.circleticks)
+		.data(tickRadius)
+		.enter().append('svg:g').classed(uv.constants.classes.circleticks, true)
+		.append("svg:circle")
+		.attr("r", function (d, i) { return d; })
+		.style("stroke", self.config.axis.strokecolor)
+		.style("opacity", self.config.axis.opacity)
+		.style("fill", "none")
+		.attr('transform', 'translate(' + self.center.x + ',' + self.center.y + ')');
+	
 };
 
 uv.PolarAreaGraph.prototype = uv.util.inherits(uv.Graph);
@@ -2416,7 +2494,7 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 			.attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 };
 
 uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
@@ -2465,7 +2543,7 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	bargroup.attr('transform', 'translate(0,' + 2 * this.height() + ') scale(1,-1)');
 };
@@ -2537,7 +2615,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
 			.attr('x', function (d, i) { tsum[i] += d.value; return self.axes.hor.scale(tsum[i]); });
 			
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -2586,7 +2664,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
 			.attr('y', function (d, i) { tsum[i] += d.value; return -(2*self.height() - self.axes.ver.scale(tsum[i])) - 10; });
 			
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	bargroup.attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + 2 * self.height() + ') scale(1,-1)');
 };
@@ -2617,6 +2695,7 @@ uv.WaterfallGraph.prototype = uv.util.inherits(uv.Graph);
 uv.WaterfallGraph.prototype.setDefaults = function () {
 	var self = this;
 	self.graphdef.stepup = 'waterfall';
+	self.config.legend.showlegends = false;
 	return this;
 };
 
@@ -2668,7 +2747,7 @@ uv.WaterfallGraph.prototype.drawHorizontalBars = function (idx) {
 			});
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	bargroup.attr('transform', 'translate(0,' + idx * self.axes.ver.scale.rangeBand() / len + ')');
 };
@@ -2725,7 +2804,7 @@ uv.WaterfallGraph.prototype.drawVerticalBars = function (idx) {
 					return -(self.height() - self.axes.ver.scale(value)) - 10; });
 	
 	bars.append('svg:title')
-		.text( function (d, i) { return self.categories[idx] + ' [' + self.labels[i] + '] : ' + uv.util.getLabelValue(self, d);});
+		.text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
 	
 	self.bargroups[self.categories[idx]].attr('transform', 'translate(' + idx * self.axes.hor.scale.rangeBand() / len + ',' + self.height() + ') scale(1,-1)');
 };
