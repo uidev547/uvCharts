@@ -114,6 +114,48 @@ var details = {
 		]
 	},
 
+	caption : {
+		id : 'config-caption',
+		desc : 'All properties related to the caption of the chart',
+		properties : [	
+			{ name : 'fontfamily', type : 'String', default : '"Arial"', range: uvcs.fcode, desc : 'Font used to display the caption'},
+			{ name : 'fontsize', type : "Size", default : "11", range: '0 or above', desc : 'Font size of the font used on the caption'},
+			{ name : 'fontweight', type : 'String', default : 'normal', range: 'normal|bold', desc : 'Font weight'},
+			{ name : 'textdecoration', type: 'String', default : 'none', range: 'Any browser supported text decoration', desc: 'Text decoration applied on the caption'},
+			{ name : 'strokecolor', type : uvcs.color, default : "#000000", range: uvcs.ccode, desc : 'Color of caption text'},
+			{ name : 'cursor', type : 'String', default : 'pointer', range: 'Any browser supported cursor value', desc : 'Precision on the labels in case of decimal values'}
+		]
+	},
+
+	subCaption : {
+		id : 'config-subCaption',
+		desc : 'All properties related to the sub-caption of the chart',
+		properties : [
+			{ name : 'fontfamily', type : 'String', default : '"Arial"', range: uvcs.fcode, desc : 'Font used to display the sub-caption'},
+			{ name : 'fontsize', type : "Size", default : "11", range: '0 or above', desc : 'Font size of the font used on the sub-caption'},
+			{ name : 'fontweight', type : 'String', default : 'normal', range: 'normal|bold', desc : 'Font weight'},
+			{ name : 'textdecoration', type: 'String', default : 'none', range: 'Any browser supported text decoration', desc: 'Text decoration applied on the sub-caption'},
+			{ name : 'strokecolor', type : uvcs.color, default : "#000000", range: uvcs.ccode, desc : 'Color of sub-caption text'},
+			{ name : 'cursor', type : 'String', default : 'pointer', range: 'Any browser supported cursor value', desc : 'Precision on the labels in case of decimal values'}
+		]
+	},
+
+	legend : {
+		id : 'config-legend',
+		desc : 'All properties related to the legend of the chart',
+		properties : [
+
+		]
+	},
+
+	effects : {
+		id : 'config-effects',
+		desc : 'All properties related to the various effects shown in the transitions',
+		properties : [
+
+		]
+	},
+
 	bar : {
 		id : 'config-bar',
 		desc : 'All properties affecting Bar, Stacked Bar and Step Up Bar Chart go here.',
