@@ -35,7 +35,7 @@ We have quite a few first level folders inside the code base each serving a spec
 We try to follow the coding conventions mentioned by Douglas Crockford [here](http://javascript.crockford.com/code.html)
 
 #### Pull Requests
-Feel free to raise a pull request when you think you're changes/commit is good enough to be merged with the main library at Imaginea repo. The code will be reviewed by atleast 2 of us here before being merged and we'll get back to you if your pull request needs any further changes.
+Feel free to raise a pull request when you think your changes/commits are good enough to be merged with the main library at Imaginea repo. The code will be reviewed by at least 2 of us here before being merged and we'll get back to you if your pull request needs any further changes.
 
 Once merged we'll list you in the list of contributors to our library.
  
