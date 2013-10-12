@@ -114,7 +114,7 @@ var chart = uv.chart ('Bar', graphdef, {
 })
 
 ```
-A bit more clear, isn't it now. You can read more about the configuration options, there defaults, ranges, definitions here.
+A bit more clear, isn't it now. You can read more about the configuration options, their defaults, ranges, definitions here.
 
 Wait a second, we've a lot more open source projects at Imaginea, lets compare their usage with uvCharts across the same years.
 
