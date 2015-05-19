@@ -33,7 +33,7 @@ This guide is to help you begin using uvCharts to build charts on the web. uvCha
 ### Adding the library to your page
 d3.js being the only dependency for uvCharts, has to be included along with your other scripts before harnessing the power of uvCharts on your webpages. d3.js is available on cdn henceforth you can directly include it using the following code in your webpage.
 
-	<script type="text/javascript" src-"http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
 	
 Download the latest version of uvCharts (either minified or unminified) from ```http://www.github.com/imaginea/uvCharts/dist``` and include it too in your webpage.
 
