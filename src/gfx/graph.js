@@ -71,7 +71,7 @@ uv.Graph.prototype.init = function () {
 	if(self.config.legend.showlegends){
 		self.setLegend();
 	}
-	
+
 	return self;
 };
 
@@ -87,13 +87,13 @@ uv.Graph.prototype.setDimensions = function () {
 		.bottom(self.config.margin.bottom)
 		.left(self.config.margin.left)
 		.right(self.config.margin.right);
-	
+
 	return this;
 };
 
 /**
  * This function downloads the graph in png format.
- * 
+ *
  */
 uv.Graph.prototype.setDownloadOptions = function () {
 	if (uv.util.isDownloadSupported()) {
@@ -142,8 +142,10 @@ uv.Graph.prototype.setFrame = function () {
 
 	self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
 		.classed(uv.constants.classes.frame, true)
-		.attr('width', self.width() + self.left() + self.right())
-		.attr('height', self.height() + self.top() + self.bottom());
+		.attr('width', '100%')
+		.attr('height', '100%')
+    .attr('preserveAspectRatio', 'xMidyMid meet')
+    .attr('viewBox', '0 0 ' + (self.width() + self.left() + self.right()) + ' ' + (self.height() + self.top() + self.bottom()));
 
 	self.frame.append('rect').classed(uv.constants.classes.framebg, true)
 		.attr('width', self.width() + self.left() + self.right())
@@ -196,7 +198,7 @@ uv.Graph.prototype.setBackground = function (color) {
 uv.Graph.prototype.setCaption = function () {
 	var self = this;
 	self.caption = self.panel.append('g').classed(uv.constants.classes.caption, true);
-	
+
 	self.caption.append('text').classed(uv.constants.classes.captiontext, true)
 		.text(self.config.meta.caption)
 		.attr('y', -self.config.margin.top / 2)
@@ -221,7 +223,7 @@ uv.Graph.prototype.setCaption = function () {
 uv.Graph.prototype.setSubCaption = function () {
 	var self = this;
 	self.subCaption = self.panel.append('g').classed(uv.constants.classes.subcaption, true);
-	
+
 	self.subCaption.append('text').classed(uv.constants.classes.subcaptiontext, true)
 		.text(self.config.meta.subcaption)
 		.attr('y', -self.config.margin.top / 2 + 1*self.config.caption.fontsize)
@@ -269,7 +271,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 		if (self.axes.hor.scale.nice) {
 			self.axes.hor.scale.nice();
 		}
-		
+
 		if(!self.config.axis.showsubticks){
 			self.config.axis.subticks = 0;
 		}
@@ -280,7 +282,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 								.tickPadding(self.config.axis.padding)
 								.tickSubdivide(self.config.axis.subticks)
 								.orient('bottom');
-		
+
 	} else {
 		self.axes.hor.scale = d3.scale.ordinal()
 								.rangeRoundBands([0, self.width()], self.config.scale.ordinality);
@@ -318,11 +320,11 @@ uv.Graph.prototype.setVerticalAxis = function () {
 		self.axes.ver.scale	= d3.scale[self.config.scale.type]()
 								.domain([self.max(), self.config.scale.type === 'log' ? 1 : 0])
 								.range([0, self.height()]);
-		
+
 		if (self.axes.ver.scale.nice) {
 			self.axes.ver.scale.nice();
 		}
-		
+
 		if(!self.config.axis.showsubticks){
 			self.config.axis.subticks = 0;
 		}
@@ -338,7 +340,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 	} else {
 		self.axes.ver.scale = d3.scale.ordinal()
 								.rangeRoundBands([0, self.height()], self.config.scale.ordinality);
-		
+
 		self.axes.ver.func = d3.svg.axis()
 								.scale(self.axes.ver.scale)
 								.tickPadding(self.config.axis.padding)
@@ -393,11 +395,11 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 								.attr('x1', '0')
 								.attr('x2', self.width())
 								.style('stroke', self.config.axis.strokecolor);
-	
+
 	self.axes.hor.label = self.axes.hor.group.append('g')
 														.classed(uv.constants.classes.axeslabelgroup, true)
 														.attr('transform', 'translate(' + self.width()/2 + ',' + (1*self.config.margin.bottom/4 + 1*self.config.label.fontsize) + ')');
-								
+
 	self.axes.hor.label.append('text')
 								.attr('display','block')
 								.classed(uv.constants.classes.axeslabel, true).classed('cal', true)
@@ -414,7 +416,7 @@ uv.Graph.prototype.drawHorizontalAxis = function () {
 								.style('font-size', self.config.axis.fontsize - 2)
 								.style('font-family', self.config.axis.fontfamily)
 								.text(self.config.meta.hsublabel);
-	
+
 	return this;
 };
 
@@ -442,10 +444,10 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 								.attr('y1', 0)
 								.attr('y2', self.height())
 								.style('stroke', self.config.axis.strokecolor);
-	
+
 	self.axes.ver.label = self.axes.ver.group.append('g')
 								.attr('transform', 'translate(' + -4*self.config.margin.left/5 + ',' + self.height()/2 + ')rotate(270)');
-								
+
 	self.axes.ver.label.append('text').classed(uv.constants.classes.axeslabel, true)
 								.attr('text-anchor', 'middle')
 								.classed('cal', true)
@@ -460,7 +462,7 @@ uv.Graph.prototype.drawVerticalAxis = function () {
 								.style('font-family', self.config.axis.fontfamily)
 								.style('font-size', self.config.axis.fontsize - 2)
 								.text(self.config.meta.vsublabel);
-	
+
 	return this;
 };
 
@@ -484,12 +486,12 @@ uv.Graph.prototype.setLegend = function () {
 	self.legends = legendgroup.selectAll('g').data(
 		(self.config.legend.legendtype === 'categories') ? self.categories:self.labels
 	);
-	
+
 
 	self.legends.enter().append('g')
-			.attr('transform', function (d, i) { 
+			.attr('transform', function (d, i) {
 				if(self.config.legend.position === 'right'){
-					return 'translate(10,' + 10 * (2 * i - 1) + ')'; 
+					return 'translate(10,' + 10 * (2 * i - 1) + ')';
 				}else if(self.config.legend.position === 'bottom'){
 					var hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
 					var vPos = 20*self.config.legend.legendstart;
@@ -498,7 +500,7 @@ uv.Graph.prototype.setLegend = function () {
 						hPos = 100*i - self.config.dimension.width*self.config.legend.legendstart;
 						vPos = 20*self.config.legend.legendstart;
 					}
-					return 'translate(' + hPos + ',' + vPos + ')'; 
+					return 'translate(' + hPos + ',' + vPos + ')';
 				}
 			})
 			.attr('class', function (d, i) {
@@ -548,12 +550,12 @@ uv.Graph.prototype.finalize = function (isLoggable) {
 	self.drawHorizontalAxis()
 		.drawVerticalAxis();
 	//	.setLegend();
-	
+
 	//Log Graph object if flag set to truthy value
-	// if (isLoggable) { 
-		console.log(self); 
+	// if (isLoggable) {
+		console.log(self);
 	// }
-	
+
 	return this;
 };
 
@@ -587,7 +589,7 @@ uv.Graph.prototype.removeLegend = function () {
 	if (this.legends[0]) {
 		this.legends[0].parentNode.remove();
 	}
-	
+
 	return this;
 };
 
