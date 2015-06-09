@@ -1,5 +1,4 @@
-	return {
-		chart: uv.chart
-	};
-
+  return {
+    chart: uv.chart
+  };
 })();
