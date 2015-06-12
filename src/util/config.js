@@ -5,7 +5,9 @@ uv.config = {
     orientation : 'Horizontal',
     max : 0,
     custompalette : [],
-    opacity : 1
+    opacity : 1,
+    align: 'xMidYMid',
+    meetOrSlice: 'meet'
   },
 
   meta : {

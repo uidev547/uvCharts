@@ -144,7 +144,7 @@ uv.Graph.prototype.setFrame = function () {
     .classed(uv.constants.classes.frame, true)
     .attr('width', '100%')
     .attr('height', '100%')
-    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .attr('preserveAspectRatio', self.config.graph.align + ' ' + self.config.graph.meetOrSlice)
     .attr('viewBox', '0 0 ' + (self.width() + self.left() + self.right()) + ' ' + (self.height() + self.top() + self.bottom()));
 
   self.frame.append('rect').classed(uv.constants.classes.framebg, true)
