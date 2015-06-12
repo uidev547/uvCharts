@@ -551,11 +551,13 @@ uv.Graph.prototype.finalize = function (isLoggable) {
     .drawVerticalAxis();
   //  .setLegend();
 
-  //Log Graph object if flag set to truthy value
-  // if (isLoggable) {
-    console.log(self);
-  // }
+  // Cursor for text is unset from text to normal
+  self.frame.selectAll('text').style('cursor', 'default');
 
+  //Log Graph object if flag set to truthy value
+  if (isLoggable) {
+    console.log(self);
+  }
   return this;
 };
 
