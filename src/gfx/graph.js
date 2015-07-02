@@ -1,10 +1,4 @@
 /**
-* uv is the local namespace within the anonymous function, which holds everything else related to the library
-* @type {Object}
-*/
-var uv = {};
-
-/**
 * uv.Graph is an abstract class of sorts which serves as the base for all other graphs. Instances of it wouldnt be anything except bare bones needed to create a chart.
 * id          - unique id corresponding to the graph, created using current timestamp {#TODO: needs improved logic}
 * graphdef    - definition of the graph, containing data on which the visualization is built
