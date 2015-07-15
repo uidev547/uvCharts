@@ -50,6 +50,8 @@ uv.config = {
     showticks : true,
     showsubticks : true,
     showtext : true,
+    showhortext : true,
+    showvertext : true,
     opacity: 0.1
   },
 

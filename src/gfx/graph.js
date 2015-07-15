@@ -286,12 +286,11 @@ uv.Graph.prototype.setHorizontalAxis = function () {
                 .tickPadding(self.config.axis.padding)
                 .orient('bottom');
 
-    if(!self.config.axis.showtext) {
+    if(!self.config.axis.showtext || !self.config.axis.showhortext) {
       self.axes.hor.func.tickSize(0);
     }
   }
-
-  if(!self.config.axis.showtext) {
+  if(!self.config.axis.showtext || !self.config.axis.showhortext) {
       self.axes.hor.func.tickFormat(function (d) { return ''; });
   }
 
@@ -340,11 +339,11 @@ uv.Graph.prototype.setVerticalAxis = function () {
                 .tickPadding(self.config.axis.padding)
                 .orient('left');
 
-    if(!self.config.axis.showtext){
+    if(!self.config.axis.showtext || !self.config.axis.showvertext){
       self.axes.ver.func.tickSize(0);
     }
   }
-  if(!self.config.axis.showtext) {
+  if(!self.config.axis.showtext || !self.config.axis.showvertext) {
     self.axes.ver.func.tickFormat(function (d) { return ''; });
   }
 
