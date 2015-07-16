@@ -135,11 +135,17 @@ uv.Graph.prototype.setFrame = function () {
   }
 
   self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
-    .classed(uv.constants.classes.frame, true)
-    .attr('width', '100%')
-    .attr('height', '100%')
-    .attr('preserveAspectRatio', self.config.graph.align + ' ' + self.config.graph.meetOrSlice)
-    .attr('viewBox', '0 0 ' + (self.width() + self.left() + self.right()) + ' ' + (self.height() + self.top() + self.bottom()));
+    .classed(uv.constants.classes.frame, true);
+
+  if (self.config.graph.responsive === true) {
+    self.frame.attr('width', '100%')
+      .attr('height', '100%')
+      .attr('preserveAspectRatio', self.config.graph.align + ' ' + self.config.graph.meetOrSlice)
+      .attr('viewBox', '0 0 ' + (self.width() + self.left() + self.right()) + ' ' + (self.height() + self.top() + self.bottom()));
+  } else {
+    self.frame.attr('width', self.width() + self.left() + self.right())
+      .attr('height', self.height() + self.top() + self.bottom());
+  }
 
   self.frame.append('rect').classed(uv.constants.classes.framebg, true)
     .attr('width', self.width() + self.left() + self.right())

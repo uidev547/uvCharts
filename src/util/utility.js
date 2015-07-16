@@ -128,7 +128,9 @@ uv.util.getPascalCasedName = function (name) {
 };
 
 uv.util.getColorBand = function (config, index) {
-  var len = 0;
+  var len = 0,
+    palette = config.graph.palette || 'Default';
+
   if (config.graph.custompalette && config.graph.custompalette.length !== 0) {
     len = config.graph.custompalette.length;
     return config.graph.custompalette[index % len];
