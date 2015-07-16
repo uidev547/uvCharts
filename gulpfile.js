@@ -7,7 +7,8 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   eclint = require('eclint'),
   del = require('del'),
-  stylish = require('jshint-stylish');
+  stylish = require('jshint-stylish'),
+  packageInfo = require('./package.json');
 
 var paths = {
   "module_begin": ['src/module/module_begin.js'],
@@ -15,7 +16,7 @@ var paths = {
   "gfx": ['src/gfx/graph.js', 'src/gfx/*.js'],
   "module_end": ['src/module/module_end.js'],
   "test": ['src/util/test.js'],
-  "release_assets": ['build/uvcharts*.js']
+  "release_assets": ['build/uvcharts.js']
 };
 
 gulp.task('clean:dev', function (cb) {
@@ -43,7 +44,7 @@ gulp.task('build:gfx', ['clean:gfx'], function () {
     /*.pipe(eclint.check({
       reporter: function(file, message) {
         console.error(path.relative('.', file.path) + ':', message);
-      }  
+      }
     }))*/
     .pipe(gulp.dest('build/'))
     .pipe(uglify())
@@ -65,8 +66,7 @@ gulp.task('build:test', ['clean:test'], function () {
 
 gulp.task('release:gfx', ['build:gfx'], function () {
   return gulp.src(paths["release_assets"])
-    .pipe(gulp.dest('dist'))
-    .pipe(zip("uvcharts.zip"))
+    .pipe(zip("uvcharts-" + packageInfo.version + ".zip"))
     .pipe(gulp.dest('dist'));
 });
 
