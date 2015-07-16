@@ -6,6 +6,7 @@ uv.config = {
     max : 0,
     custompalette : [],
     opacity : 1,
+    responsive: false,
     align: 'xMidYMid',
     meetOrSlice: 'meet'
   },
