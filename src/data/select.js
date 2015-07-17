@@ -5,15 +5,16 @@ uv.data.prototype.Select = function (dataset, columns) {
 		for (key in dataset) {
 			this.Select(dataset[key], columns);
 		}
-	} else {
-		for (var i = 0, length = dataset.data.length; i < length; i = i + 1) {
-			for ( var key in dataset.data[i]) {
-				if (columns.indexOf(key) === -1) {
-					delete dataset.data[i][key];
-				}
-			}
-		}
+        return;
 	}
+
+    for (var i = 0, length = dataset.data.length; i < length; i = i + 1) {
+        for ( var key in dataset.data[i]) {
+            if (columns.indexOf(key) === -1) {
+                delete dataset.data[i][key];
+            }
+        }
+    }
 };
 
 uv.data.prototype.select = function (columns) {
