@@ -142,6 +142,8 @@ uv.config = {
     fontfamily : 'Arial',
     fontsize : '11',
     fontweight : 'normal',
+    color: "#000000",
+    strokewidth: 0.15,
     textmargin : 15,
     symbolsize : 10,
     inactivecolor : '#DDD',

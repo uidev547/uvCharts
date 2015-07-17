@@ -535,6 +535,9 @@ uv.Graph.prototype.setLegend = function () {
         .attr('dx', self.config.legend.textmargin)
         .attr('dy', '.71em')
         .attr('text-anchor', 'start')
+        .style('stroke', self.config.legend.color)
+        .style('fill', self.config.legend.color)
+        .style('stroke-width', self.config.legend.strokewidth)
         .style('font-family', self.config.legend.fontfamily)
         .style('font-size', self.config.legend.fontsize)
         .style('font-weight', self.config.legend.fontweight);
