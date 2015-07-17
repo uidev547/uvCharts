@@ -86,7 +86,8 @@ uv.config = {
   },
 
   line : {
-    interpolation : 'linear'
+    interpolation : 'linear',
+    showcircles: true
   },
 
   area : {
