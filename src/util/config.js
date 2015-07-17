@@ -7,7 +7,7 @@ uv.config = {
     custompalette : [],
     opacity : 1,
     responsive: false,
-    align: 'xMidYMid',
+    align: 'xMinYMin',
     meetOrSlice: 'meet'
   },
 

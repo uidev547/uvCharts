@@ -131,7 +131,10 @@ uv.Graph.prototype.setFrame = function () {
   if (!self.frame) {
     self.frame = d3.select(self.position() || 'body').append('div')
       .classed(uv.constants.classes.chartdiv, true)
-      .style('display','inline-block').append('svg');
+      .style('display','inline-block')
+      .style('width', '100%')
+      .style('height', '100%')
+      .append('svg');
   }
 
   self.frame.attr('id', uv.constants.classes.uv + '-' + self.id)
