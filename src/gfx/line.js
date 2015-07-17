@@ -65,19 +65,20 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
             d3.select(this.parentNode.parentNode).selectAll('circle').on('mouseout', uv.effects.line.mouseout(self, idx));
           });
 
-  linegroup.path.selectAll('circle')
-        .data(self.dataset[idx])
-        .enter().append('circle')
-        .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-        .attr('cx', linegroup.func.x())
-        .attr('cy', linegroup.func.y())
-        .attr('r', 3.5)
-        .style('fill', color)
-        .style('fill-opacity', 0.6)
-        .style('stroke', '#fff')
-          .append('svg:title')
-          .text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
-
+  if (self.config.line.showcircles) {
+    linegroup.path.selectAll('circle')
+          .data(self.dataset[idx])
+          .enter().append('circle')
+          .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
+          .attr('cx', linegroup.func.x())
+          .attr('cy', linegroup.func.y())
+          .attr('r', 3.5)
+          .style('fill', color)
+          .style('fill-opacity', 0.6)
+          .style('stroke', '#fff')
+            .append('svg:title')
+            .text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
+  }
 
   linegroup.path.selectAll('text')
         .data(self.dataset[idx])
@@ -128,18 +129,20 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
             d3.select(this.parentNode.parentNode).selectAll('circle').on('mouseout', uv.effects.line.mouseout(self, idx));
           });
 
-  linegroup.path.selectAll('circle')
-        .data(self.dataset[idx])
-        .enter().append('circle')
-        .attr('cx', linegroup.func.x())
-        .attr('cy', linegroup.func.y())
-        .attr('r', 3.5)
-        .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
-        .style('fill', color)
-        .style('fill-opacity', 0.2)
-        .style('stroke', '#fff')
-          .append('svg:title')
-          .text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
+  if (self.config.line.showcircles) {
+    linegroup.path.selectAll('circle')
+          .data(self.dataset[idx])
+          .enter().append('circle')
+          .attr('cx', linegroup.func.x())
+          .attr('cy', linegroup.func.y())
+          .attr('r', 3.5)
+          .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
+          .style('fill', color)
+          .style('fill-opacity', 0.2)
+          .style('stroke', '#fff')
+            .append('svg:title')
+            .text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
+  }
 
   linegroup.path.selectAll('text')
         .data(self.dataset[idx])
