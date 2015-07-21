@@ -1,6 +1,6 @@
 init = function() {
-	var horConfig = {};
-	var verConfig = { graph : {orientation : 'Vertical'}};
+	var horConfig = { graph: {responsive: true}};
+	var verConfig = { graph: {responsive: true, orientation : 'Vertical'}};
 
 	var graphdef = new sample.Graphdef();
 	var tgraphdef = new sample.Graphdef();
@@ -24,7 +24,9 @@ init = function() {
 		graphdef.categories = categories;
 		graphdef.dataset = dataset;
 	};
-	
+
+	var swGraphdef = new sample.StepUpWaterfallGraphdef();
+
 	transposeData(tgraphdef);
 
 	barHorTest = uv.chart('Bar', graphdef, horConfig);
@@ -36,7 +38,10 @@ init = function() {
 	tstepUpBarHorTest = uv.chart('StepUpBar', tgraphdef, horConfig);
 	stepUpBarVerTest = uv.chart('StepUpBar', graphdef, verConfig);
 	tstepUpBarVerTest = uv.chart('StepUpBar', tgraphdef, verConfig);
-	
+
+	stepUpWaterfallHorTest = uv.chart('StepUpWaterfall', swGraphdef, horConfig);
+	stepUpWaterfallVerTest = uv.chart('StepUpWaterfall', swGraphdef, verConfig);
+
 	stackedBarHorTest = uv.chart('StackedBar', graphdef, horConfig);
 	tstackedBarHorTest = uv.chart('StackedBar', tgraphdef, horConfig);
 	stackedBarVerTest = uv.chart('StackedBar', graphdef, verConfig);
@@ -54,10 +59,10 @@ init = function() {
 
 	stackareaHorTest = uv.chart('StackedArea', graphdef, horConfig);
 	stackareaVerTest = uv.chart('StackedArea', graphdef, verConfig);
-	
+
 	centareaHorTest = uv.chart('PercentArea', graphdef, horConfig);
 	centareaVerTest = uv.chart('PercentArea', graphdef, verConfig);
-	
+
 	centbarHorTest = uv.chart('PercentBar', graphdef, verConfig);
 	centbarVerTest = uv.chart('PercentBar', graphdef, verConfig);
 
