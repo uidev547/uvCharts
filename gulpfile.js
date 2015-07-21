@@ -16,7 +16,7 @@ var paths = {
   "gfx": ['src/gfx/graph.js', 'src/gfx/*.js'],
   "module_end": ['src/module/module_end.js'],
   "test": ['src/util/test.js'],
-  "release_assets": ['build/uvcharts.js']
+  "release_assets": ['build/uvcharts*.js']
 };
 
 gulp.task('clean:dev', function (cb) {
