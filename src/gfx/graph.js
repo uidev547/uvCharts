@@ -46,7 +46,7 @@ uv.Graph = function (graphdef, config) {
 */
 uv.Graph.prototype.init = function () {
   var self = this;
-  self.max(self.graphdef.stepup)
+  self.setMax(self.graphdef.stepup)
     .position(self.config.meta.position || 'body')
     .setDimensions()
     .setFrame()
@@ -711,7 +711,11 @@ uv.Graph.prototype.isDownloadable = function (isDownload) {
   return this.config.meta.isDownload;
 };
 
-uv.Graph.prototype.max = function (stepup) {
+uv.Graph.prototype.setMax = function (stepup) {
+  if (this.config.graph.max !== 0) {
+    return this;
+  }
+
   if (stepup === true) {
     this.config.graph.max = uv.util.getStepMaxValue(this.graphdef);
     return this;
@@ -726,6 +730,10 @@ uv.Graph.prototype.max = function (stepup) {
     return this;
   }
 
+  return this;
+}
+
+uv.Graph.prototype.max = function () {
   return this.config.graph.max;
 };
 
