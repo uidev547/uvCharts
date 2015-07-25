@@ -21,7 +21,7 @@ Charts supported at the current moment are:
 + Donut Chart
 + Line Chart
 + Waterfall Chart
-+ StepUp Waterfall Chart (**New**)
++ StepUp Waterfall Chart (**New** since 1.0.4)
 + Polar Area chart
 
 All charts can be rendered either in horizontal or vertical orientation except for Pie, Donut, Polar Area.
@@ -29,6 +29,7 @@ All charts can be rendered either in horizontal or vertical orientation except f
 #### Features
 - Easy to learn and use (Single Function API)
 - 13 charts supported already, with more to come
+- Responsive (**New** since 1.0.1)
 - Configurable (about 100 ways already)
 - Cool transitions and effects
 - Power of d3 exposed in the form of d3 selections in the resultant uvChart object 
