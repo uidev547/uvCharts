@@ -64,7 +64,8 @@ uv.config = {
     showlabel : true,
     precision : 2,
     prefix : '',
-    suffix : ''
+    suffix : '',
+    formatter: undefined
   },
 
   tooltip : {
