@@ -70,4 +70,8 @@ gulp.task('release:gfx', ['build:gfx'], function () {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('watch:gfx', ['build:gfx'], function () {
+  return gulp.watch(paths['gfx'].concat(paths['util']), ['build:gfx']);
+});
+
 gulp.task('default', ['build:gfx', 'build:test']);

@@ -22,7 +22,7 @@ uv.StepUpBarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.StepUpBarGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = true;
+  self.graphdef.stepup = 'stepup';
   return this;
 };
 

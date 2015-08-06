@@ -19,6 +19,21 @@ uv.util.getUniqueId = function () {
   return new Date().getTime();
 };
 
+uv.util.getMax = function (graphdef, classification) {
+  switch (classification) {
+    case 'stepup':
+      return this.getStepMaxValue(graphdef);
+    case 'normal':
+      return this.getMaxValue(graphdef);
+    case 'percent':
+      return 100;
+    case 'waterfall':
+      return this.getWaterfallMaxValue(graphdef);
+    default:
+      console.error("Unknown classification for chart", classification);
+  }
+}
+
 /**
 *
 */
@@ -54,6 +69,27 @@ uv.util.getWaterfallMaxValue = function(graphdef) {
   });
 
   return d3.max(sumMap);
+};
+
+uv.util.getMin = function (graphdef, classification) {
+  switch (classification) {
+    case 'normal':
+      return this.getMinValue(graphdef);
+    default:
+      return 0;
+  }
+}
+
+/**
+*
+*/
+uv.util.getMinValue = function (graphdef) {
+  return d3.min([0, d3.min(graphdef.categories.map(function (d) {
+      return d3.min(graphdef.dataset[d].map(function (d) {
+        return d.value;
+      }));
+    }))
+  ]);
 };
 
 uv.util.getSumUpArray = function (graphdef) {

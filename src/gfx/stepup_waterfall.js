@@ -27,7 +27,7 @@ uv.StepupWaterfallGraph = function (graphdef, config) {
 uv.StepupWaterfallGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.StepupWaterfallGraph.prototype.setDefaults = function () {
-  this.graphdef.stepup = true;
+  this.graphdef.stepup = 'stepup';
   return this;
 };
 

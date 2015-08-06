@@ -23,7 +23,7 @@ uv.StackedBarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.StackedBarGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = true;
+  self.graphdef.stepup = 'stepup';
   return this;
 };
 

@@ -29,7 +29,7 @@ uv.LineGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.LineGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = false;
+  self.graphdef.stepup = 'normal';
   self.config.scale.ordinality = 0;
   return this;
 };

@@ -24,8 +24,9 @@ uv.Graph = function (graphdef, config) {
   self.bg = null;
   self.effects = {};
   self.axes = {
-    hor : { group: null, scale : null, func: null, axis : null, line : null, label : null },
-    ver : { group: null, scale : null, func: null, axis : null, line : null, label : null }
+    hor: { group: null, scale : null, func: null, axis : null, line : null, label : null },
+    ver: { group: null, scale : null, func: null, axis : null, line : null, label : null },
+    meta: { min: null, max: null }
   };
 
   self.labels = null;
@@ -46,7 +47,8 @@ uv.Graph = function (graphdef, config) {
 */
 uv.Graph.prototype.init = function () {
   var self = this;
-  self.setMax(self.graphdef.stepup)
+  self.max()
+    .min()
     .position(self.config.meta.position || 'body')
     .setDimensions()
     .setFrame()
@@ -268,7 +270,7 @@ uv.Graph.prototype.setHorizontalAxis = function () {
 
   if (self.config.graph.orientation === 'Horizontal') {
     self.axes.hor.scale  = d3.scale[self.config.scale.type]()
-                .domain([self.config.scale.type === 'log' ? 1: 0, self.max()])
+                .domain([self.config.scale.type === 'log' ? 1: self.min(), self.max()])
                 .range([0, self.width()]);
 
     if (self.axes.hor.scale.nice) {
@@ -320,7 +322,7 @@ uv.Graph.prototype.setVerticalAxis = function () {
 
   if (self.config.graph.orientation === 'Vertical') {
     self.axes.ver.scale  = d3.scale[self.config.scale.type]()
-                .domain([self.max(), self.config.scale.type === 'log' ? 1 : 0])
+                .domain([self.max(), self.config.scale.type === 'log' ? 1 : self.min()])
                 .range([0, self.height()]);
 
     if (self.axes.ver.scale.nice) {
@@ -711,31 +713,23 @@ uv.Graph.prototype.isDownloadable = function (isDownload) {
   return this.config.meta.isDownload;
 };
 
-uv.Graph.prototype.setMax = function (stepup) {
-  if (this.config.graph.max !== 0) {
-    return this;
+uv.Graph.prototype.max = function () {
+  if (this.axes.meta.max !== null) {
+    return this.axes.meta.max;
   }
 
-  if (stepup === true) {
-    this.config.graph.max = uv.util.getStepMaxValue(this.graphdef);
-    return this;
-  } else if (stepup === false) {
-    this.config.graph.max = uv.util.getMaxValue(this.graphdef);
-    return this;
-  } else if (stepup === 'percent') {
-    this.config.graph.max = 100;
-    return this;
-  }  else if (stepup === 'waterfall') {
-    this.config.graph.max = uv.util.getWaterfallMaxValue(this.graphdef);
-    return this;
-  }
-
+  this.axes.meta.max = uv.util.getMax(this.graphdef, this.graphdef.stepup);
   return this;
 }
 
-uv.Graph.prototype.max = function () {
-  return this.config.graph.max;
-};
+uv.Graph.prototype.min = function () {
+  if (this.axes.meta.min !== null) {
+    return this.axes.meta.min;
+  }
+
+  this.axes.meta.min = uv.util.getMin(this.graphdef, this.graphdef.stepup);
+  return this;
+}
 
 /* Additional Graph functions*/
 uv.Graph.prototype.toggleGraphGroup = function (i) {
