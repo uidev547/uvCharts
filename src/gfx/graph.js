@@ -562,9 +562,9 @@ uv.Graph.prototype.finalize = function (isLoggable) {
   self.frame.selectAll('text').style('cursor', 'default');
 
   //Log Graph object if flag set to truthy value
-  if (isLoggable) {
+  //if (isLoggable) {
     console.log(self);
-  }
+  //}
   return this;
 };
 
