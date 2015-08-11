@@ -12,6 +12,7 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-lintspaces": "~0.7.0",
+    "gulp-bower": "0.0.10",
     "gulp-concat": "^2.6.0",
     "gulp-jshint": "^1.11.2",
     "gulp-sourcemaps": "^1.5.2",
