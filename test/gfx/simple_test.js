@@ -25,8 +25,6 @@ init = function() {
 		graphdef.dataset = dataset;
 	};
 
-	var swGraphdef = new sample.StepUpWaterfallGraphdef();
-
 	transposeData(tgraphdef);
 
 	barHorTest = uv.chart('Bar', graphdef, horConfig);
@@ -34,13 +32,10 @@ init = function() {
 	barVerTest = uv.chart('Bar', graphdef, verConfig);
 	tbarVerTest = uv.chart('Bar', tgraphdef, verConfig);
 
-	stepUpBarHorTest = uv.chart('StepUpBar', graphdef, horConfig);
+  stepUpBarHorTest = uv.chart('StepUpBar', graphdef, horConfig);
 	tstepUpBarHorTest = uv.chart('StepUpBar', tgraphdef, horConfig);
 	stepUpBarVerTest = uv.chart('StepUpBar', graphdef, verConfig);
 	tstepUpBarVerTest = uv.chart('StepUpBar', tgraphdef, verConfig);
-
-	stepUpWaterfallHorTest = uv.chart('StepUpWaterfall', swGraphdef, horConfig);
-	stepUpWaterfallVerTest = uv.chart('StepUpWaterfall', swGraphdef, verConfig);
 
 	stackedBarHorTest = uv.chart('StackedBar', graphdef, horConfig);
 	tstackedBarHorTest = uv.chart('StackedBar', tgraphdef, horConfig);
@@ -72,5 +67,4 @@ init = function() {
 
 	waterfallTest = uv.chart('Waterfall', waterfallGraphdef, verConfig);
 	waterfallTest = uv.chart('Waterfall', waterfallGraphdef, horConfig);
-
 };

@@ -48,6 +48,6 @@ uv.DonutGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.DonutGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = false;
+  self.graphdef.stepup = 'normal';
   return this;
 };

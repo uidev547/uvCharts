@@ -25,7 +25,7 @@ uv.BarGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.BarGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = false;
+  self.graphdef.stepup = 'normal';
   return this;
 };
 
@@ -35,28 +35,33 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
     len = self.categories.length;
 
   var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-        .append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+        .append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true)
+        .attr('transform', function (d) { if (d.value < 0) return 'scale(-1,1)'; });
 
   bars.append('rect')
     .classed(uv.util.formatClassName(self.categories[idx]), true)
     .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
     .attr('height', self.axes.ver.scale.rangeBand() / len)
-    .attr('x', 0)
+    .attr('x', function (d) {
+      return (d.value < 0) ? (-self.axes.hor.scale(0)) : self.axes.hor.scale(0);
+    })
     .attr('y', function (d) {return self.axes.ver.scale(d.name); })
+    .attr('width', 0)
     .style('stroke', self.config.bar.strokecolor)
     .style('fill', color)
     .transition()
       .duration(self.config.effects.duration)
       .delay(function (d, i) { return i * self.config.effects.duration; })
-      .attr('width', function (d) { return self.axes.hor.scale(d.value); })
+      .attr('width', function (d) { return self.axes.hor.scale(Math.abs(d.value)) - self.axes.hor.scale(0); })
       .call(uv.util.endAll, function (d,i){
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
       });
 
   bars.append('text')
+    .attr('x', function(d) { return self.axes.hor.scale(0); })
     .attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
-    .attr('dx', 4)
+    .attr('dx', function (d) { return (d.value < 0)? '-20px': '4px' })
     .attr('dy', '.35em')
     .attr('text-anchor', 'start')
     .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
@@ -64,10 +69,13 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
     .style('font-family', self.config.bar.fontfamily)
     .style('font-size', self.config.bar.fontsize)
     .style('font-weight', self.config.bar.fontweight)
+    .style('transform', function (d) { return d.value < 0? 'scale(-1,1)': 'scale(1,1)'; })
+    .style('opacity', 0)
     .text(function(d) { return uv.util.getLabelValue(self, d); })
     .transition()
       .duration(self.config.effects.duration)
       .delay(function (d, i) { return i * self.config.effects.duration; })
+      .style('opacity', 1)
       .attr('x', function (d) { return self.axes.hor.scale(d.value); });
 
 
@@ -84,42 +92,44 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
     len = self.categories.length;
 
   var bars = self.bargroups[self.categories[idx]].selectAll('g').data(self.graphdef.dataset[self.categories[idx]]).enter()
-      .append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true);
+      .append('g').classed('cge-' + uv.util.formatClassName(self.categories[idx]), true)
+      .attr('transform', function (d) { if (d.value < 0) return 'scale(1, -1)'; });
 
   bars.append('rect')
       .classed(uv.util.formatClassName(self.categories[idx]), true)
       .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
       .attr('height', 0)
-      .attr('width', 0)
-      .attr('x', function (d) {return self.axes.hor.scale(d.name); })
-      .attr('y', 0)
+      .attr('width', self.axes.hor.scale.rangeBand() / len)
+      .attr('x', function (d) { return self.axes.hor.scale(d.name); })
+      .attr('y', function (d) { return (d.value < 0? -1: 1) * (self.height() - self.axes.ver.scale(0)); })
       .style('stroke', self.config.bar.strokecolor).style('fill', color)
       .transition()
         .duration(self.config.effects.duration)
         .delay(idx * self.config.effects.duration)
-        .attr('height', function (d) { return self.height() - self.axes.ver.scale(d.value); })
-        .attr('width', self.axes.hor.scale.rangeBand() / len)
+        .attr('height', function (d) { return Math.abs(self.axes.ver.scale(0) - self.axes.ver.scale(d.value)); })
         .call(uv.util.endAll, function (d,i){
           d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
           d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
         });
 
 
-  bars.append('text').attr('transform','scale(1,-1)')
+  bars.append('text').attr('transform', function (d) { return (d.value < 0) ? 'scale(1,1)': 'scale(1,-1)'; })
       .attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
-      .attr('y', -10)
+      .attr('y', function(d) { return self.height() - self.axes.ver.scale(0) })
       .attr('dx', 0)
-      .attr('dy', '.35em')
+      .attr('dy', function (d) { return d.value < 0 ? '2em' : '.35em' })
       .attr('text-anchor', 'middle')
       .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
       .style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
       .style('font-family', self.config.bar.fontfamily)
       .style('font-size', self.config.bar.fontsize)
       .style('font-weight', self.config.bar.fontweight)
+      .style('opacity', 0)
       .text(function(d) { return uv.util.getLabelValue(self, d); })
       .transition()
         .duration(self.config.effects.duration)
         .delay(idx * self.config.effects.duration)
+        .style('opacity', 1)
         .attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 
   bars.append('svg:title')

@@ -21,7 +21,7 @@ uv.StackedAreaGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.StackedAreaGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = true;
+  self.graphdef.stepup = 'stepup';
   return this;
 };
 

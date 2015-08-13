@@ -29,7 +29,7 @@ uv.LineGraph.prototype = uv.util.inherits(uv.Graph);
 
 uv.LineGraph.prototype.setDefaults = function () {
   var self = this;
-  self.graphdef.stepup = false;
+  self.graphdef.stepup = 'normal';
   self.config.scale.ordinality = 0;
   return this;
 };
@@ -88,12 +88,17 @@ uv.LineGraph.prototype.drawHorizontalLines = function (linegroup, idx) {
         .attr('dx', 10)
         .attr('dy', '.35em')
         .attr('text-anchor', 'start')
+        .style('opacity', 0)
         .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
         .style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
         .style('font-family', self.config.bar.fontfamily)
         .style('font-size', self.config.bar.fontsize)
         .style('font-weight', self.config.bar.fontweight)
-        .text(function(d) { return uv.util.getLabelValue(self, d); });
+        .text(function(d) { return uv.util.getLabelValue(self, d); })
+        .transition()
+          .duration(3 * self.config.effects.duration)
+          .delay(2 * idx * self.config.effects.duration)
+          .style('opacity', 1);
 
   return this;
 };
@@ -157,7 +162,12 @@ uv.LineGraph.prototype.drawVerticalLines = function (linegroup, idx) {
         .style('font-family', self.config.bar.fontfamily)
         .style('font-size', self.config.bar.fontsize)
         .style('font-weight', self.config.bar.fontweight)
-        .text(function(d) { return uv.util.getLabelValue(self, d); });
+        .style('opacity', 0)
+        .text(function(d) { return uv.util.getLabelValue(self, d); })
+        .transition()
+          .duration(3 * self.config.effects.duration)
+          .delay(2 * idx * self.config.effects.duration)
+          .style('opacity', 1);
 
   return this;
 };
