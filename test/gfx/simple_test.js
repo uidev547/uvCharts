@@ -25,8 +25,6 @@ init = function() {
 		graphdef.dataset = dataset;
 	};
 
-	var swGraphdef = new sample.StepUpWaterfallGraphdef();
-
 	transposeData(tgraphdef);
 
 	barHorTest = uv.chart('Bar', graphdef, horConfig);

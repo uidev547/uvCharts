@@ -63,6 +63,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
     .attr('text-anchor', 'start')
     .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
     .style('fill', self.config.label.showlabel ? uv.util.getColorBand(self.config, idx) : 'none')
+    .style('opacity', 0)
     .style('font-family', self.config.bar.fontfamily)
     .style('font-size', self.config.bar.fontsize)
     .style('font-weight', self.config.bar.fontweight)
@@ -70,6 +71,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
     .transition()
       .duration(self.config.effects.duration)
       .delay(idx * self.config.effects.duration)
+      .style('opacity', 1)
       .attr('x', function (d, i) { tsum[i] += d.value; return self.axes.hor.scale(tsum[i]); });
 
   bars.append('svg:title')
@@ -122,10 +124,12 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
     .style('font-family', self.config.bar.fontfamily)
     .style('font-size', self.config.bar.fontsize)
     .style('font-weight', self.config.bar.fontweight)
+    .style('opacity', 0)
     .text(function(d) { return uv.util.getLabelValue(self, d); })
     .transition()
       .duration(self.config.effects.duration)
       .delay(idx * self.config.effects.duration)
+      .style('opacity', 1)
       .attr('y', function (d, i) { tsum[i] += d.value; return -(2*self.height() - self.axes.ver.scale(tsum[i])) - 10; });
 
   bars.append('svg:title')

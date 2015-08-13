@@ -46,6 +46,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
       return (d.value < 0) ? (-self.axes.hor.scale(0)) : self.axes.hor.scale(0);
     })
     .attr('y', function (d) {return self.axes.ver.scale(d.name); })
+    .attr('width', 0)
     .style('stroke', self.config.bar.strokecolor)
     .style('fill', color)
     .transition()
@@ -58,8 +59,9 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
       });
 
   bars.append('text')
+    .attr('x', function(d) { return self.axes.hor.scale(0); })
     .attr('y', function(d) { return self.axes.ver.scale(d.name) + (self.axes.ver.scale.rangeBand()/len)/2; })
-    .attr('dx', 4)
+    .attr('dx', function (d) { return (d.value < 0)? '-20px': '4px' })
     .attr('dy', '.35em')
     .attr('text-anchor', 'start')
     .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
@@ -67,10 +69,13 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
     .style('font-family', self.config.bar.fontfamily)
     .style('font-size', self.config.bar.fontsize)
     .style('font-weight', self.config.bar.fontweight)
+    .style('transform', function (d) { return d.value < 0? 'scale(-1,1)': 'scale(1,1)'; })
+    .style('opacity', 0)
     .text(function(d) { return uv.util.getLabelValue(self, d); })
     .transition()
       .duration(self.config.effects.duration)
       .delay(function (d, i) { return i * self.config.effects.duration; })
+      .style('opacity', 1)
       .attr('x', function (d) { return self.axes.hor.scale(d.value); });
 
 
@@ -110,7 +115,7 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
 
   bars.append('text').attr('transform', function (d) { return (d.value < 0) ? 'scale(1,1)': 'scale(1,-1)'; })
       .attr('x', function(d) { return self.axes.hor.scale(d.name) + (self.axes.hor.scale.rangeBand()/len)/2; })
-      .attr('y', -10)
+      .attr('y', function(d) { return self.height() - self.axes.ver.scale(0) })
       .attr('dx', 0)
       .attr('dy', function (d) { return d.value < 0 ? '2em' : '.35em' })
       .attr('text-anchor', 'middle')
@@ -119,10 +124,12 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
       .style('font-family', self.config.bar.fontfamily)
       .style('font-size', self.config.bar.fontsize)
       .style('font-weight', self.config.bar.fontweight)
+      .style('opacity', 0)
       .text(function(d) { return uv.util.getLabelValue(self, d); })
       .transition()
         .duration(self.config.effects.duration)
         .delay(idx * self.config.effects.duration)
+        .style('opacity', 1)
         .attr('y', function (d) { return -(self.height() - self.axes.ver.scale(d.value)) - 10; });
 
   bars.append('svg:title')

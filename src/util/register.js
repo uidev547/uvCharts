@@ -15,7 +15,6 @@ uv.addChart('PercentArea','PercentAreaGraph');
 uv.addChart('Pie','PieGraph');
 uv.addChart('Donut','DonutGraph');
 uv.addChart('Waterfall','WaterfallGraph');
-uv.addChart('StepUpWaterfall','StepupWaterfallGraph');
 uv.addChart('PolarArea','PolarAreaGraph');
 
 uv.chart = function (type, graphdef, config) {

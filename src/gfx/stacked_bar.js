@@ -65,10 +65,12 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
     .style('font-family', config.bar.fontfamily)
     .style('font-size', config.bar.fontsize)
     .style('font-weight', config.bar.fontweight)
+    .style('opacity', 0)
     .text(function(d) { return ( axes.hor.scale(d.value) > 15 ) ? uv.util.getLabelValue(self, d) : null; })
     .transition()
       .duration(uv.config.effects.duration)
       .delay(idx * uv.config.effects.duration)
+      .style('opacity', 1)
       .attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(tsum[i]) - 5; });
 
   bars.append('svg:title')
@@ -114,10 +116,12 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
     .style('font-family', config.bar.fontfamily)
     .style('font-size', config.bar.fontsize)
     .style('font-weight', config.bar.fontweight)
+    .style('opacity', 0)
     .text(function(d) { return ( height - axes.ver.scale(d.value) > 15) ? uv.util.getLabelValue(self, d) : null; })
     .transition()
       .duration(uv.config.effects.duration)
       .delay(idx * uv.config.effects.duration)
+      .style('opacity', 1)
       .attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(tsum[i])) + 5; });
 
   bars.append('svg:title')

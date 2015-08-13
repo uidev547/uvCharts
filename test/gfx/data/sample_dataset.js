@@ -5,14 +5,14 @@ sample.Graphdef = function(){
 	this.dataset = {
 		'IE' : [
 			{name: '2001', value: 60 },
-			{name: '2002', value: -70 },
+			{name: '2002', value: 70 },
 			{name: '2003', value: 80 },
-			{name: '2004', value: -90 },
+			{name: '2004', value: 90 },
 			{name: '2005', value: 20 }
 		],
 		'Chrome' : [
 			{name: '2001', value: 10},
-			{name: '2002', value: -30},
+			{name: '2002', value: 30},
 			{name: '2003', value: 50},
 			{name: '2004', value: 90},
 			{name: '2005', value: 70}
@@ -20,15 +20,15 @@ sample.Graphdef = function(){
 		'Firefox': [
 			{name: '2001', value: 50},
 			{name: '2002', value: 150},
-			{name: '2003', value: -20},
+			{name: '2003', value: 20},
 			{name: '2004', value: 80},
-			{name: '2005', value: -40}
+			{name: '2005', value: 40}
 		],
 		'Opera': [
 			{name: '2001', value: 90},
 			{name: '2002', value: 60},
-			{name: '2003', value: -30},
-			{name: '2004', value: -10},
+			{name: '2003', value: 30},
+			{name: '2004', value: 10},
 			{name: '2005', value: 70}
 		],
 		'Safari' : [
