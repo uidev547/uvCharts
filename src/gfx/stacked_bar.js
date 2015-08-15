@@ -53,8 +53,8 @@ uv.StackedBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
         d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
         d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
         if(typeof self.config.graph.clickCallback === "function") {
-          d3.select(this).on('click', function(){
-              self.config.graph.clickCallback.apply(null, [arguments[0]]);
+          d3.select(this).on('click', function(_d){
+              self.config.graph.clickCallback.apply(null, [_d]);
           });
         }
       });
@@ -109,8 +109,8 @@ uv.StackedBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
         d3.select(this).on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
         d3.select(this).on('mouseout', uv.effects.bar.mouseout(self, idx, self.config.effects.textcolor));
         if(typeof self.config.graph.clickCallback === "function") {
-          d3.select(this).on('click', function(){
-            self.config.graph.clickCallback.apply(null, [arguments[0]]);
+          d3.select(this).on('click', function(_d){
+            self.config.graph.clickCallback.apply(null, [_d]);
           });
         }
       });
