@@ -57,8 +57,8 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
         if(typeof self.config.graph.clickCallback === "function") {
-          d3.select(this.parentNode.parentNode).selectAll('rect').on('click', function(){
-              self.config.graph.clickCallback.apply(null, [arguments[0]]);
+          d3.select(this.parentNode.parentNode).selectAll('rect').on('click', function(_d){
+              self.config.graph.clickCallback.apply(null, [_d]);
           });
         }
       });
@@ -116,8 +116,8 @@ uv.BarGraph.prototype.drawVerticalBars = function (idx) {
           d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
           d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
           if(typeof self.config.graph.clickCallback === "function") {
-            d3.select(this.parentNode.parentNode).selectAll('rect').on('click', function(){
-              self.config.graph.clickCallback.apply(null, [arguments[0]]);
+            d3.select(this.parentNode.parentNode).selectAll('rect').on('click', function(_d){
+              self.config.graph.clickCallback.apply(null, [_d]);
           });
         }
         });
