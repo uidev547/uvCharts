@@ -26,7 +26,13 @@ uv.DonutGraph = function (graphdef, config) {
       .style('stroke', self.config.donut.strokecolor)
       .style('stroke-width', self.config.donut.strokewidth)
     .on('mouseover', uv.effects.donut.mouseover(self.center, arcfunc, self.config))
-    .on('mouseout', uv.effects.donut.mouseout(self.center, self.config));
+    .on('mouseout', uv.effects.donut.mouseout(self.center, self.config))
+
+  if (typeof self.config.graph.clickCallback === "function") {
+    self.arcs.on('click', function (d) {
+      self.config.graph.clickCallback.apply(null, [d]);
+    });
+  }
 
   self.arcs.append('text')
       .attr('transform', function (d) { return 'translate(' + arcfunc.centroid(d) + ')'; })
