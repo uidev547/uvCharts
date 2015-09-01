@@ -56,7 +56,7 @@ uv.BarGraph.prototype.drawHorizontalBars = function (idx) {
       .call(uv.util.endAll, function (d,i){
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx));
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseout', uv.effects.bar.mouseout(self, idx));
-        if(typeof self.config.graph.clickCallback === "function") {
+        if (typeof self.config.graph.clickCallback === "function") {
           d3.select(this.parentNode.parentNode).selectAll('rect').on('click', function(_d){
               self.config.graph.clickCallback.apply(null, [_d]);
           });
