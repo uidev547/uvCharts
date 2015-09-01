@@ -9,6 +9,7 @@ var gulp = require('gulp'),
   del = require('del'),
   stylish = require('jshint-stylish'),
   bower = require('gulp-bower'),
+  webserver = require('gulp-webserver'),
   packageInfo = require('./package.json');
 
 var paths = {
@@ -71,12 +72,24 @@ gulp.task('release:gfx', ['build:gfx'], function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch:gfx', ['build:gfx'], function () {
+gulp.task('watch:gfx', ['build:gfx', 'serve:test'], function () {
   return gulp.watch(paths['gfx'].concat(paths['util']), ['build:gfx']);
 });
 
 gulp.task('deps:get', function () {
   return bower().pipe(gulp.dest('lib/'));
 });
+
+gulp.task('serve:test', function () {
+  gulp.src('.')
+    .pipe(webserver({
+      port: 9090,
+      livereload: true,
+      directoryListing: true,
+      open: true,
+      path: "/",
+      open: "/test/gfx/simple_test.html"
+    }));
+})
 
 gulp.task('default', ['build:gfx', 'build:test']);
