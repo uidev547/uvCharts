@@ -89,7 +89,15 @@ uv.config = {
 
   line: {
     interpolation: 'linear',
-    showcircles: true
+    showcircles: true,
+    circleradius: 3.5,
+    circleopacity: 0.6,
+    fontfamily: 'Arial',
+    fontsize : '10',
+    fontweight: 'bold',
+    textcolor: '#000',
+    strokewidth: 1.5,
+    strokeopacity: 1
   },
 
   area: {
