@@ -30,32 +30,36 @@ All charts can be rendered either in horizontal or vertical orientation except f
 - Easy to learn and use (Single Function API)
 - 13 charts supported already, with more to come
 - Responsive (**New** since 1.0.1)
-- Configurable (about 100 ways already)
+- Support for negative axis in Bar, Line, Area, Step Up bar charts (**New** since 1.1.0)
+- Configurable (about 110 ways already)
 - Cool transitions and effects
 - Power of d3 exposed in the form of d3 selections in the resultant uvChart object 
 
 #### Current roadmap
 Checkout [milestones](https://github.com/Imaginea/uvCharts/milestones) to find plans for future releases underway.
 
-Want a new feature or found a bug? Feel free to raise a bug [here](https://github.com/Imaginea/uvCharts/issues).
+#### Bugs, Issues and Feature requests
+Want a new feature or found a bug? Feel free to raise a issue [here](https://github.com/Imaginea/uvCharts/issues).
 
-### uvData (**help wanted**)
-uvData is a JavaScript based data manipulation library which acts on a ist of JSON Object (a list of tuples). It is still work in progress and can be used to do complex operations on data.
+### Contributions
+Contributions in the form of Pull Requests, Issues and Feature requests are always welcome.
 
-Together with uvCharts, it will provide enough options to play around with data and visualize it in whichever way you want to see it.
+You can read the developer guide [here](./readme/developer_guide.md) to get started on setting up the development environment and the source code hierarchy.
 
 ### Contributors
 
-- Kiran Danduprolu (hashd)
-- Sanjay Pavan (sanjaypavan)
-- Priyanka Dudani (priyankadudani)
-- Madhur Shrimal (shrimalmadhur)
-- Krishnamraj Goud (ksnov)
+- Kiran Danduprolu (@hashd)
+- Sanjay Pavan (@sanjaypavan)
+- Priyanka Dudani (@priyankadudani)
+- Madhur Shrimal (@shrimalmadhur)
+- Krishnamraj Goud (@ksnov)
+- Pankaj Kumar (@pankajkumar005)
 
 ### Designers
 
-- Paridhi Verma (paridhiv)
+- Paridhi Verma (@paridhiv)
 - Kiran Kumar G
+- Noorul Ameen
 
-### MIT Licensed
+### MIT License
 Find full text [here](https://github.com/Imaginea/uvCharts/blob/master/LICENSE)
