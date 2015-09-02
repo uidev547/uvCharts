@@ -6,7 +6,7 @@ To learn more about uvCharts and how to use it, read the [wiki](http://www.githu
 
 Checkout [releases](http://www.github.com/Imaginea/uvCharts/releases) to get the latest release of uvCharts. The downloadable artifact will contain the minified and non-minified library file for you to use.
 
-### Current release: uvCharts-v1.0.5
+### Current release: uvCharts-v1.1.0
 
 Charts supported at the current moment are:
 
@@ -41,12 +41,12 @@ Checkout [milestones](https://github.com/Imaginea/uvCharts/milestones) to find p
 #### Bugs, Issues and Feature requests
 Want a new feature or found a bug? Feel free to raise a issue [here](https://github.com/Imaginea/uvCharts/issues).
 
-### Contributions
+#### Contributions
 Contributions in the form of Pull Requests, Issues and Feature requests are always welcome.
 
 You can read the developer guide [here](./readme/developer_guide.md) to get started on setting up the development environment and the source code hierarchy.
 
-### Contributors
+##### Contributors
 
 - Kiran Danduprolu (@hashd)
 - Sanjay Pavan (@sanjaypavan)
@@ -55,11 +55,11 @@ You can read the developer guide [here](./readme/developer_guide.md) to get star
 - Krishnamraj Goud (@ksnov)
 - Pankaj Kumar (@pankajkumar005)
 
-### Designers
+##### Designers
 
 - Paridhi Verma (@paridhiv)
 - Kiran Kumar G
 - Noorul Ameen
 
-### MIT License
+##### Licensed under MIT License
 Find full text [here](https://github.com/Imaginea/uvCharts/blob/master/LICENSE)
