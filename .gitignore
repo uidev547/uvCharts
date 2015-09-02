@@ -2,6 +2,7 @@ node_modules/*
 bower_components/*
 components/*
 build/*
+dist/*
 lib/*
 .DS_Store
 css/
