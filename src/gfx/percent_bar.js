@@ -53,8 +53,8 @@ uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
     .style('stroke', 'none')
     .style('fill', color)
     .transition()
-      .duration(uv.config.effects.duration)
-      .delay(idx * uv.config.effects.duration)
+      .duration(self.config.effects.duration)
+      .delay(idx * self.config.effects.duration)
       .attr('width', function (d, i) { return axes.hor.scale(uv.util.getPercentage(d.value, sumMap[i]));})
       .call(uv.util.endAll, function (d,i){
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
@@ -74,8 +74,8 @@ uv.PercentBarGraph.prototype.drawHorizontalBars = function (bars, csum, tsum, id
     .style('font-weight', this.config.bar.fontweight)
     .text(function(d, i) { return ( axes.hor.scale(uv.util.getPercentage(csum[i], sumMap[i])) > 15 ) ? String(Math.round(uv.util.getPercentage(d.value, sumMap[i]))) : null; })
     .transition()
-      .duration(uv.config.effects.duration)
-      .delay(idx * uv.config.effects.duration)
+      .duration(self.config.effects.duration)
+      .delay(idx * self.config.effects.duration)
       .attr('x', function (d, i) { tsum[i] += d.value; return axes.hor.scale(uv.util.getPercentage(tsum[i], sumMap[i])) - 5; });
 };
 
@@ -96,8 +96,8 @@ uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
     .style('stroke', 'none')
     .style('fill', color)
     .transition()
-      .duration(uv.config.effects.duration)
-      .delay(idx * uv.config.effects.duration)
+      .duration(self.config.effects.duration)
+      .delay(idx * self.config.effects.duration)
       .attr('height', function (d, i) { return height - axes.ver.scale(uv.util.getPercentage(d.value, sumMap[i])); })
       .call(uv.util.endAll, function (d,i){
         d3.select(this.parentNode.parentNode).selectAll('rect').on('mouseover', uv.effects.bar.mouseover(self, idx, self.config.effects.textcolor));
@@ -116,7 +116,7 @@ uv.PercentBarGraph.prototype.drawVerticalBars = function (bars, csum, tsum, idx)
     .style('font-weight', this.config.bar.fontweight)
     .text(function(d, i) { return ( height - axes.ver.scale(uv.util.getPercentage(d.value, sumMap[i])) > 15) ? String(Math.round(uv.util.getPercentage(d.value, sumMap[i]))) : null; })
     .transition()
-      .duration(uv.config.effects.duration)
-      .delay(idx * uv.config.effects.duration)
+      .duration(self.config.effects.duration)
+      .delay(idx * self.config.effects.duration)
       .attr('y', function (d, i) { tsum[i] += d.value; return -(2*height - axes.ver.scale(uv.util.getPercentage(tsum[i], sumMap[i]))) + 5; });
 };
