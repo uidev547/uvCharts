@@ -36,6 +36,7 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
     .attr('height', self.axes.ver.scale.rangeBand() / len)
     .attr('width', 0)
     .attr('x', function (d, i) {
+      if (d.resetSum === true) csum[i] = 0;
       var value = self.axes.hor.scale(csum[i]);
       csum[i] += d.value;
       return d.value < 0 ? -value: value;
@@ -72,7 +73,11 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
       .duration(self.config.effects.duration)
       .delay(idx * self.config.effects.duration)
       .style('opacity', 1)
-      .attr('x', function (d, i) { tsum[i] += d.value; return self.axes.hor.scale(tsum[i]); });
+      .attr('x', function (d, i) {
+        if (d.resetSum === true) tsum[i] = 0;
+        tsum[i] += d.value;
+        return self.axes.hor.scale(tsum[i]);
+      });
 
   bars.append('svg:title')
     .text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});
@@ -93,6 +98,7 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
     .attr('width', self.axes.hor.scale.rangeBand() / len)
     .attr('x', function (d) { return self.axes.hor.scale(d.name); })
     .attr('y', function (d, i) {
+      if (d.resetSum === true) csum[i] = 0;
       var value = (2*self.height() - self.axes.ver.scale(csum[i]));
       csum[i] += d.value;
       return (d.value < 0)? -value: value;
@@ -130,7 +136,11 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
       .duration(self.config.effects.duration)
       .delay(idx * self.config.effects.duration)
       .style('opacity', 1)
-      .attr('y', function (d, i) { tsum[i] += d.value; return -(2*self.height() - self.axes.ver.scale(tsum[i])) - 10; });
+      .attr('y', function (d, i) {
+        if (d.resetSum === true) tsum[i] = 0;
+        tsum[i] += d.value;
+        return -(2*self.height() - self.axes.ver.scale(tsum[i])) - 10;
+      });
 
   bars.append('svg:title')
     .text( function (d, i) { return uv.util.getTooltipText(self, self.categories[idx], self.labels[i], d);});

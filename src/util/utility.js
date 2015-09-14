@@ -51,6 +51,9 @@ uv.util.getStepMaxValue = function (graphdef) {
 
   graphdef.categories.map(function (d) {
     graphdef.dataset[d].map(function (d, i) {
+      if (d.resetSum === true) {
+        sumMap[i] = 0;
+      }
       sumMap[i] += d.value;
       maxMap[i] = d3.max([sumMap[i], maxMap[i]]);
     });
@@ -160,17 +163,20 @@ uv.util.getCategoryData = function (graphdef, categories) {
 };
 
 uv.util.transposeData = function (graphdef) {
-  var dataset = {}, i, j, length, jlength,
+  var dataset = {}, i, j, length, jlength, resetSum,
     name, label, value, categories = graphdef.dataset[graphdef.categories[0]].map(function (d) { return d.name; });
 
-  for (i = 0, length = categories.length; i < length; i = i + 1) { dataset[categories[i]] = []; }
+  for (i = 0, length = categories.length; i < length; i = i + 1) {
+    dataset[categories[i]] = [];
+  }
 
   for (i = 0, length = graphdef.categories.length; i < length; i = i + 1) {
     name = graphdef.categories[i];
     for (j = 0, jlength = graphdef.dataset[name].length; j < jlength; j = j + 1) {
       label = graphdef.dataset[name][j].name;
       value = graphdef.dataset[name][j].value;
-      dataset[label].push({ 'name' : name, 'value' : value });
+      resetSum = graphdef.dataset[name][j].resetSum;
+      dataset[label].push({ 'name' : name, 'value' : value, 'resetSum': resetSum });
     }
   }
 
