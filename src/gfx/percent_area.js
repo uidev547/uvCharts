@@ -22,7 +22,7 @@ uv.PercentAreaGraph = function (graphdef, config) {
 
   self['draw' + self.config.graph.orientation + 'Area']();
 
-  self.finalize(true);
+  self.finalize();
 };
 
 uv.PercentAreaGraph.prototype = uv.util.inherits(uv.Graph);
