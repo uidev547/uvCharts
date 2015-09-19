@@ -1,0 +1,31 @@
+{
+  "name": "uvcharts",
+  "version": "2.0.0-snapshot",
+  "description": "uvCharts next, future oriented",
+  "main": "flyfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "fly-babel": "^0.6.0",
+    "fly-uglify": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Imaginea/uvCharts.git"
+  },
+  "keywords": [
+    "d3",
+    "charts",
+    "reusable",
+    "uvcharts",
+    "imaginea"
+  ],
+  "author": "Imaginea <opensource@imaginea.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Imaginea/uvCharts/issues"
+  },
+  "homepage": "https://github.com/Imaginea/uvCharts#readme"
+}
