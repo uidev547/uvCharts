@@ -5,8 +5,17 @@
   "main": "flyfile.js",
   "dependencies": {},
   "devDependencies": {
+    "eslint": "^1.5.0",
     "fly-babel": "^0.6.0",
+    "fly-eslint": "^0.4.0",
+    "fly-notify": "^0.3.4",
     "fly-uglify": "^1.0.0"
+  },
+  "moduleType": ["es6"],
+  "eslintConfig": {
+    "ecmaFeatures": {
+      "modules": true
+    }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

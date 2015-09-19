@@ -1,34 +1,49 @@
-const files = {
-
-}
-
 const paths = {
-  src: 'src/**/*.js',
-  build: 'build' 
-}
+    src: 'src/**/*.js',
+    build: 'build' 
+  },
+  defaultTasks = ['clean', 'concat', 'minify'],
+  buildFile = 'uvcharts.js',
+  minifiedBuildFile = 'uvcharts.min.js'
 
 export function* clean() {
   yield this
     .clear(paths.build)
 }
 
+export function* lint() {
+  yield this
+    .source(paths.src)
+    .eslint()
+}
+
 export function* concat() {
   yield this
     .source(paths.src)
     .babel({ stage: 0, sourceMap: true })
-    .concat('uvcharts.js')
+    .concat(buildFile)
     .target(paths.build)
 }
 
 export function* minify() {
   yield this
-    .source(`${paths.build}/uvcharts.js`)
+    .source(`${paths.build}/${buildFile}`)
     .uglify()
-    .concat('uvcharts.min.js')
+    .concat(minifiedBuildFile)
     .target(paths.build)
 }
 
-export default function* build() {
+export function* build() {
   yield this
-    .start(['clean', 'concat', 'minify'])
+    .notify({
+      title: "Fly :: uvCharts-next",
+      message: "Finished building artifacts",
+      icon: "dev:code_badge"
+    })
+    .start(defaultTasks)
+}
+
+export default function* watch() {
+  yield this
+    .watch(paths.src, ["build"])
 }
