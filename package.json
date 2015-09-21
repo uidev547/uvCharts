@@ -22,7 +22,9 @@
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel/register",
+    "watch": "fly",
+    "build": "fly build"
   },
   "repository": {
     "type": "git",
