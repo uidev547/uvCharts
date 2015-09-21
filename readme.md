@@ -1,7 +1,7 @@
 uvCharts-next
 ==============
 
-The next version of uvCharts, powered by ES2015/2016 and built on d3 v4 series.
+The next version of uvCharts, powered by [ES2015/2016](http://www.ecma-international.org/ecma-262/6.0/) and built on d3 [v4 series](https://github.com/d3).
 
 ### Setting up the Developer Environment
 - Have `node v4.x.x` installed
