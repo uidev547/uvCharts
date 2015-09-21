@@ -5,13 +5,17 @@
   "main": "flyfile.js",
   "dependencies": {},
   "devDependencies": {
+    "chai": "^3.3.0",
     "eslint": "^1.5.0",
     "fly-babel": "^0.6.0",
     "fly-eslint": "^0.4.0",
+    "fly-mocha": "^0.4.1",
     "fly-notify": "^0.3.4",
     "fly-uglify": "^1.0.0"
   },
-  "moduleType": ["es6"],
+  "moduleType": [
+    "es6"
+  ],
   "eslintConfig": {
     "ecmaFeatures": {
       "modules": true

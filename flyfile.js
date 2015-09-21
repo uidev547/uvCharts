@@ -1,14 +1,20 @@
 const paths = {
     src: 'src/**/*.js',
-    build: 'build' 
+    build: 'build'
   },
-  defaultTasks = ['clean', 'concat', 'minify'],
+  defaultTasks = ['clean', 'concat', 'minify', 'test'],
   buildFile = 'uvcharts.js',
   minifiedBuildFile = 'uvcharts.min.js'
 
 export function* clean() {
   yield this
     .clear(paths.build)
+}
+
+export function* test () {
+  yield this
+    .source("test/*test.js")
+    .mocha({ reporter: "landing" })
 }
 
 export function* lint() {

@@ -20,7 +20,7 @@ export class Chart {
     this.categories = null;
 
     this.graphdef = graphdef;
-    this.config = Utils.extend({}, UVDefaults.config, config);
+    this.config = Utils.extend({}, Defaults.config, config);
   }
 
   init() {
