@@ -5,7 +5,7 @@ The next version of uvCharts, powered by [ES2015/2016](http://www.ecma-internati
 
 ### Setting up the Developer Environment
 - Have `node v4.x.x` installed
-- Have node packages `flyjs`, `eslint` installed globally
+- Have node packages `flyjs`, `eslint`, `mocha` installed globally
 - Checkout this branch `uvCharts-next` after forking the main repository at `Imaginea/uvCharts`
 - Execute `npm install` to install node dependencies
 - Checkout tasks available `fly -l`. Running the default task using the command `fly` will watch source directory and build artifacts in `build/` directory.
