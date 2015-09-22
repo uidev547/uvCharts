@@ -1,6 +1,6 @@
 "use strict"
 
-import { Chart, BarChart } from "../build/uvcharts"
+import * as uv from "../build/uvcharts"
 import chai from "chai"
 import path from "path"
 
