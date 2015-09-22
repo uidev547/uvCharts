@@ -1,4 +1,4 @@
-export class Chart {
+export class AbstractChart {
   constructor(graphdef, config) {
     this.id = new Date().getTime()
     this.graphdef = null

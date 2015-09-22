@@ -6,24 +6,24 @@ const paths = {
   buildFile = 'uvcharts.js',
   minifiedBuildFile = 'uvcharts.min.js'
 
-export function* clean() {
+export function *clean() {
   yield this
     .clear(paths.build)
 }
 
-export function* test () {
+export function *test () {
   yield this
     .source("test/*test.js")
     .mocha({ reporter: "landing" })
 }
 
-export function* lint() {
+export function *lint() {
   yield this
     .source(paths.src)
     .eslint()
 }
 
-export function* concat() {
+export function *concat() {
   yield this
     .source(paths.src)
     .babel({ stage: 0, sourceMap: true })
@@ -31,7 +31,7 @@ export function* concat() {
     .target(paths.build)
 }
 
-export function* minify() {
+export function *minify() {
   yield this
     .source(`${paths.build}/${buildFile}`)
     .uglify()
@@ -39,7 +39,7 @@ export function* minify() {
     .target(paths.build)
 }
 
-export function* build() {
+export function *build() {
   yield this
     .notify({
       title: "Fly :: uvCharts-next",
@@ -49,7 +49,7 @@ export function* build() {
     .start(defaultTasks)
 }
 
-export default function* watch() {
+export default function *watch() {
   yield this
     .watch(paths.src, ["build"])
 }
