@@ -1,4 +1,4 @@
-export class AbstractChart {
+class AbstractChart {
   constructor(graphdef, config) {
     this.id = new Date().getTime()
     this.graphdef = null
@@ -49,3 +49,5 @@ export class AbstractChart {
       .right(self.config.margin.right)
   }
 }
+
+export {AbstractChart as Chart}

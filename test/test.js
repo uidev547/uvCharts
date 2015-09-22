@@ -1,7 +1,10 @@
-const chai = require("chai"),
-  path = require("path"),
-  // uvcharts = require(path.join(__dirname, '../build', 'uvcharts')),
-  should = chai.should()
+"use strict"
+
+import { Chart, BarChart } from "../build/uvcharts"
+import chai from "chai"
+import path from "path"
+
+const should = chai.should()
 
 describe("Basic test", () => {
   it("adds correctly", () => {

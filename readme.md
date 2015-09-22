@@ -20,15 +20,19 @@ Since this is a development branch for the next version, things might break, cha
 
 ### Setting up the Developer Environment
 - Have `node v4.x.x` installed
-- Have node packages `flyjs`, `eslint`, `mocha` installed globally
+- Have node packages `flyjs`, `eslint`, `babel`, `mocha` installed globally
+```
+npm install -g flyjs eslint babel mocha
+```
 - Checkout this branch `uvCharts-next` after forking the main repository at `Imaginea/uvCharts`
 - Execute `npm install` to install node dependencies
-- Checkout tasks available `fly -l`. Running the default task using the command `fly` will watch source directory and build artifacts in `build/` directory.
+- Checkout tasks available `fly -l`.
+- Running the default task using the command `fly` will watch source directory and build artifacts in `build/` directory.
 
 #### Build targets
 ```
 fly build => Build artifacts from source in **src** directory
-fly test  => Runs tests on built artifacts
+npm test  => Runs tests on built artifacts
 fly lint  => Lint src files based on rules configured in eslintrc
 fly       => Build artifacts and also watch **src** directory for changes
 ```

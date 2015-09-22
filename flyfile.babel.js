@@ -1,5 +1,5 @@
 const paths = {
-    src: 'src/**/*.js',
+    src: ['src/chart.js', 'src/**/*.js'],
     build: 'build'
   },
   defaultTasks = ['clean', 'concat', 'minify', 'test'],
@@ -14,7 +14,10 @@ export function *clean() {
 export function *test () {
   yield this
     .source("test/*test.js")
-    .mocha({ reporter: "landing" })
+    .mocha({ 
+      ui: "tdd",
+      reporter: "landing"
+    })
 }
 
 export function *lint() {
