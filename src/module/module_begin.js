@@ -5,4 +5,5 @@
     factory(global);
   }
 }(typeof window !== "undefined" ? window: this, function(window, noGlobal) {
+  "use strict";
   var uv = {};
