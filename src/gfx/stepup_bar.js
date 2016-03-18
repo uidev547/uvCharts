@@ -35,6 +35,10 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
   bars.append('rect')
     .attr('height', self.axes.ver.scale.rangeBand() / len)
     .attr('width', 0)
+    .attr('transform', 
+      function (d) {
+      return (d.value < 0) ? 'scale(-1,1)': 'scale(1,1)';
+    })
     .attr('x', function (d, i) {
       if (d.resetSum === true) csum[i] = 0;
       var value = self.axes.hor.scale(csum[i]);
@@ -45,9 +49,6 @@ uv.StepUpBarGraph.prototype.drawHorizontalBars = function (idx, csum, tsum) {
     .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
     .style('stroke', 'none')
     .style('fill', color)
-    .style('transform', function (d) {
-      return (d.value < 0) ? 'scale(-1,1)': 'scale(1,1)';
-    })
     .transition()
       .duration(self.config.effects.duration)
       .delay(idx * self.config.effects.duration)
@@ -96,6 +97,10 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
   bars.append('rect')
     .attr('height', 0)
     .attr('width', self.axes.hor.scale.rangeBand() / len)
+    .attr('transform', 
+      function (d) {
+      return (d.value < 0) ? 'scale(1,-1)': 'scale(1,1)';
+    })
     .attr('x', function (d) { return self.axes.hor.scale(d.name); })
     .attr('y', function (d, i) {
       if (d.resetSum === true) csum[i] = 0;
@@ -106,9 +111,6 @@ uv.StepUpBarGraph.prototype.drawVerticalBars = function (idx, csum, tsum) {
     .classed('cr-' + uv.util.formatClassName(self.categories[idx]), true)
     .style('stroke', 'none')
     .style('fill', color)
-    .style('transform', function (d) {
-      return (d.value < 0)? 'scale(1,-1)': 'scale(1,1)'
-    })
     .transition()
       .duration(self.config.effects.duration)
       .delay(idx * self.config.effects.duration)
