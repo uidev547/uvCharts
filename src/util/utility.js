@@ -221,11 +221,19 @@ uv.util.svgToPng = function (downloadElmtRef, callback) {
     canvas.setAttribute('height',d3.select(downloadElmtRef.frame.node()).attr('height'));
     ctx.drawSvg(svgContent);
     canvas.toBlob(function(blob) {
-      saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
+      //saveAs(blob, "png_download"+Math.ceil(Math.random()*100000)+".png");
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      var url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = "png_download"+Math.ceil(Math.random()*100000)+".png";
+      a.click();
+      //window.URL.revokeObjectURL(url);
     }, "image/png");
     callback.call();
   } else {
-    console.log('this feature is not supported in this version of browser');
+    console.log('uvCharts: Download feature is not supported in this version of browser');
   }
 };
 
