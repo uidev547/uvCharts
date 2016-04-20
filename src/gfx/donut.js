@@ -55,5 +55,6 @@ uv.DonutGraph.prototype = uv.util.inherits(uv.Graph);
 uv.DonutGraph.prototype.setDefaults = function () {
   var self = this;
   self.graphdef.stepup = 'normal';
+  self.config.legend.legendtype = 'labels';
   return this;
 };
