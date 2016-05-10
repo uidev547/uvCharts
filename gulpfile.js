@@ -4,6 +4,7 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   watch = require('gulp-watch'),
   zip = require('gulp-zip'),
+  bower = require('gulp-bower'),
   jshint = require('gulp-jshint'),
   eclint = require('eclint'),
   del = require('del'),
@@ -18,7 +19,8 @@ var paths = {
   "gfx": ['src/gfx/graph.js', 'src/gfx/*.js'],
   "module_end": ['src/module/module_end.js'],
   "test": ['src/util/test.js'],
-  "release_assets": ['build/uvcharts*.js']
+  "release_assets": ['build/uvcharts*.js'],
+  "d3_min_src": ["bower_components/d3/d3.js"]
 };
 
 gulp.task('clean:dev', function (cb) {
@@ -35,6 +37,10 @@ gulp.task('clean:test', function (cb) {
 
 gulp.task('clean:all', function (cb) {
   del(['build/*', 'dist/*'], cb);
+});
+
+gulp.task('bower', function () {
+  return bower();
 });
 
 gulp.task('build:gfx', ['clean:gfx'], function () {
@@ -54,6 +60,16 @@ gulp.task('build:gfx', ['clean:gfx'], function () {
     .pipe(gulp.dest('build/'));
 });
 
+gulp.task('build:full:gfx', ['bower', 'clean:gfx'], function () {
+  return gulp.src(paths['d3_min_src'].concat(paths['module_begin']).concat(paths.util).concat(paths.gfx).concat(paths['module_end']))
+    .pipe(sourcemaps.init())
+    .pipe(concat('uvcharts.full.js'))
+    .pipe(gulp.dest('build/'))
+    .pipe(uglify())
+    .pipe(concat('uvcharts.full.min.js'))
+    .pipe(gulp.dest('build/'));
+});
+
 gulp.task('build:test', ['clean:test'], function () {
   return gulp.src(paths.test)
     .pipe(sourcemaps.init())
@@ -66,7 +82,7 @@ gulp.task('build:test', ['clean:test'], function () {
     .pipe(gulp.dest('build/'));
 });
 
-gulp.task('release:gfx', ['build:gfx'], function () {
+gulp.task('release:gfx', ['build:gfx', 'build:full:gfx'], function () {
   return gulp.src(paths["release_assets"])
     .pipe(zip("uvcharts-" + packageInfo.version + ".zip"))
     .pipe(gulp.dest('dist'));

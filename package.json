@@ -5,7 +5,7 @@
     "del": "^1.2.0",
     "eclint": "^0.2.6",
     "gulp": "^3.9.0",
-    "gulp-bower": "0.0.10",
+    "gulp-bower": "0.0.13",
     "gulp-concat": "^2.6.0",
     "gulp-jshint": "^1.11.2",
     "gulp-sourcemaps": "^1.5.2",
