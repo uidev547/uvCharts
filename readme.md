@@ -26,6 +26,9 @@ Charts supported at the current moment are:
 
 All charts can be rendered either in horizontal or vertical orientation except for Pie, Donut, Polar Area.
 
+### Documentation
+You can find the documentation [here](http://imaginea.github.io/uvCharts/documentation.html)
+
 #### Features
 - Easy to learn and use (Single Function API)
 - 13 charts supported already, with more to come
