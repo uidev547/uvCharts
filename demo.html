@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>UV Demo Chart</title>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
+    <script type="text/javascript" src="./js/uvcharts/uvcharts.js"></script>
+</head>
+
+<body>
+    <div id="uv-container"></div>
+    <script type="text/javascript">
+        var graphdef = {
+            categories : ['uvCharts', 'matisse'],
+            dataset : {
+                'uvCharts' : [
+                    { name : '2009', value : 32 },
+                    { name : '2010', value : 60 },
+                    { name : '2011', value : 97 },
+                    { name : '2012', value : 560 },
+                    { name : '2013', value : 999 }
+                ],
+                'matisse' : [
+                    { name : '2009', value : 58 },
+                    { name : '2010', value : 75 },
+                    { name : '2011', value : 90 },
+                    { name : '2012', value : 740 },
+                    { name : '2013', value : 890 }      
+                ]
+            }
+        }
+        var config1 = {
+            meta : {
+                position: "#uv-div1"
+            }
+        }
+        var charts = [ 'Bar','Line', 'Area', 'StackedBar', 'StackedArea', 'Pie', ' PercentBar', 'PercentArea', 'Donut', 'StepUpBar', 'PolarArea', 'Waterfall' ];
+        var ele = document.getElementById('uv-container');
+        charts.forEach( function( item ) {
+            var el = document.createElement('div');
+            el.setAttribute('id', 'uv-'+ item );
+            ele.appendChild(el);
+            chart = uv.chart( item, graphdef, {
+                meta: {
+                    position: '#uv-'+ item,
+                    caption : 'Chart Type-' + item    
+                }
+            });
+        } );
+        
+    </script>
+</body>
+</html>
