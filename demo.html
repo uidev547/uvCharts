@@ -29,14 +29,6 @@
                 ]
             }
         }
-        var config1 = {
-            meta : {
-                position: "#uv-div1"
-            },
-            graph: {
-                orientation: "Vertical"
-            }
-        }
         var charts = [ 'Bar','Line', 'Area', 'StackedBar', 'StackedArea', 'Pie', ' PercentBar', 'PercentArea', 'Donut', 'StepUpBar', 'PolarArea', 'Waterfall' ];
         var ele = document.getElementById('uv-container');
         charts.forEach( function( item ) {
@@ -47,6 +39,9 @@
                 meta: {
                     position: '#uv-'+ item,
                     caption : 'Chart Type-' + item    
+                },
+                graph: {
+                    orientation: "Vertical"
                 }
             });
         } );
